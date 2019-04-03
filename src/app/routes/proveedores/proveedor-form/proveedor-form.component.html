@@ -1,0 +1,145 @@
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
+  [nzMaskClosable]="false" [nzWidth]="'65%'" [nzVisible]="visible" nzTitle="Proveedor" (nzOnClose)="close()">
+
+  <form nz-form [formGroup]="form" (ngSubmit)="submit()" nzLayout="vertical">
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">Razon Social</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input nz-input formControlName="razon_social" id="razon_social" placeholder="Razon Social">
+        <nz-form-explain *ngIf="form.get('razon_social').dirty && form.get('razon_social').errors">
+          <ng-container *ngIf="form.get('razon_social').hasError('required')">
+            Razon social Obligatoria.
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">Nombre de Fantasia</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input nz-input formControlName="nombre_fantasia" id="nombre_fantasia" placeholder="Nombre de Fantasia">
+        <nz-form-explain *ngIf="form.get('nombre_fantasia').dirty && form.get('nombre_fantasia').errors">
+          <ng-container *ngIf="form.get('nombre_fantasia').hasError('required')">
+            Nombre de fantasia Obligatorio.
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">Direccion</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input nz-input formControlName="direccion" id="direccion" placeholder="Direccion">
+        <nz-form-explain *ngIf="form.get('direccion').dirty && form.get('direccion').errors">
+          <ng-container *ngIf="form.get('direccion').hasError('required')">
+            Direccion Obligatoria.
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">Localidad</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input nz-input formControlName="localidad" id="localidad" placeholder="Localidad">
+        <nz-form-explain *ngIf="form.get('localidad').dirty && form.get('localidad').errors">
+          <ng-container *ngIf="form.get('localidad').hasError('required')">
+            Localidad Obligatoria.
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">Provincia</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input nz-input formControlName="provincia" id="provincia" placeholder="Provincia">
+        <nz-form-explain *ngIf="form.get('provincia').dirty && form.get('provincia').errors">
+          <ng-container *ngIf="form.get('provincia').hasError('required')">
+            Provincia obligatoria.
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">Codigo Postal</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input nz-input formControlName="codigo_postal" id="codigo_postal" placeholder="Codigo Postal">
+        <nz-form-explain *ngIf="form.get('codigo_postal').dirty && form.get('codigo_postal').errors">
+          <ng-container *ngIf="form.get('codigo_postal').hasError('required')">
+            Codigo postal obligatorio.
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">Cuit</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input nz-input formControlName="cuit" id="cuit" placeholder="Cuit">
+        <nz-form-explain *ngIf="form.get('cuit').dirty && form.get('cuit').errors">
+          <ng-container *ngIf="form.get('cuit').hasError('required')">
+            Cuit obligatorio.
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">nota</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input nz-input formControlName="nota" id="nota" placeholder="nota">
+        <nz-form-explain *ngIf="form.get('nota').dirty && form.get('nota').errors">
+          <ng-container *ngIf="form.get('nota').hasError('required')">
+            nota obligatorio.
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">Matricula</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input nz-input formControlName="matricula" id="matricula" placeholder="matricula">
+        <nz-form-explain *ngIf="form.get('matricula').dirty && form.get('matricula').errors">
+          <ng-container *ngIf="form.get('matricula').hasError('required')">
+            matricula obligatorio.
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">Horario de Atencion</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input nz-input formControlName="horario_atencion" id="horario_atencion" placeholder="horario_atencion">
+        <nz-form-explain *ngIf="form.get('horario_atencion').dirty && form.get('horario_atencion').errors">
+          <ng-container *ngIf="form.get('horario_atencion').hasError('required')">
+            Horario de Atencion obligatorio.
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">Situacion Fiscal</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <input nz-input formControlName="situacion_fiscal" id="situacion_fiscal" placeholder="situacion_fiscal">
+        <nz-form-explain *ngIf="form.get('situacion_fiscal').dirty && form.get('situacion_fiscal').errors">
+          <ng-container *ngIf="form.get('situacion_fiscal').hasError('required')">
+            Situacion fiscal obligatoria.
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+
+  <div class="footer">
+    <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+    <button nz-button (click)="submit()" class="ant-btn ant-btn-primary"
+      [disabled]="!form.valid"><span>Submit</span></button>
+  </div>
+</nz-drawer>
