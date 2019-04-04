@@ -8,40 +8,24 @@ import { map, catchError } from 'rxjs/operators';
 })
 export class ProveedoresService {
   randomUserUrl = 'http://localhost/proveedores';
-  constructor(private http: HttpClient) {}
-  getUsers(
-    pageIndex: number = 1,
-    pageSize: number = 10,
-    sortField: string | null,
-    sortOrder: string | null,
-    genders: string[],
-  ): Observable<{}> {
-    let params = new HttpParams()
-      .append('page', `${pageIndex}`)
-      .append('page_size', `${pageSize}`);
 
-    if (sortField) {
-      console.log(sortField);
-      params = params.append('sort_field', sortField);
+  constructor(private http: HttpClient) {}
+
+  getUsers(parametros: {}, filtros: {}): Observable<{}> {
+    let params = new HttpParams();
+
+    for (const key in filtros) {
+      params = params.append(key, filtros[key]);
     }
-    if (sortOrder) {
-      params = params.append('sort_order', sortOrder);
+    for (const key in parametros) {
+      params = params.append(key, parametros[key]);
     }
-    // genders.forEach(gender => {
-    //   params = params.append('gender', gender);
-    // });
     console.log(params);
-    return this.http.get(`${this.randomUserUrl}`, {
-      params,
-    });
+    return this.http.get(`${this.randomUserUrl}`, { params });
   }
 
   eliminarProveedor(id: number) {
-
     const URL = `http://localhost/proveedores/${id}`;
-
-    // HTTP POST using these headers
-
 
     return this.http.delete(URL).pipe(
       map((resp: any) => {
@@ -54,7 +38,6 @@ export class ProveedoresService {
   }
 
   crearProveedor(proveedor: Proveedor) {
-
     const URL = `http://localhost/proveedores`;
 
     return this.http.post(URL, proveedor).pipe(
@@ -68,7 +51,6 @@ export class ProveedoresService {
   }
 
   actualizarProveedor(id: number, proveedor: Proveedor) {
-
     const URL = `http://localhost/proveedores/${id}`;
 
     return this.http.put(URL, proveedor).pipe(
@@ -81,9 +63,7 @@ export class ProveedoresService {
     );
   }
 
-
   buscarProveedor(id: number) {
-
     const URL = `http://localhost/proveedores/${id}`;
 
     return this.http.get(URL).pipe(

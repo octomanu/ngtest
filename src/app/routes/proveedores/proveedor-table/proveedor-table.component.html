@@ -1,0 +1,103 @@
+<nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
+  [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
+  (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)" nzSize="middle">
+  <thead (nzSortChange)="sort($event)" nzSingleSort>
+    <tr (contextmenu)="contextMenu($event, menuTable)">
+      <th nzCustomFilter nzShowSort nzSortKey="razon_social">
+        <span>{{ 'lambe.proveedores.razon_zocial' | translate }}</span>
+        <ng-container *ngTemplateOutlet="filtro_razon_social"></ng-container>
+      </th>
+      <th nzCustomFilter nzShowSort nzSortKey="direccion">
+        <span>{{ 'lambe.proveedores.direccion' | translate }}</span>
+        <ng-container *ngTemplateOutlet="filtro_direccion"></ng-container>
+      </th>
+      <th nzCustomFilter nzShowSort nzSortKey="cuit">
+        <span>{{ 'lambe.proveedores.cuit' | translate }}</span>
+        <ng-container *ngTemplateOutlet="filtro_cuit"></ng-container>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of ajaxTable.data" (contextmenu)="contextMenu($event, menuRowContainer)">
+      <ng-template #menuRowContainer>
+        <ng-container *ngTemplateOutlet="menuRow; context: {id: data.id}"></ng-container>
+      </ng-template>
+      <td>
+        <strong class="onlysmall">{{ 'lambe.proveedores.razon_zocial' | translate }}: </strong>
+        {{ data.razon_social }}
+      </td>
+      <td>
+        <strong class="onlysmall">{{ 'lambe.proveedores.direccion' | translate }}: </strong>
+        {{ data.direccion }}
+      </td>
+      <td>
+        <strong class="onlysmall">{{ 'lambe.proveedores.cuit' | translate }}: </strong>
+        {{ data.cuit }}
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<!-- Menu Table -->
+<ng-template #menuTable>
+  <ul nz-menu nzInDropDown>
+    <li nz-menu-item (click)="_openForm()">
+      <a>{{ 'global.crear' | translate }}</a>
+    </li>
+  </ul>
+</ng-template>
+
+<!-- Menu Row -->
+<ng-template #menuRow let-id="id">
+  <ul nz-menu nzInDropDown>
+    <li nz-menu-item (click)="_openForm(id)">
+      <a>{{ 'global.editar' | translate }}</a>
+    </li>
+    <li nz-menu-item>
+      <a nz-popconfirm (nzOnConfirm)="eliminar(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
+        [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
+      <ng-template #iconTpl>
+        <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+      </ng-template>
+    </li>
+  </ul>
+</ng-template>
+
+<ng-template #filtro_razon_social>
+  <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+    <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+      nz-dropdown></i>
+    <div class="search-box">
+      <input type="text" nz-input [(ngModel)]="filtroForm.razon_social" placeholder="Search name" />
+      <button nz-button (click)="searchData()" nzSize="small" nzType="primary" class="search-button">
+        {{ 'global.buscar' | translate }}
+      </button>
+    </div>
+  </nz-dropdown>
+</ng-template>
+
+<ng-template #filtro_direccion>
+  <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+    <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+      nz-dropdown></i>
+    <div class="search-box">
+      <input type="text" nz-input [(ngModel)]="filtroForm.direccion" placeholder="Search name" />
+      <button nz-button (click)="searchData()" nzSize="small" nzType="primary" class="search-button">
+        {{ 'global.buscar' | translate }}
+      </button>
+    </div>
+  </nz-dropdown>
+</ng-template>
+
+<ng-template #filtro_cuit>
+  <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+    <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+      nz-dropdown></i>
+    <div class="search-box">
+      <input type="text" nz-input [(ngModel)]="filtroForm.cuit" placeholder="Search name" />
+      <button nz-button (click)="searchData()" nzSize="small" nzType="primary" class="">
+        {{ 'global.buscar' | translate }}
+      </button>
+    </div>
+  </nz-dropdown>
+</ng-template>

@@ -13,6 +13,7 @@ import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { ProveedorFormComponent } from './proveedores/proveedor-form/proveedor-form.component';
+import { ProveedorTableComponent } from './proveedores/proveedor-table/proveedor-table.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -34,6 +35,7 @@ const COMPONENTS_NOROUNT = [
   declarations: [
     ...COMPONENTS,
     ...COMPONENTS_NOROUNT,
+    ProveedorTableComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT
 })

@@ -11,7 +11,6 @@ import { ProveedorForm } from './proveedor.form';
   styles: [],
 })
 export class ProveedorFormComponent implements OnInit {
-  
   form: FormGroup;
   visible: boolean;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
@@ -26,6 +25,10 @@ export class ProveedorFormComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+  }
+
+  initForm() {
+    this.form = this.fb.getForm();
   }
 
   open(id?: number) {
@@ -63,9 +66,5 @@ export class ProveedorFormComponent implements OnInit {
         this.close();
       });
     }
-  }
-
-  initForm() {
-    this.form = this.fb.getForm();
   }
 }

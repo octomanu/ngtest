@@ -79,7 +79,6 @@ const GLOBAL_CONFIG_PROVIDES = [
 @NgModule({
   imports: [
     AlainThemeModule.forRoot(),
-    ...MOCK_MODULES,
   ],
 })
 export class DelonModule {

@@ -41,7 +41,7 @@ export class UserLoginComponent implements OnDestroy {
     private loginService: LoginService,
   ) {
     this.form = fb.group({
-      userName: [null, [Validators.required, Validators.minLength(4)]],
+      userName: [null, [Validators.required, Validators.email]],
       password: [null, Validators.required],
       mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
       captcha: [null, [Validators.required]],
@@ -114,14 +114,10 @@ export class UserLoginComponent implements OnDestroy {
     // Indica que el usuario no está activado. Token Comprobar
     this.loginService.login(this.userName.value, this.password.value)
       .subscribe((res: any) => {
-        if (res.msg !== 'ok') {
-          this.error = res.msg;
-          return;
-        }
         // Borrar información de multiplexación de enrutamiento
         this.reuseTabService.clear();
         // 设置用户Token信息
-        this.tokenService.set(res.user);
+        this.tokenService.set(res);
         // Recuperar StartupService Contenido， siempre creemos que la información de la aplicación generalmente
         // se ve afectada por el alcance de la autorización actual del usuario.
         this.startupSrv.load().then(() => {
@@ -130,7 +126,7 @@ export class UserLoginComponent implements OnDestroy {
           this.router.navigateByUrl(url);
         });
       }, err => {
-        console.log("error", err);
+        this.msg.create('error', 'Credenciales inválidas');
       });
   }
 

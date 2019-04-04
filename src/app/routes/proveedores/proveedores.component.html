@@ -1,58 +1,17 @@
-<page-header [title]="'Proveedores'"></page-header>
+<page-header [title]=" 'lambe.proveedores.titulo' | translate "></page-header>
+
 <nz-card [nzBordered]="false">
   <!-- Crear en pantallas pequeñas -->
   <div class="table-operations onlysmall">
     <button nz-button [nzType]="'primary'" (click)="proveedorForm.open()">
       <i nz-icon type="plus"></i>
-      <span>Crear</span>
+      <span>{{ 'global.crear' | translate }}</span>
     </button>
   </div>
 
-  <!-- Tabla de datos -->
-  <nz-table #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData" [nzLoading]="loading"
-    [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="searchData()"
-    (nzPageSizeChange)="searchData(true)" nzSize="middle">
-    <thead (nzSortChange)="sort($event)" nzSingleSort>
-      <tr>
-        <th (contextmenu)="contextMenu($event, templateThead)" nzShowSort nzSortKey="razon_social">Razon Social</th>
-        <th (contextmenu)="contextMenu($event, templateThead)" nzShowSort nzSortKey="direccion">Direccion</th>
-        <th (contextmenu)="contextMenu($event, templateThead)" nzShowSort nzSortKey="cuit"><span>Cuit</span></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of ajaxTable.data" (contextmenu)="contextMenu($event, template)">
-        <ng-template #template>
-          <!-- Menu contextual rows -->
-          <ul nz-menu nzInDropDown>
-            <li nz-menu-item (click)="proveedorForm.open(data.id)">
-              <a>Editar</a>
-            </li>
-            <li nz-menu-item>
-              <a nz-popconfirm (nzOnConfirm)="eliminar(data.id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
-                [nzIcon]="iconTpl">Eliminar</a>
-              <ng-template #iconTpl>
-                <i nz-icon nzType="question-circle-o" style="color: red;"></i>
-              </ng-template>
-            </li>
-          </ul>
-        </ng-template>
-        <td> <strong class="onlysmall">Razon Social: </strong> {{ data.razon_social }}</td>
-        <td> <strong class="onlysmall">Direccion: </strong> {{ data.direccion }}</td>
-        <td> <strong class="onlysmall">Cuit: </strong> {{ data.cuit }}</td>
-      </tr>
-    </tbody>
-  </nz-table>
-
+  <app-proveedor-table #proveedorTable (openForm)="tableOnOpenForm($event)" [proveedorForm]="proveedorForm">
+  </app-proveedor-table>
 </nz-card>
 
-<!-- Menu de la tabla -->
-<ng-template #templateThead>
-  <ul nz-menu nzInDropDown>
-    <li nz-menu-item (click)="proveedorForm.open()">
-      <a>Crear</a>
-    </li>
-  </ul>
-</ng-template>
-<!-- Formulario -->
-<app-proveedor-form #proveedorForm (formSubmit)="onSubmitForm($event)" (formVisible)="onToggleForm($event)">
+<app-proveedor-form #proveedorForm (formSubmit)="formOnSubmit($event)" (formVisible)="onToggleForm($event)">
 </app-proveedor-form>

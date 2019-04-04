@@ -44,6 +44,8 @@ export class DefaultInterceptor implements HttpInterceptor {
 
   private checkStatus(ev: HttpResponseBase) {
     if (ev.status >= 200 && ev.status < 300) return;
+    //los bad Request y entidades unprocesables los manejo en la app diferente
+    if (ev.status == 400 || ev.status == 422) return;
 
     const errortext = CODEMESSAGE[ev.status] || ev.statusText;
     this.injector.get(NzNotificationService).error(
@@ -87,17 +89,14 @@ export class DefaultInterceptor implements HttpInterceptor {
         this.goTo('/passport/login');
         break;
       case 403:
-      case 400:
       case 404:
       break;
       case 500:
+      console.log(ev);
         this.goTo(`/exception/${ev.status}`);
         break;
       default:
         if (ev instanceof HttpErrorResponse) {
-          if(ev.error.ok == 'false'){
-            return of(ev);
-          }
           console.warn('No sé el error, la mayoría de ellos se debe a que el backend no admite CORS o una configuración no válida.', ev);
           return throwError(ev);
         }

@@ -1,23 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { I18NService } from '@core';
+import { ALAIN_I18N_TOKEN } from '@delon/theme';
 
 @Component({
   selector: 'layout-passport',
   templateUrl: './passport.component.html',
   styleUrls: ['./passport.component.less'],
 })
-export class LayoutPassportComponent {
-  links = [
-    {
-      title: '帮助',
-      href: '',
-    },
-    {
-      title: '隐私',
-      href: '',
-    },
-    {
-      title: '条款',
-      href: '',
-    },
-  ];
+export class LayoutPassportComponent implements OnInit {
+  links: any[];
+
+  constructor( @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,) {}
+
+  ngOnInit(): void {
+    this.links = [
+      // {
+      //   title: this.i18n.translateString('login.ayuda'),
+      //   href: '',
+      // },
+      // {
+      //   title: this.i18n.translateString('login.privacidad'),
+      //   href: '',
+      // },
+      // {
+      //   title: this.i18n.translateString('login.terminos'),
+      //   href: '',
+      // },
+    ];
+  }
 }

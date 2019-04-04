@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 // #region third libs
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
+
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule

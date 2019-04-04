@@ -6,9 +6,10 @@ import { filter } from 'rxjs/operators';
 import { registerLocaleData } from '@angular/common';
 import ngZh from '@angular/common/locales/zh';
 import ngEn from '@angular/common/locales/en';
+import ngEs from '@angular/common/locales/es';
 import ngZhTw from '@angular/common/locales/zh-Hant';
 
-import { en_US, zh_CN, zh_TW, NzI18nService } from 'ng-zorro-antd';
+import { en_US, zh_CN, zh_TW, NzI18nService, es_ES } from 'ng-zorro-antd';
 import * as df_en from 'date-fns/locale/en';
 import * as df_zh_cn from 'date-fns/locale/zh_cn';
 import * as df_zh_tw from 'date-fns/locale/zh_tw';
@@ -31,8 +32,16 @@ interface LangData {
   abbr: string;
 }
 
-const DEFAULT = 'zh-CN';
+const DEFAULT = 'es-ES';
 const LANGS: { [key: string]: LangData } = {
+  'es-ES': {
+    text: 'Español',
+    ng: ngEs,
+    zorro: es_ES,
+    dateFns: df_zh_cn,
+    delon: delonEnUS,
+    abbr: '🇪🇸',
+  },
   'zh-CN': {
     text: '简体中文',
     ng: ngZh,
@@ -56,7 +65,7 @@ const LANGS: { [key: string]: LangData } = {
     dateFns: df_en,
     delon: delonEnUS,
     abbr: '🇬🇧',
-  },
+  }
 };
 
 @Injectable({ providedIn: 'root' })
@@ -75,11 +84,10 @@ export class I18NService implements AlainI18NService {
     private delonLocaleService: DelonLocaleService,
     private translate: TranslateService,
   ) {
-    const defaultLan = settings.layout.lang || translate.getBrowserLang();
+    const defaultLan = settings.layout.lang || DEFAULT;
     // `@ngx-translate/core` 预先知道支持哪些语言
     const lans = this._langs.map(item => item.code);
     translate.addLangs(lans);
-
     this._default = lans.includes(defaultLan) ? defaultLan : lans[0];
     this.updateLangData(this._default);
   }
@@ -121,5 +129,9 @@ export class I18NService implements AlainI18NService {
       this.translate.getDefaultLang() ||
       this._default
     );
+  }
+
+  translateString(string: string) {
+    return this.nzI18nService.translate(string);
   }
 }

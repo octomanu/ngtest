@@ -14,9 +14,10 @@ export class LoginService {
 
     return this.http.post(URL, { email, password }).pipe(
       map((resp: any) => {
-        return resp.proveedor;
+        return resp;
       }),
       catchError(err => {
+        console.log("errrrorrr");
         return throwError(err);
       }),
     );
