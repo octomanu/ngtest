@@ -8,7 +8,7 @@ import { TableLambeServiceInterface } from 'app/interfaces/local/table-lambe-ser
   providedIn: 'root',
 })
 export class ProveedoresService implements TableLambeServiceInterface {
-  randomUserUrl = 'http://localhost/proveedores';
+  randomUserUrl = 'http://192.168.3.222/proveedores';
 
   constructor(private http: HttpClient) {}
 
@@ -32,7 +32,7 @@ export class ProveedoresService implements TableLambeServiceInterface {
   }
 
   eliminarProveedor(id: number) {
-    const URL = `http://localhost/proveedores/${id}`;
+    const URL = `${this.randomUserUrl}/${id}`;
 
     return this.http.delete(URL).pipe(
       map((resp: any) => {
@@ -45,7 +45,7 @@ export class ProveedoresService implements TableLambeServiceInterface {
   }
 
   crearProveedor(proveedor: Proveedor) {
-    const URL = `http://localhost/proveedores`;
+    const URL = `${this.randomUserUrl}`;
 
     return this.http.post(URL, proveedor).pipe(
       map((resp: any) => {
@@ -58,7 +58,7 @@ export class ProveedoresService implements TableLambeServiceInterface {
   }
 
   actualizarProveedor(id: number, proveedor: Proveedor) {
-    const URL = `http://localhost/proveedores/${id}`;
+    const URL = `${this.randomUserUrl}/${id}`;
 
     return this.http.put(URL, proveedor).pipe(
       map((resp: any) => {
@@ -71,7 +71,7 @@ export class ProveedoresService implements TableLambeServiceInterface {
   }
 
   buscarProveedor(id: number) {
-    const URL = `http://localhost/proveedores/${id}`;
+    const URL = `${this.randomUserUrl}/${id}`;
 
     return this.http.get(URL).pipe(
       map((resp: any) => {

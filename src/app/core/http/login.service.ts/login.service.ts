@@ -10,7 +10,7 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   public login(email: string, password: string) {
-    const URL = `http://localhost/auth/login`;
+    const URL = `http://192.168.3.222/auth/login`;
 
     return this.http.post(URL, { email, password }).pipe(
       map((resp: any) => {
@@ -23,7 +23,7 @@ export class LoginService {
   }
 
   public renovarToken() {
-    const URL = `http://localhost/auth/renovar`;
+    const URL = `http://192.168.3.222/auth/renovar`;
 
     return this.http.get(URL).pipe(
       map((resp: any) => {

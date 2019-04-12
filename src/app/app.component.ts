@@ -16,7 +16,6 @@ import {
 } from 'ng-zorro-antd';
 
 declare var annyang;
-declare var router_export;
 
 @Component({
   selector: 'app-root',
@@ -34,7 +33,6 @@ export class AppComponent implements OnInit {
     private ngZone: NgZone,
     private msg: NzMessageService,
   ) {
-    router_export = { router: router, ngZone: ngZone };
     renderer.setAttribute(
       el.nativeElement,
       'ng-alain-version',
@@ -67,7 +65,7 @@ export class AppComponent implements OnInit {
     };
 
     annyang.addCommands(commands);
-    annyang.setLanguage('es-ES');
+    annyang.setLanguage('es-AR');
     annyang.debug(true);
     annyang.start({ autoRestart: true, continuous: false });
     this.router.events
