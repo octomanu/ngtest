@@ -1,4 +1,4 @@
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -8,9 +8,9 @@ export class FiltroForm {
   constructor(private fb: FormBuilder) {}
   getForm() {
     return this.fb.group({
-      razon_social: [null, []],
-      direccion: [null, []],
-      cuit: [null, []],
+      razon_social: ['', []],
+      direccion: ['', []],
+      cuit: ['', []],
     });
   }
 }

@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { TableLambeServiceInterface } from 'app/interfaces/local/table-lambe-service.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProveedoresService {
+export class ProveedoresService implements TableLambeServiceInterface {
   randomUserUrl = 'http://localhost/proveedores';
 
   constructor(private http: HttpClient) {}
 
-  getUsers(parametros: {}, filtros: {}): Observable<{}> {
+  paginar(parametros: {}, filtros: {}): Observable<{}> {
     let params = new HttpParams();
 
     for (const key in filtros) {
@@ -20,8 +21,14 @@ export class ProveedoresService {
     for (const key in parametros) {
       params = params.append(key, parametros[key]);
     }
-    console.log(params);
-    return this.http.get(`${this.randomUserUrl}`, { params });
+    return this.http.get(`${this.randomUserUrl}`, { params }).pipe(
+      map((resp: any) => {
+        return resp;
+      }),
+      catchError(err => {
+        return throwError(err);
+      }),
+    );
   }
 
   eliminarProveedor(id: number) {

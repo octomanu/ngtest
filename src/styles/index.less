@@ -24,3 +24,17 @@
 .search-button {
   margin-right: 8px;
 }
+
+//Aplica solo en pantallas grandes
+@media only screen and (min-width: 768px) {
+  .onlysmall {
+    display: none;
+  }
+}
+
+//Aplcia solo en pantallas chicas.
+@media only screen and (max-width: 768px) {
+  tr {
+    border: @border-width-base @border-style-base @border-color-split;
+  }
+}

@@ -17,7 +17,19 @@ export class LoginService {
         return resp;
       }),
       catchError(err => {
-        console.log("errrrorrr");
+        return throwError(err);
+      }),
+    );
+  }
+
+  public renovarToken() {
+    const URL = `http://localhost/auth/renovar`;
+
+    return this.http.get(URL).pipe(
+      map((resp: any) => {
+        return resp;
+      }),
+      catchError(err => {
         return throwError(err);
       }),
     );

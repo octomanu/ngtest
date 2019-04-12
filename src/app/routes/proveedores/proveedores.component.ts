@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { NzDropdownContextComponent } from 'ng-zorro-antd';
+import { NzDropdownContextComponent, NzDrawerService } from 'ng-zorro-antd';
 import { NzDropdownService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 import { ProveedorFormComponent } from './proveedor-form/proveedor-form.component';
@@ -24,7 +24,7 @@ export class ProveedoresComponent implements OnInit {
   }
 
   tableOnOpenForm(id?: number) {
-    this.proveedorForm.open(id);
+    this.proveedorForm.open();
   }
 
   onToggleForm(open: boolean) {

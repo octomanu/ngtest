@@ -1,12 +1,20 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse, HttpEvent, HttpResponseBase } from '@angular/common/http';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpErrorResponse,
+  HttpEvent,
+  HttpResponseBase,
+} from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { mergeMap, catchError } from 'rxjs/operators';
+import { mergeMap, catchError, map } from 'rxjs/operators';
 import { NzMessageService, NzNotificationService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 import { environment } from '@env/environment';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { LoginService } from '@core/http/login.service.ts/login.service';
 
 const CODEMESSAGE = {
   200: 'El servidor devolvió con éxito los datos solicitados.',
@@ -31,8 +39,12 @@ const CODEMESSAGE = {
  */
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
-  constructor(private injector: Injector) { 
-  }
+  private untouchedRequest;
+  constructor(
+    private injector: Injector,
+    private loginService: LoginService,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+  ) {}
 
   get msg(): NzMessageService {
     return this.injector.get(NzMessageService);
@@ -48,40 +60,25 @@ export class DefaultInterceptor implements HttpInterceptor {
     if (ev.status == 400 || ev.status == 422) return;
 
     const errortext = CODEMESSAGE[ev.status] || ev.statusText;
-    this.injector.get(NzNotificationService).error(
-      `Error de solicitud ${ev.status}: ${ev.url}`,
-      errortext
-    );
+    this.injector
+      .get(NzNotificationService)
+      .error(`Error de solicitud ${ev.status}: ${ev.url}`, errortext);
   }
 
-  private handleData(ev: HttpResponseBase): Observable<any> {
+  private handleData(
+    ev: HttpResponseBase,
+    untouchedRequest: HttpRequest<any>,
+    httpHandler: HttpHandler,
+  ): Observable<any> {
     // Puede ser porque `throw` La exportación no puede ser ejecutada `_HttpClient` De `end()` Operación
     if (ev.status > 0) {
       this.injector.get(_HttpClient).end();
     }
+
     this.checkStatus(ev);
     // Procesamiento de negocios: algunas operaciones generales
     switch (ev.status) {
       case 200:
-        // 业务层级错误处理，以下是假定restful有一套统一输出格式（指不管成功与否都有相应的数据格式）情况下进行处理
-        // 例如响应内容：
-        //  错误内容：{ status: 1, msg: '非法参数' }
-        //  正确内容：{ status: 0, response: {  } }
-        // 则以下代码片断可直接适用
-        // if (event instanceof HttpResponse) {
-        //     const body: any = event.body;
-        //     if (body && body.status !== 0) {
-        //         this.msg.error(body.msg);
-        //         // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
-        //         // this.http.get('/').subscribe() 并不会触发
-        //         return throwError({});
-        //     } else {
-        //         // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
-        //         return of(new HttpResponse(Object.assign(event, { body: body.response })));
-        //         // 或者依然保持完整的格式
-        //         return of(event);
-        //     }
-        // }
         break;
       case 401: // 未登录状态码
         // 请求错误 401: https://preview.pro.ant.design/api/401 用户没有权限（令牌、用户名、密码错误）。
@@ -89,15 +86,41 @@ export class DefaultInterceptor implements HttpInterceptor {
         this.goTo('/passport/login');
         break;
       case 403:
+      case 400:
+        if (ev instanceof HttpErrorResponse) {
+          if (ev.error.error == 'token.expired') {
+            return this.loginService.renovarToken().pipe(
+              mergeMap(data => {
+                this.tokenService.set({ token: data.token });
+                const authReq = untouchedRequest.clone({
+                  setHeaders: { token: data.token },
+                });
+
+                const newDataRq = httpHandler.handle(authReq).pipe(
+                  mergeMap(data => {
+                    return of(data);
+                  }),
+                );
+                return newDataRq;
+              }),
+            );
+          } else {
+            console.log('UPS NO ES ERRO TOKEN');
+            return throwError(ev);
+          }
+        }
+        break;
       case 404:
-      break;
+        break;
       case 500:
-      console.log(ev);
         this.goTo(`/exception/${ev.status}`);
         break;
       default:
         if (ev instanceof HttpErrorResponse) {
-          console.warn('No sé el error, la mayoría de ellos se debe a que el backend no admite CORS o una configuración no válida.', ev);
+          console.warn(
+            'No sé el error, la mayoría de ellos se debe a que el backend no admite CORS o una configuración no válida.',
+            ev,
+          );
           return throwError(ev);
         }
         break;
@@ -105,23 +128,28 @@ export class DefaultInterceptor implements HttpInterceptor {
     return of(ev);
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // 统一加上服务端前缀
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    // Prefijo de servidor unificado plus
     let url = req.url;
     if (!url.startsWith('https://') && !url.startsWith('http://')) {
       url = environment.SERVER_URL + url;
     }
 
     const newReq = req.clone({ url });
+    const untouchedRequest = req.clone({ url });
+
     return next.handle(newReq).pipe(
       mergeMap((event: any) => {
         // Permitir el manejo unificado de errores de solicitud
+
         if (event instanceof HttpResponseBase)
-          return this.handleData(event);
+          return this.handleData(event, untouchedRequest, next);
         // Si todo está bien, seguimiento.
         return of(event);
       }),
-      catchError((err: HttpErrorResponse) => this.handleData(err)),
+      catchError((err: HttpErrorResponse) => {
+        return this.handleData(err, untouchedRequest, next);
+      }),
     );
   }
 }

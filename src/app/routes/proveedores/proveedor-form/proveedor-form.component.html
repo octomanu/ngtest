@@ -1,154 +1,146 @@
-<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
-  [nzMaskClosable]="false" [nzWidth]="'65%'" [nzVisible]="visible"
-  nzTitle="{{'lambe.proveedores.proveedor' | translate}}" (nzOnClose)="close()">
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" nzLayout="vertical">
 
 
-  <form nz-form [formGroup]="form" (ngSubmit)="submit()" nzLayout="vertical">
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="razon_social">{{ 'lambe.proveedores.razon_social' | translate }}</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="razon_social" id="razon_social" placeholder="Razon Social">
+      <nz-form-explain *ngIf="form.get('razon_social').dirty && form.get('razon_social').errors">
+        <ng-container *ngIf="form.get('razon_social').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="nombre_fantasia">{{ 'lambe.proveedores.nombre_fantasia' | translate }}
+    </nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="nombre_fantasia" id="nombre_fantasia" placeholder="Nombre de Fantasia">
+      <nz-form-explain *ngIf="form.get('nombre_fantasia').dirty && form.get('nombre_fantasia').errors">
+        <ng-container *ngIf="form.get('nombre_fantasia').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="razon_social">{{ 'lambe.proveedores.razon_zocial' | translate }}</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="razon_social" id="razon_social" placeholder="Razon Social">
-        <nz-form-explain *ngIf="form.get('razon_social').dirty && form.get('razon_social').errors">
-          <ng-container *ngIf="form.get('razon_social').hasError('required')">
-            {{ 'global.campo_requerido' | translate }}
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="direccion">{{ 'lambe.proveedores.direccion' | translate }}</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="direccion" id="direccion" placeholder="Direccion">
+      <nz-form-explain *ngIf="form.get('direccion').dirty && form.get('direccion').errors">
+        <ng-container *ngIf="form.get('direccion').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="nombre_fantasia">{{ 'lambe.proveedores.nombre_fantasia' | translate }}
-      </nz-form-label>
-      <nz-form-control nzHasFeedback>
-        <input nz-input formControlName="nombre_fantasia" id="nombre_fantasia" placeholder="Nombre de Fantasia">
-        <nz-form-explain *ngIf="form.get('nombre_fantasia').dirty && form.get('nombre_fantasia').errors">
-          <ng-container *ngIf="form.get('nombre_fantasia').hasError('required')">
-            {{ 'global.campo_requerido' | translate }}
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="localidad">{{ 'lambe.proveedores.localidad' | translate }}</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="localidad" id="localidad" placeholder="Localidad">
+      <nz-form-explain *ngIf="form.get('localidad').dirty && form.get('localidad').errors">
+        <ng-container *ngIf="form.get('localidad').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="direccion">{{ 'lambe.proveedores.direccion' | translate }}</nz-form-label>
-      <nz-form-control nzHasFeedback>
-        <input nz-input formControlName="direccion" id="direccion" placeholder="Direccion">
-        <nz-form-explain *ngIf="form.get('direccion').dirty && form.get('direccion').errors">
-          <ng-container *ngIf="form.get('direccion').hasError('required')">
-            {{ 'global.campo_requerido' | translate }}
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="provincia">{{ 'lambe.proveedores.provincia' | translate }}</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="provincia" id="provincia" placeholder="Provincia">
+      <nz-form-explain *ngIf="form.get('provincia').dirty && form.get('provincia').errors">
+        <ng-container *ngIf="form.get('provincia').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="localidad">{{ 'lambe.proveedores.localidad' | translate }}</nz-form-label>
-      <nz-form-control nzHasFeedback>
-        <input nz-input formControlName="localidad" id="localidad" placeholder="Localidad">
-        <nz-form-explain *ngIf="form.get('localidad').dirty && form.get('localidad').errors">
-          <ng-container *ngIf="form.get('localidad').hasError('required')">
-            {{ 'global.campo_requerido' | translate }}
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="codigo_postal">{{ 'lambe.proveedores.codigo_postal' | translate }}
+    </nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="codigo_postal" id="codigo_postal" placeholder="Codigo Postal">
+      <nz-form-explain *ngIf="form.get('codigo_postal').dirty && form.get('codigo_postal').errors">
+        <ng-container *ngIf="form.get('codigo_postal').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="provincia">{{ 'lambe.proveedores.provincia' | translate }}</nz-form-label>
-      <nz-form-control nzHasFeedback>
-        <input nz-input formControlName="provincia" id="provincia" placeholder="Provincia">
-        <nz-form-explain *ngIf="form.get('provincia').dirty && form.get('provincia').errors">
-          <ng-container *ngIf="form.get('provincia').hasError('required')">
-            {{ 'global.campo_requerido' | translate }}
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="cuit">{{ 'lambe.proveedores.cuit' | translate }}</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="cuit" id="cuit" placeholder="Cuit">
+      <nz-form-explain *ngIf="form.get('cuit').dirty && form.get('cuit').errors">
+        <ng-container *ngIf="form.get('cuit').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="codigo_postal">{{ 'lambe.proveedores.codigo_postal' | translate }}
-      </nz-form-label>
-      <nz-form-control nzHasFeedback>
-        <input nz-input formControlName="codigo_postal" id="codigo_postal" placeholder="Codigo Postal">
-        <nz-form-explain *ngIf="form.get('codigo_postal').dirty && form.get('codigo_postal').errors">
-          <ng-container *ngIf="form.get('codigo_postal').hasError('required')">
-            {{ 'global.campo_requerido' | translate }}
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="nota">{{ 'lambe.proveedores.nota' | translate }}</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="nota" id="nota" placeholder="nota">
+      <nz-form-explain *ngIf="form.get('nota').dirty && form.get('nota').errors">
+        <ng-container *ngIf="form.get('nota').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="cuit">{{ 'lambe.proveedores.cuit' | translate }}</nz-form-label>
-      <nz-form-control nzHasFeedback>
-        <input nz-input formControlName="cuit" id="cuit" placeholder="Cuit">
-        <nz-form-explain *ngIf="form.get('cuit').dirty && form.get('cuit').errors">
-          <ng-container *ngIf="form.get('cuit').hasError('required')">
-            {{ 'global.campo_requerido' | translate }}
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="matricula">{{ 'lambe.proveedores.matricula' | translate }}</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="matricula" id="matricula" placeholder="matricula">
+      <nz-form-explain *ngIf="form.get('matricula').dirty && form.get('matricula').errors">
+        <ng-container *ngIf="form.get('matricula').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="nota">{{ 'lambe.proveedores.nota' | translate }}</nz-form-label>
-      <nz-form-control nzHasFeedback>
-        <input nz-input formControlName="nota" id="nota" placeholder="nota">
-        <nz-form-explain *ngIf="form.get('nota').dirty && form.get('nota').errors">
-          <ng-container *ngIf="form.get('nota').hasError('required')">
-            {{ 'global.campo_requerido' | translate }}
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="horario_atencion">{{ 'lambe.proveedores.horario_atencion' | translate }}
+    </nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="horario_atencion" id="horario_atencion" placeholder="horario_atencion">
+      <nz-form-explain *ngIf="form.get('horario_atencion').dirty && form.get('horario_atencion').errors">
+        <ng-container *ngIf="form.get('horario_atencion').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="matricula">{{ 'lambe.proveedores.matricula' | translate }}</nz-form-label>
-      <nz-form-control nzHasFeedback>
-        <input nz-input formControlName="matricula" id="matricula" placeholder="matricula">
-        <nz-form-explain *ngIf="form.get('matricula').dirty && form.get('matricula').errors">
-          <ng-container *ngIf="form.get('matricula').hasError('required')">
-            {{ 'global.campo_requerido' | translate }}
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="situacion_fiscal">{{ 'lambe.proveedores.situacion_fiscal' | translate }}
+    </nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="situacion_fiscal" id="situacion_fiscal" placeholder="situacion_fiscal">
+      <nz-form-explain *ngIf="form.get('situacion_fiscal').dirty && form.get('situacion_fiscal').errors">
+        <ng-container *ngIf="form.get('situacion_fiscal').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="horario_atencion">{{ 'lambe.proveedores.horario_atencion' | translate }}
-      </nz-form-label>
-      <nz-form-control nzHasFeedback>
-        <input nz-input formControlName="horario_atencion" id="horario_atencion" placeholder="horario_atencion">
-        <nz-form-explain *ngIf="form.get('horario_atencion').dirty && form.get('horario_atencion').errors">
-          <ng-container *ngIf="form.get('horario_atencion').hasError('required')">
-            {{ 'global.campo_requerido' | translate }}
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+</form>
 
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="situacion_fiscal">{{ 'lambe.proveedores.situacion_fiscal' | translate }}
-      </nz-form-label>
-      <nz-form-control nzHasFeedback>
-        <input nz-input formControlName="situacion_fiscal" id="situacion_fiscal" placeholder="situacion_fiscal">
-        <nz-form-explain *ngIf="form.get('situacion_fiscal').dirty && form.get('situacion_fiscal').errors">
-          <ng-container *ngIf="form.get('situacion_fiscal').hasError('required')">
-            {{ 'global.campo_requerido' | translate }}
-          </ng-container>
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-
-  </form>
-
-  <div class="footer">
-    <button type="button" (click)="close()" class="ant-btn"
-      style="margin-right: 8px;"><span>{{ 'global.cancelar' | translate }}</span></button>
-    <button nz-button (click)="submit()" class="ant-btn ant-btn-primary"
-      [disabled]="!form.valid"><span>{{ 'global.guardar' | translate }}</span></button>
-  </div>
-
-</nz-drawer>
+<div class="footer">
+  <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+    <span>{{ 'global.guardar' | translate }}</span>
+  </button>
+</div>

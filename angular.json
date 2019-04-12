@@ -15,7 +15,7 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "ngx-build-plus:build",
           "options": {
             "outputPath": "dist/octo-alain",
             "index": "src/index.html",
@@ -30,7 +30,8 @@
               "src/styles.less"
             ],
             "scripts": [
-              "node_modules/ajv/dist/ajv.bundle.js"
+              "node_modules/ajv/dist/ajv.bundle.js",
+              "node_modules/annyang/dist/annyang.min.js"
             ],
             "es5BrowserSupport": true
           },
@@ -70,7 +71,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "options": {
             "browserTarget": "octo-alain:build"
           },
@@ -91,7 +92,7 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "ngx-build-plus:karma",
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
@@ -101,7 +102,8 @@
               "src/styles.less"
             ],
             "scripts": [
-              "node_modules/ajv/dist/ajv.bundle.js"
+              "node_modules/ajv/dist/ajv.bundle.js",
+              "node_modules/annyang/dist/annyang.min.js"
             ],
             "assets": [
               "src/favicon.ico",
@@ -174,19 +176,19 @@
     },
     "@schematics/angular:module": {
       "routing": true,
-      "spec": false
+      "spec": true
     },
     "@schematics/angular:component": {
-      "spec": false,
+      "spec": true,
       "flat": false,
       "inlineStyle": true,
       "inlineTemplate": false
     },
     "@schematics/angular:directive": {
-      "spec": false
+      "spec": true
     },
     "@schematics/angular:service": {
-      "spec": false
+      "spec": true
     }
   }
 }

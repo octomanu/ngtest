@@ -1,17 +1,7 @@
 <page-header [title]=" 'lambe.proveedores.titulo' | translate "></page-header>
 
 <nz-card [nzBordered]="false">
-  <!-- Crear en pantallas pequeñas -->
-  <div class="table-operations onlysmall">
-    <button nz-button [nzType]="'primary'" (click)="proveedorForm.open()">
-      <i nz-icon type="plus"></i>
-      <span>{{ 'global.crear' | translate }}</span>
-    </button>
-  </div>
 
   <app-proveedor-table #proveedorTable (openForm)="tableOnOpenForm($event)" [proveedorForm]="proveedorForm">
   </app-proveedor-table>
 </nz-card>
-
-<app-proveedor-form #proveedorForm (formSubmit)="formOnSubmit()" (formVisible)="onToggleForm($event)">
-</app-proveedor-form>

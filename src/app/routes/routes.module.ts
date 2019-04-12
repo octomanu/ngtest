@@ -14,6 +14,7 @@ import { UserLockComponent } from './passport/lock/lock.component';
 import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { ProveedorFormComponent } from './proveedores/proveedor-form/proveedor-form.component';
 import { ProveedorTableComponent } from './proveedores/proveedor-table/proveedor-table.component';
+import { ProveedorTableFilterComponent } from './proveedores/proveedor-table-filter/proveedor-table-filter.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -24,19 +25,17 @@ const COMPONENTS = [
   // single pages
   CallbackComponent,
   UserLockComponent,
-  ProveedoresComponent
+  ProveedoresComponent,
 ];
 const COMPONENTS_NOROUNT = [
-  ProveedorFormComponent
+  ProveedorFormComponent,
+  ProveedorTableFilterComponent,
+  ProveedorTableComponent,
 ];
 
 @NgModule({
-  imports: [ SharedModule, RouteRoutingModule ],
-  declarations: [
-    ...COMPONENTS,
-    ...COMPONENTS_NOROUNT,
-    ProveedorTableComponent,
-  ],
-  entryComponents: COMPONENTS_NOROUNT
+  imports: [SharedModule, RouteRoutingModule],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule {}
