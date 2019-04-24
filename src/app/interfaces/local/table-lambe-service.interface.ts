@@ -3,5 +3,5 @@ import { Observable } from 'rxjs';
 
 export interface TableLambeServiceInterface {
   // Busca la data en la API
-  paginar(params: PaginatorParamsInterface, filtros: {}): Observable<{}>;
+  paginate(params: PaginatorParamsInterface, filtros: {}): Observable<{}>;
 }

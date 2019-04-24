@@ -1,4 +1,8 @@
 {
+  "ACTIVO": "Activo",
+  "PENDIENTE": "Pendiente",
+  "INACTIVO": "Inactivo",
+  "BORRADO": "Borrado",
   "menu.search.placeholder": "Búsqueda de personas, archivo, fotos ...",
   "global.buscar": "Buscar",
   "global.limpiar": "Limpiar",
@@ -9,6 +13,12 @@
   "global.cancelar": "Cancelar",
   "global.limpiar_filtros": "Limpiar filtros",
   "global.campo_requerido": "Este campo es obligatorio",
+  "global.calle": "Calle",
+  "global.numero": "Numero",
+  "global.razon_social": "Razon Social",
+  "global.direccion": "Dirección",
+  "global.cuit": "Cuit",
+  "global.estado": "Estado",
   "login.login": "Entrar",
   "login.signup": "Registrarse",
   "login.tab-login-credentials": "Ingresar",
@@ -17,9 +27,6 @@
   "login.ayuda": "Ayuda",
   "login.privacidad": "Privacidad",
   "login.terminos": "Terminos",
-  "lambe.proveedores.razon_social": "Razon Social",
-  "lambe.proveedores.direccion": "Dirección",
-  "lambe.proveedores.cuit": "CUIT",
   "lambe.proveedores.titulo": "Proveedores",
   "lambe.proveedores.nombre_fantasia": "Nombre de Fantasia",
   "lambe.proveedores.localidad": "Localidad",
@@ -29,5 +36,6 @@
   "lambe.proveedores.matricula": "Matricula",
   "lambe.proveedores.horario_atencion": "Horario de Atención",
   "lambe.proveedores.situacion_fiscal": "Situación Fiscal",
-  "lambe.proveedores.proveedor": "Proveedor"
+  "lambe.proveedores.proveedor": "Proveedor",
+  "lambe.consorcios.titulo": "Consorcios"
 }

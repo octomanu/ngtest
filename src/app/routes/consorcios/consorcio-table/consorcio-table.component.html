@@ -32,14 +32,21 @@
   (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)" nzSize="middle">
   <thead (nzSortChange)="sort($event)" nzSingleSort>
     <tr (contextmenu)="contextMenu($event, menuTable)">
-      <th></th>
+      <th nzCustomFilter nzShowSort nzSortKey="razon_social">
+        <span>{{ 'global.estado' | translate }}</span>
+        <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
+      </th>
       <th nzCustomFilter nzShowSort nzSortKey="razon_social">
         <span>{{ 'global.razon_social' | translate }}</span>
         <ng-container *ngTemplateOutlet="filtro_razon_social"></ng-container>
       </th>
-      <th nzCustomFilter nzShowSort nzSortKey="direccion">
-        <span>{{ 'global.direccion' | translate }}</span>
-        <ng-container *ngTemplateOutlet="filtro_direccion"></ng-container>
+      <th nzCustomFilter nzShowSort nzSortKey="calle">
+        <span>{{ 'global.calle' | translate }}</span>
+        <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
+      </th>
+      <th nzCustomFilter nzShowSort nzSortKey="numero">
+        <span>{{ 'global.numero' | translate }}</span>
+        <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
       </th>
       <th nzCustomFilter nzShowSort nzSortKey="cuit">
         <span>{{ 'global.cuit' | translate }}</span>
@@ -53,22 +60,26 @@
         <ng-template #menuRowContainer>
           <ng-container *ngTemplateOutlet="menuRow; context: {id: data.id}"></ng-container>
         </ng-template>
-        <td nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]"></td>
         <td>
-          <strong class="onlysmall">{{ 'global.razon_social' | translate }}:&nbsp;</strong>
-          <nz-badge nzStatus="success" nz-tooltip nzTitle="Activo"></nz-badge>{{ data.razon_social }}
+          <strong class="onlysmall">{{ 'global.estado' | translate }}:&nbsp;</strong>
+          <nz-badge [nzStatus]="getNzColor(data.estado)" nz-tooltip nzTitle="{{ data.estado | translate }}"></nz-badge>{{ data.estado | translate }}
         </td>
         <td>
-          <strong class="onlysmall">{{ 'global.direccion' | translate }}:&nbsp;</strong>
-          {{ data.direccion }}
+          <strong class="onlysmall">{{ 'global.razon_social' | translate }}:&nbsp;</strong>
+          {{ data.razon_social }}
+        </td>
+        <td>
+          <strong class="onlysmall">{{ 'global.calle' | translate }}:&nbsp;</strong>
+          {{ data.calle }}
+        </td>
+        <td>
+          <strong class="onlysmall">{{ 'global.numero' | translate }}:&nbsp;</strong>
+          {{ data.numero }}
         </td>
         <td>
           <strong class="onlysmall">{{ 'global.cuit' | translate }}:&nbsp;</strong>
           {{ data.cuit }}
         </td>
-      </tr>
-      <tr [nzExpand]="mapOfExpandData[data.id]">
-        <td colspan="3">{{ data.direccion }}</td>
       </tr>
     </ng-template>
   </tbody>
@@ -103,6 +114,17 @@
   </ul>
 </ng-template>
 
+<ng-template #filtro_estado>
+  <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+    <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+      nz-dropdown></i>
+    <div class="search-box">
+      <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.estado"
+        placeholder="{{ 'global.buscar' | translate }}" />
+    </div>
+  </nz-dropdown>
+</ng-template>
+
 <ng-template #filtro_razon_social>
   <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
     <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
@@ -114,12 +136,23 @@
   </nz-dropdown>
 </ng-template>
 
-<ng-template #filtro_direccion>
+<ng-template #filtro_calle>
   <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
     <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
       nz-dropdown></i>
     <div class="search-box">
-      <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.direccion"
+      <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.calle"
+        placeholder="{{ 'global.buscar' | translate }}" />
+    </div>
+  </nz-dropdown>
+</ng-template>
+
+<ng-template #filtro_numero>
+  <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+    <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+      nz-dropdown></i>
+    <div class="search-box">
+      <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.numero"
         placeholder="{{ 'global.buscar' | translate }}" />
     </div>
   </nz-dropdown>

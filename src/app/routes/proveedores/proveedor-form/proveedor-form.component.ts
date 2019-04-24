@@ -11,16 +11,16 @@ import { ProveedorForm } from './proveedor.form';
   styles: [],
 })
 export class ProveedorFormComponent implements OnInit {
-  form: FormGroup;
+  protected form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
 
   constructor(
-    private fb: ProveedorForm,
-    private msg: NzMessageService,
-    private cdr: ChangeDetectorRef,
-    private proveedorService: ProveedoresService,
-    private drawerRef: NzDrawerRef<{ submit: boolean }>,
+    protected fb: ProveedorForm,
+    protected msg: NzMessageService,
+    protected cdr: ChangeDetectorRef,
+    protected proveedorService: ProveedoresService,
+    protected drawerRef: NzDrawerRef<{ submit: boolean }>,
   ) {}
 
   ngOnInit() {
@@ -34,8 +34,10 @@ export class ProveedorFormComponent implements OnInit {
   open() {
     this.initForm();
     this.formVisible.emit(true);
+    console.log(this.id);
     if (this.id) {
       this.proveedorService.buscarProveedor(this.id).subscribe(data => {
+        console.log(data);
         this.form.setValue(data);
       });
     }

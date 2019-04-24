@@ -1,4 +1,8 @@
 {
+  "ACTIVO": "Activo",
+  "PENDIENTE": "Pendiente",
+  "INACTIVO": "Inactivo",
+  "BORRADO": "Borrado",
   "menu.search.placeholder": "Search for people, file, photos...",
   "global.buscar": "Search",
   "global.limpiar": "Clear",
@@ -9,6 +13,12 @@
   "global.cancelar": "Cancel",
   "global.limpiar_filtros": "Clear filters",
   "global.campo_requerido": "Field required",
+  "global.calle": "Street",
+  "global.numero": "Number",
+  "global.razon_social": "Business name",
+  "global.direccion": "Adress",
+  "global.cuit": "Cuit",
+  "global.estado": "Status",
   "login.login": "Login",
   "login.signup": "Sign in",
   "login.tab-login-credentials": "Enter",
@@ -17,9 +27,6 @@
   "login.ayuda": "Help",
   "login.privacidad": "Provacy",
   "login.terminos": "Terms",
-  "lambe.proveedores.razon_social": "Business name",
-  "lambe.proveedores.direccion": "Adress",
-  "lambe.proveedores.cuit": "CUIT",
   "lambe.proveedores.titulo": "Suppliers",
   "lambe.proveedores.nombre_fantasia": "Fancy name",
   "lambe.proveedores.localidad": "Location",
@@ -29,5 +36,6 @@
   "lambe.proveedores.matricula": "Enrollment",
   "lambe.proveedores.horario_atencion": "Hours of Service",
   "lambe.proveedores.situacion_fiscal": "Fiscal Situation",
-  "lambe.proveedores.proveedor": "Supplier"
+  "lambe.proveedores.proveedor": "Supplier",
+  "lambe.consorcios.titulo": "Consortiums"
 }

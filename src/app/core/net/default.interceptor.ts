@@ -113,6 +113,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       case 404:
         break;
       case 500:
+      console.log(ev);
         this.goTo(`/exception/${ev.status}`);
         break;
       default:

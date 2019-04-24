@@ -15,6 +15,10 @@ import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { ProveedorFormComponent } from './proveedores/proveedor-form/proveedor-form.component';
 import { ProveedorTableComponent } from './proveedores/proveedor-table/proveedor-table.component';
 import { ProveedorTableFilterComponent } from './proveedores/proveedor-table-filter/proveedor-table-filter.component';
+import { ConsorciosComponent } from './consorcios/consorcios.component';
+import { ConsorcioFormComponent } from './consorcios/consorcio-form/consorcio-form.component';
+import { ConsorcioTableComponent } from './consorcios/consorcio-table/consorcio-table.component';
+import { ConsorcioTableFilterComponent } from './consorcios/consorcio-table-filter/consorcio-table-filter.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -35,7 +39,7 @@ const COMPONENTS_NOROUNT = [
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, ConsorciosComponent, ConsorcioFormComponent, ConsorcioTableComponent, ConsorcioTableFilterComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule {}

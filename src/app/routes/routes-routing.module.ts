@@ -16,6 +16,7 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 import { ProveedoresComponent } from './proveedores/proveedores.component';
+import { ConsorciosComponent } from './consorcios/consorcios.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
       { path: 'proveedores', component: ProveedoresComponent, data: { title: 'Proveedores' } },
+      { path: 'consorcios', component: ConsorciosComponent, data: { title: 'Consorcios' } },
       { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
       // 业务子模块
       // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }

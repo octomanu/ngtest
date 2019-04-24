@@ -1,43 +1,50 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TableLambe } from '@core/lambe/table-lambe.class';
+import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import {
   NzDropdownService,
   NzMessageService,
   NzDrawerService,
 } from 'ng-zorro-antd';
-import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
-import { ProveedorFormComponent } from '../proveedor-form/proveedor-form.component';
-import { TableLambe } from '@core/lambe/table-lambe.class';
-import { ProveedorTableFilterComponent } from '../proveedor-table-filter/proveedor-table-filter.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ProveedoresFormFields } from './interfaces/proveedores-form-fields.interface';
 import { TranslateService } from '@ngx-translate/core';
+import { ConsorcioFormComponent } from '../consorcio-form/consorcio-form.component';
+import { ConsorcioTableFilterComponent } from '../consorcio-table-filter/consorcio-table-filter.component';
+import { ConsorciosFormFields } from './interfaces/consorcios-form-fields.interface';
 
 @Component({
-  selector: 'app-proveedor-table',
-  templateUrl: './proveedor-table.component.html',
+  selector: 'app-consorcio-table',
+  templateUrl: './consorcio-table.component.html',
   styles: [],
 })
-export class ProveedorTableComponent extends TableLambe
+export class ConsorcioTableComponent extends TableLambe
   implements OnInit, OnDestroy {
+  filtroForm = {
+    razon_social: null,
+    calle: null,
+    numero: null,
+    cuit: null,
+    estado: null,
+  };
   mapOfExpandData: { [key: string]: boolean } = {};
-  filtroForm = { razon_social: null, direccion: null, cuit: null };
-
-  private proveedoresService: ProveedoresService;
+  private consorciosService: ConsorciosService;
 
   constructor(
     private msg: NzMessageService,
     private translate: TranslateService,
     private drawerService: NzDrawerService,
+    consorciosService: ConsorciosService,
     nzDropdownService: NzDropdownService,
-    proveedoresService: ProveedoresService,
     breakpointObserver: BreakpointObserver,
   ) {
-    super(proveedoresService, nzDropdownService, breakpointObserver);
-    this.proveedoresService = proveedoresService;
+    super(consorciosService, nzDropdownService, breakpointObserver);
+    this.consorciosService = consorciosService;
     this.tags = {
       razon_social: { title: 'global.razon_social', used: false },
-      direccion: { title: 'global.direccion', used: false },
+      calle: { title: 'global.calle', used: false },
+      numero: { title: 'global.direccion', used: false },
       cuit: { title: 'global.cuit', used: false },
+      estado: { title: 'global.estado', used: false },
     };
   }
 
@@ -53,12 +60,12 @@ export class ProveedorTableComponent extends TableLambe
   _openForm(id?: number) {
     this.translate.get('lambe.proveedores.titulo').subscribe((res: string) => {
       this.drawerRef = this.drawerService.create<
-        ProveedorFormComponent,
+        ConsorcioFormComponent,
         { id: number }
       >({
         nzTitle: res,
         nzWidth: this.initialDrawerWidth,
-        nzContent: ProveedorFormComponent,
+        nzContent: ConsorcioFormComponent,
         nzContentParams: { id },
       });
 
@@ -77,12 +84,12 @@ export class ProveedorTableComponent extends TableLambe
 
   _openFilter() {
     this.drawerRef = this.drawerService.create<
-      ProveedorTableFilterComponent,
-      { formInput: ProveedoresFormFields }
+      ConsorcioTableFilterComponent,
+      { formInput: ConsorciosFormFields }
     >({
       nzTitle: 'lambe.proveedores.titulo',
       nzWidth: this.initialDrawerWidth,
-      nzContent: ProveedorTableFilterComponent,
+      nzContent: ConsorcioTableFilterComponent,
       nzContentParams: { formInput: this.filtroForm },
     });
 
@@ -93,8 +100,23 @@ export class ProveedorTableComponent extends TableLambe
     });
   }
 
+  getNzColor(status: string) {
+    switch (status) {
+      case 'PENDIENTE':
+        return 'processing';
+      case 'ACTIVO':
+        return 'success';
+      case 'INACTIVO':
+        return 'warning';
+      case 'BORRADO':
+        return 'error';
+      default:
+        return 'default';
+    }
+  }
+
   eliminar(id: number) {
-    this.proveedoresService.eliminarProveedor(id).subscribe(data => {
+    this.consorciosService.delete(id).subscribe(data => {
       this.msg.success(`Eliminado!!`);
       this.searchData();
     });

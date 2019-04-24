@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { TableLambeServiceInterface } from 'app/interfaces/local/table-lambe-service.interface';
-
+import { environment } from 'environments/environment';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,22 +12,24 @@ export class ProveedoresService implements TableLambeServiceInterface {
 
   constructor(private http: HttpClient) {}
 
-  paginar(parametros: {}, filtros: {}): Observable<{}> {
+  paginate(parametros: {}, filtros: {}): Observable<{}> {
     let params = new HttpParams();
 
     for (const key in filtros) {
-      params = params.append(key, filtros[key]);
+      if (filtros[key]) {
+        params = params.append(key, filtros[key]);
+      }
     }
+
     for (const key in parametros) {
-      params = params.append(key, parametros[key]);
+      if (parametros[key]) {
+        params = params.append(key, parametros[key]);
+      }
     }
+
     return this.http.get(`${this.randomUserUrl}`, { params }).pipe(
-      map((resp: any) => {
-        return resp;
-      }),
-      catchError(err => {
-        return throwError(err);
-      }),
+      map(resp => resp),
+      catchError(err => throwError(err)),
     );
   }
 
@@ -35,12 +37,8 @@ export class ProveedoresService implements TableLambeServiceInterface {
     const URL = `${this.randomUserUrl}/${id}`;
 
     return this.http.delete(URL).pipe(
-      map((resp: any) => {
-        return resp;
-      }),
-      catchError(err => {
-        return throwError(err);
-      }),
+      map(resp => resp),
+      catchError(err => throwError(err)),
     );
   }
 
@@ -48,12 +46,8 @@ export class ProveedoresService implements TableLambeServiceInterface {
     const URL = `${this.randomUserUrl}`;
 
     return this.http.post(URL, proveedor).pipe(
-      map((resp: any) => {
-        return resp;
-      }),
-      catchError(err => {
-        return throwError(err);
-      }),
+      map(resp => resp),
+      catchError(err => throwError(err)),
     );
   }
 
@@ -61,12 +55,8 @@ export class ProveedoresService implements TableLambeServiceInterface {
     const URL = `${this.randomUserUrl}/${id}`;
 
     return this.http.put(URL, proveedor).pipe(
-      map((resp: any) => {
-        return resp;
-      }),
-      catchError(err => {
-        return throwError(err);
-      }),
+      map(resp => resp),
+      catchError(err => throwError(err)),
     );
   }
 
@@ -74,12 +64,8 @@ export class ProveedoresService implements TableLambeServiceInterface {
     const URL = `${this.randomUserUrl}/${id}`;
 
     return this.http.get(URL).pipe(
-      map((resp: any) => {
-        return resp.proveedor;
-      }),
-      catchError(err => {
-        return throwError(err);
-      }),
+      map((resp: any) => resp.data),
+      catchError(err => throwError(err)),
     );
   }
 }
