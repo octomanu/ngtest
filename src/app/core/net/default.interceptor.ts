@@ -15,6 +15,7 @@ import { _HttpClient } from '@delon/theme';
 import { environment } from '@env/environment';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { LoginService } from '@core/http/login.service.ts/login.service';
+import { BackendErrorMessageBuilderService } from '@core/i18n/backend-error-message-builder.service';
 
 const CODEMESSAGE = {
   200: 'El servidor devolvió con éxito los datos solicitados.',
@@ -43,6 +44,7 @@ export class DefaultInterceptor implements HttpInterceptor {
   constructor(
     private injector: Injector,
     private loginService: LoginService,
+    private backendMessage: BackendErrorMessageBuilderService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
   ) {}
 
@@ -106,6 +108,8 @@ export class DefaultInterceptor implements HttpInterceptor {
             );
           } else {
             console.log('UPS NO ES ERRO TOKEN');
+            console.log(ev);
+            this.backendMessage.buildMessage(ev.error.error);
             return throwError(ev);
           }
         }

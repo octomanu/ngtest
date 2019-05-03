@@ -16,7 +16,8 @@
     "lint:style": "stylelint \"{src}/**/*.less\" --syntax less",
     "lint-staged": "lint-staged",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
-    "hmr": "ng serve -c=hmr"
+    "hmr": "ng serve -c=hmr",
+    "up-test-app": "ng serve --extraWebpackConfig webpack.partial.js"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,44 @@
+<nz-form-item>
+  <label nz-checkbox [(ngModel)]="keepData.cruzado">
+    {{ 'lambe.cheques.cruzado' | translate }}
+  </label>
+</nz-form-item>
+
+<nz-form-item>
+  <label nz-checkbox [(ngModel)]="keepData.a_la_orden">
+    {{ 'lambe.cheques.a_la_orden' | translate }}
+  </label>
+</nz-form-item>
+
+<nz-form-item>
+  <label nz-checkbox [(ngModel)]="keepData.id_chequera">
+    {{ 'lambe.chequera' | translate }}
+  </label>
+</nz-form-item>
+
+<nz-form-item>
+  <label nz-checkbox [(ngModel)]="keepData.fecha_deposito">
+    {{ 'lambe.cheques.fecha_deposito' | translate }}
+  </label>
+</nz-form-item>
+
+<nz-form-item>
+  <label nz-checkbox [(ngModel)]="keepData.fecha_emision">
+    {{ 'lambe.cheques.fecha_emision' | translate }}
+  </label>
+</nz-form-item>
+
+<nz-form-item>
+  <label nz-checkbox [(ngModel)]="keepData.monto">
+    {{ 'lambe.cheques.monto' | translate }}
+  </label>
+</nz-form-item>
+
+<nz-form-item>
+  <label nz-checkbox [(ngModel)]="keepData.numero">
+    {{ 'lambe.cheques.numero' | translate }}
+  </label>
+</nz-form-item>
+
+
+<button (click)="close()">Aplicar</button>

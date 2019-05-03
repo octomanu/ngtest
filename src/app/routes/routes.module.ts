@@ -19,6 +19,15 @@ import { ConsorciosComponent } from './consorcios/consorcios.component';
 import { ConsorcioFormComponent } from './consorcios/consorcio-form/consorcio-form.component';
 import { ConsorcioTableComponent } from './consorcios/consorcio-table/consorcio-table.component';
 import { ConsorcioTableFilterComponent } from './consorcios/consorcio-table-filter/consorcio-table-filter.component';
+import { ChequesComponent } from './cheques/cheques.component';
+import { ChequesTableComponent } from './cheques/cheques-table/cheques-table.component';
+import { ChequesFormComponent } from './cheques/cheques-form/cheques-form.component';
+import { ChequesTableFilterComponent } from './cheques/cheques-table-filter/cheques-table-filter.component';
+import { ChequerasComponent } from './chequeras/chequeras.component';
+import { ChequerasTableComponent } from './chequeras/chequeras-table/chequeras-table.component';
+import { ChequerasFormComponent } from './chequeras/chequeras-form/chequeras-form.component';
+import { ChequerasTableFilterComponent } from './chequeras/chequeras-table-filter/chequeras-table-filter.component';
+import { ConfigFormComponent } from './cheques/cheques-form/config-form/config-form.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -30,16 +39,29 @@ const COMPONENTS = [
   CallbackComponent,
   UserLockComponent,
   ProveedoresComponent,
+  ConsorciosComponent,
+  ChequesComponent,
+  ChequerasComponent,
 ];
 const COMPONENTS_NOROUNT = [
   ProveedorFormComponent,
   ProveedorTableFilterComponent,
   ProveedorTableComponent,
+  ConsorcioFormComponent,
+  ConsorcioTableComponent,
+  ConsorcioTableFilterComponent,
+  ChequesTableFilterComponent,
+  ChequesTableComponent,
+  ChequesFormComponent,
+  ConfigFormComponent,
+  ChequerasTableComponent,
+  ChequerasFormComponent,
+  ChequerasTableFilterComponent,
 ];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, ConsorciosComponent, ConsorcioFormComponent, ConsorcioTableComponent, ConsorcioTableFilterComponent],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule {}

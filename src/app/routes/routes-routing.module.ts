@@ -17,6 +17,8 @@ import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { ConsorciosComponent } from './consorcios/consorcios.component';
+import { ChequesComponent } from './cheques/cheques.component';
+import { ChequerasComponent } from './chequeras/chequeras.component';
 
 const routes: Routes = [
   {
@@ -28,6 +30,8 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
       { path: 'proveedores', component: ProveedoresComponent, data: { title: 'Proveedores' } },
       { path: 'consorcios', component: ConsorciosComponent, data: { title: 'Consorcios' } },
+      { path: 'cheques', component: ChequesComponent, data: { title: 'Cheques' } },
+      { path: 'chequeras', component: ChequerasComponent, data: { title: 'Chequeras' } },
       { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
       // 业务子模块
       // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }

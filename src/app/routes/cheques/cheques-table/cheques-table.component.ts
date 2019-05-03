@@ -1,23 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TableLambe } from '@core/lambe/table-lambe.class';
-import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import {
-  NzDropdownService,
   NzMessageService,
   NzDrawerService,
+  NzDropdownService,
 } from 'ng-zorro-antd';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { TranslateService } from '@ngx-translate/core';
-import { ConsorcioFormComponent } from '../consorcio-form/consorcio-form.component';
-import { ConsorcioTableFilterComponent } from '../consorcio-table-filter/consorcio-table-filter.component';
-import { ConsorciosFormFields } from './interfaces/consorcios-form-fields.interface';
+import { ChequesService } from '@core/http/cheques/cheques.service';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { ChequesTableFilterComponent } from '../cheques-table-filter/cheques-table-filter.component';
+import { ChequesFormFields } from './interfaces/cheques-form-fields.interface';
+import { ChequesFormComponent } from '../cheques-form/cheques-form.component';
 
 @Component({
-  selector: 'app-consorcio-table',
-  templateUrl: './consorcio-table.component.html',
+  selector: 'app-cheques-table',
+  templateUrl: './cheques-table.component.html',
   styles: [],
 })
-export class ConsorcioTableComponent extends TableLambe
+export class ChequesTableComponent extends TableLambe
   implements OnInit, OnDestroy {
   filtroForm = {
     razon_social: null,
@@ -28,18 +28,18 @@ export class ConsorcioTableComponent extends TableLambe
   };
   mapOfExpandData: { [key: string]: boolean } = {};
   consorcioStatus = ['ACTIVO', 'PENDIENTE', 'INACTIVO', 'BORRADO'];
-  private consorciosService: ConsorciosService;
+  private chequesService: ChequesService;
 
   constructor(
     private msg: NzMessageService,
     private translate: TranslateService,
     private drawerService: NzDrawerService,
-    consorciosService: ConsorciosService,
+    chequesService: ChequesService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
   ) {
-    super(consorciosService, nzDropdownService, breakpointObserver);
-    this.consorciosService = consorciosService;
+    super(chequesService, nzDropdownService, breakpointObserver);
+    this.chequesService = chequesService;
     this.tags = {
       razon_social: { title: 'global.razon_social', used: false },
       calle: { title: 'global.calle', used: false },
@@ -59,14 +59,15 @@ export class ConsorcioTableComponent extends TableLambe
   }
 
   _openForm(id?: number) {
-    this.translate.get('lambe.proveedores.titulo').subscribe((res: string) => {
+    console.log(id);
+    this.translate.get('lambe.cheques').subscribe((res: string) => {
       this.drawerRef = this.drawerService.create<
-        ConsorcioFormComponent,
+        ChequesFormComponent,
         { id: number }
       >({
         nzTitle: res,
         nzWidth: this.initialDrawerWidth,
-        nzContent: ConsorcioFormComponent,
+        nzContent: ChequesFormComponent,
         nzContentParams: { id },
       });
 
@@ -85,12 +86,12 @@ export class ConsorcioTableComponent extends TableLambe
 
   _openFilter() {
     this.drawerRef = this.drawerService.create<
-      ConsorcioTableFilterComponent,
-      { formInput: ConsorciosFormFields }
+      ChequesTableFilterComponent,
+      { formInput: ChequesFormFields }
     >({
       nzTitle: 'lambe.proveedores.titulo',
       nzWidth: this.initialDrawerWidth,
-      nzContent: ConsorcioTableFilterComponent,
+      nzContent: ChequesTableFilterComponent,
       nzContentParams: { formInput: this.filtroForm },
     });
 
@@ -101,23 +102,8 @@ export class ConsorcioTableComponent extends TableLambe
     });
   }
 
-  getNzColor(status: string) {
-    switch (status) {
-      case 'PENDIENTE':
-        return 'processing';
-      case 'ACTIVO':
-        return 'success';
-      case 'INACTIVO':
-        return 'warning';
-      case 'BORRADO':
-        return 'error';
-      default:
-        return 'default';
-    }
-  }
-
   eliminar(id: number) {
-    this.consorciosService.delete(id).subscribe(data => {
+    this.chequesService.delete(id).subscribe(data => {
       this.msg.success(`Eliminado!!`);
       this.searchData();
     });

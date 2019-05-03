@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 // #region third libs
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
+import { BooleanPipe } from './pipes/boolean.pipe';
 
 const THIRDMODULES = [NgZorroAntdModule, CountdownModule];
 // #endregion
@@ -20,6 +21,7 @@ const THIRDMODULES = [NgZorroAntdModule, CountdownModule];
 // #region your componets & directives
 const COMPONENTS = [];
 const DIRECTIVES = [];
+const PIPES = [BooleanPipe];
 // #endregion
 
 @NgModule({
@@ -39,6 +41,7 @@ const DIRECTIVES = [];
     // your components
     ...COMPONENTS,
     ...DIRECTIVES,
+    ...PIPES
   ],
   entryComponents: [],
   exports: [
@@ -57,6 +60,7 @@ const DIRECTIVES = [];
     // your components
     ...COMPONENTS,
     ...DIRECTIVES,
+    ...PIPES
   ],
 })
 export class SharedModule {}

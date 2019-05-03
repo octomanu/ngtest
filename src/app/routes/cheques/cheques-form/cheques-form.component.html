@@ -1,0 +1,127 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <label nz-checkbox formControlName="cruzado" id="cruzado">{{ 'lambe.cheques.cruzado' | translate }}</label>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <label nz-checkbox formControlName="a_la_orden"
+          id="a_la_orden">{{ 'lambe.cheques.a_la_orden' | translate }}</label>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between" *ngIf="!id">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 24 }">
+      <nz-form-item>
+        <nz-form-label nzFor="id_chequera">{{ 'lambe.chequera' | translate }}
+        </nz-form-label>
+
+        <nz-select zPlaceHolder=" lambe.chequeras | translate " formControlName="id_chequera" id="id_chequera"
+          nzAllowClear nzShowSearch [nzServerSearch]="true" (nzOnSearch)="searchCheckbooks($event)">
+          <ng-container *ngFor="let check of checkbooks">
+            <nz-option *ngIf="!isLoading" [nzValue]="check.id" [nzLabel]="check.display"></nz-option>
+          </ng-container>
+          <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+            <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+          </nz-option>
+        </nz-select>
+
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="fecha_deposito">{{ 'lambe.cheques.fecha_deposito' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <!-- <input nz-input formControlName="fecha_deposito" id="fecha_deposito"> -->
+          <nz-date-picker formControlName="fecha_deposito" nzFormat="dd/MM/yyyy"></nz-date-picker>
+          <nz-form-explain *ngIf="form.get('fecha_deposito').dirty && form.get('fecha_deposito').errors">
+            <ng-container *ngIf="form.get('fecha_deposito').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="fecha_emision">{{ 'lambe.cheques.fecha_emision' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-date-picker formControlName="fecha_emision" nzFormat="dd/MM/yyyy"></nz-date-picker>
+          <!-- <input nz-input formControlName="fecha_emision" id="fecha_emision"> -->
+          <nz-form-explain *ngIf="form.get('fecha_emision').dirty && form.get('fecha_emision').errors">
+            <ng-container *ngIf="form.get('fecha_emision').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="monto">{{ 'lambe.cheques.monto' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+
+            <nz-input-group nzAddOnBefore="$">
+              <input nz-input formControlName="monto" id="monto">
+            </nz-input-group>
+
+
+  
+          <nz-form-explain *ngIf="form.get('monto').dirty && form.get('monto').errors">
+            <ng-container *ngIf="form.get('monto').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+            <ng-container *ngIf="form.get('monto').hasError('pattern')">
+              {{ 'global.patron' | translate }} : ########,##
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="numero">{{ 'lambe.cheques.numero' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <input nz-input formControlName="numero" id="numero">
+          <nz-form-explain *ngIf="form.get('numero').dirty && form.get('numero').errors">
+            <ng-container *ngIf="form.get('numero').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+</form>
+
+
+<div class="footer">
+  <div nz-row nzType="flex" nzJustify="end">
+    <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+      <span>{{ 'global.guardar' | translate }}</span>
+    </button>
+
+    <button *ngIf="!id" nz-button nz-tooltip nzType="default" nzShape="circle"
+    (click)="_openFilter()"
+    nzTitle="{{ 'global.carga_masiva' | translate }}" nzPlacement="top"
+    ><i nz-icon type="setting"></i></button>
+  </div>
+</div>
