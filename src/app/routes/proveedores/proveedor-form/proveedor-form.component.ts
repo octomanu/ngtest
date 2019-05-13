@@ -35,8 +35,7 @@ export class ProveedorFormComponent implements OnInit {
     this.initForm();
     this.formVisible.emit(true);
     if (this.id) {
-      this.proveedorService.buscarProveedor(this.id).subscribe(data => {
-        console.log(data);
+      this.proveedorService.find(this.id).subscribe(data => {
         this.form.setValue(data);
       });
     }
@@ -46,14 +45,14 @@ export class ProveedorFormComponent implements OnInit {
     const proveedor = this.form.value;
     if (proveedor.id) {
       this.proveedorService
-        .actualizarProveedor(proveedor.id, proveedor)
+        .update(proveedor.id, proveedor)
         .subscribe(data => {
           this.drawerRef.close({ submit: true });
           this.msg.success(`Actualizado!`);
           this.cdr.detectChanges();
         });
     } else {
-      this.proveedorService.crearProveedor(proveedor).subscribe(data => {
+      this.proveedorService.create(proveedor).subscribe(data => {
         this.drawerRef.close({ submit: true });
         this.msg.success(`Creado!`);
         this.cdr.detectChanges();

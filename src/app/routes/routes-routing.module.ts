@@ -19,6 +19,7 @@ import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { ConsorciosComponent } from './consorcios/consorcios.component';
 import { ChequesComponent } from './cheques/cheques.component';
 import { ChequerasComponent } from './chequeras/chequeras.component';
+import { GastosComponent } from './gastos/gastos.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
       { path: 'consorcios', component: ConsorciosComponent, data: { title: 'Consorcios' } },
       { path: 'cheques', component: ChequesComponent, data: { title: 'Cheques' } },
       { path: 'chequeras', component: ChequerasComponent, data: { title: 'Chequeras' } },
+      { path: 'gastos', component: GastosComponent, data: { title: 'Gastos' } },
       { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
       // 业务子模块
       // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }

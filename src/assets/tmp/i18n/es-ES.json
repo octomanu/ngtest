@@ -4,6 +4,11 @@
   "INACTIVO": "Inactivo",
   "BORRADO": "Borrado",
   "menu.search.placeholder": "Búsqueda de personas, archivo, fotos ...",
+  "global.prevision": "Previsión",
+  "global.rubro": "Rubro",
+  "global.prorrateable": "Prorrateable",
+  "global.periodicidad": "Periodicidad",
+  "global.fecha": "Fecha",
   "global.true": "Si",
   "global.false": "No",
   "global.siguiente": "Siguiente",
@@ -26,6 +31,7 @@
   "global.codigo": "Codigo",
   "global.codigo_postal": "Codigo postal",
   "global.cargando": "Cargando",
+  "global.servicio": "Servicio",
   "login.login": "Entrar",
   "login.signup": "Registrarse",
   "login.tab-login-credentials": "Ingresar",
@@ -45,6 +51,7 @@
   "lambe.proveedores.situacion_fiscal": "Situación fiscal",
   "lambe.proveedores.proveedor": "Proveedor",
   "lambe.consorcios.titulo": "Consorcios",
+  "lambe.consorcios.consorcio": "Consorcio",
   "lambe.consorcios.cantidad_ufs": "Cantidad de ufs",
   "lambe.consorcios.codigo_siro": "Codigo siro",
   "lambe.consorcios.codigo_suterh": "Codigo Suterh",
@@ -63,5 +70,8 @@
   "lambe.cheques.a_la_orden": "A la Orden",
   "lambe.cheques": "Cheques",
   "lambe.chequera": "Chequera",
-  "lambe.chequera_nro": "Nro chequera"
+  "lambe.chequera_nro": "Nro chequera",
+  "global.monto":"Monto",
+  "lambe.gasto": "Gasto",
+  "lambe.gastos.fecha": "Fecha del gasto"
 }

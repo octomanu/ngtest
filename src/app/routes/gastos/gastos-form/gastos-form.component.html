@@ -1,0 +1,279 @@
+<ng-template #proveedor_check>
+  <label nzFor="id_proveedor" nz-checkbox
+    [(ngModel)]="keep.proveedor">{{ 'lambe.proveedores.proveedor' | translate }}</label>
+</ng-template>
+
+<ng-template #consorcio_check>
+  <label nzFor="id_consorcio" nz-checkbox
+    [(ngModel)]="keep.consorcio">{{ 'lambe.consorcios.consorcio' | translate }}</label>
+</ng-template>
+
+<ng-template #gasto_check>
+  <label nzFor="descripcion" nz-checkbox [(ngModel)]="keep.gasto">{{ 'lambe.gasto' | translate }}</label>
+</ng-template>
+
+<nz-steps #steps [nzCurrent]="current" nzSize="small">
+  <nz-step nzTitle="Informacion Basica"></nz-step>
+  <nz-step nzTitle="Cuotas"></nz-step>
+</nz-steps>
+
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
+
+  <div *ngIf="steps.nzCurrent == 0">
+
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+        <nz-form-item>
+
+          <ng-container [ngTemplateOutlet]="proveedor_check"></ng-container>
+
+          <nz-form-control nzHasFeedback>
+            <nz-select zPlaceHolder=" lambe.proveedores.proveedor | translate " formControlName="id_proveedor"
+              id="id_proveedor" nzAllowClear nzShowSearch [nzServerSearch]="true"
+              (nzOnSearch)="searchProveedores($event)" (ngModelChange)="searchDataForm()">
+              <ng-container *ngFor="let proveedor of proveedores">
+                <nz-option *ngIf="!isLoading" [nzValue]="proveedor.id" [nzLabel]="proveedor.display"></nz-option>
+              </ng-container>
+              <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+                <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+        <nz-form-item>
+
+          <ng-container [ngTemplateOutlet]="consorcio_check"></ng-container>
+
+          <nz-form-control nzHasFeedback>
+            <nz-select zPlaceHolder=" lambe.gastos.consorcio | translate " formControlName="id_consorcio"
+              id="id_consorcio" nzAllowClear nzShowSearch [nzServerSearch]="true"
+              (nzOnSearch)="searchConsorcios($event)" (ngModelChange)="searchDataForm()">
+              <ng-container *ngFor="let consorcio of consorcios">
+                <nz-option *ngIf="!isLoading" [nzValue]="consorcio.id" [nzLabel]="consorcio.display"></nz-option>
+              </ng-container>
+              <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+                <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+        <nz-form-item>
+          <ng-container [ngTemplateOutlet]="gasto_check"></ng-container>
+
+          <nz-form-control nzHasFeedback>
+            <input nz-input formControlName="descripcion" id="descripcion" (change)="searchDataForm(true)">
+            <nz-form-explain *ngIf="form.get('descripcion').dirty && form.get('descripcion').errors">
+              <ng-container *ngIf="form.get('descripcion').hasError('required')">
+                {{ 'global.campo_requerido' | translate }}
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row nzType="flex" nzJustify="space-between">
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 10 }">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="monto">{{ 'global.monto' | translate }}
+          </nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group nzAddOnBefore="$">
+              <input nz-input formControlName="monto" id="monto" (change)="initCuotas()">
+            </nz-input-group>
+            <nz-form-explain *ngIf="form.get('monto').dirty && form.get('monto').errors">
+              <ng-container *ngIf="form.get('monto').hasError('required')">
+                {{ 'global.campo_requerido' | translate }}
+              </ng-container>
+              <ng-container *ngIf="form.get('monto').hasError('pattern')">
+                {{ 'global.patron' | translate }} : ########,##
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 10 }">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="fecha">{{ 'lambe.gastos.fecha' | translate }}
+          </nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-date-picker (ngModelChange)="initCuotas()" formControlName="fecha" nzFormat="dd/MM/yyyy">
+            </nz-date-picker>
+            <nz-form-explain *ngIf="form.get('fecha').dirty && form.get('fecha').errors">
+              <ng-container *ngIf="form.get('fecha').hasError('required')">
+                {{ 'global.campo_requerido' | translate }}
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+        <nz-form-item>
+          <label nz-checkbox formControlName="prevision">{{ 'lambe.gastos.prevision' | translate }}</label>
+        </nz-form-item>
+        <nz-form-item>
+          <label nz-checkbox formControlName="prorrateable">{{ 'lambe.gastos.prorrateable' | translate }}</label>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <div *ngIf="steps.nzCurrent == 1">
+    <div nz-row nzType="flex" nzJustify="space-between">
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+        <ng-container *ngTemplateOutlet="cuotas_amount_outlet">
+        </ng-container>
+
+      </div>
+    </div>
+
+
+    <nz-divider nzText="{{'lambe.cuotas' | translate}}"></nz-divider>
+
+    <div formArrayName="cuotas" *ngFor="let item of form.get('cuotas')['controls']; let i = index;">
+
+
+
+
+
+      <div nz-row nzType="flex" nzJustify="space-between" [formGroupName]="i">
+
+        <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+          <nz-form-item>
+            <nz-form-label nzRequired>{{ 'global.monto_total' | translate }}
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group nzAddOnBefore="$">
+                <input formControlName="monto" nz-input id="monto" (change)="modifyCuotas(i)">
+              </nz-input-group>
+              <nz-form-explain *ngIf="form.get('monto').dirty && form.get('monto').errors">
+                <ng-container *ngIf="form.get('monto').hasError('required')">
+                  {{ 'global.campo_requerido' | translate }}
+                </ng-container>
+                <ng-container *ngIf="form.get('monto').hasError('pattern')">
+                  {{ 'global.patron' | translate }} : ########,##
+                </ng-container>
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+          <nz-form-item>
+            <nz-form-label nzRequired>{{ 'lambe.gastos.primer_vencimiento' | translate }}
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+              <nz-date-picker formControlName="fecha" nzFormat="dd/MM/yyyy"></nz-date-picker>
+              <nz-form-explain *ngIf="form.get('primer_vencimiento').dirty && form.get('primer_vencimiento').errors">
+                <ng-container *ngIf="form.get('primer_vencimiento').hasError('required')">
+                  {{ 'global.campo_requerido' | translate }}
+                </ng-container>
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+    </div>
+    <!-- <ng-container *ngTemplateOutlet="cuotas_outlet"></ng-container> -->
+  </div>
+
+</form>
+
+
+<div class="footer">
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="8">
+      <button nz-button nzType="default" *ngIf="steps.nzCurrent > 0" (click)="current = current - 1">
+        <span>{{ 'global.anterior' | translate }}</span>
+      </button>
+      <button nz-button nzType="default" *ngIf="steps.nzCurrent < 1" (click)="current = current + 1">
+        <span>{{ 'global.siguiente' | translate }}</span>
+      </button>
+    </div>
+
+    <div nz-col nzSpan="4">
+      <div nz-row nzType="flex" nzJustify="end">
+        <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+          <span>{{ 'global.guardar' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #cuotas_amount_outlet>
+  <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+    <nz-form-item>
+      <nz-form-label>{{ 'lambe.gastos.cuotas' | translate }}
+      </nz-form-label>
+      <nz-form-control>
+        <nz-input-number [nzDisabled]="form.get('monto').errors || !form.get('monto').value" [(ngModel)]="cuotasAmount"
+          (ngModelChange)="initCuotas($event)" [nzMin]="1" [nzMax]="24" [nzStep]="1">
+        </nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</ng-template>
+
+
+
+<ng-template #cuotas_outlet>
+
+  <div nz-row nzType="flex" nzJustify="space-between" *ngFor="let cuota of cuotas; let i = index">
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.monto_total' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-input-group nzAddOnBefore="$">
+            <input [(ngModel)]="cuota.monto" nz-input id="monto" (change)="modifyCuotas(i)">
+          </nz-input-group>
+          <nz-form-explain *ngIf="form.get('monto').dirty && form.get('monto').errors">
+            <ng-container *ngIf="form.get('monto').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+            <ng-container *ngIf="form.get('monto').hasError('pattern')">
+              {{ 'global.patron' | translate }} : ########,##
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'lambe.gastos.primer_vencimiento' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-date-picker [(ngModel)]="cuota.fecha" nzFormat="dd/MM/yyyy"></nz-date-picker>
+          <nz-form-explain *ngIf="form.get('primer_vencimiento').dirty && form.get('primer_vencimiento').errors">
+            <ng-container *ngIf="form.get('primer_vencimiento').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+</ng-template>

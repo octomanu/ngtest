@@ -28,6 +28,10 @@ import { ChequerasTableComponent } from './chequeras/chequeras-table/chequeras-t
 import { ChequerasFormComponent } from './chequeras/chequeras-form/chequeras-form.component';
 import { ChequerasTableFilterComponent } from './chequeras/chequeras-table-filter/chequeras-table-filter.component';
 import { ConfigFormComponent } from './cheques/cheques-form/config-form/config-form.component';
+import { GastosComponent } from './gastos/gastos.component';
+import { GastosTableComponent } from './gastos/gastos-table/gastos-table.component';
+import { GastosTableFilterComponent } from './gastos/gastos-table-filter/gastos-table-filter.component';
+import { GastosFormComponent } from './gastos/gastos-form/gastos-form.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -42,6 +46,8 @@ const COMPONENTS = [
   ConsorciosComponent,
   ChequesComponent,
   ChequerasComponent,
+  GastosComponent,
+  
 ];
 const COMPONENTS_NOROUNT = [
   ProveedorFormComponent,
@@ -57,6 +63,9 @@ const COMPONENTS_NOROUNT = [
   ChequerasTableComponent,
   ChequerasFormComponent,
   ChequerasTableFilterComponent,
+  GastosTableComponent,
+  GastosFormComponent,
+  GastosTableFilterComponent
 ];
 
 @NgModule({

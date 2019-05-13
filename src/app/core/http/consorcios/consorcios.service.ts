@@ -40,6 +40,16 @@ export class ConsorciosService implements TableLambeServiceInterface {
     );
   }
 
+  searchByDisplay(display: string) {
+    const URL = `${this.url}/buscar`;
+    let params = new HttpParams();
+    params = params.append('display', display);
+    return this.http.get(URL, { params }).pipe(
+      map((resp: any) => resp.data),
+      catchError(err => throwError(err)),
+    );
+  }
+
   delete(id: number) {
     const URL = `${this.url}/${id}`;
 

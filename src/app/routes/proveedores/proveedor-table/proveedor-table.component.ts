@@ -94,7 +94,7 @@ export class ProveedorTableComponent extends TableLambe
   }
 
   eliminar(id: number) {
-    this.proveedoresService.eliminarProveedor(id).subscribe(data => {
+    this.proveedoresService.delete(id).subscribe(data => {
       this.msg.success(`Eliminado!!`);
       this.searchData();
     });

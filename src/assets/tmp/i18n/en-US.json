@@ -4,6 +4,11 @@
   "INACTIVO": "Inactivo",
   "BORRADO": "Borrado",
   "menu.search.placeholder": "Search for people, file, photos...",
+  "global.prevision": "Forecast",
+  "global.rubro": "Item",
+  "global.prorrateable": "Prorateable",
+  "global.periodicidad": "Periodicity",
+  "global.fecha": "Date",
   "global.true": "Yes",
   "global.false": "No",
   "global.siguiente": "Next",
@@ -27,6 +32,7 @@
   "global.codigo_postal": "Postal Code",
   "global.cargando": "Loading",
   "login.login": "Login",
+  "global.servicio": "Service",
   "login.signup": "Sign in",
   "login.tab-login-credentials": "Enter",
   "login.remember_me": "Remember me",
@@ -45,6 +51,7 @@
   "lambe.proveedores.situacion_fiscal": "Fiscal Situation",
   "lambe.proveedores.proveedor": "Supplier",
   "lambe.consorcios.titulo": "Consortiums",
+  "lambe.consorcios.consorcio": "Consortium",
   "lambe.consorcios.cantidad_ufs": "Amount of Ufs",
   "lambe.consorcios.codigo_siro": "Siro code",
   "lambe.consorcios.codigo_suterh": "Suterh code",
@@ -63,5 +70,8 @@
   "lambe.cheques.a_la_orden": "At order",
   "lambe.cheques": "Checks",
   "lambe.chequera": "Checkbook",
-  "lambe.chequera_nro": "Checkbook number"
+  "lambe.chequera_nro": "Checkbook number",
+  "global.monto":"Amount",
+  "lambe.gasto": "Spending",
+  "lambe.gastos.fecha": "Spending date"
 }

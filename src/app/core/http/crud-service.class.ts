@@ -72,7 +72,7 @@ export abstract class CrudService implements ServicePathGetter {
   }
 
   find(id: number) {
-    const URL = `${this.url}/${id}`;
+    const URL = `${this.url}/mostrar/${id}`;
 
     return this.http.get(URL).pipe(
       map(resp => resp),
