@@ -29,7 +29,7 @@
               <nz-form-control>
                 <nz-select zPlaceHolder=" lambe.proveedores.proveedor | translate " [(ngModel)]="masterFilter.proveedor"
                   id="id_proveedor" nzAllowClear nzShowSearch [nzServerSearch]="true" name="id_proveedor"
-                  (nzOnSearch)="searchProveedores($event)" (ngModelChange)="changeMasterFilter('id_proveedor', $event)">
+                  (nzOnSearch)="searchProveedores($event)" (ngModelChange)="changeMasterFilter('spendings-provider_id', $event)">
                   <ng-container *ngFor="let proveedor of proveedores">
                     <nz-option *ngIf="!isLoading" [nzValue]="proveedor.id" [nzLabel]="proveedor.display"></nz-option>
                   </ng-container>
@@ -49,7 +49,7 @@
               <nz-form-control>
                 <nz-select zPlaceHolder=" lambe.gastos.consorcio | translate " [(ngModel)]="masterFilter.consorcio"
                   id="id_consorcio" nzAllowClear nzShowSearch [nzServerSearch]="true" name="id_consorcio"
-                  (nzOnSearch)="searchConsorcios($event)" (ngModelChange)="changeMasterFilter('id_consorcio', $event)">
+                  (nzOnSearch)="searchConsorcios($event)" (ngModelChange)="changeMasterFilter('consortia-id', $event)">
                   <ng-container *ngFor="let consorcio of consorcios">
                     <nz-option *ngIf="!isLoading" [nzValue]="consorcio.id" [nzLabel]="consorcio.display"></nz-option>
                   </ng-container>
@@ -64,14 +64,14 @@
 
           <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
             <nz-form-item>
-              <nz-form-label nzFor="monto">{{ 'lambe.gasto' | translate }}
+              <nz-form-label nzFor="monto">{{ 'global.servicio' | translate }}
               </nz-form-label>
               <nz-form-control>
                 <nz-select zPlaceHolder=" lambe.proveedores.proveedor | translate " [(ngModel)]="masterFilter.gasto"
                   id="gasto" nzAllowClear nzShowSearch [nzServerSearch]="true" name="gasto"
-                  (nzOnSearch)="searchProveedores($event)" (ngModelChange)="changeMasterFilter('gasto', $event)">
-                  <ng-container *ngFor="let proveedor of proveedores">
-                    <nz-option *ngIf="!isLoading" [nzValue]="proveedor.id" [nzLabel]="proveedor.display"></nz-option>
+                  (nzOnSearch)="searchServicios($event)" (ngModelChange)="changeMasterFilter('services-id', $event)">
+                  <ng-container *ngFor="let servicio of servicios">
+                    <nz-option *ngIf="!isLoading" [nzValue]="servicio.id" [nzLabel]="servicio.display"></nz-option>
                   </ng-container>
                   <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
                     <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
@@ -129,18 +129,18 @@
     <thead (nzSortChange)="sort($event)" nzSingleSort>
 
       <tr (contextmenu)="contextMenu($event, menuTable)">
-        <th nzCustomFilter nzShowSort nzSortKey="estado" *ngIf="table.id_proveedor.show">
+        <th nzCustomFilter nzShowSort nzSortKey="estado" *ngIf="table['spendings-provider_id'].show">
           <span>{{ 'lambe.proveedores.proveedor' | translate }}</span>
           <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
         </th>
 
-        <th nzCustomFilter nzShowSort nzSortKey="calle" *ngIf="table.id_consorcio.show">
+        <th nzCustomFilter nzShowSort nzSortKey="calle" *ngIf="table['consortia-id'].show">
           <span>{{ 'lambe.consorcios.consorcio' | translate }}</span>
           <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
         </th>
 
-        <th nzCustomFilter nzShowSort nzSortKey="calle" *ngIf="table.gasto.show">
-          <span>{{ 'lambe.gasto' | translate }}</span>
+        <th nzCustomFilter nzShowSort nzSortKey="calle" *ngIf="table['services-id'].show">
+          <span>{{ 'global.servicio' | translate }}</span>
           <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
         </th>
 
@@ -181,27 +181,27 @@
           <ng-template #menuRowContainer>
             <ng-container *ngTemplateOutlet="menuRow; context: { id: data['gastos-id'] }"></ng-container>
           </ng-template>
-          <td *ngIf="table.id_proveedor.show">
+          <td *ngIf="table['spendings-provider_id'].show">
             <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
-            {{ data['proveedores-razon_social'] }}
+            {{ data['providers-name'] }}
           </td>
-          <td *ngIf="table.id_consorcio.show">
+          <td *ngIf="table['consortia-id'].show">
             <strong class="onlysmall">{{ 'lambe.consorcios.consorcio' | translate }}:&nbsp;</strong>
-            {{data['consorcios-razon_social']}}
+            {{data['consortia-fancy_name']}}
           </td>
 
-          <td *ngIf="table.gasto.show">
+          <td *ngIf="table['services-id'].show">
             <strong class="onlysmall">{{ 'lambe.cheques_nro' | translate }}:&nbsp;</strong>
-            {{ data['concepto_gastos-descripcion'] }}
+            {{ data['services-name'] }}
           </td>
           <td>
             <strong class="onlysmall">{{ 'lambe.chequera_nro' | translate }}:&nbsp;</strong>
-            $ {{ data['gastos-monto'] }}
+            $ {{ data['spendings-amount'] }}
           </td>
           <td>
             <strong class="onlysmall">
               {{ 'lambe.cheques.monto' | translate }}:&nbsp;</strong>
-            {{ data['gastos-fecha'] }}
+            {{ data['spendings-date'] }}
           </td>
 
           <td *ngIf="extraData">Rubro</td>

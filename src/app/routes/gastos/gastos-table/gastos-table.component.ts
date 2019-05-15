@@ -13,6 +13,7 @@ import { GastosTableFilterComponent } from '../gastos-table-filter/gastos-table-
 import { Subject, Subscription } from 'rxjs';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
+import { ServiciosService } from '@core/http/servicios/servicios.service';
 @Component({
   selector: 'app-gastos-table',
   templateUrl: './gastos-table.component.html',
@@ -21,8 +22,9 @@ import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 export class GastosTableComponent extends TableLambe
   implements OnInit, OnDestroy {
   filtroForm = {
-    id_proveedor: null,
-    id_consorcio: null,
+    'spendings-provider_id': null,
+    'consortia-id': null,
+    'services-id': null,
     numero: null,
     cuit: null,
     estado: null,
@@ -30,9 +32,9 @@ export class GastosTableComponent extends TableLambe
 
   extraData = false;
   protected table = {
-    gasto: { show: true },
-    id_proveedor: { show: true },
-    id_consorcio: { show: true },
+    'services-id': { show: true },
+    'spendings-provider_id': { show: true },
+    'consortia-id': { show: true },
   };
   protected timeout = null;
   protected isLoading = false;
@@ -40,6 +42,7 @@ export class GastosTableComponent extends TableLambe
   protected gastosService: GastosService;
   protected proveedores: { id: number; display: string }[];
   protected consorcios: { id: number; display: string }[];
+  protected servicios: { id: number; display: string }[];
   protected masterFilter = { proveedor: '', consorcio: '', gasto: '' };
   constructor(
     private msg: NzMessageService,
@@ -50,12 +53,17 @@ export class GastosTableComponent extends TableLambe
     breakpointObserver: BreakpointObserver,
     protected proveedorService: ProveedoresService,
     protected consorciosService: ConsorciosService,
+    protected serviciosService: ServiciosService,
   ) {
     super(gastosService, nzDropdownService, breakpointObserver);
     this.gastosService = gastosService;
     this.tags = {
-      id_proveedor: { title: 'lambe.proveedores.proveedor', used: false },
-      id_consorcio: { title: 'lambe.consorcios.consorcio', used: false },
+      'spendings-provider_id': {
+        title: 'lambe.proveedores.proveedor',
+        used: false,
+      },
+      'consortia-id': { title: 'lambe.consorcios.consorcio', used: false },
+      'services-id': { title: 'global.servicio', used: false },
       numero: { title: 'global.direccion', used: false },
       cuit: { title: 'global.cuit', used: false },
       estado: { title: 'global.estado', used: false },
@@ -66,6 +74,7 @@ export class GastosTableComponent extends TableLambe
     this.searchData();
     this.searchConsorciosList('');
     this.searchProveedorList('');
+    this.searchServiciosList('');
     this.subscribeBreakPoint();
   }
 
@@ -164,8 +173,19 @@ export class GastosTableComponent extends TableLambe
     }, 400);
   }
 
-  changeExtra(event: any){
-  console.log(event);
+  searchServicios(display: string) {
+    if (this.timeout) {
+      window.clearTimeout(this.timeout);
+    }
+    this.timeout = window.setTimeout(() => {
+      this.timeout = null;
+      this.isLoading = true;
+      this.searchServiciosList(display);
+    }, 400);
+  }
+
+  changeExtra(event: any) {
+    console.log(event);
   }
 
   protected searchProveedorList(display: string) {
@@ -183,6 +203,15 @@ export class GastosTableComponent extends TableLambe
       .subscribe((data: { id: number; display: string }[]) => {
         this.isLoading = false;
         this.consorcios = data;
+      });
+  }
+
+  protected searchServiciosList(display: string) {
+    this.serviciosService
+      .searchByDisplay(display)
+      .subscribe((data: { id: number; display: string }[]) => {
+        this.isLoading = false;
+        this.servicios = data;
       });
   }
 }
