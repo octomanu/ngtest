@@ -15,6 +15,7 @@ import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import * as moment from 'moment';
 import { KeyEventsPlugin } from '@angular/platform-browser/src/dom/events/key_events';
 import { Subject } from 'rxjs';
+import { ServiciosService } from '@core/http/servicios/servicios.service';
 @Component({
   selector: 'app-gastos-form',
   templateUrl: './gastos-form.component.html',
@@ -31,9 +32,9 @@ export class GastosFormComponent implements OnInit {
   protected isLoading = true;
   protected proveedores: { id: number; display: string }[];
   protected consorcios: { id: number; display: string }[];
+  protected services: { id: number; display: string }[];
   protected timeout = null;
   protected keep = { proveedor: false, consorcio: false, gasto: false };
- 
 
   constructor(
     protected fb: GastosForm,
@@ -46,18 +47,22 @@ export class GastosFormComponent implements OnInit {
     protected chequerasService: ProveedoresService,
     protected drawerService: NzDrawerService,
     protected fbBulder: FormBuilder,
+    protected serviciosService: ServiciosService
   ) {}
 
   initCuotas(event: any) {
     if (!this.cuotasAmount) {
       this.cuotasAmount = 1;
     }
-    this.form.setControl('cuotas', this.fb.initCuotasChild(this.cuotasAmount));
-    const cuotas = this.form.get('cuotas') as FormArray;
+    this.form.setControl(
+      'installments',
+      this.fb.initCuotasChild(this.cuotasAmount),
+    );
+    const cuotas = this.form.get('installments') as FormArray;
 
-    const gastoAmount = this.form.get('monto').value;
+    const gastoAmount = this.form.get('amount').value;
     let total = null;
-    const fecha = this.form.get('fecha').value;
+    const fecha = this.form.get('date').value;
     let remainder = 0;
     this.cuotas = [];
 
@@ -76,8 +81,8 @@ export class GastosFormComponent implements OnInit {
         fechaValue.add(1, 'M');
       }
       cuotas.controls[index].setValue({
-        monto: i === '0' ? (total + remainder).toFixed(2) : total.toFixed(2),
-        fecha: fechaValue.toDate(),
+        amount: i === '0' ? (total + remainder).toFixed(2) : total.toFixed(2),
+        pay_date: fechaValue.toDate(),
       });
     }
 
@@ -94,7 +99,7 @@ export class GastosFormComponent implements OnInit {
   }
 
   modifyCuotas(index: number) {
-    const gastoAmount = this.form.get('monto').value;
+    const gastoAmount = this.form.get('amount').value;
     const totalCuotas = this.cuotas.length;
     let previousAmount = 0;
     const leftCuotas = totalCuotas - (index + 1);
@@ -114,11 +119,9 @@ export class GastosFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.id) {
-      this.searchProveedorList('');
-      this.searchConsorciosList('');
-    }
-
+    this.searchProveedorList('');
+    this.searchConsorciosList('');
+    this.searchServicios('');
     this.open();
   }
 
@@ -131,7 +134,6 @@ export class GastosFormComponent implements OnInit {
     this.formVisible.emit(true);
     if (this.id) {
       this.gastosService.find(this.id).subscribe((data: any) => {
-        console.log(data);
         this.form.setValue(data.data);
       });
     }
@@ -149,18 +151,18 @@ export class GastosFormComponent implements OnInit {
       this.gastosService.create(proveedor).subscribe(data => {
         // this.drawerRef.close({ submit: true });
 
-        const proveedorValue: string = this.form.get('id_proveedor').value;
-        const consorcioValue: string = this.form.get('id_consorcio').value;
-        const gastoValue: string = this.form.get('descripcion').value;
+        const proveedorValue: string = this.form.get('provider_id').value;
+        const consorcioValue: string = this.form.get('administrable_id').value;
+        const gastoValue: string = this.form.get('description').value;
         this.initForm();
         if (this.keep.proveedor) {
-          this.form.get('id_proveedor').setValue(proveedorValue);
+          this.form.get('provider_id').setValue(proveedorValue);
         }
         if (this.keep.consorcio) {
-          this.form.get('id_consorcio').setValue(consorcioValue);
+          this.form.get('administrable_id').setValue(consorcioValue);
         }
         if (this.keep.gasto) {
-          this.form.get('descripcion').setValue(gastoValue);
+          this.form.get('description').setValue(gastoValue);
         }
         this.valueChange.next({ submit: true });
         this.msg.success(`Creado!`);
@@ -170,9 +172,9 @@ export class GastosFormComponent implements OnInit {
   }
 
   searchDataForm(timeout = false) {
-    const id_proveedor: string = this.form.get('id_proveedor').value;
-    const id_consorcio: string = this.form.get('id_consorcio').value;
-    const gasto: string = this.form.get('descripcion').value;
+    const id_proveedor: string = this.form.get('provider_id').value;
+    const id_consorcio: string = this.form.get('administrable_id').value;
+    const gasto: string = this.form.get('description').value;
     if (id_proveedor == null || id_consorcio == null || gasto == null) {
       return;
     }
@@ -182,38 +184,37 @@ export class GastosFormComponent implements OnInit {
     }
 
     if (timeout) {
-      this.timeout = window.setTimeout(() => {
-        this.timeout = null;
-        this.gastosService
-          .findPrevious({ id_proveedor, id_consorcio, gasto })
-          .subscribe(data => {
-            if (!data) {
-              return;
-            }
-            this.form.get('id_rubro').setValue(data.id_rubro);
-            this.form.get('monto').setValue(data.monto);
-            this.form.get('periodicidad').setValue(data.periodicidad);
-            this.form.get('prevision').setValue(data.prevision);
-            this.form.get('prorrateable').setValue(data.prorrateable);
-            this.form.get('fecha').setValue(data.fecha);
-            console.log('timeout', data);
-          });
-      }, 400);
+      // this.timeout = window.setTimeout(() => {
+      //   this.timeout = null;
+      //   this.gastosService
+      //     .findPrevious({ id_proveedor, id_consorcio, gasto })
+      //     .subscribe(data => {
+      //       if (!data) {
+      //         return;
+      //       }
+      //       this.form.get('id_rubro').setValue(data.id_rubro);
+      //       this.form.get('monto').setValue(data.monto);
+      //       this.form.get('periodicidad').setValue(data.periodicidad);
+      //       this.form.get('prevision').setValue(data.prevision);
+      //       this.form.get('prorrateable').setValue(data.prorrateable);
+      //       this.form.get('fecha').setValue(data.fecha);
+      //       console.log('timeout', data);
+      //     });
+      // }, 400);
     } else {
-      this.gastosService
-        .findPrevious({ id_proveedor, id_consorcio, gasto })
-        .subscribe(data => {
-          if (!data) {
-            return;
-          }
-          this.form.get('id_rubro').setValue(data.id_rubro);
-          this.form.get('monto').setValue(data.monto);
-          this.form.get('periodicidad').setValue(data.periodicidad);
-          this.form.get('prevision').setValue(data.prevision);
-          this.form.get('prorrateable').setValue(data.prorrateable);
-          this.form.get('fecha').setValue(data.fecha);
-          console.log('NO Timeout', data);
-        });
+      // this.gastosService
+      //   .findPrevious({ id_proveedor, id_consorcio, gasto })
+      //   .subscribe(data => {
+      //     if (!data) {
+      //       return;
+      //     }
+      //     this.form.get('id_rubro').setValue(data.id_rubro);
+      //     this.form.get('monto').setValue(data.monto);
+      //     this.form.get('periodicidad').setValue(data.periodicidad);
+      //     this.form.get('prevision').setValue(data.prevision);
+      //     this.form.get('prorrateable').setValue(data.prorrateable);
+      //     this.form.get('fecha').setValue(data.fecha);
+      //   });
     }
   }
 
@@ -239,6 +240,26 @@ export class GastosFormComponent implements OnInit {
     }, 400);
   }
 
+  searchServicios(display: string) {
+    if (this.timeout) {
+      window.clearTimeout(this.timeout);
+    }
+    this.timeout = window.setTimeout(() => {
+      this.timeout = null;
+      this.isLoading = true;
+      this.searchServiciosList(display);
+    }, 400);
+  }
+
+  protected searchServiciosList(display: string) {
+    this.serviciosService
+      .searchByDisplay(display)
+      .subscribe((data: { id: number; display: string }[]) => {
+        this.isLoading = false;
+        this.services = data;
+      });
+  }
+
   protected searchProveedorList(display: string) {
     this.proveedorService
       .searchProveedor(display)
@@ -257,6 +278,8 @@ export class GastosFormComponent implements OnInit {
         this.consorcios = data;
       });
   }
+
+  
 
   protected searchPreviousGasto() {
     // this.gastosService.findPrevious();

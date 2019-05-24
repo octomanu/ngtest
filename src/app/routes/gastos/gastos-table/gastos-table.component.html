@@ -179,7 +179,7 @@
       <ng-template ngFor let-data [ngForOf]="tableLambe.data">
         <tr (contextmenu)="contextMenu($event, menuRowContainer)">
           <ng-template #menuRowContainer>
-            <ng-container *ngTemplateOutlet="menuRow; context: { id: data['gastos-id'] }"></ng-container>
+            <ng-container *ngTemplateOutlet="menuRow; context: { id: data['spendings-id'] }"></ng-container>
           </ng-template>
           <td *ngIf="table['spendings-provider_id'].show">
             <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
