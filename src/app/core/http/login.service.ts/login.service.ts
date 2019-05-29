@@ -24,7 +24,7 @@ export class LoginService {
   }
 
   public renovarToken() {
-    const URL = `http://192.168.3.222/auth/renovar`;
+    const URL = `${environment.OCTO_API}/auth/renovar`;
 
     return this.http.get(URL).pipe(
       map((resp: any) => {

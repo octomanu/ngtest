@@ -1,0 +1,16 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" nzLayout="vertical">
+
+  <nz-form-item>
+    <nz-form-label nzFor="consorcio">{{ 'lambe.consorcios.' | translate }}</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="consorcio" id="consorcio">
+    </nz-form-control>
+  </nz-form-item>
+
+</form>
+
+<div class="footer">
+  <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+    <span>{{ 'global.buscar' | translate }}</span>
+  </button>
+</div>

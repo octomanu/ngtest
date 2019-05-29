@@ -33,6 +33,12 @@ import { GastosTableComponent } from './gastos/gastos-table/gastos-table.compone
 import { GastosTableFilterComponent } from './gastos/gastos-table-filter/gastos-table-filter.component';
 import { GastosFormComponent } from './gastos/gastos-form/gastos-form.component';
 
+//Periodos Routes
+import { PeriodosComponent } from './periodos/periodos.component';
+import { PeriodosTableComponent } from './periodos/periodos-table/periodos-table.component';
+import { PeriodosTableFilterComponent } from './periodos/periodos-table-filter/periodos-table-filter.component';
+import { PeriodosFormComponent } from './periodos/periodos-form/periodos-form.component';
+
 const COMPONENTS = [
   DashboardComponent,
   // passport pages
@@ -70,7 +76,7 @@ const COMPONENTS_NOROUNT = [
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, PeriodosComponent, PeriodosTableComponent, PeriodosTableFilterComponent, PeriodosFormComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule {}

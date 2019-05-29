@@ -3,5 +3,5 @@ export const environment = {
   production: true,
   useHash: true,
   hmr: false,
-  OCTO_API: 'http://192.168.3.222',
+  OCTO_API: 'http://localhost',
 };
