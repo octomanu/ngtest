@@ -31,8 +31,9 @@
   "global.codigo": "Codigo",
   "global.codigo_postal": "Codigo postal",
   "global.cargando": "Cargando",
-  "global.servicio": "Servicio",
+  "global.cuotas": "Cuotas",
   "login.login": "Entrar",
+  "global.servicio": "Servicio",
   "login.signup": "Registrarse",
   "login.tab-login-credentials": "Ingresar",
   "login.remember_me": "Recordarme",
@@ -71,7 +72,9 @@
   "lambe.cheques": "Cheques",
   "lambe.chequera": "Chequera",
   "lambe.chequera_nro": "Nro chequera",
-  "global.monto":"Monto",
+  "global.monto": "Monto",
   "lambe.gasto": "Gasto",
-  "lambe.gastos.fecha": "Fecha del gasto"
+  "lambe.gastos.fecha": "Fecha del gasto",
+  "lambe.gastos.prevision": "Previsión",
+  "lambe.gastos.prorrateable": "Prorrateable"
 }

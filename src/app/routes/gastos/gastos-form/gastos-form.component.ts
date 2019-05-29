@@ -33,8 +33,7 @@ export class GastosFormComponent implements OnInit {
   protected consorcios: { id: number; display: string }[];
   protected timeout = null;
   protected keep = { proveedor: false, consorcio: false, gasto: false };
- 
-
+  protected initialized = false;
   constructor(
     protected fb: GastosForm,
     protected msg: NzMessageService,
@@ -46,9 +45,17 @@ export class GastosFormComponent implements OnInit {
     protected chequerasService: ProveedoresService,
     protected drawerService: NzDrawerService,
     protected fbBulder: FormBuilder,
-  ) {}
+  ) {
+    this.drawerRef.afterOpen.subscribe(data => {
+      this.initialized = true;
+    });
+  }
 
   initCuotas(event: any) {
+    if (!this.initialized && this.id) {
+      return;
+    }
+
     if (!this.cuotasAmount) {
       this.cuotasAmount = 1;
     }
@@ -67,7 +74,7 @@ export class GastosFormComponent implements OnInit {
       remainder = gastoAmount - total * this.cuotasAmount;
       remainder = +remainder.toFixed(2);
     }
-    const fechaValue = fecha ? moment(fecha, 'DD/MM/YYYY') : moment();
+    const fechaValue = fecha ? moment(fecha, 'DD-MM-YYYY') : moment();
 
     // tslint:disable-next-line: forin
     for (const i in cuotas.controls) {
@@ -77,7 +84,8 @@ export class GastosFormComponent implements OnInit {
       }
       cuotas.controls[index].setValue({
         monto: i === '0' ? (total + remainder).toFixed(2) : total.toFixed(2),
-        fecha: fechaValue.toDate(),
+        fecha_pago: fechaValue.toDate(),
+        id: null,
       });
     }
 
@@ -94,6 +102,9 @@ export class GastosFormComponent implements OnInit {
   }
 
   modifyCuotas(index: number) {
+    if (!this.initialized && this.id) {
+      return;
+    }
     const gastoAmount = this.form.get('monto').value;
     const totalCuotas = this.cuotas.length;
     let previousAmount = 0;
@@ -127,13 +138,43 @@ export class GastosFormComponent implements OnInit {
   }
   open() {
     this.initForm();
-    this.initCuotas(1);
     this.formVisible.emit(true);
     if (this.id) {
       this.gastosService.find(this.id).subscribe((data: any) => {
-        console.log(data);
+        this.searchProveedorList(data.data['proveedor-razon_social']);
+        this.searchConsorciosList(data.data['consorcio-display']);
+        delete data.data['proveedor-razon_social'];
+        delete data.data['consorcio-display'];
+        console.log(data.data.cuotas);
         this.form.setValue(data.data);
+        this.form.setControl(
+          'cuotas',
+          this.fb.initCuotasChild(data.data.cuotas.length),
+        );
+
+        const cuotas = this.form.get('cuotas') as FormArray;
+
+        // tslint:disable-next-line: forin
+        for (const i in cuotas.controls) {
+          const index = parseInt(i, 10);
+          cuotas.controls[index].setValue({
+            monto: data.data.cuotas[index].monto,
+            fecha_pago: data.data.cuotas[index].fecha_pago,
+            id: data.data.cuotas[index].id,
+          });
+        }
+
+        // for (const key in data.data.cuotas) {
+        //   if (data.data.cuotas.hasOwnProperty(key)) {
+        //     data.data.cuotas[key].fecha_pago =  moment(data.data.cuotas[key].fecha_pago, 'DD/MM/YYYY').toDate();
+        //   }
+        // }
+        console.log('form data', data.data);
+
+        console.log('form data', this.form.value);
       });
+    } else {
+      this.initCuotas(1);
     }
   }
 

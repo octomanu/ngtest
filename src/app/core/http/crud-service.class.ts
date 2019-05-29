@@ -53,19 +53,19 @@ export abstract class CrudService implements ServicePathGetter {
     );
   }
 
-  create(proveedor: Proveedor) {
+  create(data) {
     const URL = `${this.url}`;
 
-    return this.http.post(URL, proveedor).pipe(
+    return this.http.post(URL, data).pipe(
       map(resp => resp),
       catchError(err => throwError(err)),
     );
   }
 
-  update(id: number, proveedor: Proveedor) {
+  update(id: number, data) {
     const URL = `${this.url}/${id}`;
 
-    return this.http.put(URL, proveedor).pipe(
+    return this.http.put(URL, data).pipe(
       map(resp => resp),
       catchError(err => throwError(err)),
     );

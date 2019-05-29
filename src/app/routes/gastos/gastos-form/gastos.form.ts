@@ -11,15 +11,16 @@ export class GastosForm {
       id: [null, []],
       id_proveedor: [null, []],
       id_consorcio: [null, []],
+      id_concepto_gastos: [null, []],
       id_rubro: [null, []],
       descripcion: [null, [Validators.required]],
       monto: [
         null,
-        [Validators.required, Validators.pattern('[0-9]{1,8}(?:.[0-9]{1,2})?')],
+        [Validators.required, Validators.pattern('-?[0-9]{1,8}(?:.[0-9]{1,2})?')],
       ],
       fecha: [null, [Validators.required]],
       prevision: [false, [Validators.required]],
-      prorrateable: [null, []],
+      prorrateable: [false, []],
       periodicidad: [null, []],
 
       cuotas: this.initCuotasChild(),
@@ -35,10 +36,11 @@ export class GastosForm {
             null,
             [
               Validators.required,
-              Validators.pattern('[0-9]{1,8}(?:.[0-9]{1,2})?'),
+              Validators.pattern('-?[0-9]{1,8}(?:.[0-9]{1,2})?'),
             ],
           ],
-          fecha: [null, [Validators.required]],
+          fecha_pago: [null, [Validators.required]],
+          id: [null]
         }),
       );
     }

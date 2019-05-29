@@ -13,6 +13,9 @@ import { GastosTableFilterComponent } from '../gastos-table-filter/gastos-table-
 import { Subject, Subscription } from 'rxjs';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
+import { GastosForm } from './gastos.form';
+import { FormGroup } from '@angular/forms';
+import * as moment from 'moment';
 @Component({
   selector: 'app-gastos-table',
   templateUrl: './gastos-table.component.html',
@@ -28,12 +31,15 @@ export class GastosTableComponent extends TableLambe
     estado: null,
   };
 
+  protected rowForm = [];
+
   extraData = false;
   protected table = {
     gasto: { show: true },
     id_proveedor: { show: true },
     id_consorcio: { show: true },
   };
+  protected form: FormGroup;
   protected timeout = null;
   protected isLoading = false;
   protected submitForm = new Subject<{ submit: boolean }>();
@@ -50,6 +56,7 @@ export class GastosTableComponent extends TableLambe
     breakpointObserver: BreakpointObserver,
     protected proveedorService: ProveedoresService,
     protected consorciosService: ConsorciosService,
+    protected fb: GastosForm,
   ) {
     super(gastosService, nzDropdownService, breakpointObserver);
     this.gastosService = gastosService;
@@ -63,6 +70,7 @@ export class GastosTableComponent extends TableLambe
   }
 
   ngOnInit(): void {
+    this.form = this.fb.getForm();
     this.searchData();
     this.searchConsorciosList('');
     this.searchProveedorList('');
@@ -164,8 +172,64 @@ export class GastosTableComponent extends TableLambe
     }, 400);
   }
 
-  changeExtra(event: any){
-  console.log(event);
+  changeExtra(event: any) {
+    console.log(event);
+  }
+
+  showForm(i: number, event) {
+    // click al imput asi que no hago nada.
+    if (typeof event.path[0].attributes.formcontrolname === 'object') {
+      return;
+    }
+
+    if (this.rowForm[i].visible) {
+      if (this.rowForm[i].form.valid && this.rowForm[i].form.touched) {
+        const gastoId = this.rowForm[i].form.get('id').value;
+        const gastoData = this.rowForm[i].form.value;
+        this.gastosService.update(gastoId, gastoData).subscribe((resp: any) => {
+          this.tableLambe.data[i]['gastos-monto'] = resp.data.monto;
+          this.tableLambe.data[i]['gastos-fecha'] = moment(resp.data.fecha).format('DD-MM-YYYY');
+        });
+      }
+      this.rowForm[i].visible = false;
+
+      console.log('Click al que etsaba editando submit');
+      return;
+    } else {
+      // le dio click a uno que esta oculto. Tengo que ver si estaba editando alguno otro y guardarlo
+      // tslint:disable-next-line: forin
+      for (const key in this.rowForm) {
+        if (
+          this.rowForm[key].form.valid &&
+          this.rowForm[key].form.touched &&
+          this.rowForm[key].visible
+        ) {
+          const gastoId = this.rowForm[key].form.get('id').value;
+          const gastoData = this.rowForm[key].form.value;
+          this.gastosService
+            .update(gastoId, gastoData)
+            .subscribe((resp: any) => {
+              this.tableLambe.data[key]['gastos-monto'] = resp.data.monto;
+              this.tableLambe.data[key]['gastos-fecha'] = moment(resp.data.fecha).format('DD-MM-YYYY');
+              this.rowForm[key].visible = false;
+            });
+        } else {
+          this.rowForm[key].visible = false;
+        }
+      }
+
+      //inicializo el que le dio click
+      this.rowForm[i].form = this.fb.getForm();
+      const fechaValue = moment(this.tableLambe.data[i]['gastos-fecha'], 'DD-MM-YYYY').toDate();
+      console.log("la fecha de moent", fechaValue);
+      this.rowForm[i].form.setValue({
+        id: this.tableLambe.data[i]['gastos-id'],
+        monto: this.tableLambe.data[i]['gastos-monto'],
+        fecha: fechaValue
+      });
+     
+      this.rowForm[i].visible = true;
+    }
   }
 
   protected searchProveedorList(display: string) {
@@ -183,6 +247,44 @@ export class GastosTableComponent extends TableLambe
       .subscribe((data: { id: number; display: string }[]) => {
         this.isLoading = false;
         this.consorcios = data;
+      });
+  }
+
+  // OVERRIDE
+  /**
+   * Busca los datos al inico y despues de aplicar filtros y orden
+   */
+  searchData(reset: boolean = false): void {
+    if (reset) {
+      this.paginatorParams.page = 1;
+    }
+
+    this.tableLambe.loading = true;
+    this.dataService
+      .paginate(this.paginatorParams, this.filtroForm)
+      .subscribe((data: any) => {
+        this.tableLambe.total = data.recordsFiltered;
+        this.tableLambe.data = data.data;
+
+        for (const filtro in this.filtroForm) {
+          if (
+            this.filtroForm[filtro] !== null &&
+            this.filtroForm[filtro] !== ''
+          ) {
+            this.tags[filtro].used = true;
+          } else {
+            this.tags[filtro].used = false;
+          }
+        }
+
+        // tslint:disable-next-line: forin
+        for (const key in data.data) {
+          this.rowForm[key] = {
+            visible: false,
+            form: this.fb.getForm(),
+          };
+        }
+        this.tableLambe.loading = false;
       });
   }
 }

@@ -31,6 +31,7 @@
   "global.codigo": "Code",
   "global.codigo_postal": "Postal Code",
   "global.cargando": "Loading",
+  "global.cuotas": "Share",
   "login.login": "Login",
   "global.servicio": "Service",
   "login.signup": "Sign in",
@@ -73,5 +74,7 @@
   "lambe.chequera_nro": "Checkbook number",
   "global.monto":"Amount",
   "lambe.gasto": "Spending",
-  "lambe.gastos.fecha": "Spending date"
+  "lambe.gastos.fecha": "Spending date",
+  "lambe.gastos.prevision": "Forecast",
+  "lambe.gastos.prorrateable": "Prorrateable"
 }
