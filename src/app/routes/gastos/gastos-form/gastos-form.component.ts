@@ -15,6 +15,8 @@ import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import * as moment from 'moment';
 import { KeyEventsPlugin } from '@angular/platform-browser/src/dom/events/key_events';
 import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { ProcentualesFormComponent } from 'app/routes/consorcios-profile/profile/tab-porcentuales/procentuales-form/procentuales-form.component';
 @Component({
   selector: 'app-gastos-form',
   templateUrl: './gastos-form.component.html',
@@ -45,6 +47,7 @@ export class GastosFormComponent implements OnInit {
     protected chequerasService: ProveedoresService,
     protected drawerService: NzDrawerService,
     protected fbBulder: FormBuilder,
+    private translate: TranslateService,
   ) {
     this.drawerRef.afterOpen.subscribe(data => {
       this.initialized = true;
@@ -301,5 +304,19 @@ export class GastosFormComponent implements OnInit {
 
   protected searchPreviousGasto() {
     // this.gastosService.findPrevious();
+  }
+
+  openPorcentualesForm() {
+    this.translate.get('Porcentuales').subscribe((res: string) => {
+      this.drawerRef = this.drawerService.create<
+        ProcentualesFormComponent,
+        { id: number }
+      >({
+        nzTitle: res,
+        nzWidth: '50%',
+        nzContent: ProcentualesFormComponent,
+        nzContentParams: { id: this.form.get('id_consorcio').value },
+      });
+    });
   }
 }

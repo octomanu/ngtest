@@ -42,7 +42,7 @@
     <ng-template ngFor let-data [ngForOf]="tableLambe.data">
       <tr (contextmenu)="contextMenu($event, menuRowContainer)">
         <ng-template #menuRowContainer>
-          <ng-container *ngTemplateOutlet="menuRow; context: {id: data.id}"></ng-container>
+          <ng-container *ngTemplateOutlet="menuRow; context: {id: data['porcentajes_consorcios-id']}"></ng-container>
         </ng-template>
         <td>
           <strong class="onlysmall">{{ 'unidades_funcionales.piso' | translate }}:&nbsp;</strong>

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { TableLambeServiceInterface } from 'app/interfaces/local/table-lambe-service.interface';
-
 import { CrudService } from '../crud-service.class';
 import { environment } from '@env/environment';
 @Injectable({
@@ -21,7 +19,7 @@ export class ProveedoresService extends CrudService {
   }
 
   searchProveedor(display: string) {
-    const URL = `${this.url}/buscar`;
+    const URL = `${environment.OCTO_API}/${this.getPath()}/buscar`;
     let params = new HttpParams();
     params = params.append('display', display);
     return this.http.get(URL, { params }).pipe(

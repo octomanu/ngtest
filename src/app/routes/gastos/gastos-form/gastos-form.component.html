@@ -179,7 +179,7 @@
             </nz-form-label>
             <nz-form-control nzHasFeedback>
               <nz-date-picker formControlName="fecha_pago" nzFormat="dd-MM-yyyy"></nz-date-picker>
-              
+
               <nz-form-explain *ngIf="item.get('fecha_pago').dirty && item.get('fecha_pago').errors">
                 <ng-container *ngIf="item.get('fecha_pago').hasError('required')">
                   {{ 'global.campo_requerido' | translate }}
@@ -211,6 +211,10 @@
 
     <div nz-col nzSpan="4">
       <div nz-row nzType="flex" nzJustify="end">
+
+        <button nz-button [disabled]="!form.get('id_consorcio').value" (click)="openPorcentualesForm()" class="ant-btn ant-btn-primary">
+          <span>{{ 'openPorcentualesForm' | translate }}</span>
+        </button>
         <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
           <span>{{ 'global.guardar' | translate }}</span>
         </button>

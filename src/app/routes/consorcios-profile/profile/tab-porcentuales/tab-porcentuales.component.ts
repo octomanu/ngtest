@@ -17,7 +17,6 @@ import { ProcentualesFormComponent } from './procentuales-form/procentuales-form
 })
 export class TabPorcentualesComponent extends TableLambe
   implements OnInit, OnDestroy {
-
   @Input() idConsorcio: string;
 
   porcentajesConsorciosService: PorcentajesConsorciosService;
@@ -82,5 +81,12 @@ export class TabPorcentualesComponent extends TableLambe
 
   ngOnDestroy() {
     this.unsubscribeBreakPoint();
+  }
+
+  eliminar(id: number) {
+    this.porcentajesConsorciosService.delete(id).subscribe(data => {
+      this.msg.success(`Eliminado!!`);
+      this.searchData();
+    });
   }
 }
