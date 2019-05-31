@@ -32,6 +32,11 @@ import { GastosComponent } from './gastos/gastos.component';
 import { GastosTableComponent } from './gastos/gastos-table/gastos-table.component';
 import { GastosTableFilterComponent } from './gastos/gastos-table-filter/gastos-table-filter.component';
 import { GastosFormComponent } from './gastos/gastos-form/gastos-form.component';
+import { ConsorciosProfileComponent } from './consorcios-profile/consorcios-profile.component';
+import { ProfileComponent } from './consorcios-profile/profile/profile.component';
+import { TabUfComponent } from './consorcios-profile/profile/tab-uf/tab-uf.component';
+import { TabPorcentualesComponent } from './consorcios-profile/profile/tab-porcentuales/tab-porcentuales.component';
+import { ProcentualesFormComponent } from './consorcios-profile/profile/tab-porcentuales/procentuales-form/procentuales-form.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -47,7 +52,6 @@ const COMPONENTS = [
   ChequesComponent,
   ChequerasComponent,
   GastosComponent,
-  
 ];
 const COMPONENTS_NOROUNT = [
   ProveedorFormComponent,
@@ -65,12 +69,20 @@ const COMPONENTS_NOROUNT = [
   ChequerasTableFilterComponent,
   GastosTableComponent,
   GastosFormComponent,
-  GastosTableFilterComponent
+  GastosTableFilterComponent,
+  TabUfComponent,
+  TabPorcentualesComponent,
+  ProcentualesFormComponent,
 ];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  declarations: [
+    ...COMPONENTS,
+    ...COMPONENTS_NOROUNT,
+    ConsorciosProfileComponent,
+    ProfileComponent,
+  ],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule {}

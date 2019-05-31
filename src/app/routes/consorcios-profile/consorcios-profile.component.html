@@ -1,0 +1,31 @@
+<page-header [title]=" 'lambe.consorcios.titulo' | translate "></page-header>
+<nz-card [nzBordered]="false">
+
+
+  <nz-tabset [nzTabPosition]="position">
+    <nz-tab nzTitle="Unidades Funcionales">
+      <app-tab-uf [idConsorcio]="idConsorcio"></app-tab-uf>
+    </nz-tab>
+    <nz-tab nzTitle="Porcentuales">
+      <app-tab-porcentuales [idConsorcio]="idConsorcio"></app-tab-porcentuales>
+    </nz-tab>
+    <nz-tab nzTitle="Cuentas Bancarias">
+      <ng-template nz-tab>
+        3
+      </ng-template>
+    </nz-tab>
+    <nz-tab nzTitle="Notas">
+      <ng-template nz-tab>
+        4
+      </ng-template>
+    </nz-tab>
+    <nz-tab nzTitle="Cajas">
+      <ng-template nz-tab>
+        4
+      </ng-template>
+    </nz-tab>
+  </nz-tabset>
+
+
+
+</nz-card>

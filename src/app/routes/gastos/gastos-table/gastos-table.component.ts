@@ -265,7 +265,7 @@ export class GastosTableComponent extends TableLambe
       .subscribe((data: any) => {
         this.tableLambe.total = data.recordsFiltered;
         this.tableLambe.data = data.data;
-
+  console.log(data.data);
         for (const filtro in this.filtroForm) {
           if (
             this.filtroForm[filtro] !== null &&

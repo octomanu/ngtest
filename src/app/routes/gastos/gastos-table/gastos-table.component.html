@@ -159,10 +159,10 @@
           <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
         </th>
 
-        <th nzCustomFilter nzShowSort nzSortKey="numero" *ngIf="extraData">
+        <!-- <th nzCustomFilter nzShowSort nzSortKey="numero" *ngIf="extraData">
           <span>{{ 'global.periodicidad' | translate }}</span>
           <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
-        </th>
+        </th> -->
 
         <th nzCustomFilter nzShowSort nzSortKey="numero" *ngIf="extraData">
           <span>{{ 'global.prevision' | translate }}</span>
@@ -192,7 +192,7 @@
           </td>
           <td *ngIf="table.id_consorcio.show">
             <strong class="onlysmall">{{ 'lambe.consorcios.consorcio' | translate }}:&nbsp;</strong>
-            {{data['consorcios-nombre_fantasia']}}
+            {{data['consorcios-razon_social']}}
           </td>
 
           <td *ngIf="table.gasto.show">
@@ -227,7 +227,7 @@
           </td>
 
           <td *ngIf="extraData">Rubro</td>
-          <td *ngIf="extraData">Periodicidad</td>
+          <!-- <td *ngIf="extraData">Periodicidad</td> -->
           <td *ngIf="extraData"><i nz-icon [nzType]="(data['gastos-prevision']) ? 'check' : 'close'" nzTheme="outline"></i></td>
           <td *ngIf="extraData"><i nz-icon [nzType]="(data['gastos-prorrateable']) ? 'check' : 'close'" nzTheme="outline"></i></td>
         </tr>

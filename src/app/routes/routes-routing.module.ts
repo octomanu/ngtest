@@ -20,6 +20,7 @@ import { ConsorciosComponent } from './consorcios/consorcios.component';
 import { ChequesComponent } from './cheques/cheques.component';
 import { ChequerasComponent } from './chequeras/chequeras.component';
 import { GastosComponent } from './gastos/gastos.component';
+import { ConsorciosProfileComponent } from './consorcios-profile/consorcios-profile.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
       { path: 'proveedores', component: ProveedoresComponent, data: { title: 'Proveedores' } },
       { path: 'consorcios', component: ConsorciosComponent, data: { title: 'Consorcios' } },
+      { path: 'consorcios/perfil/:id', component: ConsorciosProfileComponent, data: { title: 'Perfil' } },
       { path: 'cheques', component: ChequesComponent, data: { title: 'Cheques' } },
       { path: 'chequeras', component: ChequerasComponent, data: { title: 'Chequeras' } },
       { path: 'gastos', component: GastosComponent, data: { title: 'Gastos' } },

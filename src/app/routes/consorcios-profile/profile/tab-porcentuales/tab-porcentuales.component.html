@@ -1,0 +1,143 @@
+<div class="table-operations onlysmall">
+
+  <nz-dropdown [nzTrigger]="'click'">
+    <button nz-button nz-dropdown nzShape="circle">
+      <i nz-icon nzTheme="outline" type="bars"></i>
+    </button>
+    <ul nz-menu>
+      <li nz-menu-item (click)="_openForm()">
+        <span>{{ 'global.crear' | translate }}</span>
+      </li>
+      <li nz-menu-item (click)="clearFilter()">
+        <span>{{ 'global.limpiar_filtros' | translate }}</span>
+      </li>
+    </ul>
+  </nz-dropdown>
+
+  <!-- Muestra filtros de busqueda -->
+  <button nz-button nz-dropdown nzShape="circle" (click)="_openFilter()">
+    <i nz-icon nzTheme="outline" type="search"></i>
+  </button>
+</div>
+
+<div class="table-operations">
+  <span *ngFor="let tag of tags | keys ; let i = index">
+    <nz-tag *ngIf="tags[tag.key].used" nzMode="closeable" (nzOnClose)="onRemoveTag(tag.key)">
+      {{tags[tag.key].title | translate}}</nz-tag>
+  </span>
+</div>
+
+<nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
+  [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
+  (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)" nzSize="middle">
+  <thead (nzSortChange)="sort($event)" nzSingleSort>
+    <tr (contextmenu)="contextMenu($event, menuTable)">
+      <th nzCustomFilter nzShowSort nzSortKey="estado">
+        <span>{{ 'unidades_funcionales.piso' | translate }}</span>
+        <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-data [ngForOf]="tableLambe.data">
+      <tr (contextmenu)="contextMenu($event, menuRowContainer)">
+        <ng-template #menuRowContainer>
+          <ng-container *ngTemplateOutlet="menuRow; context: {id: data.id}"></ng-container>
+        </ng-template>
+        <td>
+          <strong class="onlysmall">{{ 'unidades_funcionales.piso' | translate }}:&nbsp;</strong>
+          {{ data['porcentajes_consorcios-nombre'] }}
+        </td>
+      </tr>
+    </ng-template>
+  </tbody>
+</nz-table>
+
+<!-- Menu Table -->
+<ng-template #menuTable>
+  <ul nz-menu nzInDropDown>
+    <li nz-menu-item (click)="_openForm()">
+      <a>{{ 'global.crear' | translate }}</a>
+    </li>
+    <li nz-menu-item (click)="clearFilter()">
+      <a>{{ 'global.limpiar_filtros' | translate }}</a>
+    </li>
+
+  </ul>
+</ng-template>
+
+<!-- Menu Row -->
+<ng-template #menuRow let-id="id">
+  <ul nz-menu nzInDropDown>
+    <li nz-menu-item (click)="_openForm(id)">
+      <a>{{ 'global.editar' | translate }}</a>
+    </li>
+    <li nz-menu-item>
+      <a nz-popconfirm (nzOnConfirm)="eliminar(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
+        [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
+      <ng-template #iconTpl>
+        <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+      </ng-template>
+    </li>
+  </ul>
+</ng-template>
+
+<ng-template #filtro_estado>
+  <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+    <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+      nz-dropdown></i>
+    <div class="search-box">
+      <nz-select class="full-width" nzShowSearch nzAllowClear [(ngModel)]="filtroForm.estado"
+        nzPlaceHolder="{{ 'global.buscar' | translate }}" (ngModelChange)="search()">
+        <nz-option *ngFor="let status of consorcioStatus" nzCustomContent nzLabel="{{status | translate}}"
+          [nzValue]="status">
+          <nz-badge [nzStatus]="getNzColor(status)"></nz-badge> {{status | translate}}
+        </nz-option>
+      </nz-select>
+    </div>
+  </nz-dropdown>
+</ng-template>
+
+<ng-template #filtro_razon_social>
+  <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+    <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+      nz-dropdown></i>
+    <div class="search-box">
+      <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.razon_social"
+        placeholder="{{ 'global.buscar' | translate }}" />
+    </div>
+  </nz-dropdown>
+</ng-template>
+
+<ng-template #filtro_calle>
+  <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+    <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+      nz-dropdown></i>
+    <div class="search-box">
+      <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.calle"
+        placeholder="{{ 'global.buscar' | translate }}" />
+    </div>
+  </nz-dropdown>
+</ng-template>
+
+<ng-template #filtro_numero>
+  <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+    <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+      nz-dropdown></i>
+    <div class="search-box">
+      <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.numero"
+        placeholder="{{ 'global.buscar' | translate }}" />
+    </div>
+  </nz-dropdown>
+</ng-template>
+
+<ng-template #filtro_cuit>
+  <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+    <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
+      nz-dropdown></i>
+    <div class="search-box">
+      <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.cuit"
+        placeholder="{{ 'global.buscar' | translate }}" />
+    </div>
+  </nz-dropdown>
+</ng-template>

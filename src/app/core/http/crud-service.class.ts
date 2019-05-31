@@ -8,9 +8,7 @@ import { map, catchError } from 'rxjs/operators';
 export abstract class CrudService implements ServicePathGetter {
   protected url: string;
 
-  constructor(protected http: HttpClient) {
-    this.url = `${environment.OCTO_API}/${this.getPath()}`;
-  }
+  constructor(protected http: HttpClient) {}
 
   getPath() {
     throw new Error('Method getPath of CrudService not implemented.');
@@ -22,7 +20,7 @@ export abstract class CrudService implements ServicePathGetter {
     filtros: {},
   ): Observable<{}> {
     let params = new HttpParams();
-
+    const url = `${environment.OCTO_API}/${this.getPath()}`;
     for (const key in filtros) {
       if (filtros[key] !== null) {
         params = params.append(key, filtros[key]);
@@ -34,7 +32,7 @@ export abstract class CrudService implements ServicePathGetter {
         params = params.append(key, paginatorParams[key]);
       }
     }
-    return this.http.get(`${this.url}`, { params }).pipe(
+    return this.http.get(`${url}`, { params }).pipe(
       map((resp: any) => {
         return resp;
       }),
@@ -45,7 +43,7 @@ export abstract class CrudService implements ServicePathGetter {
   }
 
   delete(id: number) {
-    const URL = `${this.url}/${id}`;
+    const URL = `${environment.OCTO_API}/${this.getPath()}/${id}`;
 
     return this.http.delete(URL).pipe(
       map(resp => resp),
@@ -54,7 +52,7 @@ export abstract class CrudService implements ServicePathGetter {
   }
 
   create(data) {
-    const URL = `${this.url}`;
+    const URL = `${environment.OCTO_API}/${this.getPath()}`;
 
     return this.http.post(URL, data).pipe(
       map(resp => resp),
@@ -63,7 +61,7 @@ export abstract class CrudService implements ServicePathGetter {
   }
 
   update(id: number, data) {
-    const URL = `${this.url}/${id}`;
+    const URL = `${environment.OCTO_API}/${this.getPath()}/${id}`;
 
     return this.http.put(URL, data).pipe(
       map(resp => resp),
@@ -72,8 +70,7 @@ export abstract class CrudService implements ServicePathGetter {
   }
 
   find(id: number) {
-    const URL = `${this.url}/mostrar/${id}`;
-
+    const URL = `${environment.OCTO_API}/${this.getPath()}/mostrar/${id}`;
     return this.http.get(URL).pipe(
       map(resp => resp),
       catchError(err => throwError(err)),
