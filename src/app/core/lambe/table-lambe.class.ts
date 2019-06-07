@@ -146,7 +146,7 @@ export class TableLambe implements TableLambeInterface {
       .subscribe((state: BreakpointState) => {
         if (state.matches) {
           // mayor a mediun
-          this.initialDrawerWidth = '65%';
+          this.initialDrawerWidth = '75%';
           if (this.drawerRef) {
             this.drawerRef.nzWidth = this.initialDrawerWidth;
           }

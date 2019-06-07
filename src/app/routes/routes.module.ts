@@ -37,6 +37,12 @@ import { ProfileComponent } from './consorcios-profile/profile/profile.component
 import { TabUfComponent } from './consorcios-profile/profile/tab-uf/tab-uf.component';
 import { TabPorcentualesComponent } from './consorcios-profile/profile/tab-porcentuales/tab-porcentuales.component';
 import { ProcentualesFormComponent } from './consorcios-profile/profile/tab-porcentuales/procentuales-form/procentuales-form.component';
+import { GastosRecurrentesComponent } from './gastos-recurrentes/gastos-recurrentes.component';
+import { GastosRecurrentesTableComponent } from './gastos-recurrentes/gastos-recurrentes-table/gastos-recurrentes-table.component';
+import { GastosRecurrentesFormComponent } from './gastos-recurrentes/gastos-recurrentes-form/gastos-recurrentes-form.component';
+import { CabecerasComponent } from './cabeceras/cabeceras.component';
+import { CabecerasTableComponent } from './cabeceras/cabeceras-table/cabeceras-table.component';
+import { CabecerasFormComponent } from './cabeceras/cabeceras-form/cabeceras-form.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -52,6 +58,10 @@ const COMPONENTS = [
   ChequesComponent,
   ChequerasComponent,
   GastosComponent,
+  GastosRecurrentesComponent,
+  ProfileComponent,
+  CabecerasComponent,
+  ConsorciosProfileComponent,
 ];
 const COMPONENTS_NOROUNT = [
   ProveedorFormComponent,
@@ -73,16 +83,15 @@ const COMPONENTS_NOROUNT = [
   TabUfComponent,
   TabPorcentualesComponent,
   ProcentualesFormComponent,
+  GastosRecurrentesFormComponent,
+  GastosRecurrentesTableComponent,
+  CabecerasTableComponent,
+  CabecerasFormComponent,
 ];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [
-    ...COMPONENTS,
-    ...COMPONENTS_NOROUNT,
-    ConsorciosProfileComponent,
-    ProfileComponent,
-  ],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule {}

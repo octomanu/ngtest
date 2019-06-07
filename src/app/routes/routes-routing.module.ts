@@ -21,6 +21,8 @@ import { ChequesComponent } from './cheques/cheques.component';
 import { ChequerasComponent } from './chequeras/chequeras.component';
 import { GastosComponent } from './gastos/gastos.component';
 import { ConsorciosProfileComponent } from './consorcios-profile/consorcios-profile.component';
+import { GastosRecurrentesComponent } from './gastos-recurrentes/gastos-recurrentes.component';
+import { CabecerasComponent } from './cabeceras/cabeceras.component';
 
 const routes: Routes = [
   {
@@ -36,6 +38,8 @@ const routes: Routes = [
       { path: 'cheques', component: ChequesComponent, data: { title: 'Cheques' } },
       { path: 'chequeras', component: ChequerasComponent, data: { title: 'Chequeras' } },
       { path: 'gastos', component: GastosComponent, data: { title: 'Gastos' } },
+      { path: 'gastos-recurrentes', component: GastosRecurrentesComponent, data: { title: 'Gastos Recurrente' } },
+      { path: 'cabeceras', component: CabecerasComponent, data: { title: 'Cabeceras' } },
       { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
       // 业务子模块
       // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }

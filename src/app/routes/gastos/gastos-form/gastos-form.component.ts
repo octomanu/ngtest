@@ -8,34 +8,49 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { GastosForm } from './gastos.form';
-import { NzMessageService, NzDrawerRef, NzDrawerService } from 'ng-zorro-antd';
+import {
+  NzMessageService,
+  NzDrawerRef,
+  NzDrawerService,
+  da_DK,
+} from 'ng-zorro-antd';
 import { GastosService } from '@core/http/gastos/gastos.service';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import * as moment from 'moment';
-import { KeyEventsPlugin } from '@angular/platform-browser/src/dom/events/key_events';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { ProcentualesFormComponent } from 'app/routes/consorcios-profile/profile/tab-porcentuales/procentuales-form/procentuales-form.component';
+import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unidades-funcionales.service';
+import { PorcentajesConsorciosService } from '@core/http/porcentajes_consorcios/porcentajes-consorcios.service';
+import { ProveedorFormComponent } from 'app/routes/proveedores/proveedor-form/proveedor-form.component';
 @Component({
   selector: 'app-gastos-form',
   templateUrl: './gastos-form.component.html',
   styles: [],
 })
 export class GastosFormComponent implements OnInit {
+  // cuotas
+  cuotasVisible = false;
+  porcentualesVisible = false;
+  // cuotas
   protected form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
   @Input() protected valueChange: Subject<{ submit: boolean }>;
   protected cuotasAmount = 1;
+  protected multiPorcentajes = false;
   protected cuotas = [];
   protected current = 0;
   protected isLoading = true;
   protected proveedores: { id: number; display: string }[];
   protected consorcios: { id: number; display: string }[];
+  protected ufs: { id: number; display: string }[];
+  protected porcentajes: { id: number; display: string }[] = [];
   protected timeout = null;
   protected keep = { proveedor: false, consorcio: false, gasto: false };
   protected initialized = false;
+  this: any;
   constructor(
     protected fb: GastosForm,
     protected msg: NzMessageService,
@@ -43,6 +58,8 @@ export class GastosFormComponent implements OnInit {
     protected gastosService: GastosService,
     protected proveedorService: ProveedoresService,
     protected consorciosService: ConsorciosService,
+    protected ufsService: UnidadesFuncionalesService,
+    protected porcentajesService: PorcentajesConsorciosService,
     protected drawerRef: NzDrawerRef<{ submit: boolean }>,
     protected chequerasService: ProveedoresService,
     protected drawerService: NzDrawerService,
@@ -52,6 +69,20 @@ export class GastosFormComponent implements OnInit {
     this.drawerRef.afterOpen.subscribe(data => {
       this.initialized = true;
     });
+  }
+
+  openCuotasDrawer() {
+    this.cuotasVisible = true;
+  }
+  closeCuotasDrawer() {
+    this.cuotasVisible = false;
+  }
+
+  openPorcentualesDrawer() {
+    this.porcentualesVisible = true;
+  }
+  closePorcentualesDrawer() {
+    this.porcentualesVisible = false;
   }
 
   initCuotas(event: any) {
@@ -102,6 +133,10 @@ export class GastosFormComponent implements OnInit {
         fecha: fechaValue.toDate(),
       });
     }
+
+    if (this.cuotasAmount > 1) {
+      this.openCuotasDrawer();
+    }
   }
 
   modifyCuotas(index: number) {
@@ -146,35 +181,44 @@ export class GastosFormComponent implements OnInit {
       this.gastosService.find(this.id).subscribe((data: any) => {
         this.searchProveedorList(data.data['proveedor-razon_social']);
         this.searchConsorciosList(data.data['consorcio-display']);
+        this.ufsService.setConsorcio(data.data.id_consorcio);
+        this.porcentajesService.setConsorcio(data.data.id_consorcio);
+        this.cuotasAmount = data.data.cuotas.length;
+        this.multiPorcentajes =
+          data.data.porcentuales.length > 1 ? true : false;
+
+        this.searchUfsList('');
+        this.form.setControl(
+          'porcentuales',
+          this.fb.initPorcentualesChild(data.data.porcentuales.length),
+        );
         delete data.data['proveedor-razon_social'];
         delete data.data['consorcio-display'];
-        console.log(data.data.cuotas);
-        this.form.setValue(data.data);
+
         this.form.setControl(
           'cuotas',
           this.fb.initCuotasChild(data.data.cuotas.length),
         );
-
-        const cuotas = this.form.get('cuotas') as FormArray;
-
-        // tslint:disable-next-line: forin
-        for (const i in cuotas.controls) {
-          const index = parseInt(i, 10);
-          cuotas.controls[index].setValue({
-            monto: data.data.cuotas[index].monto,
-            fecha_pago: data.data.cuotas[index].fecha_pago,
-            id: data.data.cuotas[index].id,
+        this.form.setValue(data.data);
+        console.log(data.data.cuotas);
+        this.porcentajesService
+          .searchByDisplay('')
+          .subscribe((data: { id: number; display: string }[]) => {
+            this.isLoading = false;
+            this.porcentajes = data;
           });
-        }
+        // const cuotas = this.form.get('cuotas') as FormArray;
 
-        // for (const key in data.data.cuotas) {
-        //   if (data.data.cuotas.hasOwnProperty(key)) {
-        //     data.data.cuotas[key].fecha_pago =  moment(data.data.cuotas[key].fecha_pago, 'DD/MM/YYYY').toDate();
-        //   }
+        // // tslint:disable-next-line: forin
+        // for (const i in cuotas.controls) {
+        //   const index = parseInt(i, 10);
+        //   cuotas.controls[index].setValue({
+        //     monto: data.data.cuotas[index].monto,
+        //     fecha_pago: data.data.cuotas[index].fecha_pago,
+        //     id: data.data.cuotas[index].id,
+        //   });
         // }
-        console.log('form data', data.data);
-
-        console.log('form data', this.form.value);
+        console.log(data.data);
       });
     } else {
       this.initCuotas(1);
@@ -183,14 +227,19 @@ export class GastosFormComponent implements OnInit {
 
   submit() {
     const proveedor = this.form.value;
+    console.warn('GASTO', proveedor);
     if (proveedor.id) {
+      console.log('updatee', proveedor);
       this.gastosService.update(proveedor.id, proveedor).subscribe(data => {
         // this.drawerRef.close({ submit: true });
         this.msg.success(`Actualizado!`);
         this.cdr.detectChanges();
       });
     } else {
-      this.gastosService.create(proveedor).subscribe(data => {
+      const gasto = this.fb.resolveGasto(this.form, this.multiPorcentajes);
+      console.warn('GASTO', gasto);
+      // return;
+      this.gastosService.create(gasto).subscribe(data => {
         // this.drawerRef.close({ submit: true });
 
         const proveedorValue: string = this.form.get('id_proveedor').value;
@@ -213,11 +262,32 @@ export class GastosFormComponent implements OnInit {
     }
   }
 
+  changeConsorcio() {
+    if (!this.initialized) {
+      return;
+    }
+    this.searchDataForm();
+
+    const idConsorcio: string = this.form.get('id_consorcio').value;
+    this.ufsService.setConsorcio(idConsorcio);
+    this.porcentajesService.setConsorcio(idConsorcio);
+    if (idConsorcio) {
+      this.searchUfsList('');
+      this.searchPorcentajesList('');
+    } else {
+      this.ufs = [];
+      this.porcentajes = [];
+      this.form.setControl('porcentuales', this.fb.initPorcentualesChild(0));
+      this.multiPorcentajes = false;
+    }
+  }
+
   searchDataForm(timeout = false) {
-    const id_proveedor: string = this.form.get('id_proveedor').value;
-    const id_consorcio: string = this.form.get('id_consorcio').value;
+    const idProveedor: string = this.form.get('id_proveedor').value;
+    const idConsorcio: string = this.form.get('id_consorcio').value;
     const gasto: string = this.form.get('descripcion').value;
-    if (id_proveedor == null || id_consorcio == null || gasto == null) {
+
+    if (idProveedor == null || idConsorcio == null || gasto == null) {
       return;
     }
 
@@ -229,7 +299,11 @@ export class GastosFormComponent implements OnInit {
       this.timeout = window.setTimeout(() => {
         this.timeout = null;
         this.gastosService
-          .findPrevious({ id_proveedor, id_consorcio, gasto })
+          .findPrevious({
+            id_proveedor: idProveedor,
+            id_consorcio: idConsorcio,
+            gasto,
+          })
           .subscribe(data => {
             if (!data) {
               return;
@@ -240,12 +314,15 @@ export class GastosFormComponent implements OnInit {
             this.form.get('prevision').setValue(data.prevision);
             this.form.get('prorrateable').setValue(data.prorrateable);
             this.form.get('fecha').setValue(data.fecha);
-            console.log('timeout', data);
           });
       }, 400);
     } else {
       this.gastosService
-        .findPrevious({ id_proveedor, id_consorcio, gasto })
+        .findPrevious({
+          id_proveedor: idProveedor,
+          id_consorcio: idConsorcio,
+          gasto,
+        })
         .subscribe(data => {
           if (!data) {
             return;
@@ -256,7 +333,6 @@ export class GastosFormComponent implements OnInit {
           this.form.get('prevision').setValue(data.prevision);
           this.form.get('prorrateable').setValue(data.prorrateable);
           this.form.get('fecha').setValue(data.fecha);
-          console.log('NO Timeout', data);
         });
     }
   }
@@ -272,6 +348,17 @@ export class GastosFormComponent implements OnInit {
     }, 400);
   }
 
+  searchUfs(display: string) {
+    if (this.timeout) {
+      window.clearTimeout(this.timeout);
+    }
+    this.timeout = window.setTimeout(() => {
+      this.timeout = null;
+      this.isLoading = true;
+      this.searchUfsList(display);
+    }, 400);
+  }
+
   searchConsorcios(display: string) {
     if (this.timeout) {
       window.clearTimeout(this.timeout);
@@ -280,6 +367,17 @@ export class GastosFormComponent implements OnInit {
       this.timeout = null;
       this.isLoading = true;
       this.searchConsorciosList(display);
+    }, 400);
+  }
+
+  searchPorcentajes(display: string) {
+    if (this.timeout) {
+      window.clearTimeout(this.timeout);
+    }
+    this.timeout = window.setTimeout(() => {
+      this.timeout = null;
+      this.isLoading = true;
+      this.searchPorcentajesList(display);
     }, 400);
   }
 
@@ -297,26 +395,109 @@ export class GastosFormComponent implements OnInit {
       .searchByDisplay(display)
       .subscribe((data: { id: number; display: string }[]) => {
         this.isLoading = false;
-        console.log(data);
         this.consorcios = data;
       });
   }
 
-  protected searchPreviousGasto() {
-    // this.gastosService.findPrevious();
+  protected searchUfsList(display: string) {
+    this.ufsService
+      .searchByDisplay(display)
+      .subscribe((data: { id: number; display: string }[]) => {
+        this.isLoading = false;
+        this.ufs = data;
+      });
+  }
+
+  protected searchPorcentajesList(display: string) {
+    this.porcentajesService
+      .searchByDisplay(display)
+      .subscribe((data: { id: number; display: string }[]) => {
+        this.isLoading = false;
+        this.porcentajes = data;
+        if (this.multiPorcentajes) {
+          this.form.setControl(
+            'porcentuales',
+            this.fb.initPorcentualesChild(data.length),
+          );
+        }
+      });
+  }
+
+  changeMultiplePorcentual() {
+    if (!this.initialized) {
+      return;
+    }
+    if (this.multiPorcentajes) {
+      this.form.get('id_concepto_gastos').setValue(null);
+      this.form.get('unidades_funcionales').setValue(null);
+      this.form.setControl(
+        'porcentuales',
+        this.fb.initPorcentualesChild(this.porcentajes.length),
+      );
+
+      const porcentuales = this.form.get('porcentuales') as FormArray;
+
+      // tslint:disable-next-line: forin
+      for (const i in porcentuales.controls) {
+        const index = parseInt(i, 10);
+        porcentuales.controls[index].setValue({
+          monto: null,
+          tipo: 'numerico',
+          id: null,
+          id_porcentaje_consorcio: this.porcentajes[index].id,
+        });
+      }
+
+      this.openPorcentualesDrawer();
+    } else {
+      this.form.setControl('porcentuales', this.fb.initPorcentualesChild());
+    }
   }
 
   openPorcentualesForm() {
     this.translate.get('Porcentuales').subscribe((res: string) => {
       this.drawerRef = this.drawerService.create<
         ProcentualesFormComponent,
-        { id: number }
+        { id: number; idConsorcio: any }
       >({
         nzTitle: res,
         nzWidth: '50%',
         nzContent: ProcentualesFormComponent,
-        nzContentParams: { id: this.form.get('id_consorcio').value },
+        nzContentParams: {
+          id: null,
+          idConsorcio: this.form.get('id_consorcio').value,
+        },
       });
     });
+
+    this.drawerRef.afterClose.subscribe(
+      (data: { submit: boolean } | undefined) => {
+        this.searchPorcentajesList('');
+      },
+    );
+  }
+
+  openProveedoresForm() {
+    this.translate
+      .get('lambe.proveedores.proveedor')
+      .subscribe((res: string) => {
+        this.drawerRef = this.drawerService.create<
+          ProveedorFormComponent,
+          { id: number }
+        >({
+          nzTitle: res,
+          nzWidth: '50%',
+          nzContent: ProveedorFormComponent,
+          nzContentParams: {
+            id: null,
+          },
+        });
+      });
+
+    this.drawerRef.afterClose.subscribe(
+      (data: { submit: boolean } | undefined) => {
+        this.searchProveedorList('');
+      },
+    );
   }
 }

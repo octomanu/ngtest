@@ -20,8 +20,7 @@ export class ProcentualesFormComponent implements OnInit {
   protected form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
-  protected current = 0;
-  consorcioStatus = ['ACTIVO', 'PENDIENTE', 'INACTIVO', 'BORRADO'];
+  @Input() idConsorcio: string;
 
   constructor(
     protected fb: PorcentualesForm,
@@ -33,6 +32,7 @@ export class ProcentualesFormComponent implements OnInit {
 
   ngOnInit() {
     this.open();
+    this.porcentajesConsorciosService.setConsorcio(this.idConsorcio);
   }
 
   initForm() {

@@ -3,6 +3,7 @@ import { CrudService } from '../crud-service.class';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -27,8 +28,8 @@ export class GastosService extends CrudService {
       .append('id_proveedor', params.id_proveedor)
       .append('id_consorcio', params.id_consorcio)
       .append('gasto', params.gasto);
-
-    return this.http.get(`${this.url}/buscarAnterior`, { params }).pipe(
+    const URL = `${environment.OCTO_API}/${this.getPath()}/buscarAnterior`;
+    return this.http.get(`${URL}`, { params }).pipe(
       map((resp: any) => {
         return resp.data;
       }),

@@ -76,5 +76,10 @@
   "lambe.gasto": "Gasto",
   "lambe.gastos.fecha": "Fecha del gasto",
   "lambe.gastos.prevision": "Previsión",
-  "lambe.gastos.prorrateable": "Prorrateable"
+  "lambe.gastos.prorrateable": "Prorrateable",
+  "global.seleccione": "Seleccione",
+  "lambe.gastos-recurrentes": "Gastos Recurrentes",
+  "lambe.cabeceras": "Cabeceras",
+  "global.email": "Correo",
+  "global.nombre": "Nombre"
 }

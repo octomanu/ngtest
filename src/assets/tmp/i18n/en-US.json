@@ -76,5 +76,10 @@
   "lambe.gasto": "Spending",
   "lambe.gastos.fecha": "Spending date",
   "lambe.gastos.prevision": "Forecast",
-  "lambe.gastos.prorrateable": "Prorrateable"
+  "lambe.gastos.prorrateable": "Prorrateable",
+  "global.seleccione": "Select",
+  "lambe.gastos-recurrentes": "Recurrent Spendings",
+  "lambe.cabeceras": "Headers",
+  "global.email": "Email",
+  "global.nombre": "Name"
 }

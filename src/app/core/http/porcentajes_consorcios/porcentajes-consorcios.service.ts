@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { CrudService } from '../crud-service.class';
+import { map, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +14,16 @@ export class PorcentajesConsorciosService extends CrudService {
 
   constructor(http: HttpClient) {
     super(http);
+  }
+
+  searchByDisplay(display: string) {
+    const URL = `${environment.OCTO_API}/${this.getPath()}/buscar`;
+    let params = new HttpParams();
+    params = params.append('display', display);
+    return this.http.get(URL, { params }).pipe(
+      map((resp: any) => resp.data),
+      catchError(err => throwError(err)),
+    );
   }
 
   setConsorcio(id: string) {

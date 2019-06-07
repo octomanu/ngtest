@@ -1,0 +1,175 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label>{{ 'global.descripcion' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <input nz-input formControlName="descripcion" id="descripcion">
+          <nz-form-explain *ngIf="form.get('descripcion').dirty && form.get('descripcion').errors">
+            <ng-container *ngIf="form.get('descripcion').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="fecha">{{ 'lambe.proveedores.proveedor' | translate }}
+        </nz-form-label>
+        <nz-form-control>
+          <nz-select nzPlaceHolder="{{'global.seleccione' | translate}}" formControlName="id_proveedor"
+            id="id_proveedor" nzAllowClear nzShowSearch [nzServerSearch]="true"
+            (nzOnSearch)="searchProveedores($event)">
+            <ng-container *ngFor="let proveedor of proveedores">
+              <nz-option *ngIf="!isLoading" [nzValue]="proveedor.id" [nzLabel]="proveedor.display"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="id_consorcio">{{ 'consorcios' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-select zPlaceHolder=" lambe.gastos.consorcio | translate " formControlName="id_consorcio" nzAllowClear
+            nzShowSearch [nzServerSearch]="true" (nzOnSearch)="searchConsorcios($event)"
+            (ngModelChange)="changeConsorcio()">
+            <ng-container *ngFor="let consorcio of consorcios">
+              <nz-option *ngIf="!isLoading" [nzValue]="consorcio.id" [nzLabel]="consorcio.display"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzFor="id_porcentaje_consorcio">{{ 'Porcentuales' | translate }}
+        </nz-form-label>
+        <nz-form-control>
+          <nz-select nzAllowClear nzShowSearch [nzServerSearch]="true" (nzOnSearch)="searchPorcentajes($event)"
+            formControlName="id_porcentaje_consorcio">
+            <ng-container *ngFor="let porcentaje of porcentajes">
+              <nz-option *ngIf="!isLoading" [nzValue]="porcentaje.id" [nzLabel]="porcentaje.display"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="tipo">{{ 'tipo' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-select formControlName="tipo" nzAllowClear>
+            <nz-option [nzValue]="'variable'" [nzLabel]="'monto_variable'"></nz-option>
+            <nz-option [nzValue]="'fijo'" [nzLabel]="'monto_fijo'"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="monto">{{ 'global.monto' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-input-group nzAddOnBefore="$">
+            <input nz-input formControlName="valor" id="valor">
+          </nz-input-group>
+          <nz-form-explain *ngIf="form.get('valor').dirty && form.get('valor').errors">
+            <ng-container *ngIf="form.get('valor').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+            <ng-container *ngIf="form.get('valor').hasError('pattern')">
+              {{ 'global.patron' | translate }} : ########,##
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label>{{ 'global.mes_comienzo' | translate }}
+        </nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="mes_comienzo" style="width:100%;" [nzMin]="1" [nzMax]="12" [nzStep]="1">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="periodicidad">{{ 'periodicidad' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-select formControlName="periodicidad" nzAllowClear>
+            <nz-option [nzValue]="'mensual'" [nzLabel]="'mensual'"></nz-option>
+            <nz-option [nzValue]="'bimestral'" [nzLabel]="'bimestral'"></nz-option>
+            <nz-option [nzValue]="'trimestral'" [nzLabel]="'trimestral'"></nz-option>
+            <nz-option [nzValue]="'semestral'" [nzLabel]="'semestral'"></nz-option>
+            <nz-option [nzValue]="'anual'" [nzLabel]="'anual'"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.fecha_primer_pago' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-date-picker formControlName="fecha_primer_pago" nzFormat="dd-MM-yyyy"></nz-date-picker>
+          <nz-form-explain *ngIf="form.get('fecha_primer_pago').dirty && form.get('fecha_primer_pago').errors">
+            <ng-container *ngIf="form.get('fecha_primer_pago').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.fecha_limite' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-date-picker formControlName="fecha_limite" nzFormat="dd-MM-yyyy"></nz-date-picker>
+          <nz-form-explain *ngIf="form.get('fecha_limite').dirty && form.get('fecha_limite').errors">
+            <ng-container *ngIf="form.get('fecha_limite').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</form>
+
+<div class="footer">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+      <span>{{ 'global.guardar' | translate }}</span>
+    </button>
+  </div>
+</div>

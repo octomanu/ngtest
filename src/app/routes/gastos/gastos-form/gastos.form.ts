@@ -12,19 +12,44 @@ export class GastosForm {
       id_proveedor: [null, []],
       id_consorcio: [null, []],
       id_concepto_gastos: [null, []],
+      unidades_funcionales: [[], []],
       id_rubro: [null, []],
       descripcion: [null, [Validators.required]],
       monto: [
         null,
-        [Validators.required, Validators.pattern('-?[0-9]{1,8}(?:.[0-9]{1,2})?')],
+        [
+          Validators.required,
+          Validators.pattern('-?[0-9]{1,8}(?:.[0-9]{1,2})?'),
+        ],
       ],
       fecha: [null, [Validators.required]],
       prevision: [false, [Validators.required]],
-      prorrateable: [false, []],
+      prorrateable: [false, [Validators.required]],
       periodicidad: [null, []],
-
       cuotas: this.initCuotasChild(),
+      porcentuales: this.initPorcentualesChild(),
     });
+  }
+
+  initPorcentualesChild(amount = 0) {
+    const array = [];
+    for (let i = 0; i < amount; i++) {
+      const child = this.fb.group({
+        monto: [
+          null,
+          [
+            Validators.required,
+            Validators.pattern('-?[0-9]{1,8}(?:.[0-9]{1,2})?'),
+          ],
+        ],
+        tipo: ['numerico', [Validators.required]],
+        id: [null],
+        id_porcentaje_consorcio: [null, Validators.required],
+      });
+      array.push(child);
+    }
+
+    return this.fb.array(array);
   }
 
   initCuotasChild(amount = 1) {
@@ -40,11 +65,42 @@ export class GastosForm {
             ],
           ],
           fecha_pago: [null, [Validators.required]],
-          id: [null]
+          id: [null],
         }),
       );
     }
 
     return this.fb.array(array);
+  }
+
+  resolveGasto(form: FormGroup, multiple: boolean) {
+    let gasto = null;
+    if (multiple) {
+      gasto = this.resolveMultiple(form, multiple);
+    } else {
+      gasto = this.resolveSingle(form, multiple);
+    }
+    delete gasto.id_concepto_gastos;
+    return gasto;
+  }
+
+  protected resolveMultiple(form: FormGroup, multiple: boolean) {
+    const gasto = form.value;
+    return gasto;
+  }
+
+  protected resolveSingle(form: FormGroup, multiple: boolean) {
+    const gasto = form.value;
+    gasto.porcentuales = [];
+    if (gasto.id_concepto_gastos) {
+      gasto.porcentuales = [
+        {
+          monto: gasto.monto,
+          tipo: 'numerico',
+          id_porcentaje_consorcio: gasto.id_concepto_gastos,
+        },
+      ];
+    }
+    return gasto;
   }
 }

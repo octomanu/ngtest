@@ -10,7 +10,7 @@ import { GastosService } from '@core/http/gastos/gastos.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { GastosFormComponent } from '../gastos-form/gastos-form.component';
 import { GastosTableFilterComponent } from '../gastos-table-filter/gastos-table-filter.component';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import { GastosForm } from './gastos.form';
@@ -188,7 +188,9 @@ export class GastosTableComponent extends TableLambe
         const gastoData = this.rowForm[i].form.value;
         this.gastosService.update(gastoId, gastoData).subscribe((resp: any) => {
           this.tableLambe.data[i]['gastos-monto'] = resp.data.monto;
-          this.tableLambe.data[i]['gastos-fecha'] = moment(resp.data.fecha).format('DD-MM-YYYY');
+          this.tableLambe.data[i]['gastos-fecha'] = moment(
+            resp.data.fecha,
+          ).format('DD-MM-YYYY');
         });
       }
       this.rowForm[i].visible = false;
@@ -210,7 +212,9 @@ export class GastosTableComponent extends TableLambe
             .update(gastoId, gastoData)
             .subscribe((resp: any) => {
               this.tableLambe.data[key]['gastos-monto'] = resp.data.monto;
-              this.tableLambe.data[key]['gastos-fecha'] = moment(resp.data.fecha).format('DD-MM-YYYY');
+              this.tableLambe.data[key]['gastos-fecha'] = moment(
+                resp.data.fecha,
+              ).format('DD-MM-YYYY');
               this.rowForm[key].visible = false;
             });
         } else {
@@ -220,14 +224,16 @@ export class GastosTableComponent extends TableLambe
 
       //inicializo el que le dio click
       this.rowForm[i].form = this.fb.getForm();
-      const fechaValue = moment(this.tableLambe.data[i]['gastos-fecha'], 'DD-MM-YYYY').toDate();
-      console.log("la fecha de moent", fechaValue);
+      const fechaValue = moment(
+        this.tableLambe.data[i]['gastos-fecha'],
+        'DD-MM-YYYY',
+      ).toDate();
+      console.log('la fecha de moent', fechaValue);
       this.rowForm[i].form.setValue({
         id: this.tableLambe.data[i]['gastos-id'],
         monto: this.tableLambe.data[i]['gastos-monto'],
-        fecha: fechaValue
+        fecha: fechaValue,
       });
-     
       this.rowForm[i].visible = true;
     }
   }
@@ -265,7 +271,7 @@ export class GastosTableComponent extends TableLambe
       .subscribe((data: any) => {
         this.tableLambe.total = data.recordsFiltered;
         this.tableLambe.data = data.data;
-  console.log(data.data);
+        console.log(data.data);
         for (const filtro in this.filtroForm) {
           if (
             this.filtroForm[filtro] !== null &&
