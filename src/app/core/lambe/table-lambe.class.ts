@@ -24,7 +24,7 @@ export class TableLambe implements TableLambeInterface {
   protected dropdown: NzDropdownContextComponent;
   protected smallScreen: boolean;
   constructor(
-    protected dataService: TableLambeServiceInterface,
+    protected dataService: TableLambeServiceInterface|any,
     protected nzDropdownService: NzDropdownService,
     protected breakpointObserver: BreakpointObserver,
   ) {

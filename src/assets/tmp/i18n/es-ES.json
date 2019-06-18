@@ -98,5 +98,7 @@
   "global.deuda": "Deuda",
   "global.cuenta-corriente": "Cuenta Corriente",
   "global.consorcio": "Consorcio",
-  "global.movimiento": "Movimiento"
+  "global.movimiento": "Movimiento",
+  "global.unidad_funcional": "Unidad Funcional",
+  "global.estado-financiero": "Estado Financiero"
 }

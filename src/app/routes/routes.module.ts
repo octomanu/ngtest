@@ -49,8 +49,8 @@ import { NotasFormComponent } from './notas/notas-form/notas-form.component';
 import { CuentaCorrienteComponent } from './cuenta-corriente/cuenta-corriente.component';
 import { CuentaCorrienteTableComponent } from './cuenta-corriente/cuenta-corriente-table/cuenta-corriente-table.component';
 import { CuentaCorrienteFormComponent } from './cuenta-corriente/cuenta-corriente-form/cuenta-corriente-form.component';
-import { EstadoFinancieroProveedoresComponent } from './estado-financiero-proveedores/estado-financiero-proveedores.component';
-import { EfpTableComponent } from './estado-financiero-proveedores/efp-table/efp-table.component';
+import { EstadoFinancieroComponent } from './estado-financiero/estado-financiero.component';
+import { EstadoFinancieroTableComponent } from './estado-financiero/estado-financiero-table/estado-financiero-table.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -72,7 +72,6 @@ const COMPONENTS = [
   ConsorciosProfileComponent,
   NotasComponent,
   CuentaCorrienteComponent,
-  EstadoFinancieroProveedoresComponent,
 ];
 const COMPONENTS_NOROUNT = [
   ProveedorFormComponent,
@@ -101,13 +100,12 @@ const COMPONENTS_NOROUNT = [
   NotasTableComponent,
   NotasFormComponent,
   CuentaCorrienteFormComponent,
-  CuentaCorrienteTableComponent,
-  EfpTableComponent,
+  CuentaCorrienteTableComponent
 ];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, EstadoFinancieroComponent, EstadoFinancieroTableComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule {}

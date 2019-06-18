@@ -25,7 +25,7 @@ import { GastosRecurrentesComponent } from './gastos-recurrentes/gastos-recurren
 import { CabecerasComponent } from './cabeceras/cabeceras.component';
 import { NotasComponent } from './notas/notas.component';
 import { CuentaCorrienteComponent } from './cuenta-corriente/cuenta-corriente.component';
-import { EstadoFinancieroProveedoresComponent } from './estado-financiero-proveedores/estado-financiero-proveedores.component';
+import { EstadoFinancieroComponent } from './estado-financiero/estado-financiero.component';
 
 const routes: Routes = [
   {
@@ -82,9 +82,9 @@ const routes: Routes = [
         data: { title: 'Cuenta Corriente' },
       },
       {
-        path: 'estado-financiero-proveedores',
-        component: EstadoFinancieroProveedoresComponent,
-        data: { title: 'Estado Financiero Proveedores' },
+        path: 'estado-financiero',
+        component: EstadoFinancieroComponent,
+        data: { title: 'Estado Financiero' },
       },
       {
         path: 'exception',

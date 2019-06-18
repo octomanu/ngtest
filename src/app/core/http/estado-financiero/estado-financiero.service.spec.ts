@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EstadoFinancieroProveedoresService } from './estado-financiero-proveedores.service';
+import { EstadoFinancieroService } from './estado-financiero.service';
 
 describe('EstadoFinancieroProveedoresService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: EstadoFinancieroProveedoresService = TestBed.get(EstadoFinancieroProveedoresService);
+    const service: EstadoFinancieroService = TestBed.get(EstadoFinancieroService);
     expect(service).toBeTruthy();
   });
 });

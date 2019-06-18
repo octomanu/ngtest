@@ -1,0 +1,152 @@
+<nz-card [nzBordered]="false">
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col>
+      <nz-form-item>
+        <nz-form-label nzFor="monto">{{ 'lambe.consorcios.consorcio' | translate }}
+        </nz-form-label>
+        <nz-form-control>
+          <nz-select nzAllowClear nzShowSearch [nzServerSearch]="true" name="id_consorcio"
+            (nzOnSearch)="searchConsorcios($event)" [(ngModel)]="idConsorcio" (ngModelChange)="changeConsorcio($event)">
+            <ng-container *ngFor="let consorcio of consorcios">
+              <nz-option *ngIf="!isLoading" [nzValue]="consorcio.id" [nzLabel]="consorcio.display"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col>
+      <nz-form-item>
+        <nz-form-label nzFor="uf">{{ 'global.unidad_funcional' | translate }}
+        </nz-form-label>
+        <nz-form-control>
+          <nz-select nzAllowClear nzShowSearch [nzServerSearch]="true" name="uf" (nzOnSearch)="searchUfs()"
+            [(ngModel)]="idUf" (ngModelChange)="changeUf()">
+            <ng-container *ngFor="let uf of ufs">
+              <nz-option *ngIf="!isLoading" [nzValue]="uf.id" [nzLabel]="uf.display"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col>
+      <nz-form-item>
+        <nz-form-label nzFor="uf">{{ 'global.saldo' | translate }}
+        </nz-form-label>
+        <nz-form-control>
+          <nz-statistic [nzValue]="saldo | number: '1.0-2'" [nzSuffix]="'$'"
+            [nzValueStyle]="{ color: (saldo >= 0)  ? '#3F8600' : '#CF1322' }">
+          </nz-statistic>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+</nz-card>
+<nz-card [nzBordered]="false">
+  <ng-template #extraTpl>
+    <i nz-icon nzType="setting"></i>
+  </ng-template>
+  <ng-template #headerTpl>
+    &nbsp;
+  </ng-template>
+
+  <div class="table-operations">
+    <span *ngFor="let tag of (tags | keys); let i = index">
+      <nz-tag *ngIf="tags[tag.key].used" nzMode="closeable" (nzOnClose)="onRemoveTag(tag.key)">
+        {{ tags[tag.key].title | translate }}</nz-tag>
+    </span>
+  </div>
+
+  <div class="table-operations onlysmall">
+    <nz-dropdown [nzTrigger]="'click'">
+      <button nz-button nz-dropdown nzShape="circle">
+        <i nz-icon nzTheme="outline" type="bars"></i>
+      </button>
+      <ul nz-menu>
+        <li nz-menu-item (click)="_openForm()">
+          <span>{{ 'global.crear' | translate }}</span>
+        </li>
+        <li nz-menu-item (click)="clearFilter()">
+          <span>{{ 'global.limpiar_filtros' | translate }}</span>
+        </li>
+      </ul>
+    </nz-dropdown>
+
+    <!-- Muestra filtros de busqueda -->
+    <button nz-button nz-dropdown nzShape="circle" (click)="_openFilter()">
+      <i nz-icon nzTheme="outline" type="search"></i>
+    </button>
+  </div>
+
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
+    [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
+    (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)" [nzSize]="'middle'" [nzBordered]="'false'"
+    [nzScroll]="{ x: '100%' }">
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+
+      <tr (contextmenu)="contextMenu($event, menuTable)">
+        <th nzCustomFilter nzSortKey="estado">
+          <span>{{ 'global.descripcion' | translate }}</span>
+        </th>
+
+        <th nzCustomFilter nzSortKey="estado">
+          <span>{{ 'global.fecha' | translate }}</span>
+        </th>
+
+        <th nzCustomFilter nzSortKey="calle">
+          <span>{{ 'global.monto' | translate }}</span>
+        </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="tableLambe.data" let-i="index">
+        <tr (contextmenu)="contextMenu($event, menuRowContainer)">
+          <ng-template #menuRowContainer>
+            <ng-container *ngTemplateOutlet="menuRow; context: { id: data['gastos_recurrentes-id'] }"></ng-container>
+          </ng-template>
+          <td>
+            <strong class="onlysmall">{{ 'global.descripcion' | translate }}:&nbsp;</strong>
+            {{ data['descripcion'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.fecha' | translate }}:&nbsp;</strong>
+            {{data['fecha']}}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.monto' | translate }}:&nbsp;</strong>
+            $ {{ data['monto_final'] }}
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+
+  <!-- Menu Table -->
+  <ng-template #menuTable>
+    <ul nz-menu nzInDropDown>
+      <li nz-menu-item (click)="_openForm()">
+        <a>{{ 'global.crear' | translate }}</a>
+      </li>
+      <li nz-menu-item (click)="clearFilter()">
+        <a>{{ 'global.limpiar_filtros' | translate }}</a>
+      </li>
+    </ul>
+  </ng-template>
+
+  <!-- Menu Row -->
+  <ng-template #menuRow let-id="id">
+    <ul nz-menu nzInDropDown>
+    </ul>
+  </ng-template>
+
+</nz-card>

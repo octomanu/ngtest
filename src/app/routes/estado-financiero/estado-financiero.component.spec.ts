@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EfpTableComponent } from './efp-table.component';
+import { EstadoFinancieroComponent } from './estado-financiero.component';
 
-describe('EfpTableComponent', () => {
-  let component: EfpTableComponent;
-  let fixture: ComponentFixture<EfpTableComponent>;
+describe('EstadoFinancieroComponent', () => {
+  let component: EstadoFinancieroComponent;
+  let fixture: ComponentFixture<EstadoFinancieroComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EfpTableComponent ]
+      declarations: [ EstadoFinancieroComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EfpTableComponent);
+    fixture = TestBed.createComponent(EstadoFinancieroComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
