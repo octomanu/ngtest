@@ -22,7 +22,7 @@ export class TableLambe implements TableLambeInterface {
   protected filtroForm: {};
   protected tags = {};
   protected dropdown: NzDropdownContextComponent;
-
+  protected smallScreen: boolean;
   constructor(
     protected dataService: TableLambeServiceInterface,
     protected nzDropdownService: NzDropdownService,
@@ -142,17 +142,19 @@ export class TableLambe implements TableLambeInterface {
    */
   subscribeBreakPoint() {
     this.breakpointRef = this.breakpointObserver
-      .observe(['(min-width: 758px)'])
+      .observe(['(min-width: 768px)'])
       .subscribe((state: BreakpointState) => {
         if (state.matches) {
           // mayor a mediun
           this.initialDrawerWidth = '75%';
+          this.smallScreen = false;
           if (this.drawerRef) {
             this.drawerRef.nzWidth = this.initialDrawerWidth;
           }
         } else {
           // menor a medium
           this.initialDrawerWidth = '100%';
+          this.smallScreen = true;
           if (this.drawerRef) {
             this.drawerRef.nzWidth = this.initialDrawerWidth;
           }

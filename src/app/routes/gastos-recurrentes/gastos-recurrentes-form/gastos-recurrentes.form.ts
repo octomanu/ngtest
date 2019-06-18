@@ -8,8 +8,8 @@ export class GastosRecurrentesForm {
   constructor(private fb: FormBuilder) {}
   getForm(): FormGroup {
     return this.fb.group({
-      id: [null, []],
-      id_consorcio: [null, []],
+      name: ['Alain', []],
+      description: ['item menu', []],
       id_proveedor: [null, []],
       id_porcentaje_consorcio: [null, []],
       periodicidad: [[], []],

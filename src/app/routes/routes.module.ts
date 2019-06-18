@@ -43,6 +43,14 @@ import { GastosRecurrentesFormComponent } from './gastos-recurrentes/gastos-recu
 import { CabecerasComponent } from './cabeceras/cabeceras.component';
 import { CabecerasTableComponent } from './cabeceras/cabeceras-table/cabeceras-table.component';
 import { CabecerasFormComponent } from './cabeceras/cabeceras-form/cabeceras-form.component';
+import { NotasComponent } from './notas/notas.component';
+import { NotasTableComponent } from './notas/notas-table/notas-table.component';
+import { NotasFormComponent } from './notas/notas-form/notas-form.component';
+import { CuentaCorrienteComponent } from './cuenta-corriente/cuenta-corriente.component';
+import { CuentaCorrienteTableComponent } from './cuenta-corriente/cuenta-corriente-table/cuenta-corriente-table.component';
+import { CuentaCorrienteFormComponent } from './cuenta-corriente/cuenta-corriente-form/cuenta-corriente-form.component';
+import { EstadoFinancieroProveedoresComponent } from './estado-financiero-proveedores/estado-financiero-proveedores.component';
+import { EfpTableComponent } from './estado-financiero-proveedores/efp-table/efp-table.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -62,6 +70,9 @@ const COMPONENTS = [
   ProfileComponent,
   CabecerasComponent,
   ConsorciosProfileComponent,
+  NotasComponent,
+  CuentaCorrienteComponent,
+  EstadoFinancieroProveedoresComponent,
 ];
 const COMPONENTS_NOROUNT = [
   ProveedorFormComponent,
@@ -87,6 +98,11 @@ const COMPONENTS_NOROUNT = [
   GastosRecurrentesTableComponent,
   CabecerasTableComponent,
   CabecerasFormComponent,
+  NotasTableComponent,
+  NotasFormComponent,
+  CuentaCorrienteFormComponent,
+  CuentaCorrienteTableComponent,
+  EfpTableComponent,
 ];
 
 @NgModule({

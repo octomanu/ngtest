@@ -23,6 +23,9 @@ import { GastosComponent } from './gastos/gastos.component';
 import { ConsorciosProfileComponent } from './consorcios-profile/consorcios-profile.component';
 import { GastosRecurrentesComponent } from './gastos-recurrentes/gastos-recurrentes.component';
 import { CabecerasComponent } from './cabeceras/cabeceras.component';
+import { NotasComponent } from './notas/notas.component';
+import { CuentaCorrienteComponent } from './cuenta-corriente/cuenta-corriente.component';
+import { EstadoFinancieroProveedoresComponent } from './estado-financiero-proveedores/estado-financiero-proveedores.component';
 
 const routes: Routes = [
   {
@@ -31,26 +34,71 @@ const routes: Routes = [
     canActivate: [SimpleGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
-      { path: 'proveedores', component: ProveedoresComponent, data: { title: 'Proveedores' } },
-      { path: 'consorcios', component: ConsorciosComponent, data: { title: 'Consorcios' } },
-      { path: 'consorcios/perfil/:id', component: ConsorciosProfileComponent, data: { title: 'Perfil' } },
-      { path: 'cheques', component: ChequesComponent, data: { title: 'Cheques' } },
-      { path: 'chequeras', component: ChequerasComponent, data: { title: 'Chequeras' } },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        data: { title: '仪表盘' },
+      },
+      {
+        path: 'proveedores',
+        component: ProveedoresComponent,
+        data: { title: 'Proveedores' },
+      },
+      {
+        path: 'consorcios',
+        component: ConsorciosComponent,
+        data: { title: 'Consorcios' },
+      },
+      {
+        path: 'consorcios/perfil/:id',
+        component: ConsorciosProfileComponent,
+        data: { title: 'Perfil' },
+      },
+      {
+        path: 'cheques',
+        component: ChequesComponent,
+        data: { title: 'Cheques' },
+      },
+      {
+        path: 'chequeras',
+        component: ChequerasComponent,
+        data: { title: 'Chequeras' },
+      },
       { path: 'gastos', component: GastosComponent, data: { title: 'Gastos' } },
-      { path: 'gastos-recurrentes', component: GastosRecurrentesComponent, data: { title: 'Gastos Recurrente' } },
-      { path: 'cabeceras', component: CabecerasComponent, data: { title: 'Cabeceras' } },
-      { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
+      {
+        path: 'gastos-recurrentes',
+        component: GastosRecurrentesComponent,
+        data: { title: 'Gastos Recurrente' },
+      },
+      { path: 'notas', component: NotasComponent, data: { title: 'Notas' } },
+      {
+        path: 'cabeceras',
+        component: CabecerasComponent,
+        data: { title: 'Cabeceras' },
+      },
+      {
+        path: 'cuenta-corriente',
+        component: CuentaCorrienteComponent,
+        data: { title: 'Cuenta Corriente' },
+      },
+      {
+        path: 'estado-financiero-proveedores',
+        component: EstadoFinancieroProveedoresComponent,
+        data: { title: 'Estado Financiero Proveedores' },
+      },
+      {
+        path: 'exception',
+        loadChildren: './exception/exception.module#ExceptionModule',
+      },
       // 业务子模块
       // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }
-    ]
+    ],
   },
   // 全屏布局
   {
-      path: 'fullscreen',
-      component: LayoutFullScreenComponent,
-      children: [
-      ]
+    path: 'fullscreen',
+    component: LayoutFullScreenComponent,
+    children: [],
   },
   // passport
   {
@@ -58,10 +106,18 @@ const routes: Routes = [
     component: LayoutPassportComponent,
     children: [
       { path: 'login', component: UserLoginComponent, data: { title: '登录' } },
-      { path: 'register', component: UserRegisterComponent, data: { title: '注册' } },
-      { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果' } },
+      {
+        path: 'register',
+        component: UserRegisterComponent,
+        data: { title: '注册' },
+      },
+      {
+        path: 'register-result',
+        component: UserRegisterResultComponent,
+        data: { title: '注册结果' },
+      },
       { path: 'lock', component: UserLockComponent, data: { title: '锁屏' } },
-    ]
+    ],
   },
   // 单页不包裹Layout
   { path: 'callback/:type', component: CallbackComponent },
@@ -70,14 +126,13 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(
-      routes, {
-        useHash: environment.useHash,
-        // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
-        // Pls refer to https://ng-alain.com/components/reuse-tab
-        scrollPositionRestoration: 'top',
-      }
-    )],
+    RouterModule.forRoot(routes, {
+      useHash: environment.useHash,
+      // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
+      // Pls refer to https://ng-alain.com/components/reuse-tab
+      scrollPositionRestoration: 'top',
+    }),
+  ],
   exports: [RouterModule],
 })
-export class RouteRoutingModule { }
+export class RouteRoutingModule {}
