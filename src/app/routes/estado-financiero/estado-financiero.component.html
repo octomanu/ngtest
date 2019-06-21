@@ -1,2 +1,12 @@
-<page-header [title]=" 'global.estado-financiero' | translate "></page-header>
-<app-estado-financiero-table [soruce]="this.source"></app-estado-financiero-table>
+<!-- <page-header [title]=" 'global.estado-financiero' | translate " [action]="boton">
+</page-header> -->
+<page-header [title]=" 'global.caja' | translate " [tab]="tab">
+  <ng-template #tab>
+    <nz-tabset [nzSize]="'default'" [(nzSelectedIndex)]="tabii">
+      <nz-tab nzTitle="Caja"></nz-tab>
+      <nz-tab nzTitle="Caja Futura"></nz-tab>
+    </nz-tabset>
+  </ng-template>
+</page-header>
+
+<app-estado-financiero-table *ngIf="tabii == 0" [soruce]="this.source"></app-estado-financiero-table>

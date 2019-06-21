@@ -51,7 +51,7 @@ import { CuentaCorrienteTableComponent } from './cuenta-corriente/cuenta-corrien
 import { CuentaCorrienteFormComponent } from './cuenta-corriente/cuenta-corriente-form/cuenta-corriente-form.component';
 import { EstadoFinancieroComponent } from './estado-financiero/estado-financiero.component';
 import { EstadoFinancieroTableComponent } from './estado-financiero/estado-financiero-table/estado-financiero-table.component';
-
+import { CuentaCorrienteAllTableComponent } from './cuenta-corriente/cuenta-corriente-all-table/cuenta-corriente-all-table.component';
 const COMPONENTS = [
   DashboardComponent,
   // passport pages
@@ -100,12 +100,18 @@ const COMPONENTS_NOROUNT = [
   NotasTableComponent,
   NotasFormComponent,
   CuentaCorrienteFormComponent,
-  CuentaCorrienteTableComponent
+  CuentaCorrienteTableComponent,
+  CuentaCorrienteAllTableComponent,
 ];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, EstadoFinancieroComponent, EstadoFinancieroTableComponent],
+  declarations: [
+    ...COMPONENTS,
+    ...COMPONENTS_NOROUNT,
+    EstadoFinancieroComponent,
+    EstadoFinancieroTableComponent,
+  ],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule {}

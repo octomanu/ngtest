@@ -24,8 +24,7 @@ export class EstadoFinancieroService {
 
   getPath() {
     if (!this.source || !this.id) {
-      console.log(this.source, this.id);
-      throw new Error('No hay source/id seteado.');
+      return `estado-financiero/all`;
     }
     return `estado-financiero/${this.source}/${this.id}`;
   }

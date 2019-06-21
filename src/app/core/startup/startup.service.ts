@@ -66,6 +66,7 @@ export class StartupService {
           this.aclService.setFull(true);
           // Menú de inicialización
           this.menuService.add(res.menu);
+          console.log(res.menu);
           // Establecer el sufijo del título de la página.
           this.titleService.suffix = res.app.name;
         },

@@ -2,7 +2,7 @@ import { NgModule, LOCALE_ID, APP_INITIALIZER, Injector } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { NgxDnDModule } from '@swimlane/ngx-dnd';
 // #region default language
 // Referencia：https://ng-alain.com/docs/i18n
 import { default as ngLang } from '@angular/common/locales/en';
@@ -102,6 +102,7 @@ import { LayoutModule } from './layout/layout.module';
     BrowserAnimationsModule,
     HttpClientModule,
     DelonModule.forRoot(),
+    NgxDnDModule.forRoot(),
     CoreModule,
     SharedModule,
     LayoutModule,

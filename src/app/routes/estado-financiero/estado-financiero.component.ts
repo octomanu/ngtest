@@ -8,6 +8,8 @@ import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 })
 export class EstadoFinancieroComponent implements OnInit {
   protected source: string;
+
+  protected tabii = 0;
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {

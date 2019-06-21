@@ -7,7 +7,7 @@ export const environment = {
   production: false,
   useHash: true,
   hmr: false,
-  OCTO_API: 'http://192.168.3.222:81',
+  OCTO_API: 'http://192.168.3.151:81',
 };
 
 /*

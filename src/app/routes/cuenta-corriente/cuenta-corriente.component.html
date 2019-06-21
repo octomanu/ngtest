@@ -1,2 +1,18 @@
-<page-header [title]=" 'global.cuenta-corriente' | translate "></page-header>
-<app-cuenta-corriente-table></app-cuenta-corriente-table>
+<page-header [title]=" 'global.cuenta-corriente' | translate " [tab]="tab" [action]="action">
+  <ng-template #tab>
+    <nz-tabset [nzSize]="'default'" [(nzSelectedIndex)]="tabii">
+      <nz-tab nzTitle="Caja"></nz-tab>
+      <nz-tab nzTitle="Caja Futura"></nz-tab>
+    </nz-tabset>
+  </ng-template>
+  <ng-template #action>
+    <nz-radio-group [(ngModel)]="tabii" [nzButtonStyle]="'solid'">
+      <label nz-radio-button nzValue="0">Caja</label>
+      <label nz-radio-button nzValue="1">Caja Futura</label>
+    </nz-radio-group>
+    <nz-switch [ngModel]="false" (ngModelChange)="change($event)"></nz-switch>
+    <br />
+  </ng-template>
+</page-header>
+<app-cuenta-corriente-table *ngIf="tabii == 0"></app-cuenta-corriente-table>
+<app-cuenta-corriente-all-table *ngIf="tabii == 1"></app-cuenta-corriente-all-table>
