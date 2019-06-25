@@ -52,6 +52,7 @@ import { CuentaCorrienteFormComponent } from './cuenta-corriente/cuenta-corrient
 import { EstadoFinancieroComponent } from './estado-financiero/estado-financiero.component';
 import { EstadoFinancieroTableComponent } from './estado-financiero/estado-financiero-table/estado-financiero-table.component';
 import { CuentaCorrienteAllTableComponent } from './cuenta-corriente/cuenta-corriente-all-table/cuenta-corriente-all-table.component';
+import { NgxDnDModule } from '@swimlane/ngx-dnd';
 const COMPONENTS = [
   DashboardComponent,
   // passport pages
@@ -105,7 +106,7 @@ const COMPONENTS_NOROUNT = [
 ];
 
 @NgModule({
-  imports: [SharedModule, RouteRoutingModule],
+  imports: [SharedModule, RouteRoutingModule, NgxDnDModule],
   declarations: [
     ...COMPONENTS,
     ...COMPONENTS_NOROUNT,

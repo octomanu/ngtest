@@ -1,18 +1,131 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  TemplateRef,
+  ChangeDetectorRef,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { SettingsService } from '@delon/theme';
+import { NzDropdownContextComponent, NzDropdownService } from 'ng-zorro-antd';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { MenuHandlerService } from 'app/utils/menu-handler/menu-handler.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'layout-sidebar',
   templateUrl: './sidebar.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent {
-  data = [
-    'Racing car sprays burning fuel into crowd.',
-    'Japanese princess to wed commoner.',
-    'Australian walks 100km after outback crash.',
-    'Man charged over missing wedding girl.',
-    'Los Angeles battles huge wildfires.'
-  ];
-  constructor(public settings: SettingsService) {}
+export class SidebarComponent implements OnInit, OnDestroy {
+  protected dropdown: NzDropdownContextComponent;
+  protected menuSubscription: Subscription;
+  protected form: FormGroup;
+  protected showAll = false;
+  isCollapsed = false;
+  protected orderableList = [];
+  constructor(
+    protected settings: SettingsService,
+    protected nzDropdownService: NzDropdownService,
+    protected cdr: ChangeDetectorRef,
+    private fb: FormBuilder,
+    protected menuHandler: MenuHandlerService,
+  ) {}
+
+  ngOnInit() {
+    this.menuSubscription = this.menuHandler.getMenu().subscribe(menu => {
+      this.orderableList = menu;
+      this.cdr.detectChanges();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.menuSubscription.unsubscribe();
+  }
+
+  initFormn() {
+    this.form = this.fb.group({
+      title: [null, [Validators.required]],
+      route: [null, [Validators.required]],
+      fav: [null, []],
+    });
+  }
+
+  toggleCollapsed(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  contextMenu($event: MouseEvent, template: TemplateRef<void>): void {
+    this.initFormn();
+    this.dropdown = this.nzDropdownService.create($event, template);
+  }
+
+  contextMenuRow(
+    $event: MouseEvent,
+    template: TemplateRef<void>,
+    item: any,
+  ): void {
+    this.initFormn();
+    console.log(item);
+    this.form.get('title').setValue(item.title);
+    this.form.get('route').setValue(item.route);
+    this.form.get('fav').setValue(item.fav);
+    this.dropdown = this.nzDropdownService.create($event, template);
+  }
+
+  closeMenu() {
+    this.dropdown.close();
+    this.cdr.detectChanges();
+  }
+
+  drop(evento: any, zone: string) {
+    switch (zone) {
+      case 'menu':
+        evento.value.fav = false;
+        break;
+      case 'favoritos':
+        evento.value.fav = true;
+        break;
+    }
+  }
+
+  crearItem(favorito: boolean) {
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.orderableList.push({
+      custom: true,
+      title: this.form.value.title,
+      route: this.form.value.route,
+      icon: 'link',
+      fav: favorito,
+    });
+    this.cdr.detectChanges();
+    this.menuHandler.updateMenu(this.orderableList);
+    this.dropdown.close();
+  }
+
+  editarItem(item: any) {
+    if (this.form.invalid) {
+      return;
+    }
+    item.title = this.form.value.title;
+    item.route = this.form.value.route;
+    item.fav = this.form.value.fav;
+    this.cdr.detectChanges();
+    this.menuHandler.updateMenu(this.orderableList);
+    this.dropdown.close();
+  }
+
+  eliminarItem(item: any) {
+    this.menuHandler.updateMenu(this.orderableList);
+    const index: number = this.orderableList.indexOf(item);
+    if (index !== -1) {
+      this.orderableList.splice(index, 1);
+    }
+    this.cdr.detectChanges();
+    this.menuHandler.updateMenu(this.orderableList);
+    this.dropdown.close();
+  }
 }

@@ -100,5 +100,13 @@
   "global.consorcio": "Consortium",
   "global.movimiento": "Movement",
   "global.unidad_funcional": "Functional Unit",
-  "global.estado-financiero": "Financial state"
+  "global.estado-financiero": "Financial state",
+  "global.consorcios": "Consortiums",
+  "global.proveedores": "Providers",
+  "global.notas": "Notes",
+  "global.gastos": "Spendings",
+  "global.chequeras": "Checkbooks",
+  "global.titulo": "Title",
+  "global.ruta": "Url",
+  "global.favorito": "Favourite"
 }

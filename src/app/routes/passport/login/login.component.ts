@@ -13,6 +13,8 @@ import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { StartupService } from '@core';
 import { LoginService } from '@core/http/login.service.ts/login.service';
+import { MenuService } from '@core/http/menu/menu.service';
+import { MenuHandlerService } from 'app/utils/menu-handler/menu-handler.service';
 
 @Component({
   selector: 'passport-login',
@@ -39,6 +41,8 @@ export class UserLoginComponent implements OnDestroy {
     public http: _HttpClient,
     public msg: NzMessageService,
     private loginService: LoginService,
+    private menuService: MenuService,
+    private menuHandler: MenuHandlerService,
   ) {
     this.form = fb.group({
       userName: [null, [Validators.required, Validators.email]],
@@ -112,12 +116,15 @@ export class UserLoginComponent implements OnDestroy {
     // En general, las solicitudes de inicio de sesión no requieren verificación,
     // por lo que puede agregarlas a la URL de solicitud`/login?_allow_anonymous=true`
     // Indica que el usuario no está activado. Token Comprobar
-    this.loginService.login(this.userName.value, this.password.value)
-      .subscribe((res: any) => {
+    this.loginService.login(this.userName.value, this.password.value).subscribe(
+      (res: any) => {
         // Borrar información de multiplexación de enrutamiento
         this.reuseTabService.clear();
         // 设置用户Token信息
         this.tokenService.set(res);
+
+        this.menuHandler.refreshMenu();
+
         // Recuperar StartupService Contenido， siempre creemos que la información de la aplicación generalmente
         // se ve afectada por el alcance de la autorización actual del usuario.
         this.startupSrv.load().then(() => {
@@ -125,9 +132,11 @@ export class UserLoginComponent implements OnDestroy {
           if (url.includes('/passport')) url = '/';
           this.router.navigateByUrl(url);
         });
-      }, err => {
+      },
+      err => {
         this.msg.create('error', 'Credenciales inválidas');
-      });
+      },
+    );
   }
 
   // #region social

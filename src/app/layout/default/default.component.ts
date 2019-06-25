@@ -36,7 +36,7 @@ import { SettingDrawerComponent } from './setting-drawer/setting-drawer.componen
 })
 export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
-  @ViewChild('settingHost', { read: ViewContainerRef, static: true })
+  @ViewChild('settingHost', { read: ViewContainerRef })
   private settingHost: ViewContainerRef;
   isFetching = false;
 

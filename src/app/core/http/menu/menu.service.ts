@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ɵConsole } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
 import { map, catchError } from 'rxjs/operators';
@@ -13,7 +13,15 @@ export class MenuService {
   getMenu() {
     const URL = `${environment.OCTO_API}/menu`;
 
-    return this.http.delete(URL).pipe(
+    return this.http.get(URL).pipe(
+      map((resp: any) => resp.data),
+      catchError(err => throwError(err)),
+    );
+  }
+
+  update(menu: any[]) {
+    const URL = `${environment.OCTO_API}/menu`;
+    return this.http.post(URL, { menu }).pipe(
       map(resp => resp),
       catchError(err => throwError(err)),
     );

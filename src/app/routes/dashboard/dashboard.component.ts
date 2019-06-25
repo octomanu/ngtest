@@ -10,7 +10,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private http: _HttpClient
   ) { }
-
+  public orderableList = ['Item 1b', 'Item 2b', 'Item 3b'];
   ngOnInit() {
   }
 

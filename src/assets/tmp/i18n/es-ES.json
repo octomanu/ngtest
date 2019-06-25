@@ -100,5 +100,13 @@
   "global.consorcio": "Consorcio",
   "global.movimiento": "Movimiento",
   "global.unidad_funcional": "Unidad Funcional",
-  "global.estado-financiero": "Estado Financiero"
+  "global.estado-financiero": "Estado Financiero",
+  "global.consorcios": "Consorcios",
+  "global.proveedores": "Proveedores",
+  "global.notas": "Notas",
+  "global.gastos": "Gastos",
+  "global.chequeras": "Chequeras",
+  "global.titulo": "Titulo",
+  "global.ruta": "Url",
+  "global.favorito": "Favorito"
 }

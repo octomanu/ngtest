@@ -13,7 +13,7 @@ import { HeaderFullScreenComponent } from './default/header/components/fullscree
 import { HeaderI18nComponent } from './default/header/components/i18n.component';
 import { HeaderStorageComponent } from './default/header/components/storage.component';
 import { HeaderUserComponent } from './default/header/components/user.component';
-
+import { NgxDnDModule } from '@swimlane/ngx-dnd';
 import { SettingDrawerComponent } from './default/setting-drawer/setting-drawer.component';
 import { SettingDrawerItemComponent } from './default/setting-drawer/setting-drawer-item.component';
 const SETTINGDRAWER = [SettingDrawerComponent, SettingDrawerItemComponent];
@@ -42,7 +42,7 @@ import { LayoutPassportComponent } from './passport/passport.component';
 const PASSPORT = [LayoutPassportComponent];
 
 @NgModule({
-  imports: [SharedModule],
+  imports: [SharedModule, NgxDnDModule],
   entryComponents: SETTINGDRAWER,
   declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT],
   exports: [...COMPONENTS, ...PASSPORT],
