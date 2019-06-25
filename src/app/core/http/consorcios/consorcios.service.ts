@@ -59,7 +59,7 @@ export class ConsorciosService implements TableLambeServiceInterface {
     );
   }
 
-  create(proveedor: Proveedor) {
+  create(proveedor) {
     const URL = `${this.url}`;
 
     return this.http.post(URL, proveedor).pipe(
@@ -68,7 +68,7 @@ export class ConsorciosService implements TableLambeServiceInterface {
     );
   }
 
-  update(id: number, proveedor: Proveedor) {
+  update(id: number, proveedor) {
     const URL = `${this.url}/${id}`;
 
     return this.http.put(URL, proveedor).pipe(

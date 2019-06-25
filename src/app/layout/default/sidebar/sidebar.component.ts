@@ -20,9 +20,10 @@ import { Subscription } from 'rxjs';
 export class SidebarComponent implements OnInit, OnDestroy {
   protected dropdown: NzDropdownContextComponent;
   protected menuSubscription: Subscription;
+  protected settingsSubscription: Subscription;
   protected form: FormGroup;
   protected showAll = false;
-  isCollapsed = false;
+  protected isCollapsed: boolean;
   protected orderableList = [];
   constructor(
     protected settings: SettingsService,
@@ -33,6 +34,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.isCollapsed = this.settings.layout.collapsed;
+
+    this.settings.notify.subscribe((event: any) => {
+      if (event.type === 'layout') {
+        this.isCollapsed = event.value;
+        this.cdr.detectChanges();
+      }
+    });
+
     this.menuSubscription = this.menuHandler.getMenu().subscribe(menu => {
       this.orderableList = menu;
       this.cdr.detectChanges();
@@ -41,6 +51,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.menuSubscription.unsubscribe();
+    this.settingsSubscription.unsubscribe();
   }
 
   initFormn() {
@@ -76,17 +87,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   closeMenu() {
     this.dropdown.close();
     this.cdr.detectChanges();
-  }
-
-  drop(evento: any, zone: string) {
-    switch (zone) {
-      case 'menu':
-        evento.value.fav = false;
-        break;
-      case 'favoritos':
-        evento.value.fav = true;
-        break;
-    }
   }
 
   crearItem(favorito: boolean) {

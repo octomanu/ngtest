@@ -8,17 +8,18 @@
       </ng-template>
       <ul ngxDroppable [ngStyle]="{'min-height': '30px'}">
         <ng-container *ngFor="let item of orderableList; let i = index">
-          <li nz-menu-item *ngIf="item.fav" ngxDraggable [model]="item"
+          <li nz-menu-item *ngIf="item.fav" ngxDraggable [model]="item" nz-tooltip
+            [nzTitle]="isCollapsed ? (item.title | translate) : ''"
             (contextmenu)="contextMenuRow($event, menuRowContainer, item)">
 
             <a *ngIf="!item.custom" [routerLink]="item.route">
               <i nz-icon [nzType]="item.icon || 'link'"></i>
-              <span>{{item.title | translate}}</span>
+              <span *ngIf="!isCollapsed">{{item.title | translate}}</span>
             </a>
 
             <a *ngIf="item.custom" [href]="item.route">
               <i nz-icon [nzType]="item.icon || 'link'"></i>
-              <span>{{item.title | translate}}</span>
+              <span *ngIf="!isCollapsed">{{item.title | translate}}</span>
             </a>
 
             <ng-template #menuRowContainer>
