@@ -45,7 +45,7 @@ describe('Service: I18n', () => {
   it('should working', () => {
     genModule();
     expect(srv).toBeTruthy();
-    expect(srv.defaultLang).toBe('zh-CN');
+    expect(srv.defaultLang).toBe('es-ES');
     srv.fanyi('a');
     srv.fanyi('a', {});
     const t = injector.get(TranslateService) as TranslateService;
@@ -60,9 +60,9 @@ describe('Service: I18n', () => {
   });
 
   it('should be used browser as default language', () => {
-    MockTranslateService.getBrowserLang.and.returnValue('zh-TW');
+    MockTranslateService.getBrowserLang.and.returnValue('es-ES');
     genModule();
-    expect(srv.defaultLang).toBe('zh-TW');
+    expect(srv.defaultLang).toBe('es-ES');
   });
 
   it('should be trigger notify when changed language', () => {

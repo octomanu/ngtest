@@ -1,12 +1,26 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CuentaCorrienteService } from './cuenta-corriente.service';
+import {
+  HttpTestingController,
+  HttpClientTestingModule,
+} from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('CuentaCorrienteService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let service: CuentaCorrienteService;
+  let httpMock: HttpClientTestingModule;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule, HttpClientTestingModule],
+    });
+
+    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.get(CuentaCorrienteService);
+  });
 
   it('should be created', () => {
-    const service: CuentaCorrienteService = TestBed.get(CuentaCorrienteService);
     expect(service).toBeTruthy();
   });
 });

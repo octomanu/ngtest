@@ -1,12 +1,26 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CabecerasService } from './cabeceras.service';
+import { HttpClientModule } from '@angular/common/http';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 
 describe('CabecerasService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let service: CabecerasService;
+  let httpMock: HttpClientTestingModule;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule, HttpClientTestingModule],
+    });
+
+    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.get(CabecerasService);
+  });
 
   it('should be created', () => {
-    const service: CabecerasService = TestBed.get(CabecerasService);
     expect(service).toBeTruthy();
   });
 });

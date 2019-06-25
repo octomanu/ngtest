@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChequesTableComponent } from './cheques-table.component';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 describe('ChequesTableComponent', () => {
   let component: ChequesTableComponent;
@@ -8,7 +9,8 @@ describe('ChequesTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChequesTableComponent ]
+      declarations: [ ChequesTableComponent ],
+      imports: [NgZorroAntdModule]
     })
     .compileComponents();
   }));

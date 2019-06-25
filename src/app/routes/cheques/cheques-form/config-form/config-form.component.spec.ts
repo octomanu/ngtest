@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfigFormComponent } from './config-form.component';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 describe('ConfigFormComponent', () => {
   let component: ConfigFormComponent;
@@ -8,7 +9,8 @@ describe('ConfigFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfigFormComponent ]
+      declarations: [ ConfigFormComponent ],
+      imports: [NgZorroAntdModule]
     })
     .compileComponents();
   }));
