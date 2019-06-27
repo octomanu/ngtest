@@ -124,6 +124,7 @@ export class ChequesFormComponent implements OnInit {
   }
 
   protected getCheckbooksList(display: string) {
+    console.log(this.chequerasService);
     this.chequerasService
       .searchCheckbook(display)
       .subscribe((data: { id: number; display: string }[]) => {

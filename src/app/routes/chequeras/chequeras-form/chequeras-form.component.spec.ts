@@ -1,7 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChequerasFormComponent } from './chequeras-form.component';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NzDrawerRef } from 'ng-zorro-antd';
+import { of } from 'rxjs';
 
 describe('ChequerasFormComponent', () => {
   let component: ChequerasFormComponent;
@@ -9,10 +10,12 @@ describe('ChequerasFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChequerasFormComponent ],
-      imports: [NgZorroAntdModule]
-    })
-    .compileComponents();
+      declarations: [ChequerasFormComponent],
+      providers: [
+        { provide: NzDrawerRef, useValue: { afterOpen: of('mockObservable') } },
+      ],
+      imports: [NgZorroAntdModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

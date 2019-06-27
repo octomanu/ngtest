@@ -10,6 +10,7 @@ export class GastosRecurrentesForm {
     return this.fb.group({
       name: ['Alain', []],
       description: ['item menu', []],
+      id_consorcio: [null, []],
       id_proveedor: [null, []],
       id_porcentaje_consorcio: [null, []],
       periodicidad: [[], []],

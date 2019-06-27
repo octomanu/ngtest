@@ -3,12 +3,18 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CabecerasTableComponent } from './cabeceras-table.component';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { KeysPipe } from '@delon/theme';
+import { PageHeaderComponent } from '@delon/abc';
+import { RouterTestingModule } from '@angular/router/testing';
+import { I18nHttpLoaderFactory } from 'app/app.module';
+import { of } from 'rxjs';
+import { CabecerasService } from '@core/http/cabeceras/cabeceras.service';
 
-export function I18nHttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, `assets/tmp/i18n/`, '.json');
+export class FakeCabecerasService {
+  paginate() {
+    return of({ ok: true, data: [], recordsFiltered: 0 });
+  }
 }
 
 describe('CabecerasTableComponent', () => {
@@ -17,10 +23,14 @@ describe('CabecerasTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CabecerasTableComponent, KeysPipe],
+      declarations: [CabecerasTableComponent, KeysPipe, PageHeaderComponent],
+      providers: [
+        { provide: CabecerasService, useClass: FakeCabecerasService },
+      ],
       imports: [
         NgZorroAntdModule,
         HttpClientModule,
+        RouterTestingModule.withRoutes([]),
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,

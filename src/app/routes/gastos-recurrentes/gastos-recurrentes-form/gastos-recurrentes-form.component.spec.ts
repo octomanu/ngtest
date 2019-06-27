@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GastosRecurrentesFormComponent } from './gastos-recurrentes-form.component';
+import { NzDrawerRef, NgZorroAntdModule } from 'ng-zorro-antd';
+import { of } from 'rxjs';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { I18nHttpLoaderFactory } from 'app/app.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('GastosRecurrentesFormComponent', () => {
   let component: GastosRecurrentesFormComponent;
@@ -8,9 +15,24 @@ describe('GastosRecurrentesFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GastosRecurrentesFormComponent ]
-    })
-    .compileComponents();
+      declarations: [GastosRecurrentesFormComponent],
+      providers: [
+        { provide: NzDrawerRef, useValue: { afterOpen: of('mockObservable') } },
+      ],
+      imports: [
+        ReactiveFormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        NgZorroAntdModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: I18nHttpLoaderFactory,
+            deps: [HttpClient],
+          },
+        }),
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

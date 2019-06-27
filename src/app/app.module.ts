@@ -17,7 +17,7 @@ const LANG = {
 // register angular
 import { registerLocaleData } from '@angular/common';
 registerLocaleData(LANG.ng, LANG.abbr);
-const LANG_PROVIDES = [
+export const LANG_PROVIDES = [
   { provide: LOCALE_ID, useValue: LANG.abbr },
   { provide: NZ_I18N, useValue: LANG.zorro },
   { provide: DELON_LOCALE, useValue: LANG.delon },
