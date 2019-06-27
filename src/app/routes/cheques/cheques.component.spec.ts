@@ -11,6 +11,14 @@ import { KeysPipe } from '@delon/theme';
 import { ChequesTableComponent } from './cheques-table/cheques-table.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChequesService } from '@core/http/cheques/cheques.service';
+import { of } from 'rxjs';
+
+export class FakeChequesService {
+  paginate() {
+    return of({ ok: true, data: [], recordsFiltered: 0 });
+  }
+}
 
 describe('ChequesComponent', () => {
   let component: ChequesComponent;
@@ -18,7 +26,13 @@ describe('ChequesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChequesComponent, PageHeaderComponent, KeysPipe, ChequesTableComponent ],
+      declarations: [
+        ChequesComponent,
+        PageHeaderComponent,
+        KeysPipe,
+        ChequesTableComponent,
+      ],
+      providers: [{ provide: ChequesService, useClass: FakeChequesService }],
       imports: [
         NgZorroAntdModule,
         HttpClientModule,
@@ -33,8 +47,7 @@ describe('ChequesComponent', () => {
           },
         }),
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

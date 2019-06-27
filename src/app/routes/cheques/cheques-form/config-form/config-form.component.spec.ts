@@ -9,6 +9,12 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { I18nHttpLoaderFactory } from 'app/app.module';
 import { of } from 'rxjs';
 
+export class FakeNzDrawerRef {
+  close(result?: any) {
+    return of('muehehe');
+  }
+}
+
 describe('ConfigFormComponent', () => {
   let component: ConfigFormComponent;
   let fixture: ComponentFixture<ConfigFormComponent>;
@@ -19,7 +25,7 @@ describe('ConfigFormComponent', () => {
       providers: [
         {
           provide: NzDrawerRef,
-          useValue: { afterOpen: of('mockObservable'), close(obj: any) {} },
+          useClass: FakeNzDrawerRef,
         },
       ],
       imports: [

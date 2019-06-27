@@ -8,6 +8,20 @@ import { I18nHttpLoaderFactory } from 'app/app.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
+import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
+
+export class FakeProveedorService {
+  searchProveedor() {
+    return of([]);
+  }
+}
+
+export class FakeConsorciosService {
+  searchByDisplay() {
+    return of([]);
+  }
+}
 
 describe('GastosRecurrentesFormComponent', () => {
   let component: GastosRecurrentesFormComponent;
@@ -17,6 +31,8 @@ describe('GastosRecurrentesFormComponent', () => {
     TestBed.configureTestingModule({
       declarations: [GastosRecurrentesFormComponent],
       providers: [
+        { provide: ConsorciosService, useClass: FakeConsorciosService },
+        { provide: ProveedoresService, useClass: FakeProveedorService },
         { provide: NzDrawerRef, useValue: { afterOpen: of('mockObservable') } },
       ],
       imports: [

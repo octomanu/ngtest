@@ -9,9 +9,14 @@ import { DelonABCModule, PageHeaderComponent } from '@delon/abc';
 import { CabecerasTableComponent } from './cabeceras-table/cabeceras-table.component';
 import { KeysPipe } from '@delon/theme';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CabecerasService } from '@core/http/cabeceras/cabeceras.service';
+import { of } from 'rxjs';
+import { I18nHttpLoaderFactory } from 'app/app.module';
 
-export function I18nHttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, `assets/tmp/i18n/`, '.json');
+export class FakeCabecerasService {
+  paginate() {
+    return of({ ok: true, data: [], recordsFiltered: 0 });
+  }
 }
 
 describe('CabecerasComponent', () => {
@@ -20,7 +25,15 @@ describe('CabecerasComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CabecerasComponent, CabecerasTableComponent, KeysPipe, PageHeaderComponent],
+      declarations: [
+        CabecerasComponent,
+        CabecerasTableComponent,
+        KeysPipe,
+        PageHeaderComponent,
+      ],
+      providers: [
+        { provide: CabecerasService, useClass: FakeCabecerasService },
+      ],
       imports: [
         NgZorroAntdModule,
         HttpClientModule,

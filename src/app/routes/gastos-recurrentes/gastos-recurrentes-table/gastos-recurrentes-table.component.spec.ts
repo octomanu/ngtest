@@ -7,6 +7,14 @@ import { I18nHttpLoaderFactory } from 'app/app.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { of } from 'rxjs';
+import { GastosRecurrentesService } from '@core/http/gastos-recurrentes/gastos-recurrentes.service';
+
+export class FakeGastosRecurrentesService {
+  paginate() {
+    return of({ ok: true, data: [], recordsFiltered: 0 });
+  }
+}
 
 describe('GastosRecurrentesTableComponent', () => {
   let component: GastosRecurrentesTableComponent;
@@ -14,6 +22,12 @@ describe('GastosRecurrentesTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: GastosRecurrentesService,
+          useClass: FakeGastosRecurrentesService,
+        },
+      ],
       declarations: [GastosRecurrentesTableComponent, KeysPipe],
       imports: [
         NgZorroAntdModule,

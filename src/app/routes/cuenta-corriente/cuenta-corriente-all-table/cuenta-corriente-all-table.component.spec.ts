@@ -9,6 +9,29 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { KeysPipe } from '@delon/theme';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CuentaCorrienteService } from '@core/http/cuenta-corriente/cuenta-corriente.service';
+import { of } from 'rxjs';
+import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
+import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
+import { EstadoFinancieroService } from '@core/http/estado-financiero/estado-financiero.service';
+
+export class FakeEstadoFinancieroService {
+  paginate() {
+    return of({ ok: true, data: [], recordsFiltered: 0, totals: [] });
+  }
+}
+
+export class FakeProveedorService {
+  searchProveedor() {
+    return of([]);
+  }
+}
+
+export class FakeConsorciosService {
+  searchByDisplay() {
+    return of([]);
+  }
+}
 
 describe('CuentaCorrienteAllTableComponent', () => {
   let component: CuentaCorrienteAllTableComponent;
@@ -17,6 +40,14 @@ describe('CuentaCorrienteAllTableComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CuentaCorrienteAllTableComponent, KeysPipe],
+      providers: [
+        {
+          provide: EstadoFinancieroService,
+          useClass: FakeEstadoFinancieroService,
+        },
+        { provide: ConsorciosService, useClass: FakeConsorciosService },
+        { provide: ProveedoresService, useClass: FakeProveedorService },
+      ],
       imports: [
         NgZorroAntdModule,
         BrowserAnimationsModule,

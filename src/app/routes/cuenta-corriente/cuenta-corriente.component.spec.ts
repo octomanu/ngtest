@@ -12,6 +12,33 @@ import { CuentaCorrienteAllTableComponent } from './cuenta-corriente-all-table/c
 import { CuentaCorrienteTableComponent } from './cuenta-corriente-table/cuenta-corriente-table.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
+import { EstadoFinancieroService } from '@core/http/estado-financiero/estado-financiero.service';
+import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
+import { CuentaCorrienteService } from '@core/http/cuenta-corriente/cuenta-corriente.service';
+
+export class FakeEstadoFinancieroService {
+  paginate() {
+    return of({ ok: true, data: [], recordsFiltered: 0, totals: [] });
+  }
+}
+export class FakeCuentaCorrienteService {
+  paginate() {
+    return of({ ok: true, data: [], recordsFiltered: 0, totals: [] });
+  }
+}
+export class FakeProveedorService {
+  searchProveedor() {
+    return of([]);
+  }
+}
+
+export class FakeConsorciosService {
+  searchByDisplay() {
+    return of([]);
+  }
+}
 
 describe('CuentaCorrienteComponent', () => {
   let component: CuentaCorrienteComponent;
@@ -19,6 +46,18 @@ describe('CuentaCorrienteComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: CuentaCorrienteService,
+          useClass: FakeCuentaCorrienteService,
+        },
+        {
+          provide: EstadoFinancieroService,
+          useClass: FakeEstadoFinancieroService,
+        },
+        { provide: ConsorciosService, useClass: FakeConsorciosService },
+        { provide: ProveedoresService, useClass: FakeProveedorService },
+      ],
       declarations: [
         CuentaCorrienteComponent,
         PageHeaderComponent,

@@ -11,6 +11,14 @@ import { KeysPipe } from '@delon/theme';
 import { ConsorcioTableComponent } from './consorcio-table/consorcio-table.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
+
+export class FakeConsorciosService {
+  paginate() {
+    return of({ ok: true, data: [], recordsFiltered: 0 });
+  }
+}
 
 describe('ConsorciosComponent', () => {
   let component: ConsorciosComponent;
@@ -18,6 +26,9 @@ describe('ConsorciosComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [
+        { provide: ConsorciosService, useClass: FakeConsorciosService },
+      ],
       declarations: [
         ConsorciosComponent,
         ConsorcioTableComponent,

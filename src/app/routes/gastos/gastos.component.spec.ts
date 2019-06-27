@@ -11,6 +11,28 @@ import { KeysPipe } from '@delon/theme';
 import { PageHeaderComponent } from '@delon/abc';
 import { GastosTableComponent } from './gastos-table/gastos-table.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GastosService } from '@core/http/gastos/gastos.service';
+import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
+import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
+import { of } from 'rxjs';
+
+export class FakeGastosService {
+  paginate() {
+    return of({ ok: true, data: [], recordsFiltered: 0 });
+  }
+}
+
+export class FakeProveedorService {
+  searchProveedor() {
+    return of([]);
+  }
+}
+
+export class FakeConsorciosService {
+  searchByDisplay() {
+    return of([]);
+  }
+}
 
 describe('GastosComponent', () => {
   let component: GastosComponent;
@@ -18,6 +40,11 @@ describe('GastosComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [
+        { provide: GastosService, useClass: FakeGastosService },
+        { provide: ConsorciosService, useClass: FakeConsorciosService },
+        { provide: ProveedoresService, useClass: FakeProveedorService },
+      ],
       declarations: [
         GastosComponent,
         KeysPipe,
