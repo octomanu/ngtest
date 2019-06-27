@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CabecerasTableComponent } from './cabeceras-table.component';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NZ_ICONS } from 'ng-zorro-antd';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { KeysPipe } from '@delon/theme';
@@ -10,6 +10,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nHttpLoaderFactory } from 'app/app.module';
 import { of } from 'rxjs';
 import { CabecerasService } from '@core/http/cabeceras/cabeceras.service';
+import { IconDefinition } from '@ant-design/icons-angular';
+import {
+  SettingOutline,
+  PlusOutline,
+  ProfileOutline,
+} from '@ant-design/icons-angular/icons';
 
 export class FakeCabecerasService {
   paginate() {
@@ -20,12 +26,13 @@ export class FakeCabecerasService {
 describe('CabecerasTableComponent', () => {
   let component: CabecerasTableComponent;
   let fixture: ComponentFixture<CabecerasTableComponent>;
-
+  const icons: IconDefinition[] = [SettingOutline, PlusOutline, ProfileOutline];
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CabecerasTableComponent, KeysPipe, PageHeaderComponent],
       providers: [
         { provide: CabecerasService, useClass: FakeCabecerasService },
+        { provide: NZ_ICONS, useValue: icons },
       ],
       imports: [
         NgZorroAntdModule,

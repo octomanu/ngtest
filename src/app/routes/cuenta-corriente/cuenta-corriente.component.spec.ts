@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CuentaCorrienteComponent } from './cuenta-corriente.component';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NZ_ICONS } from 'ng-zorro-antd';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -17,6 +17,12 @@ import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import { EstadoFinancieroService } from '@core/http/estado-financiero/estado-financiero.service';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import { CuentaCorrienteService } from '@core/http/cuenta-corriente/cuenta-corriente.service';
+import {
+  SettingOutline,
+  PlusOutline,
+  ProfileOutline,
+} from '@ant-design/icons-angular/icons';
+import { IconDefinition } from '@ant-design/icons-angular';
 
 export class FakeEstadoFinancieroService {
   paginate() {
@@ -43,10 +49,11 @@ export class FakeConsorciosService {
 describe('CuentaCorrienteComponent', () => {
   let component: CuentaCorrienteComponent;
   let fixture: ComponentFixture<CuentaCorrienteComponent>;
-
+  const icons: IconDefinition[] = [SettingOutline, PlusOutline, ProfileOutline];
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
+        { provide: NZ_ICONS, useValue: icons },
         {
           provide: CuentaCorrienteService,
           useClass: FakeCuentaCorrienteService,
