@@ -108,7 +108,6 @@ export class DefaultInterceptor implements HttpInterceptor {
             );
           } else {
             console.log('UPS NO ES ERRO TOKEN');
-            console.log(ev);
             this.backendMessage.buildMessage(ev.error.error);
             return throwError(ev);
           }
@@ -117,7 +116,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       case 404:
         break;
       case 500:
-      console.log(ev);
+        console.log(ev);
         this.goTo(`/exception/${ev.status}`);
         break;
       default:

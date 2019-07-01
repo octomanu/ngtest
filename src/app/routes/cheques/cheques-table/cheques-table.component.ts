@@ -59,7 +59,6 @@ export class ChequesTableComponent extends TableLambe
   }
 
   _openForm(id?: number) {
-    console.log(id);
     this.translate.get('lambe.cheques').subscribe((res: string) => {
       this.drawerRef = this.drawerService.create<
         ChequesFormComponent,

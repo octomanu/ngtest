@@ -8,8 +8,6 @@ import { environment } from '@env/environment';
   providedIn: 'root',
 })
 export class ProveedoresService extends CrudService {
-  randomUserUrl = `${environment.OCTO_API}/proveedores`;
-
   constructor(http: HttpClient) {
     super(http);
   }

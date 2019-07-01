@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GastosService } from './gastos.service';
 import {
   HttpTestingController,
   HttpClientTestingModule,
 } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { ProveedoresService } from './proveedores.service';
 import { environment } from '@env/environment';
 
-describe('GastosService', () => {
-  let service: GastosService;
+describe('ProveedoresService', () => {
+  let service: ProveedoresService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('GastosService', () => {
     });
 
     httpMock = TestBed.get(HttpTestingController);
-    service = TestBed.get(GastosService);
+    service = TestBed.get(ProveedoresService);
   });
 
   it('should be created', () => {
@@ -26,33 +26,24 @@ describe('GastosService', () => {
   });
 
   it('Debe devovler el path del backend', () => {
-    expect(service.getPath()).toBe('gastos');
+    expect(service.getPath()).toBe('proveedores');
   });
 
-  it('Debe buscar el gasto anterior', () => {
+  it('Debe buscar por Display', () => {
     const fakeResponse = {
-      id: 4,
-      gasto: 'fake_gasto',
+      foo: true,
     };
 
-    service
-      .findPrevious({
-        id_proveedor: '4',
-        id_consorcio: '1',
-        gasto: 'asd',
-      })
-      .subscribe((res: any) => {
-        expect(res.id).toBe(4);
-        expect(res.gasto).toBe('fake_gasto');
-      });
+    service.searchProveedor('foo').subscribe((res: any) => {
+      expect(res.foo).toBeTruthy();
+    });
 
     const req = httpMock.expectOne(
-      `${
-        environment.OCTO_API
-      }/${service.getPath()}/buscarAnterior?id_proveedor=4&id_consorcio=1&gasto=asd`,
+      `${environment.OCTO_API}/${service.getPath()}/buscar?display=foo`,
     );
 
     expect(req.request.method).toBe('GET');
+
     req.flush({ data: fakeResponse });
   });
 });

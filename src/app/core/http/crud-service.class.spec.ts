@@ -71,7 +71,7 @@ describe('CrudService', () => {
           sort_field: 'id',
           sort_order: 'desc',
         },
-        {},
+        { foo: 'bar' },
       )
       .subscribe((res: any) => {
         expect(res.ok).toBeTruthy();
@@ -81,7 +81,7 @@ describe('CrudService', () => {
     const req = httpMock.expectOne(
       `${
         environment.OCTO_API
-      }/${serviceTwo.getPath()}?page=1&page_size=1&sort_field=id&sort_order=desc`,
+      }/${serviceTwo.getPath()}?foo=bar&page=1&page_size=1&sort_field=id&sort_order=desc`,
     );
     expect(req.request.method).toBe('GET');
 

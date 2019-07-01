@@ -200,7 +200,6 @@ export class GastosFormComponent implements OnInit {
           this.fb.initCuotasChild(data.data.cuotas.length),
         );
         this.form.setValue(data.data);
-        console.log(data.data.cuotas);
         this.porcentajesService
           .searchByDisplay('')
           .subscribe((data: { id: number; display: string }[]) => {
@@ -218,7 +217,6 @@ export class GastosFormComponent implements OnInit {
         //     id: data.data.cuotas[index].id,
         //   });
         // }
-        console.log(data.data);
       });
     } else {
       this.initCuotas(1);
@@ -227,9 +225,7 @@ export class GastosFormComponent implements OnInit {
 
   submit() {
     const proveedor = this.form.value;
-    console.warn('GASTO', proveedor);
     if (proveedor.id) {
-      console.log('updatee', proveedor);
       this.gastosService.update(proveedor.id, proveedor).subscribe(data => {
         // this.drawerRef.close({ submit: true });
         this.msg.success(`Actualizado!`);

@@ -69,7 +69,6 @@ export class CuentaCorrienteAllTableComponent extends TableLambe
     this.dataService
       .paginate(this.paginatorParams, this.filtroForm)
       .subscribe((data: any) => {
-        console.log(data);
         this.totales.deuda.monto = data.totals.deuda ? data.totals.deuda : 0;
         this.totales.total.monto = data.totals.total ? data.totals.total : 0;
         this.totales.cheque.monto = data.totals.cheque ? data.totals.cheque : 0;

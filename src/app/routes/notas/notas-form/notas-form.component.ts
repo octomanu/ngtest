@@ -43,7 +43,6 @@ export class NotasFormComponent implements OnInit {
 
     if (this.id) {
       this.notasService.find(this.id).subscribe((data: any) => {
-        console.log(data);
         this.form.setValue(data.data);
       });
     }

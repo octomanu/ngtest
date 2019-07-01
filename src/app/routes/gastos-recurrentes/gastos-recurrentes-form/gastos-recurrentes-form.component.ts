@@ -59,7 +59,6 @@ export class GastosRecurrentesFormComponent implements OnInit {
 
     if (this.id) {
       this.gastosRecurrentesService.find(this.id).subscribe((data: any) => {
-        console.log(data);
         this.form.setValue(data.data);
       });
     }
@@ -138,7 +137,6 @@ export class GastosRecurrentesFormComponent implements OnInit {
       .searchProveedor(display)
       .subscribe((data: { id: number; display: string }[]) => {
         this.isLoading = false;
-        console.log(data);
         this.proveedores = data;
       });
   }
