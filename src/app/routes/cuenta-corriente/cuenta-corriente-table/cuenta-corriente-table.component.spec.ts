@@ -34,7 +34,7 @@ export class FakeConsorciosService {
 
 export class FakeCuentaCorrienteService {
   paginate() {
-    return of({ ok: true, data: [], recordsFiltered: 0 });
+    return of({ ok: true, data: [], recordsFiltered: 0, totals: [] });
   }
 }
 
