@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import { MenuService } from '@core/http/menu/menu.service';
 import { Subject, Observable, of } from 'rxjs';
@@ -6,7 +6,7 @@ import { Subject, Observable, of } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class MenuHandlerService implements OnInit {
+export class MenuHandlerService {
   private subject = new Subject<any>();
   private menu: any[];
 
@@ -14,8 +14,6 @@ export class MenuHandlerService implements OnInit {
     protected localStorage: LocalStorageService,
     protected menuService: MenuService,
   ) {}
-
-  ngOnInit() {}
 
   public getMenu(): Observable<any> {
     const localMenu = this.getLocalMenu();

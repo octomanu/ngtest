@@ -23,4 +23,9 @@ describe('PorcentajesConsorciosService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('Debe devovler el path del backend', () => {
+    service.setConsorcio('4');
+    expect(service.getPath()).toBe('porcentajes-consorcios/4');
+  });
 });

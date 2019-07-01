@@ -23,4 +23,8 @@ describe('RubrosService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('Debe devovler el path del backend', () => {
+    expect(service.getPath()).toBe('rubros');
+  });
 });

@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
 
-describe('EstadoFinancieroProveedoresService', () => {
+describe('EstadoFinancieroService', () => {
   let service: EstadoFinancieroService;
   let httpMock: HttpClientTestingModule;
 
@@ -22,5 +22,9 @@ describe('EstadoFinancieroProveedoresService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('Debe devovler el path del backend', () => {
+    expect(service.getPath()).toBe('estado-financiero/all');
   });
 });
