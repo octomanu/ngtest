@@ -22,7 +22,7 @@ export class NotasFormComponent implements OnInit {
   protected form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
-  @Input() protected valueChange: Subject<{ submit: boolean }>;
+  @Input() valueChange: Subject<{ submit: boolean }>;
   protected initialized = false;
   constructor(
     protected fb: NotasForm,

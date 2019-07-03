@@ -21,7 +21,7 @@ import { CabecerasForm } from './cabeceras.form';
 export class CabecerasFormComponent implements OnInit {
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
-  @Input() protected valueChange: Subject<{ submit: boolean }>;
+  @Input() valueChange: Subject<{ submit: boolean }>;
   protected form: FormGroup;
   protected initialized = false;
   constructor(

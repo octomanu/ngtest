@@ -5,11 +5,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { I18nHttpLoaderFactory, LANG_PROVIDES } from 'app/app.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgZorroAntdModule, NZ_ICONS } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NZ_ICONS, NzDrawerService } from 'ng-zorro-antd';
 import { KeysPipe } from '@delon/theme';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { of, empty, Observable } from 'rxjs';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import { CuentaCorrienteService } from '@core/http/cuenta-corriente/cuenta-corriente.service';
@@ -19,6 +19,8 @@ import {
   ProfileOutline,
 } from '@ant-design/icons-angular/icons';
 import { IconDefinition } from '@ant-design/icons-angular';
+import { CuentaCorrienteFormComponent } from '../cuenta-corriente-form/cuenta-corriente-form.component';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
 export class FakeProveedorService {
   searchProveedor() {
@@ -44,7 +46,11 @@ describe('CuentaCorrienteTableComponent', () => {
   const icons: IconDefinition[] = [SettingOutline, PlusOutline, ProfileOutline];
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CuentaCorrienteTableComponent, KeysPipe],
+      declarations: [
+        CuentaCorrienteTableComponent,
+        KeysPipe,
+        CuentaCorrienteFormComponent,
+      ],
       providers: [
         {
           provide: CuentaCorrienteService,
@@ -58,6 +64,7 @@ describe('CuentaCorrienteTableComponent', () => {
       imports: [
         NgZorroAntdModule,
         BrowserAnimationsModule,
+        ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
         RouterTestingModule.withRoutes([]),
@@ -69,6 +76,12 @@ describe('CuentaCorrienteTableComponent', () => {
           },
         }),
       ],
+    });
+
+    TestBed.overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [CuentaCorrienteFormComponent],
+      },
     }).compileComponents();
   }));
 
@@ -80,5 +93,26 @@ describe('CuentaCorrienteTableComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Debe abrir el drawer del formulario', () => {
+    const fakeDrawerRef = TestBed.get(NzDrawerService);
+
+    const afterOpenObservable = new Observable(subscriber => {
+      subscriber.next(null);
+    });
+
+    const aferCloseObservable = new Observable(subscriber => {
+      subscriber.next(null);
+      subscriber.next({ submit: true });
+    });
+
+    const spy = spyOn(fakeDrawerRef, 'create').and.returnValue({
+      afterClose: aferCloseObservable,
+      afterOpen: afterOpenObservable,
+    });
+
+    component._openForm();
+    expect(spy).toHaveBeenCalled();
   });
 });

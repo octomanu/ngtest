@@ -20,6 +20,8 @@ export class FakeEstadoFinancieroService {
   paginate() {
     return of({ ok: true, data: [], recordsFiltered: 0 });
   }
+
+  setId(id) {}
 }
 
 export class FakeConsorciosService {
@@ -70,5 +72,23 @@ describe('EstadoFinancieroTableComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Al cambiar el consorcio como no hay uno seteado no debe pedir datos al backend', () => {
+    const spyOne = spyOn(component, 'searchData');
+    component.changeConsorcio();
+    expect(spyOne).not.toHaveBeenCalled();
+  });
+
+  it('Al cambiar las ufs como no hay una seteada no debe pedir datos al backend', () => {
+    const efservice = TestBed.get(EstadoFinancieroService);
+    const spyOne = spyOn(component, 'searchData');
+    const spyTwo = spyOn(efservice, 'setId');
+    const spyThree = spyOn(efservice, 'setSource');
+
+    component.changeUf();
+    expect(spyOne).not.toHaveBeenCalled();
+    expect(spyTwo).not.toHaveBeenCalled();
+    expect(spyThree).not.toHaveBeenCalled();
   });
 });
