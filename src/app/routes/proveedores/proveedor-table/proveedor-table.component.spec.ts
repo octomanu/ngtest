@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChequesTableComponent } from './cheques-table.component';
 import { NgZorroAntdModule, NZ_ICONS, NzDrawerService } from 'ng-zorro-antd';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -9,9 +8,7 @@ import { I18nHttpLoaderFactory } from 'app/app.module';
 import { KeysPipe } from '@delon/theme';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ChequesService } from '@core/http/cheques/cheques.service';
-import { of, empty, Observable, Subscriber } from 'rxjs';
-import { ChequesFormComponent } from '../cheques-form/cheques-form.component';
+import { of, empty, Observable } from 'rxjs';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import {
   SettingOutline,
@@ -19,8 +16,11 @@ import {
   ProfileOutline,
 } from '@ant-design/icons-angular/icons';
 import { IconDefinition } from '@ant-design/icons-angular';
+import { ProveedorTableComponent } from './proveedor-table.component';
+import { ProveedorFormComponent } from '../proveedor-form/proveedor-form.component';
+import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 
-export class FakeChequesService {
+export class FakeProveedoresService {
   paginate() {
     return of({ ok: true, data: [], recordsFiltered: 0 });
   }
@@ -33,16 +33,15 @@ export class FakeNzDrawerService {
     return { afterClose: empty(), afterOpen: empty() };
   }
 }
-
-describe('ChequesTableComponent', () => {
-  let component: ChequesTableComponent;
-  let fixture: ComponentFixture<ChequesTableComponent>;
+describe('ProveedorTableComponent', () => {
+  let component: ProveedorTableComponent;
+  let fixture: ComponentFixture<ProveedorTableComponent>;
   const icons: IconDefinition[] = [SettingOutline, PlusOutline, ProfileOutline];
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ChequesTableComponent, KeysPipe, ChequesFormComponent],
+      declarations: [ProveedorTableComponent, KeysPipe, ProveedorFormComponent],
       providers: [
-        { provide: ChequesService, useClass: FakeChequesService },
+        { provide: ProveedoresService, useClass: FakeProveedoresService },
         { provide: NzDrawerService, useClass: FakeNzDrawerService },
         { provide: NZ_ICONS, useValue: icons },
       ],
@@ -65,13 +64,13 @@ describe('ChequesTableComponent', () => {
 
     TestBed.overrideModule(BrowserDynamicTestingModule, {
       set: {
-        entryComponents: [ChequesFormComponent],
+        entryComponents: [ProveedorFormComponent],
       },
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChequesTableComponent);
+    fixture = TestBed.createComponent(ProveedorTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -106,10 +105,8 @@ describe('ChequesTableComponent', () => {
 
     const fakeFilterApplied = {
       razon_social: 'test',
-      calle: 'test',
-      numero: 'test',
+      direccion: 'test',
       cuit: 'test',
-      estado: 'test',
     };
 
     const afterOpenObservable = new Observable(subscriber => {
@@ -133,7 +130,7 @@ describe('ChequesTableComponent', () => {
   });
 
   it('debe eliminar un registro', () => {
-    const chequesService = TestBed.get(ChequesService);
+    const chequesService = TestBed.get(ProveedoresService);
     const spy = spyOn(chequesService, 'delete').and.returnValue(of('test'));
     component.eliminar(2);
     expect(spy).toHaveBeenCalled();

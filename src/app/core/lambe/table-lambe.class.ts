@@ -123,6 +123,9 @@ export class TableLambe implements TableLambeInterface {
    *
    */
   closeMenu(): void {
+    if (!this.dropdown) {
+      return;
+    }
     this.dropdown.close();
   }
 

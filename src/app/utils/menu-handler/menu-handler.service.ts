@@ -7,8 +7,8 @@ import { Subject, Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class MenuHandlerService {
-  private subject = new Subject<any>();
-  private menu: any[];
+  protected subject = new Subject<any>();
+  protected menu: any[];
 
   constructor(
     protected localStorage: LocalStorageService,
