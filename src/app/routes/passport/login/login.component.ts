@@ -134,7 +134,7 @@ export class UserLoginComponent implements OnDestroy {
         });
       },
       err => {
-        this.msg.create('error', 'Credenciales inválidas');
+        // this.msg.create('error', 'Credenciales inválidas');
       },
     );
   }

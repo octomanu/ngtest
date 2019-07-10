@@ -20,7 +20,6 @@ import { Subscription } from 'rxjs';
 export class SidebarComponent implements OnInit, OnDestroy {
   protected dropdown: NzDropdownContextComponent;
   protected menuSubscription: Subscription;
-  protected settingsSubscription: Subscription;
   protected form: FormGroup;
   protected showAll = false;
   protected isCollapsed: boolean;
@@ -51,7 +50,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.menuSubscription.unsubscribe();
-    this.settingsSubscription.unsubscribe();
   }
 
   initFormn() {
