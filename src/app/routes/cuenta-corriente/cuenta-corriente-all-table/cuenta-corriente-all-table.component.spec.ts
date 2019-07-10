@@ -1,4 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 
 import { CuentaCorrienteAllTableComponent } from './cuenta-corriente-all-table.component';
 import { I18nHttpLoaderFactory } from 'app/app.module';
@@ -112,5 +118,37 @@ describe('CuentaCorrienteAllTableComponent', () => {
 
     component._openForm();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('Debe buscar las ufs', fakeAsync(() => {
+    const spyFunc = spyOn(component, 'searchConsorciosList');
+    component.searchConsorcios('');
+    tick(400);
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      expect(component.timeout).toBeNull();
+      expect(component.isLoading).toBeTruthy();
+      expect(spyFunc).toHaveBeenCalled();
+    });
+  }));
+
+  it('Debe buscar los proveedores', fakeAsync(() => {
+    const spyFunc = spyOn(component, 'searchProveedorList');
+    component.searchProveedores('');
+    tick(400);
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      expect(component.timeout).toBeNull();
+      expect(component.isLoading).toBeTruthy();
+      expect(spyFunc).toHaveBeenCalled();
+    });
+  }));
+
+  it('al cambiar la configuracion de la cuenta corriente debe buscar los datos', () => {
+    const spyFunc = spyOn(component, 'searchData');
+    component.changeCuentaCorrienteConfig();
+    expect(spyFunc).toHaveBeenCalled();
   });
 });

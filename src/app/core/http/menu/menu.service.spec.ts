@@ -39,6 +39,18 @@ describe('MenuService', () => {
     req.flush({ data: fakeResponse });
   });
 
+  it('debe atajar el error al obtener menu', () => {
+    const fakeError = new ErrorEvent('fake_error');
+
+    service
+      .getMenu()
+      .subscribe(res => res, error => expect(error.error).toBe(fakeError));
+
+    const req = httpMock.expectOne(`${environment.OCTO_API}/menu`);
+    expect(req.request.method).toBe('GET');
+    req.error(fakeError);
+  });
+
   it('debe actualizar el menu', () => {
     const fakeResponse = {
       foo: true,
@@ -51,5 +63,17 @@ describe('MenuService', () => {
     const req = httpMock.expectOne(`${environment.OCTO_API}/menu`);
     expect(req.request.method).toBe('POST');
     req.flush(fakeResponse);
+  });
+
+  it('debe atajar el error al actualizar el menu', () => {
+    const fakeError = new ErrorEvent('fake_error');
+
+    service
+      .update([])
+      .subscribe(res => res, error => expect(error.error).toBe(fakeError));
+
+    const req = httpMock.expectOne(`${environment.OCTO_API}/menu`);
+    expect(req.request.method).toBe('POST');
+    req.error(fakeError);
   });
 });

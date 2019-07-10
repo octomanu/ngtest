@@ -8,7 +8,6 @@ import {
 } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { CuentaCorrienteService } from '@core/http/cuenta-corriente/cuenta-corriente.service';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import { CuentaCorrienteFormComponent } from '../cuenta-corriente-form/cuenta-corriente-form.component';
@@ -21,6 +20,8 @@ import { EstadoFinancieroService } from '@core/http/estado-financiero/estado-fin
 })
 export class CuentaCorrienteAllTableComponent extends TableLambe
   implements OnInit, OnDestroy {
+  isLoading = false;
+  timeout = null;
   protected totales = {
     total: { monto: 0, titulo: 'global.total' },
     deuda: { monto: 0, titulo: 'global.deuda' },
@@ -29,8 +30,6 @@ export class CuentaCorrienteAllTableComponent extends TableLambe
     transferencia: { monto: 0, titulo: 'global.transferencia' },
     otros: { monto: 0, titulo: 'global.otros' },
   };
-  protected isLoading = false;
-  protected timeout = null;
   protected submitForm = new Subject<{ submit: boolean }>();
   protected proveedores: { id: number; display: string }[];
   protected consorcios: { id: number; display: string }[];
@@ -148,7 +147,7 @@ export class CuentaCorrienteAllTableComponent extends TableLambe
     }, 400);
   }
 
-  protected searchProveedorList(display: string) {
+  searchProveedorList(display: string) {
     this.proveedorService
       .searchProveedor(display)
       .subscribe((data: { id: number; display: string }[]) => {
@@ -157,7 +156,7 @@ export class CuentaCorrienteAllTableComponent extends TableLambe
       });
   }
 
-  protected searchConsorciosList(display: string) {
+  searchConsorciosList(display: string) {
     this.consorciosService
       .searchByDisplay(display)
       .subscribe((data: { id: number; display: string }[]) => {

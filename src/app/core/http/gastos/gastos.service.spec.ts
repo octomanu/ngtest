@@ -55,4 +55,25 @@ describe('GastosService', () => {
     expect(req.request.method).toBe('GET');
     req.flush({ data: fakeResponse });
   });
+
+  it('Debe atajar el error al buscar el gasto anterior', () => {
+    const fakeError = new ErrorEvent('fake_error');
+
+    service
+      .findPrevious({
+        id_proveedor: '4',
+        id_consorcio: '1',
+        gasto: 'asd',
+      })
+      .subscribe(res => res, error => expect(error.error).toBe(fakeError));
+
+    const req = httpMock.expectOne(
+      `${
+        environment.OCTO_API
+      }/${service.getPath()}/buscarAnterior?id_proveedor=4&id_consorcio=1&gasto=asd`,
+    );
+
+    expect(req.request.method).toBe('GET');
+    req.error(fakeError);
+  });
 });

@@ -1,4 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 
 import { EstadoFinancieroTableComponent } from './estado-financiero-table.component';
 import { KeysPipe } from '@delon/theme';
@@ -12,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EstadoFinancieroService } from '@core/http/estado-financiero/estado-financiero.service';
 import { of } from 'rxjs';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
+import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unidades-funcionales.service';
 
 export class FakeEstadoFinancieroService {
   setSource() {
@@ -30,6 +37,12 @@ export class FakeConsorciosService {
   }
 }
 
+export class FakeUnidadesFuncionalesService {
+  searchByDisplay() {
+    return of([]);
+  }
+}
+
 describe('EstadoFinancieroTableComponent', () => {
   let component: EstadoFinancieroTableComponent;
   let fixture: ComponentFixture<EstadoFinancieroTableComponent>;
@@ -41,6 +54,10 @@ describe('EstadoFinancieroTableComponent', () => {
         {
           provide: EstadoFinancieroService,
           useClass: FakeEstadoFinancieroService,
+        },
+        {
+          provide: UnidadesFuncionalesService,
+          useClass: FakeUnidadesFuncionalesService,
         },
         {
           provide: ConsorciosService,
@@ -90,5 +107,44 @@ describe('EstadoFinancieroTableComponent', () => {
     expect(spyOne).not.toHaveBeenCalled();
     expect(spyTwo).not.toHaveBeenCalled();
     expect(spyThree).not.toHaveBeenCalled();
+  });
+
+  it('Debe buscar las ufs', fakeAsync(() => {
+    const spyFunc = spyOn(component, 'searchUfsList');
+    component.searchUfs('');
+    tick(400);
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      expect(component.timeout).toBeNull();
+      expect(component.isLoading).toBeTruthy();
+      expect(spyFunc).toHaveBeenCalled();
+    });
+  }));
+
+  it('Debe bucar el listado de ufs mediante el servicio', () => {
+    const service = TestBed.get(UnidadesFuncionalesService);
+    const spy = spyOn(service, 'searchByDisplay').and.returnValue(of([]));
+    component.searchUfsList('');
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('debe buscar los datos al backend', () => {
+    const estadoFinancieroService = TestBed.get(EstadoFinancieroService);
+    const spy = spyOn(estadoFinancieroService, 'paginate').and.returnValue(
+      of({
+        ok: true,
+        data: [{ id: 1, nombre: 'asd' }],
+        recordsFiltered: 1,
+        totals: [],
+      }),
+    );
+    component.searchData(true);
+    expect(spy).toHaveBeenCalled();
+    expect(component.tableLambe.total).toBe(1);
+    expect(component.tableLambe.data.length).toBe(1);
+    expect(component.tableLambe.loading).toBeFalsy();
+    expect(component.tableLambe.data[0].id).toBe(1);
+    expect(component.tableLambe.data[0].nombre).toBe('asd');
   });
 });

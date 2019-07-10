@@ -19,10 +19,10 @@ import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unid
 export class EstadoFinancieroTableComponent extends TableLambe
   implements OnInit, OnDestroy {
   @Input() protected soruce: string;
-  protected isLoading = true;
+  isLoading = true;
+  timeout = null;
   protected idConsorcio: any;
   protected idUf: string;
-  protected timeout = null;
   protected consorcios: { id: number; display: string }[];
   protected ufs: { id: number; display: string }[];
   protected estadoFinancieroService: EstadoFinancieroService;
@@ -102,7 +102,7 @@ export class EstadoFinancieroTableComponent extends TableLambe
     }, 400);
   }
 
-  protected searchConsorciosList(display: string) {
+  searchConsorciosList(display: string) {
     this.consorciosService
       .searchByDisplay(display)
       .subscribe((data: { id: number; display: string }[]) => {
@@ -111,7 +111,7 @@ export class EstadoFinancieroTableComponent extends TableLambe
       });
   }
 
-  protected searchUfsList(display: string) {
+  searchUfsList(display: string) {
     this.ufsService
       .searchByDisplay(display)
       .subscribe((data: { id: number; display: string }[]) => {

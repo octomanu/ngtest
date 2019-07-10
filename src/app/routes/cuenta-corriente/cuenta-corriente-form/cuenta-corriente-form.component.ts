@@ -20,10 +20,10 @@ import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
   styles: [],
 })
 export class CuentaCorrienteFormComponent implements OnInit {
-  protected form: FormGroup;
+  form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
-  @Input() protected valueChange: Subject<{ submit: boolean }>;
+  @Input() valueChange: Subject<{ submit: boolean }>;
   protected initialized = false;
   // data selects
   protected timeout = null;

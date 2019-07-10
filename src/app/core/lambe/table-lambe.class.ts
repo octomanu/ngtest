@@ -18,7 +18,7 @@ export class TableLambe implements TableLambeInterface {
 
   protected _timeout = null;
   protected paginatorParams: PaginatorParamsInterface;
-  protected tableLambe = { total: 1, data: [], loading: true };
+  tableLambe = { total: 1, data: [], loading: true };
   protected filtroForm: {};
   protected tags = {};
   protected dropdown: NzDropdownContextComponent;

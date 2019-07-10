@@ -64,4 +64,29 @@ describe('EstadoFinancieroService', () => {
 
     req.flush(fakeResponse);
   });
+
+  it('Debe atrapar el error al Paginar', () => {
+    const fakeError = new ErrorEvent('fake_error');
+
+    service
+      .paginate(
+        {
+          page: 1,
+          page_size: 1,
+          sort_field: 'id',
+          sort_order: 'desc',
+        },
+        { foo: 'bar' },
+      )
+      .subscribe(res => res, error => expect(error.error).toBe(fakeError));
+
+    const req = httpMock.expectOne(
+      `${
+        environment.OCTO_API
+      }/estado-financiero/all?foo=bar&page=1&page_size=1&sort_field=id&sort_order=desc`,
+    );
+
+    expect(req.request.method).toBe('GET');
+    req.error(fakeError);
+  });
 });

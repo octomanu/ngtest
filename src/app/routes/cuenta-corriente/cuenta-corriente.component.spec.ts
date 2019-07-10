@@ -98,4 +98,14 @@ describe('CuentaCorrienteComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Debe swichear entre componentes de tablas.', () => {
+    expect(component.tabii).toBe(0);
+
+    component.change(true);
+    expect(component.tabii).toBe(1);
+
+    component.change(false);
+    expect(component.tabii).toBe(0);
+  });
 });

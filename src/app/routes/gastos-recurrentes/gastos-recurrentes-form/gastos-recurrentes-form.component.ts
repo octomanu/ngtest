@@ -22,17 +22,17 @@ import { PorcentajesConsorciosService } from '@core/http/porcentajes_consorcios/
   styles: [],
 })
 export class GastosRecurrentesFormComponent implements OnInit {
-  protected form: FormGroup;
+  form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
-  @Input() protected valueChange: Subject<{ submit: boolean }>;
+  @Input() valueChange: Subject<{ submit: boolean }>;
   protected initialized = false;
   // data selects
-  protected timeout = null;
-  protected isLoading = true;
-  protected proveedores: { id: number; display: string }[];
-  protected consorcios: { id: number; display: string }[];
-  protected porcentajes: { id: number; display: string }[];
+  timeout = null;
+  isLoading = true;
+  proveedores: { id: number; display: string }[];
+  consorcios: { id: number; display: string }[];
+  porcentajes: { id: number; display: string }[];
   // data selects
 
   constructor(
@@ -132,7 +132,7 @@ export class GastosRecurrentesFormComponent implements OnInit {
     }, 400);
   }
 
-  protected searchProveedorList(display: string) {
+  searchProveedorList(display: string) {
     this.proveedorService
       .searchProveedor(display)
       .subscribe((data: { id: number; display: string }[]) => {
@@ -141,7 +141,7 @@ export class GastosRecurrentesFormComponent implements OnInit {
       });
   }
 
-  protected searchConsorciosList(display: string) {
+  searchConsorciosList(display: string) {
     this.consorciosService
       .searchByDisplay(display)
       .subscribe((data: { id: number; display: string }[]) => {
@@ -150,7 +150,7 @@ export class GastosRecurrentesFormComponent implements OnInit {
       });
   }
 
-  protected searchPorcentajesList(display: string) {
+  searchPorcentajesList(display: string) {
     this.porcentajesService
       .searchByDisplay(display)
       .subscribe((data: { id: number; display: string }[]) => {

@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styles: [],
 })
 export class CuentaCorrienteComponent implements OnInit {
-  protected tabii = 0;
+  tabii = 0;
   constructor() {}
 
   ngOnInit() {}
