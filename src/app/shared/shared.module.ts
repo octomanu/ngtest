@@ -32,7 +32,7 @@ const PIPES = [BooleanPipe];
     ReactiveFormsModule,
     AlainThemeModule.forChild(),
     DelonABCModule,
-    DelonACLModule,
+    DelonACLModule.forRoot(),
     DelonFormModule,
     // third libs
     ...THIRDMODULES,
