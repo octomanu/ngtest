@@ -12,10 +12,6 @@ import { CrudService } from '../crud-service.class';
 export class ConsorciosService extends CrudService {
   url = `${environment.OCTO_API}/consorcios`;
 
-  constructor(http: HttpClient) {
-    super(http);
-  }
-
   getPath() {
     return 'consorcios';
   }

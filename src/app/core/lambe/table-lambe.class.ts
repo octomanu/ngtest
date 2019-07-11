@@ -1,7 +1,13 @@
 import { TableLambeInterface } from 'app/interfaces/local/table-lambe.interface';
 import { TableLambeServiceInterface } from 'app/interfaces/local/table-lambe-service.interface';
 import { PaginatorParamsInterface } from 'app/interfaces/local/paginator-params.interface';
-import { TemplateRef, Output, EventEmitter } from '@angular/core';
+import {
+  TemplateRef,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   NzDropdownService,
   NzDropdownContextComponent,
@@ -10,7 +16,7 @@ import {
 import { Subscription } from 'rxjs';
 import { BreakpointState, BreakpointObserver } from '@angular/cdk/layout';
 
-export class TableLambe implements TableLambeInterface {
+export class TableLambe implements TableLambeInterface, OnInit, OnDestroy {
   @Output() openForm = new EventEmitter();
   protected drawerRef: NzDrawerRef;
   protected breakpointRef: Subscription;
@@ -34,6 +40,15 @@ export class TableLambe implements TableLambeInterface {
       sort_field: '',
       sort_order: '',
     };
+  }
+
+  ngOnInit(): void {
+    this.searchData();
+    this.subscribeBreakPoint();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeBreakPoint();
   }
 
   /**

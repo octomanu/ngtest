@@ -1,29 +1,33 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { NzDrawerService, NzDropdownService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
-import { NotasService } from '@core/http/notas/notas.service';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { TableLambe } from '@core/lambe/table-lambe.class';
-import { NotasFormComponent } from '../notas-form/notas-form.component';
+import { TranslateService } from '@ngx-translate/core';
+import {
+  NzDrawerService,
+  NzDropdownService,
+  NzMessageService,
+} from 'ng-zorro-antd';
+import { PeriodosService } from '@core/http/periodos/periodos.service';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { PeriodosFormComponent } from '../periodos-form/periodos-form.component';
 
 @Component({
-  selector: 'app-notas-table',
-  templateUrl: './notas-table.component.html',
+  selector: 'app-periodos-table',
+  templateUrl: './periodos-table.component.html',
   styles: [],
 })
-export class NotasTableComponent extends TableLambe
-  implements OnInit, OnDestroy {
+export class PeriodosTableComponent extends TableLambe {
   submitForm = new Subject<{ submit: boolean }>();
   submitFormSubscription: Subscription;
   constructor(
     protected translate: TranslateService,
     protected drawerService: NzDrawerService,
-    notasService: NotasService,
+    protected msg: NzMessageService,
+    periodosService: PeriodosService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
   ) {
-    super(notasService, nzDropdownService, breakpointObserver);
+    super(periodosService, nzDropdownService, breakpointObserver);
   }
 
   _openForm(id?: number) {
@@ -35,12 +39,12 @@ export class NotasTableComponent extends TableLambe
 
     this.translate.get('lambe.cheques').subscribe((res: string) => {
       this.drawerRef = this.drawerService.create<
-        NotasFormComponent,
+        PeriodosFormComponent,
         { id: number; valueChange: Subject<{ submit: boolean }> }
       >({
         nzTitle: res,
         nzWidth: this.initialDrawerWidth,
-        nzContent: NotasFormComponent,
+        nzContent: PeriodosFormComponent,
         nzContentParams: { id, valueChange: this.submitForm },
       });
 
@@ -55,6 +59,13 @@ export class NotasTableComponent extends TableLambe
       this.drawerRef.afterOpen.subscribe(data => {
         this.closeMenu();
       });
+    });
+  }
+
+  eliminar(id: number) {
+    this.dataService.delete(id).subscribe(data => {
+      this.msg.success(`Eliminado!!`);
+      this.searchData();
     });
   }
 }

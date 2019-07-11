@@ -53,6 +53,18 @@ import { EstadoFinancieroComponent } from './estado-financiero/estado-financiero
 import { EstadoFinancieroTableComponent } from './estado-financiero/estado-financiero-table/estado-financiero-table.component';
 import { CuentaCorrienteAllTableComponent } from './cuenta-corriente/cuenta-corriente-all-table/cuenta-corriente-all-table.component';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
+import { PeriodosComponent } from './periodos/periodos.component';
+import { PeriodosTableComponent } from './periodos/periodos-table/periodos-table.component';
+import { PeriodosFormComponent } from './periodos/periodos-form/periodos-form.component';
+import { ServiciosComponent } from './servicios/servicios.component';
+import { ContactosComponent } from './contactos/contactos.component';
+import { EmpleadosComponent } from './empleados/empleados.component';
+import { ServiciosTableComponent } from './servicios/servicios-table/servicios-table.component';
+import { ServiciosFormComponent } from './servicios/servicios-form/servicios-form.component';
+import { EmpleadosTableComponent } from './empleados/empleados-table/empleados-table.component';
+import { EmpleadosFormComponent } from './empleados/empleados-form/empleados-form.component';
+import { ContactosTableComponent } from './contactos/contactos-table/contactos-table.component';
+import { ContactosFormComponent } from './contactos/contactos-form/contactos-form.component';
 const COMPONENTS = [
   DashboardComponent,
   // passport pages
@@ -73,6 +85,11 @@ const COMPONENTS = [
   ConsorciosProfileComponent,
   NotasComponent,
   CuentaCorrienteComponent,
+  PeriodosComponent,
+  EstadoFinancieroComponent,
+  ServiciosComponent,
+  ContactosComponent,
+  EmpleadosComponent,
 ];
 const COMPONENTS_NOROUNT = [
   ProveedorFormComponent,
@@ -103,16 +120,20 @@ const COMPONENTS_NOROUNT = [
   CuentaCorrienteFormComponent,
   CuentaCorrienteTableComponent,
   CuentaCorrienteAllTableComponent,
+  EstadoFinancieroTableComponent,
+  PeriodosFormComponent,
+  PeriodosTableComponent,
+  ContactosFormComponent,
+  ContactosTableComponent,
+  EmpleadosFormComponent,
+  EmpleadosTableComponent,
+  ServiciosFormComponent,
+  ServiciosTableComponent,
 ];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule, NgxDnDModule],
-  declarations: [
-    ...COMPONENTS,
-    ...COMPONENTS_NOROUNT,
-    EstadoFinancieroComponent,
-    EstadoFinancieroTableComponent,
-  ],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule {}

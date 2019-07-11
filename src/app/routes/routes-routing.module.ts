@@ -26,6 +26,10 @@ import { CabecerasComponent } from './cabeceras/cabeceras.component';
 import { NotasComponent } from './notas/notas.component';
 import { CuentaCorrienteComponent } from './cuenta-corriente/cuenta-corriente.component';
 import { EstadoFinancieroComponent } from './estado-financiero/estado-financiero.component';
+import { PeriodosComponent } from './periodos/periodos.component';
+import { EmpleadosComponent } from './empleados/empleados.component';
+import { ContactosComponent } from './contactos/contactos.component';
+import { ServiciosComponent } from './servicios/servicios.component';
 
 const routes: Routes = [
   {
@@ -85,6 +89,26 @@ const routes: Routes = [
         path: 'estado-financiero',
         component: EstadoFinancieroComponent,
         data: { title: 'Estado Financiero' },
+      },
+      {
+        path: 'periodos',
+        component: PeriodosComponent,
+        data: { title: 'Periodos' },
+      },
+      {
+        path: 'empleados',
+        component: EmpleadosComponent,
+        data: { title: 'Empleados' },
+      },
+      {
+        path: 'contactos',
+        component: ContactosComponent,
+        data: { title: 'Contactos' },
+      },
+      {
+        path: 'servicios',
+        component: ServiciosComponent,
+        data: { title: 'Servicios' },
       },
       {
         path: 'exception',
