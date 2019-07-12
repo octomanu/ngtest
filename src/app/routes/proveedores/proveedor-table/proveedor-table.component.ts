@@ -17,62 +17,33 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './proveedor-table.component.html',
   styles: [],
 })
-export class ProveedorTableComponent extends TableLambe
-  implements OnInit, OnDestroy {
+export class ProveedorTableComponent extends TableLambe {
+  drawerContent = ProveedorFormComponent;
+  drawerTitle = 'lambe.proveedores';
   mapOfExpandData: { [key: string]: boolean } = {};
   filtroForm = { razon_social: null, direccion: null, cuit: null };
 
-  private proveedoresService: ProveedoresService;
-
   constructor(
-    private msg: NzMessageService,
-    private translate: TranslateService,
-    private drawerService: NzDrawerService,
+    msg: NzMessageService,
+    translate: TranslateService,
+    drawerService: NzDrawerService,
     nzDropdownService: NzDropdownService,
     proveedoresService: ProveedoresService,
     breakpointObserver: BreakpointObserver,
   ) {
-    super(proveedoresService, nzDropdownService, breakpointObserver);
-    this.proveedoresService = proveedoresService;
+    super(
+      proveedoresService,
+      nzDropdownService,
+      breakpointObserver,
+      translate,
+      drawerService,
+      msg,
+    );
     this.tags = {
       razon_social: { title: 'global.razon_social', used: false },
       direccion: { title: 'global.direccion', used: false },
       cuit: { title: 'global.cuit', used: false },
     };
-  }
-
-  ngOnInit(): void {
-    this.searchData();
-    this.subscribeBreakPoint();
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribeBreakPoint();
-  }
-
-  _openForm(id?: number) {
-    this.translate.get('lambe.proveedores.titulo').subscribe((res: string) => {
-      this.drawerRef = this.drawerService.create<
-        ProveedorFormComponent,
-        { id: number }
-      >({
-        nzTitle: res,
-        nzWidth: this.initialDrawerWidth,
-        nzContent: ProveedorFormComponent,
-        nzContentParams: { id },
-      });
-
-      this.drawerRef.afterClose.subscribe(
-        (data: { submit: boolean } | undefined) => {
-          if (!data) return;
-          if (data.submit) this.searchData();
-        },
-      );
-
-      this.drawerRef.afterOpen.subscribe(data => {
-        this.closeMenu();
-      });
-    });
   }
 
   _openFilter() {
@@ -89,13 +60,6 @@ export class ProveedorTableComponent extends TableLambe
     this.drawerRef.afterClose.subscribe((data: any) => {
       if (!data) return;
       this.filtroForm = data;
-      this.searchData();
-    });
-  }
-
-  eliminar(id: number) {
-    this.proveedoresService.delete(id).subscribe(data => {
-      this.msg.success(`Eliminado!!`);
       this.searchData();
     });
   }

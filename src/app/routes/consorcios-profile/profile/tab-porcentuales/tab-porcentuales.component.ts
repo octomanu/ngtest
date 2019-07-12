@@ -18,8 +18,8 @@ import { ProcentualesFormComponent } from './procentuales-form/procentuales-form
 export class TabPorcentualesComponent extends TableLambe
   implements OnInit, OnDestroy {
   @Input() idConsorcio: string;
-
-  porcentajesConsorciosService: PorcentajesConsorciosService;
+  drawerContent = ProcentualesFormComponent;
+  drawerTitle = 'lambe.porcentuales';
 
   filtroForm = {
     razon_social: null,
@@ -30,15 +30,21 @@ export class TabPorcentualesComponent extends TableLambe
   };
 
   constructor(
-    private msg: NzMessageService,
-    private translate: TranslateService,
-    private drawerService: NzDrawerService,
+    msg: NzMessageService,
+    translate: TranslateService,
+    drawerService: NzDrawerService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
     porcentajesConsorciosService: PorcentajesConsorciosService,
   ) {
-    super(porcentajesConsorciosService, nzDropdownService, breakpointObserver);
-    this.porcentajesConsorciosService = porcentajesConsorciosService;
+    super(
+      porcentajesConsorciosService,
+      nzDropdownService,
+      breakpointObserver,
+      translate,
+      drawerService,
+      msg,
+    );
     this.tags = {
       razon_social: { title: 'global.razon_social', used: false },
       calle: { title: 'global.calle', used: false },
@@ -48,45 +54,8 @@ export class TabPorcentualesComponent extends TableLambe
     };
   }
 
-  _openForm(id?: number) {
-    this.translate.get('Porcentuales').subscribe((res: string) => {
-      this.drawerRef = this.drawerService.create<
-        ProcentualesFormComponent,
-        { id: number }
-      >({
-        nzTitle: res,
-        nzWidth: this.initialDrawerWidth,
-        nzContent: ProcentualesFormComponent,
-        nzContentParams: { id },
-      });
-
-      this.drawerRef.afterClose.subscribe(
-        (data: { submit: boolean } | undefined) => {
-          if (!data) return;
-          if (data.submit) this.searchData();
-        },
-      );
-
-      this.drawerRef.afterOpen.subscribe(data => {
-        this.closeMenu();
-      });
-    });
-  }
-
   ngOnInit() {
-    this.porcentajesConsorciosService.setConsorcio(this.idConsorcio);
-    this.searchData();
-    this.subscribeBreakPoint();
-  }
-
-  ngOnDestroy() {
-    this.unsubscribeBreakPoint();
-  }
-
-  eliminar(id: number) {
-    this.porcentajesConsorciosService.delete(id).subscribe(data => {
-      this.msg.success(`Eliminado!!`);
-      this.searchData();
-    });
+    super.ngOnInit();
+    this.dataService.setConsorcio(this.idConsorcio);
   }
 }

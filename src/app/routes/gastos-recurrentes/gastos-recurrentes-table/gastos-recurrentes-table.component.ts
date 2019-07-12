@@ -18,56 +18,23 @@ import { Subject } from 'rxjs';
 })
 export class GastosRecurrentesTableComponent extends TableLambe
   implements OnInit, OnDestroy {
-  protected submitForm = new Subject<{ submit: boolean }>();
+  drawerContent = GastosRecurrentesFormComponent;
+  drawerTitle = 'lambe.gastos-recurrentes';
   constructor(
-    private msg: NzMessageService,
-    private translate: TranslateService,
-    private drawerService: NzDrawerService,
+    msg: NzMessageService,
+    translate: TranslateService,
+    drawerService: NzDrawerService,
     gastosRecurrentesService: GastosRecurrentesService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
   ) {
-    super(gastosRecurrentesService, nzDropdownService, breakpointObserver);
-  }
-
-  _openForm(id?: number) {
-    const valueChangeSubscription = this.submitForm
-      .asObservable()
-      .subscribe(value => {
-        this.searchData();
-      });
-
-    this.translate.get('lambe.cheques').subscribe((res: string) => {
-      this.drawerRef = this.drawerService.create<
-        GastosRecurrentesFormComponent,
-        { id: number; valueChange: Subject<{ submit: boolean }> }
-      >({
-        nzTitle: res,
-        nzWidth: this.initialDrawerWidth,
-        nzContent: GastosRecurrentesFormComponent,
-        nzContentParams: { id, valueChange: this.submitForm },
-      });
-
-      this.drawerRef.afterClose.subscribe(
-        (data: { submit: boolean } | undefined) => {
-          if (!data) return;
-          if (data.submit) this.searchData();
-          valueChangeSubscription.unsubscribe();
-        },
-      );
-
-      this.drawerRef.afterOpen.subscribe(data => {
-        this.closeMenu();
-      });
-    });
-  }
-
-  ngOnInit(): void {
-    this.searchData();
-    this.subscribeBreakPoint();
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribeBreakPoint();
+    super(
+      gastosRecurrentesService,
+      nzDropdownService,
+      breakpointObserver,
+      translate,
+      drawerService,
+      msg,
+    );
   }
 }

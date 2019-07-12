@@ -12,12 +12,20 @@ import {
   NzDropdownService,
   NzDropdownContextComponent,
   NzDrawerRef,
+  NzDrawerService,
+  NzMessageService,
 } from 'ng-zorro-antd';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { BreakpointState, BreakpointObserver } from '@angular/cdk/layout';
+import { TranslateService } from '@ngx-translate/core';
 
 export class TableLambe implements TableLambeInterface, OnInit, OnDestroy {
   @Output() openForm = new EventEmitter();
+  submitFormSubscription: Subscription;
+  submitForm = new Subject<{ submit: boolean }>();
+  drawerContent: any;
+  drawerTitle: string;
+
   protected drawerRef: NzDrawerRef;
   protected breakpointRef: Subscription;
   protected initialDrawerWidth: string;
@@ -33,6 +41,9 @@ export class TableLambe implements TableLambeInterface, OnInit, OnDestroy {
     protected dataService: TableLambeServiceInterface | any,
     protected nzDropdownService: NzDropdownService,
     protected breakpointObserver: BreakpointObserver,
+    protected translate: TranslateService,
+    protected drawerService: NzDrawerService,
+    protected msg: NzMessageService,
   ) {
     this.paginatorParams = {
       page: 1,
@@ -118,14 +129,6 @@ export class TableLambe implements TableLambeInterface, OnInit, OnDestroy {
   }
 
   /**
-   * Emite el evento "open de un formulario"
-   *
-   */
-  _openForm(id?: number): void {
-    this.openForm.emit(id);
-  }
-
-  /**
    * Abre el menu contextual
    *
    */
@@ -183,5 +186,59 @@ export class TableLambe implements TableLambeInterface, OnInit, OnDestroy {
    */
   unsubscribeBreakPoint() {
     this.breakpointRef.unsubscribe();
+  }
+
+  /**
+   * Funcion llamada cuando el drawer cierra
+   */
+  drawerAfterClose(data: { submit: boolean } | undefined) {
+    if (!data) return;
+
+    if (data.submit) this.searchData();
+
+    if (this.submitFormSubscription) {
+      this.submitFormSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Funcion llamada cuando el drawer abre
+   */
+  drawerAfterOpen(data: any) {
+    this.closeMenu();
+  }
+
+  _openForm(id?: number) {
+    this.submitFormSubscription = this.submitForm
+      .asObservable()
+      .subscribe(value => {
+        this.searchData();
+      });
+
+    this.translate.get(this.drawerTitle).subscribe((res: string) => {
+      this.drawerRef = this.drawerService.create({
+        nzTitle: res,
+        nzWidth: this.initialDrawerWidth,
+        nzContent: this.drawerContent,
+        nzContentParams: { id, valueChange: this.submitForm },
+      });
+
+      this.drawerRef.afterClose.subscribe(
+        (data: { submit: boolean } | undefined) => {
+          this.drawerAfterClose(data);
+        },
+      );
+
+      this.drawerRef.afterOpen.subscribe(data => {
+        this.drawerAfterOpen(data);
+      });
+    });
+  }
+
+  eliminar(id: number) {
+    this.dataService.delete(id).subscribe(data => {
+      this.msg.success(`Eliminado!!`);
+      this.searchData();
+    });
   }
 }

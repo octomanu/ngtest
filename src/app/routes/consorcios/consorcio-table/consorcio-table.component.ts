@@ -19,6 +19,9 @@ import { ConsorciosFormFields } from './interfaces/consorcios-form-fields.interf
 })
 export class ConsorcioTableComponent extends TableLambe
   implements OnInit, OnDestroy {
+  drawerContent = ConsorcioFormComponent;
+  drawerTitle = 'lambe.consorcio';
+
   filtroForm = {
     razon_social: null,
     calle: null,
@@ -28,18 +31,24 @@ export class ConsorcioTableComponent extends TableLambe
   };
   mapOfExpandData: { [key: string]: boolean } = {};
   consorcioStatus = ['ACTIVO', 'PENDIENTE', 'INACTIVO', 'BORRADO'];
-  private consorciosService: ConsorciosService;
 
   constructor(
-    private msg: NzMessageService,
-    private translate: TranslateService,
-    private drawerService: NzDrawerService,
+    msg: NzMessageService,
+    translate: TranslateService,
+    drawerService: NzDrawerService,
     consorciosService: ConsorciosService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
   ) {
-    super(consorciosService, nzDropdownService, breakpointObserver);
-    this.consorciosService = consorciosService;
+    super(
+      consorciosService,
+      nzDropdownService,
+      breakpointObserver,
+      translate,
+      drawerService,
+      msg,
+    );
+
     this.tags = {
       razon_social: { title: 'global.razon_social', used: false },
       calle: { title: 'global.calle', used: false },
@@ -47,40 +56,6 @@ export class ConsorcioTableComponent extends TableLambe
       cuit: { title: 'global.cuit', used: false },
       estado: { title: 'global.estado', used: false },
     };
-  }
-
-  ngOnInit(): void {
-    this.searchData();
-    this.subscribeBreakPoint();
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribeBreakPoint();
-  }
-
-  _openForm(id?: number) {
-    this.translate.get('lambe.proveedores.titulo').subscribe((res: string) => {
-      this.drawerRef = this.drawerService.create<
-        ConsorcioFormComponent,
-        { id: number }
-      >({
-        nzTitle: res,
-        nzWidth: this.initialDrawerWidth,
-        nzContent: ConsorcioFormComponent,
-        nzContentParams: { id },
-      });
-
-      this.drawerRef.afterClose.subscribe(
-        (data: { submit: boolean } | undefined) => {
-          if (!data) return;
-          if (data.submit) this.searchData();
-        },
-      );
-
-      this.drawerRef.afterOpen.subscribe(data => {
-        this.closeMenu();
-      });
-    });
   }
 
   _openFilter() {
@@ -114,12 +89,5 @@ export class ConsorcioTableComponent extends TableLambe
       default:
         return 'default';
     }
-  }
-
-  eliminar(id: number) {
-    this.consorciosService.delete(id).subscribe(data => {
-      this.msg.success(`Eliminado!!`);
-      this.searchData();
-    });
   }
 }

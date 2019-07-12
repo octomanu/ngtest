@@ -28,16 +28,23 @@ export class EstadoFinancieroTableComponent extends TableLambe
   protected estadoFinancieroService: EstadoFinancieroService;
   protected saldo = 0;
   constructor(
-    protected msg: NzMessageService,
-    protected translate: TranslateService,
-    protected drawerService: NzDrawerService,
     protected consorciosService: ConsorciosService,
     protected ufsService: UnidadesFuncionalesService,
+    msg: NzMessageService,
+    translate: TranslateService,
+    drawerService: NzDrawerService,
     estadoFinancieroService: EstadoFinancieroService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
   ) {
-    super(estadoFinancieroService, nzDropdownService, breakpointObserver);
+    super(
+      estadoFinancieroService,
+      nzDropdownService,
+      breakpointObserver,
+      translate,
+      drawerService,
+      msg,
+    );
     this.estadoFinancieroService = estadoFinancieroService;
   }
 

@@ -65,6 +65,10 @@ import { EmpleadosTableComponent } from './empleados/empleados-table/empleados-t
 import { EmpleadosFormComponent } from './empleados/empleados-form/empleados-form.component';
 import { ContactosTableComponent } from './contactos/contactos-table/contactos-table.component';
 import { ContactosFormComponent } from './contactos/contactos-form/contactos-form.component';
+import { BancosComponent } from './bancos/bancos.component';
+import { BancosTableComponent } from './bancos/bancos-table/bancos-table.component';
+import { BancosFormComponent } from './bancos/bancos-form/bancos-form.component';
+import { UnidadesFuncionalesFormComponent } from './consorcios-profile/profile/tab-uf/unidades-funcionales-form/unidades-funcionales-form.component';
 const COMPONENTS = [
   DashboardComponent,
   // passport pages
@@ -90,6 +94,7 @@ const COMPONENTS = [
   ServiciosComponent,
   ContactosComponent,
   EmpleadosComponent,
+  BancosComponent,
 ];
 const COMPONENTS_NOROUNT = [
   ProveedorFormComponent,
@@ -129,11 +134,13 @@ const COMPONENTS_NOROUNT = [
   EmpleadosTableComponent,
   ServiciosFormComponent,
   ServiciosTableComponent,
+  BancosTableComponent,
+  BancosFormComponent,
 ];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule, NgxDnDModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, UnidadesFuncionalesFormComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule {}

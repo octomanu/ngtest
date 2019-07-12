@@ -35,8 +35,16 @@
     <thead (nzSortChange)="sort($event)" nzSingleSort>
 
       <tr (contextmenu)="contextMenu($event, menuTable)">
-        <th nzCustomFilter nzShowSort nzSortKey="descripcion">
-          <span>{{ 'global.servicio' | translate }}</span>
+        <th nzCustomFilter nzShowSort nzSortKey="estado">
+          <span>{{ 'global.nombre' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="estado">
+          <span>{{ 'global.numero_cuenta' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="estado">
+          <span>{{ 'global.sucursal' | translate }}</span>
           <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
         </th>
       </tr>
@@ -48,8 +56,16 @@
             <ng-container *ngTemplateOutlet="menuRow; context: { id: data['id'] }"></ng-container>
           </ng-template>
           <td>
-            <strong class="onlysmall">{{ 'global.periodo' | translate }}:&nbsp;</strong>
-            {{ data['descripcion'] }}
+            <strong class="onlysmall">{{ 'global.nombre' | translate }}:&nbsp;</strong>
+            {{ data['nombre'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.numero_cuenta' | translate }}:&nbsp;</strong>
+            {{ data['numero_cuenta'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.sucursal' | translate }}:&nbsp;</strong>
+            {{ data['sucursal'] }}
           </td>
         </tr>
       </ng-template>

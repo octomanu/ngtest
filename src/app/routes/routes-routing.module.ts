@@ -30,6 +30,7 @@ import { PeriodosComponent } from './periodos/periodos.component';
 import { EmpleadosComponent } from './empleados/empleados.component';
 import { ContactosComponent } from './contactos/contactos.component';
 import { ServiciosComponent } from './servicios/servicios.component';
+import { BancosComponent } from './bancos/bancos.component';
 
 const routes: Routes = [
   {
@@ -109,6 +110,11 @@ const routes: Routes = [
         path: 'servicios',
         component: ServiciosComponent,
         data: { title: 'Servicios' },
+      },
+      {
+        path: 'bancos',
+        component: BancosComponent,
+        data: { title: 'Bancos' },
       },
       {
         path: 'exception',

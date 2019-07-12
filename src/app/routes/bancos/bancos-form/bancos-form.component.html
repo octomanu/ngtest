@@ -13,48 +13,31 @@
 
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
       <nz-form-item>
-        <nz-form-label nzRequired>{{ 'global.apellido' | translate }}</nz-form-label>
+        <nz-form-label nzRequired>{{ 'global.cuit' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
-          <input nz-input formControlName="apellido" />
+          <input nz-input formControlName="cuit" />
         </nz-form-control>
       </nz-form-item>
     </div>
 
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
       <nz-form-item>
-        <nz-form-label nzRequired>{{ 'global.dni' | translate }}</nz-form-label>
+        <nz-form-label nzRequired>{{ 'global.alias' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
-          <input nz-input formControlName="dni" />
+          <input nz-input formControlName="alias" />
         </nz-form-control>
       </nz-form-item>
     </div>
 
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
       <nz-form-item>
-        <nz-form-label nzRequired>{{ 'global.cuil' | translate }}</nz-form-label>
+        <nz-form-label nzRequired>{{ 'global.email' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
-          <input nz-input formControlName="cuil" />
+          <input nz-input formControlName="email" />
         </nz-form-control>
       </nz-form-item>
     </div>
 
-    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
-      <nz-form-item>
-        <nz-form-label nzRequired>{{ 'global.fecha_nacimiento' | translate }}</nz-form-label>
-        <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
-          <input nz-input formControlName="fecha_nacimiento" />
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-
-    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
-      <nz-form-item>
-        <nz-form-label nzRequired>{{ 'global.nota' | translate }}</nz-form-label>
-        <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
-          <input nz-input formControlName="nota" />
-        </nz-form-control>
-      </nz-form-item>
-    </div>
 
   </div>
 </form>

@@ -11,6 +11,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { ChequesTableFilterComponent } from '../cheques-table-filter/cheques-table-filter.component';
 import { ChequesFormFields } from './interfaces/cheques-form-fields.interface';
 import { ChequesFormComponent } from '../cheques-form/cheques-form.component';
+import { ChequesForm } from '../cheques-form/cheques.form';
 
 @Component({
   selector: 'app-cheques-table',
@@ -19,6 +20,9 @@ import { ChequesFormComponent } from '../cheques-form/cheques-form.component';
 })
 export class ChequesTableComponent extends TableLambe
   implements OnInit, OnDestroy {
+  drawerContent = ChequesForm;
+  drawerTitle = 'lambe.cheques';
+
   filtroForm = {
     razon_social: null,
     calle: null,
@@ -31,15 +35,21 @@ export class ChequesTableComponent extends TableLambe
   private chequesService: ChequesService;
 
   constructor(
-    private msg: NzMessageService,
-    private translate: TranslateService,
-    private drawerService: NzDrawerService,
+    msg: NzMessageService,
+    translate: TranslateService,
+    drawerService: NzDrawerService,
     chequesService: ChequesService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
   ) {
-    super(chequesService, nzDropdownService, breakpointObserver);
-    this.chequesService = chequesService;
+    super(
+      chequesService,
+      nzDropdownService,
+      breakpointObserver,
+      translate,
+      drawerService,
+      msg,
+    );
     this.tags = {
       razon_social: { title: 'global.razon_social', used: false },
       calle: { title: 'global.calle', used: false },
@@ -47,40 +57,6 @@ export class ChequesTableComponent extends TableLambe
       cuit: { title: 'global.cuit', used: false },
       estado: { title: 'global.estado', used: false },
     };
-  }
-
-  ngOnInit(): void {
-    this.searchData();
-    this.subscribeBreakPoint();
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribeBreakPoint();
-  }
-
-  _openForm(id?: number) {
-    this.translate.get('lambe.cheques').subscribe((res: string) => {
-      this.drawerRef = this.drawerService.create<
-        ChequesFormComponent,
-        { id: number }
-      >({
-        nzTitle: res,
-        nzWidth: this.initialDrawerWidth,
-        nzContent: ChequesFormComponent,
-        nzContentParams: { id },
-      });
-
-      this.drawerRef.afterClose.subscribe(
-        (data: { submit: boolean } | undefined) => {
-          if (!data) return;
-          if (data.submit) this.searchData();
-        },
-      );
-
-      this.drawerRef.afterOpen.subscribe(data => {
-        this.closeMenu();
-      });
-    });
   }
 
   _openFilter() {
@@ -97,13 +73,6 @@ export class ChequesTableComponent extends TableLambe
     this.drawerRef.afterClose.subscribe((data: any) => {
       if (!data) return;
       this.filtroForm = data;
-      this.searchData();
-    });
-  }
-
-  eliminar(id: number) {
-    this.chequesService.delete(id).subscribe(data => {
-      this.msg.success(`Eliminado!!`);
       this.searchData();
     });
   }

@@ -1,23 +1,23 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { CreateUpdateForm } from '@core/lambe/create-update-form.class';
-import { EmpleadosForm } from './empleados.form';
-import { NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
+import { BancosForm } from './bancos.form';
+import { BancosService } from '@core/http/bancos/bancos.service';
 import { TranslateService } from '@ngx-translate/core';
-import { EmpleadosService } from '@core/http/empleados/empleados.service';
+import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd';
 
 @Component({
-  selector: 'app-empleados-form',
-  templateUrl: './empleados-form.component.html',
+  selector: 'app-bancos-form',
+  templateUrl: './bancos-form.component.html',
   styles: [],
 })
-export class EmpleadosFormComponent extends CreateUpdateForm {
+export class BancosFormComponent extends CreateUpdateForm {
   constructor(
-    fb: EmpleadosForm,
+    fb: BancosForm,
     msg: NzMessageService,
     cdr: ChangeDetectorRef,
     drawerRef: NzDrawerRef<{ submit: boolean }>,
     translate: TranslateService,
-    dataService: EmpleadosService,
+    dataService: BancosService,
   ) {
     super(fb, msg, cdr, drawerRef, translate, dataService);
   }

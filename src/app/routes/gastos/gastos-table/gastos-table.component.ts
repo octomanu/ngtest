@@ -42,15 +42,14 @@ export class GastosTableComponent extends TableLambe
   protected form: FormGroup;
   protected timeout = null;
   protected isLoading = false;
-  protected submitForm = new Subject<{ submit: boolean }>();
   protected gastosService: GastosService;
   protected proveedores: { id: number; display: string }[];
   protected consorcios: { id: number; display: string }[];
   protected masterFilter = { proveedor: '', consorcio: '', gasto: '' };
   constructor(
-    private msg: NzMessageService,
-    private translate: TranslateService,
-    private drawerService: NzDrawerService,
+    msg: NzMessageService,
+    translate: TranslateService,
+    drawerService: NzDrawerService,
     gastosService: GastosService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
@@ -58,7 +57,14 @@ export class GastosTableComponent extends TableLambe
     protected consorciosService: ConsorciosService,
     protected fb: GastosForm,
   ) {
-    super(gastosService, nzDropdownService, breakpointObserver);
+    super(
+      gastosService,
+      nzDropdownService,
+      breakpointObserver,
+      translate,
+      drawerService,
+      msg,
+    );
     this.gastosService = gastosService;
     this.tags = {
       id_proveedor: { title: 'lambe.proveedores.proveedor', used: false },

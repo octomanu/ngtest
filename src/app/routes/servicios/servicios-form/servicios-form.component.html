@@ -1,3 +1,29 @@
-<p>
-  servicios-form works!
-</p>
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.servicio' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="descripcion" />
+          <ng-template #userErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+</form>
+
+<div class="footer">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+      <span>{{ 'global.guardar' | translate }}</span>
+    </button>
+  </div>
+</div>

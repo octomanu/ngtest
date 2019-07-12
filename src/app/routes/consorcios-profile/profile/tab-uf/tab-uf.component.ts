@@ -8,6 +8,7 @@ import {
 } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { UnidadesFuncionalesFormComponent } from './unidades-funcionales-form/unidades-funcionales-form.component';
 
 @Component({
   selector: 'app-tab-uf',
@@ -16,8 +17,8 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 })
 export class TabUfComponent extends TableLambe implements OnInit, OnDestroy {
   @Input() idConsorcio: string;
-
-  unidadesFuncionalesService: UnidadesFuncionalesService;
+  drawerContent = UnidadesFuncionalesFormComponent;
+  drawerTitle = 'lambe.porcentuales';
 
   filtroForm = {
     razon_social: null,
@@ -28,15 +29,21 @@ export class TabUfComponent extends TableLambe implements OnInit, OnDestroy {
   };
 
   constructor(
-    private msg: NzMessageService,
-    private translate: TranslateService,
-    private drawerService: NzDrawerService,
+    msg: NzMessageService,
+    translate: TranslateService,
+    drawerService: NzDrawerService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
     unidadesFuncionalesService: UnidadesFuncionalesService,
   ) {
-    super(unidadesFuncionalesService, nzDropdownService, breakpointObserver);
-    this.unidadesFuncionalesService = unidadesFuncionalesService;
+    super(
+      unidadesFuncionalesService,
+      nzDropdownService,
+      breakpointObserver,
+      translate,
+      drawerService,
+      msg,
+    );
     this.tags = {
       razon_social: { title: 'global.razon_social', used: false },
       calle: { title: 'global.calle', used: false },
@@ -47,12 +54,7 @@ export class TabUfComponent extends TableLambe implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.unidadesFuncionalesService.setConsorcio(this.idConsorcio);
-    this.searchData();
-    this.subscribeBreakPoint();
-  }
-
-  ngOnDestroy() {
-    this.unsubscribeBreakPoint();
+    super.ngOnInit();
+    this.dataService.setConsorcio(this.idConsorcio);
   }
 }

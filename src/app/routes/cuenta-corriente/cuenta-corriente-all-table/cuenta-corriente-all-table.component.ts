@@ -20,6 +20,8 @@ import { EstadoFinancieroService } from '@core/http/estado-financiero/estado-fin
 })
 export class CuentaCorrienteAllTableComponent extends TableLambe
   implements OnInit, OnDestroy {
+  drawerContent = CuentaCorrienteFormComponent;
+  drawerTitle = 'global.movimiento';
   isLoading = false;
   timeout = null;
   protected totales = {
@@ -30,7 +32,6 @@ export class CuentaCorrienteAllTableComponent extends TableLambe
     transferencia: { monto: 0, titulo: 'global.transferencia' },
     otros: { monto: 0, titulo: 'global.otros' },
   };
-  protected submitForm = new Subject<{ submit: boolean }>();
   protected proveedores: { id: number; display: string }[];
   protected consorcios: { id: number; display: string }[];
   protected filtroForm = {
@@ -40,21 +41,27 @@ export class CuentaCorrienteAllTableComponent extends TableLambe
   };
 
   constructor(
-    protected msg: NzMessageService,
-    protected translate: TranslateService,
-    protected drawerService: NzDrawerService,
     protected proveedorService: ProveedoresService,
     protected consorciosService: ConsorciosService,
+    msg: NzMessageService,
+    translate: TranslateService,
+    drawerService: NzDrawerService,
     estadoFinancieroService: EstadoFinancieroService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
   ) {
-    super(estadoFinancieroService, nzDropdownService, breakpointObserver);
+    super(
+      estadoFinancieroService,
+      nzDropdownService,
+      breakpointObserver,
+      translate,
+      drawerService,
+      msg,
+    );
   }
 
   ngOnInit(): void {
-    this.searchData();
-    this.subscribeBreakPoint();
+    super.ngOnInit();
     this.searchProveedorList('');
     this.searchConsorciosList('');
   }
@@ -83,42 +90,6 @@ export class CuentaCorrienteAllTableComponent extends TableLambe
         this.tableLambe.total = data.recordsFiltered;
         this.tableLambe.data = data.data;
       });
-  }
-
-  _openForm(id?: number) {
-    const valueChangeSubscription = this.submitForm
-      .asObservable()
-      .subscribe(value => {
-        this.searchData();
-      });
-
-    this.translate.get('global.movimiento').subscribe((res: string) => {
-      this.drawerRef = this.drawerService.create<
-        CuentaCorrienteFormComponent,
-        { id: number; valueChange: Subject<{ submit: boolean }> }
-      >({
-        nzTitle: res,
-        nzWidth: this.initialDrawerWidth,
-        nzContent: CuentaCorrienteFormComponent,
-        nzContentParams: { id, valueChange: this.submitForm },
-      });
-
-      this.drawerRef.afterClose.subscribe(
-        (data: { submit: boolean } | undefined) => {
-          if (!data) return;
-          if (data.submit) this.searchData();
-          valueChangeSubscription.unsubscribe();
-        },
-      );
-
-      this.drawerRef.afterOpen.subscribe(data => {
-        this.closeMenu();
-      });
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribeBreakPoint();
   }
 
   changeCuentaCorrienteConfig() {

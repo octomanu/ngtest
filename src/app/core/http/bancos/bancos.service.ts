@@ -4,8 +4,8 @@ import { CrudService } from '../crud-service.class';
 @Injectable({
   providedIn: 'root',
 })
-export class CabecerasService extends CrudService {
+export class BancosService extends CrudService {
   getPath() {
-    return 'cabeceras';
+    return 'bancos';
   }
 }

@@ -1,27 +1,26 @@
 import { Component } from '@angular/core';
 import { TableLambe } from '@core/lambe/table-lambe.class';
-import { Subscription, Subject } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { BancosFormComponent } from '../bancos-form/bancos-form.component';
+import { BancosService } from '@core/http/bancos/bancos.service';
 import {
-  NzMessageService,
   NzDropdownService,
   NzDrawerService,
+  NzMessageService,
 } from 'ng-zorro-antd';
-import { ContactosService } from '@core/http/contactos/contactos.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { EmpleadosFormComponent } from '../empleados-form/empleados-form.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-empleados-table',
-  templateUrl: './empleados-table.component.html',
+  selector: 'app-bancos-table',
+  templateUrl: './bancos-table.component.html',
   styles: [],
 })
-export class EmpleadosTableComponent extends TableLambe {
-  drawerContent = EmpleadosFormComponent;
-  drawerTitle = 'lambe.empleados';
+export class BancosTableComponent extends TableLambe {
+  drawerContent = BancosFormComponent;
+  drawerTitle = 'lambe.bancos';
 
   constructor(
-    empleadosService: ContactosService,
+    bancosService: BancosService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
     translate: TranslateService,
@@ -29,7 +28,7 @@ export class EmpleadosTableComponent extends TableLambe {
     msg: NzMessageService,
   ) {
     super(
-      empleadosService,
+      bancosService,
       nzDropdownService,
       breakpointObserver,
       translate,

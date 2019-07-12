@@ -17,55 +17,24 @@ import { ContactosFormComponent } from '../contactos-form/contactos-form.compone
   styles: [],
 })
 export class ContactosTableComponent extends TableLambe {
-  submitForm = new Subject<{ submit: boolean }>();
-  submitFormSubscription: Subscription;
+  drawerContent = ContactosFormComponent;
+  drawerTitle = 'lambe.consorcio';
+
   constructor(
-    protected translate: TranslateService,
-    protected drawerService: NzDrawerService,
-    protected msg: NzMessageService,
+    translate: TranslateService,
+    drawerService: NzDrawerService,
+    msg: NzMessageService,
     serviciosService: ContactosService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
   ) {
-    super(serviciosService, nzDropdownService, breakpointObserver);
-  }
-
-  _openForm(id?: number) {
-    this.submitFormSubscription = this.submitForm
-      .asObservable()
-      .subscribe(value => {
-        this.searchData();
-      });
-
-    this.translate.get('lambe.cheques').subscribe((res: string) => {
-      this.drawerRef = this.drawerService.create<
-        ContactosFormComponent,
-        { id: number; valueChange: Subject<{ submit: boolean }> }
-      >({
-        nzTitle: res,
-        nzWidth: this.initialDrawerWidth,
-        nzContent: ContactosFormComponent,
-        nzContentParams: { id, valueChange: this.submitForm },
-      });
-
-      this.drawerRef.afterClose.subscribe(
-        (data: { submit: boolean } | undefined) => {
-          if (!data) return;
-          if (data.submit) this.searchData();
-          this.submitFormSubscription.unsubscribe();
-        },
-      );
-
-      this.drawerRef.afterOpen.subscribe(data => {
-        this.closeMenu();
-      });
-    });
-  }
-
-  eliminar(id: number) {
-    this.dataService.delete(id).subscribe(data => {
-      this.msg.success(`Eliminado!!`);
-      this.searchData();
-    });
+    super(
+      serviciosService,
+      nzDropdownService,
+      breakpointObserver,
+      translate,
+      drawerService,
+      msg,
+    );
   }
 }

@@ -1,37 +1,31 @@
 import {
-  Component,
-  OnInit,
   Output,
   Input,
   EventEmitter,
   ChangeDetectorRef,
+  OnInit,
 } from '@angular/core';
 import { Subject } from 'rxjs';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
+import { FormGroup } from '@angular/forms';
+import { CreateUpdateForm as FBuilder } from 'app/interfaces/local/create-update-form.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { ServiciosService } from '@core/http/servicios/servicios.service';
-import { ServiciosForm } from './servicios.form';
+import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd';
+import { CrudService } from '@core/http/crud-service.class';
 
-@Component({
-  selector: 'app-servicios-form',
-  templateUrl: './servicios-form.component.html',
-  styles: [],
-})
-export class ServiciosFormComponent implements OnInit {
+export class CreateUpdateForm implements OnInit {
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
   @Input() valueChange: Subject<{ submit: boolean }>;
   form: FormGroup;
   initialized = false;
+
   constructor(
-    protected fb: ServiciosForm,
+    protected fb: FBuilder,
     protected msg: NzMessageService,
     protected cdr: ChangeDetectorRef,
     protected drawerRef: NzDrawerRef<{ submit: boolean }>,
-    protected fbBulder: FormBuilder,
     protected translate: TranslateService,
-    protected serviciosService: ServiciosService,
+    protected dataService: CrudService,
   ) {
     this.drawerRef.afterOpen.subscribe(data => {
       this.initialized = true;
@@ -42,7 +36,8 @@ export class ServiciosFormComponent implements OnInit {
     this.initForm();
 
     if (this.id) {
-      this.serviciosService.find(this.id).subscribe((data: any) => {
+      this.dataService.find(this.id).subscribe((data: any) => {
+        console.log(data);
         this.form.setValue(data.data);
       });
     }
@@ -62,7 +57,7 @@ export class ServiciosFormComponent implements OnInit {
 
   create() {
     const formData = this.form.value;
-    this.serviciosService.create(formData).subscribe(data => {
+    this.dataService.create(formData).subscribe(data => {
       this.initForm();
       this.valueChange.next({ submit: true });
       this.msg.success(`Creado!`);
@@ -72,7 +67,7 @@ export class ServiciosFormComponent implements OnInit {
 
   update() {
     const formData = this.form.value;
-    this.serviciosService.update(formData.id, formData).subscribe(data => {
+    this.dataService.update(formData.id, formData).subscribe(data => {
       this.msg.success(`Actualizado!`);
       this.valueChange.next({ submit: true });
       this.cdr.detectChanges();
