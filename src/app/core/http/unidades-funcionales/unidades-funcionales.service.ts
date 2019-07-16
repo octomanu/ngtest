@@ -30,41 +30,6 @@ export class UnidadesFuncionalesService extends CrudService {
     );
   }
 
-  delete(id: number) {
-    const URL = `${environment.OCTO_API}/unidades-funcionales/${id}`;
-
-    return this.http.delete(URL).pipe(
-      map(resp => resp),
-      catchError(err => throwError(err)),
-    );
-  }
-
-  create(data) {
-    const URL = `${environment.OCTO_API}/unidades-funcionales`;
-
-    return this.http.post(URL, data).pipe(
-      map(resp => resp),
-      catchError(err => throwError(err)),
-    );
-  }
-
-  update(id: number, data) {
-    const URL = `${environment.OCTO_API}/unidades-funcionales/${id}`;
-
-    return this.http.put(URL, data).pipe(
-      map(resp => resp),
-      catchError(err => throwError(err)),
-    );
-  }
-
-  find(id: number) {
-    const URL = `${environment.OCTO_API}/unidades-funcionales/mostrar/${id}`;
-    return this.http.get(URL).pipe(
-      map(resp => resp),
-      catchError(err => throwError(err)),
-    );
-  }
-
   getPath() {
     if (!this.idConsorcio) {
       throw new Error('No hay consorcio seteado.');

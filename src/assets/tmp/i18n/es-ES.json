@@ -124,6 +124,8 @@
   "global.titulo": "Titulo",
   "global.ruta": "Url",
   "global.favorito": "Favorito",
+  "global.habilitada": "Habilitada",
+  "global.ubicacion": "Ubicación",
   "porcentajes_consorcios.oculto_en_expensa": "Oculto en Expensas",
   "porcentajes_consorcios.es_gasto_particular":"Gasto Particular",
   "porcentajes_consorcios.oculto_en_prorateo":"Oculto en Prorateo",

@@ -9,7 +9,6 @@ import { throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class PorcentajesConsorciosService extends CrudService {
-  protected randomUserUrl = `${environment.OCTO_API}/proveedores`;
   protected idConsorcio: string;
 
   constructor(http: HttpClient) {
@@ -34,6 +33,6 @@ export class PorcentajesConsorciosService extends CrudService {
     if (!this.idConsorcio) {
       throw new Error('No hay consorcio seteado.');
     }
-    return `porcentajes-consorcios/${this.idConsorcio}`;
+    return `porcentuales-consorcios/${this.idConsorcio}`;
   }
 }

@@ -124,8 +124,10 @@
   "global.titulo": "Title",
   "global.ruta": "Url",
   "global.favorito": "Favourite",
+  "global.habilitada": "Habilitada",
+  "global.ubicacion": "Ubicación",
   "porcentajes_consorcios.oculto_en_expensa": "Hidden in Expenses",
-  "porcentajes_consorcios.es_gasto_particular":"Particular Spending",
-  "porcentajes_consorcios.oculto_en_prorateo":"Hidden in Prorateo",
+  "porcentajes_consorcios.es_gasto_particular": "Particular Spending",
+  "porcentajes_consorcios.oculto_en_prorateo": "Hidden in Prorateo",
   "porcentajes_consorcios.ocultar_porcentaje": "Hide Percentage"
 }
