@@ -1,3 +1,124 @@
-<p>
-  unidades-funcionales-form works!
-</p>
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="depto">{{ 'global.depto' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <input nz-input formControlName="depto">
+          <nz-form-explain *ngIf="form.get('depto').dirty && form.get('depto').errors">
+            <ng-container *ngIf="form.get('depto').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="numero">{{ 'global.numero' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-input-number style="width:100%;" formControlName="numero"></nz-input-number>
+          <nz-form-explain *ngIf="form.get('numero').dirty && form.get('numero').errors">
+            <ng-container *ngIf="form.get('numero').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="ordenamiento">{{ 'global.ordenamiento' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-input-number style="width:100%;" formControlName="ordenamiento"></nz-input-number>
+          <nz-form-explain *ngIf="form.get('ordenamiento').dirty && form.get('ordenamiento').errors">
+            <ng-container *ngIf="form.get('ordenamiento').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="m2">{{ 'global.m2' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <input nz-input formControlName="m2">
+          <nz-form-explain *ngIf="form.get('m2').dirty && form.get('m2').errors">
+            <ng-container *ngIf="form.get('m2').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+            <ng-container *ngIf="form.get('m2').hasError('pattern')">
+              {{ 'global.patron' | translate }} : ########,##
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="piso">{{ 'global.piso' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <input nz-input formControlName="piso">
+          <nz-form-explain *ngIf="form.get('piso').dirty && form.get('piso').errors">
+            <ng-container *ngIf="form.get('piso').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="tipo_uf">{{ 'global.tipo_uf' | translate }}
+        </nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="tipo_uf">
+            <nz-option *ngFor="let tipo of tipoUf" [nzValue]="tipo" nzLabel="{{'cons-'+tipo | translate}}"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="tipo_perdon_interes">{{ 'global.tipo_perdon_interes' | translate }}
+        </nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="tipo_perdon_interes">
+            <nz-option *ngFor="let tipo of tipoPerdonInteres" [nzValue]="tipo" nzLabel="{{'cons-'+tipo | translate}}">
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="estado_legal">{{ 'global.estado_legal' | translate }}
+        </nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="estado_legal">
+            <nz-option *ngFor="let tipo of estadoLegal" [nzValue]="tipo" nzLabel="{{'cons-'+tipo | translate}}">
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</form>
+
+
+<div class="footer">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-row nzType="flex" nzJustify="end">
+      <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+        <span>{{ 'global.guardar' | translate }}</span>
+      </button>
+    </div>
+  </div>
+</div>

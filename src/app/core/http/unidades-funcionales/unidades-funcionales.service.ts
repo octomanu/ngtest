@@ -12,10 +12,6 @@ export class UnidadesFuncionalesService extends CrudService {
   protected randomUserUrl = `${environment.OCTO_API}/proveedores`;
   protected idConsorcio: string;
 
-  constructor(http: HttpClient) {
-    super(http);
-  }
-
   setConsorcio(id: string) {
     this.idConsorcio = id;
   }
@@ -30,6 +26,41 @@ export class UnidadesFuncionalesService extends CrudService {
     params = params.append('display', display);
     return this.http.get(URL, { params }).pipe(
       map((resp: any) => resp.data),
+      catchError(err => throwError(err)),
+    );
+  }
+
+  delete(id: number) {
+    const URL = `${environment.OCTO_API}/unidades-funcionales/${id}`;
+
+    return this.http.delete(URL).pipe(
+      map(resp => resp),
+      catchError(err => throwError(err)),
+    );
+  }
+
+  create(data) {
+    const URL = `${environment.OCTO_API}/unidades-funcionales`;
+
+    return this.http.post(URL, data).pipe(
+      map(resp => resp),
+      catchError(err => throwError(err)),
+    );
+  }
+
+  update(id: number, data) {
+    const URL = `${environment.OCTO_API}/unidades-funcionales/${id}`;
+
+    return this.http.put(URL, data).pipe(
+      map(resp => resp),
+      catchError(err => throwError(err)),
+    );
+  }
+
+  find(id: number) {
+    const URL = `${environment.OCTO_API}/unidades-funcionales/mostrar/${id}`;
+    return this.http.get(URL).pipe(
+      map(resp => resp),
       catchError(err => throwError(err)),
     );
   }

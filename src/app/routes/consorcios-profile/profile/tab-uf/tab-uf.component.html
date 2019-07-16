@@ -33,15 +33,15 @@
   <thead (nzSortChange)="sort($event)" nzSingleSort>
     <tr (contextmenu)="contextMenu($event, menuTable)">
       <th nzCustomFilter nzShowSort nzSortKey="estado">
-        <span>{{ 'unidades_funcionales.piso' | translate }}</span>
+        <span>{{ 'global.piso' | translate }}</span>
         <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
       </th>
       <th nzCustomFilter nzShowSort nzSortKey="razon_social">
-        <span>{{ 'unidades_funcionales.depto' | translate }}</span>
+        <span>{{ 'global.depto' | translate }}</span>
         <ng-container *ngTemplateOutlet="filtro_razon_social"></ng-container>
       </th>
       <th nzCustomFilter nzShowSort nzSortKey="calle">
-        <span>{{ 'unidades_funcionales.numero' | translate }}</span>
+        <span>{{ 'global.numero' | translate }}</span>
         <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
       </th>
     </tr>
@@ -50,18 +50,18 @@
     <ng-template ngFor let-data [ngForOf]="tableLambe.data">
       <tr (contextmenu)="contextMenu($event, menuRowContainer)">
         <ng-template #menuRowContainer>
-          <ng-container *ngTemplateOutlet="menuRow; context: {id: data.id}"></ng-container>
+          <ng-container *ngTemplateOutlet="menuRow; context: {id: data['unidades_funcionales-id']}"></ng-container>
         </ng-template>
         <td>
-          <strong class="onlysmall">{{ 'unidades_funcionales.piso' | translate }}:&nbsp;</strong>
+          <strong class="onlysmall">{{ 'global.piso' | translate }}:&nbsp;</strong>
           {{ data['unidades_funcionales-piso'] }}
         </td>
         <td>
-          <strong class="onlysmall">{{ 'unidades_funcionales.depto' | translate }}:&nbsp;</strong>
+          <strong class="onlysmall">{{ 'global.depto' | translate }}:&nbsp;</strong>
           {{ data['unidades_funcionales-depto'] }}
         </td>
         <td>
-          <strong class="onlysmall">{{ 'unidades_funcionales.numero' | translate }}:&nbsp;</strong>
+          <strong class="onlysmall">{{ 'global.numero' | translate }}:&nbsp;</strong>
           {{ data['unidades_funcionales-numero'] }}
         </td>
       </tr>

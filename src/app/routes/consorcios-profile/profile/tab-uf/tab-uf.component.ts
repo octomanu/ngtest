@@ -57,4 +57,38 @@ export class TabUfComponent extends TableLambe implements OnInit, OnDestroy {
     this.dataService.setConsorcio(this.idConsorcio);
     super.ngOnInit();
   }
+
+  /**
+   * Override
+   */
+  _openForm(id?: number) {
+    this.submitFormSubscription = this.submitForm
+      .asObservable()
+      .subscribe(value => {
+        this.searchData();
+      });
+
+    this.translate.get(this.drawerTitle).subscribe((res: string) => {
+      this.drawerRef = this.drawerService.create({
+        nzTitle: res,
+        nzWidth: this.initialDrawerWidth,
+        nzContent: this.drawerContent,
+        nzContentParams: {
+          id,
+          valueChange: this.submitForm,
+          idConsorcio: this.idConsorcio,
+        },
+      });
+
+      this.drawerRef.afterClose.subscribe(
+        (data: { submit: boolean } | undefined) => {
+          this.drawerAfterClose(data);
+        },
+      );
+
+      this.drawerRef.afterOpen.subscribe(data => {
+        this.drawerAfterOpen(data);
+      });
+    });
+  }
 }
