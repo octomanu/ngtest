@@ -38,6 +38,51 @@
       </nz-form-item>
     </div>
 
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.numero_cuenta' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
+          <input nz-input formControlName="numero_cuenta" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.cbu' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
+          <input nz-input formControlName="cbu" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.tipo_cuenta' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
+          <input nz-input formControlName="tipo_cuenta" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.tipo_cuenta' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
+          <input nz-input formControlName="sucursal" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.mostrar_datos_expensa' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
+          <input nz-input formControlName="mostrar_datos_expensa" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
 
   </div>
 </form>

@@ -1,5 +1,6 @@
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +11,13 @@ export class GastosForm {
     return this.fb.group({
       id: [null, []],
       id_proveedor: [null, []],
-      id_consorcio: [null, []],
+      id_categoria: [null, [Validators.required]],
+      consorcios: [[], [Validators.required]],
       id_concepto_gastos: [null, []],
       unidades_funcionales: [[], []],
       id_rubro: [null, []],
       descripcion: [null, [Validators.required]],
+      id_servicio: [null, [Validators.required]],
       monto: [
         null,
         [
@@ -81,6 +84,12 @@ export class GastosForm {
       gasto = this.resolveSingle(form, multiple);
     }
     delete gasto.id_concepto_gastos;
+    gasto.fecha = moment(gasto.fecha).format('DD-MM-YYYY');
+
+    for (const cuota of gasto.cuotas) {
+      cuota.fecha_pago = moment(cuota.fecha_pago).format('DD-MM-YYYY');
+    }
+
     return gasto;
   }
 

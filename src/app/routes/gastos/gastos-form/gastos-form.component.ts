@@ -24,6 +24,8 @@ import { ProcentualesFormComponent } from 'app/routes/consorcios-profile/profile
 import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unidades-funcionales.service';
 import { PorcentajesConsorciosService } from '@core/http/porcentajes_consorcios/porcentajes-consorcios.service';
 import { ProveedorFormComponent } from 'app/routes/proveedores/proveedor-form/proveedor-form.component';
+import { ServiciosService } from '@core/http/servicios/servicios.service';
+import { CategoriasService } from '@core/http/categorias/categorias.service';
 @Component({
   selector: 'app-gastos-form',
   templateUrl: './gastos-form.component.html',
@@ -45,8 +47,10 @@ export class GastosFormComponent implements OnInit {
   protected isLoading = true;
   protected proveedores: { id: number; display: string }[];
   protected consorcios: { id: number; display: string }[];
+  protected servicios: { id: number; display: string }[];
   protected ufs: { id: number; display: string }[];
   protected porcentajes: { id: number; display: string }[] = [];
+  protected categorias: { id: number; display: string }[] = [];
   protected timeout = null;
   protected keep = { proveedor: false, consorcio: false, gasto: false };
   protected initialized = false;
@@ -64,6 +68,8 @@ export class GastosFormComponent implements OnInit {
     protected chequerasService: ProveedoresService,
     protected drawerService: NzDrawerService,
     protected fbBulder: FormBuilder,
+    protected serviciosService: ServiciosService,
+    protected categoriasService: CategoriasService,
     private translate: TranslateService,
   ) {
     this.drawerRef.afterOpen.subscribe(data => {
@@ -166,6 +172,8 @@ export class GastosFormComponent implements OnInit {
     if (!this.id) {
       this.searchProveedorList('');
       this.searchConsorciosList('');
+      this.searchServiciosList('');
+      this.searchCategoriasList('');
     }
 
     this.open();
@@ -234,19 +242,20 @@ export class GastosFormComponent implements OnInit {
     } else {
       const gasto = this.fb.resolveGasto(this.form, this.multiPorcentajes);
       console.warn('GASTO', gasto);
+
       // return;
       this.gastosService.create(gasto).subscribe(data => {
         // this.drawerRef.close({ submit: true });
 
         const proveedorValue: string = this.form.get('id_proveedor').value;
-        const consorcioValue: string = this.form.get('id_consorcio').value;
+        const consorcioValue: string = this.form.get('consorcios').value;
         const gastoValue: string = this.form.get('descripcion').value;
         this.initForm();
         if (this.keep.proveedor) {
           this.form.get('id_proveedor').setValue(proveedorValue);
         }
         if (this.keep.consorcio) {
-          this.form.get('id_consorcio').setValue(consorcioValue);
+          this.form.get('consorcios').setValue(consorcioValue);
         }
         if (this.keep.gasto) {
           this.form.get('descripcion').setValue(gastoValue);
@@ -264,7 +273,13 @@ export class GastosFormComponent implements OnInit {
     }
     this.searchDataForm();
 
-    const idConsorcio: string = this.form.get('id_consorcio').value;
+    const consorcios = this.form.get('consorcios').value;
+    let idConsorcio = null;
+
+    if (consorcios.length === 1) {
+      idConsorcio = consorcios[0];
+    }
+
     this.ufsService.setConsorcio(idConsorcio);
     this.porcentajesService.setConsorcio(idConsorcio);
     if (idConsorcio) {
@@ -280,10 +295,10 @@ export class GastosFormComponent implements OnInit {
 
   searchDataForm(timeout = false) {
     const idProveedor: string = this.form.get('id_proveedor').value;
-    const idConsorcio: string = this.form.get('id_consorcio').value;
+    const idConsorcio: string = this.form.get('consorcios').value;
     const gasto: string = this.form.get('descripcion').value;
 
-    if (idProveedor == null || idConsorcio == null || gasto == null) {
+    if (idProveedor == null || idConsorcio.length !== 1 || gasto == null) {
       return;
     }
 
@@ -297,7 +312,7 @@ export class GastosFormComponent implements OnInit {
         this.gastosService
           .findPrevious({
             id_proveedor: idProveedor,
-            id_consorcio: idConsorcio,
+            id_consorcio: idConsorcio[0],
             gasto,
           })
           .subscribe(data => {
@@ -316,7 +331,7 @@ export class GastosFormComponent implements OnInit {
       this.gastosService
         .findPrevious({
           id_proveedor: idProveedor,
-          id_consorcio: idConsorcio,
+          id_consorcio: idConsorcio[0],
           gasto,
         })
         .subscribe(data => {
@@ -366,6 +381,17 @@ export class GastosFormComponent implements OnInit {
     }, 400);
   }
 
+  searchServicios(display: string) {
+    if (this.timeout) {
+      window.clearTimeout(this.timeout);
+    }
+    this.timeout = window.setTimeout(() => {
+      this.timeout = null;
+      this.isLoading = true;
+      this.searchServiciosList(display);
+    }, 400);
+  }
+
   searchPorcentajes(display: string) {
     if (this.timeout) {
       window.clearTimeout(this.timeout);
@@ -392,6 +418,25 @@ export class GastosFormComponent implements OnInit {
       .subscribe((data: { id: number; display: string }[]) => {
         this.isLoading = false;
         this.consorcios = data;
+      });
+  }
+
+  protected searchServiciosList(display: string) {
+    this.serviciosService
+      .searchByDisplay(display)
+      .subscribe((data: { id: number; display: string }[]) => {
+        this.isLoading = false;
+        this.servicios = data;
+      });
+  }
+
+  protected searchCategoriasList(display: string) {
+    this.categoriasService
+      .searchByDisplay(display)
+      .subscribe((data: { id: number; display: string }[]) => {
+        console.log(data);
+        this.isLoading = false;
+        this.categorias = data;
       });
   }
 

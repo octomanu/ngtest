@@ -94,7 +94,7 @@ export class GastosTableComponent extends TableLambe
         this.searchData();
       });
 
-    this.translate.get('lambe.cheques').subscribe((res: string) => {
+    this.translate.get('lambe.gasto').subscribe((res: string) => {
       this.drawerRef = this.drawerService.create<
         GastosFormComponent,
         { id: number; valueChange: Subject<{ submit: boolean }> }

@@ -136,11 +136,12 @@ const COMPONENTS_NOROUNT = [
   ServiciosTableComponent,
   BancosTableComponent,
   BancosFormComponent,
+  UnidadesFuncionalesFormComponent
 ];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule, NgxDnDModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, UnidadesFuncionalesFormComponent],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule {}

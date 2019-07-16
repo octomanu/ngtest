@@ -1,20 +1,17 @@
 import { Injectable } from '@angular/core';
-import { CrudService } from '../crud-service.class';
 import { environment } from '@env/environment';
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ServiciosService extends CrudService {
-  getPath() {
-    return 'servicios';
-  }
+export class CategoriasService {
+  constructor(protected http: HttpClient) {}
 
   searchByDisplay(display: string) {
-    const URL = `${environment.OCTO_API}/${this.getPath()}/buscar`;
+    const URL = `${environment.OCTO_API}/categorias/buscar`;
     let params = new HttpParams();
     params = params.append('display', display);
     return this.http.get(URL, { params }).pipe(

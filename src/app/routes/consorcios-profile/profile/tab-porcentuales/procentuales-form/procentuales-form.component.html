@@ -4,7 +4,7 @@
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
 
       <nz-form-item>
-        <nz-form-label nzRequired nzFor="nombre">{{ 'porcentajes_consorcios.nombre' | translate }}
+        <nz-form-label nzRequired nzFor="nombre">{{ 'global.nombre' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <input nz-input formControlName="nombre">
@@ -17,7 +17,7 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzRequired nzFor="descripcion">{{ 'porcentajes_consorcios.descripcion' | translate }}
+        <nz-form-label nzRequired nzFor="descripcion">{{ 'global.descripcion' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <input nz-input formControlName="descripcion">
@@ -30,7 +30,7 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzRequired nzFor="posicion">{{ 'porcentajes_consorcios.posicion' | translate }}
+        <nz-form-label nzRequired nzFor="posicion">{{ 'global.posicion' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <input nz-input formControlName="posicion">
@@ -39,6 +39,16 @@
               {{ 'global.campo_requerido' | translate }}
             </ng-container>
           </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      
+      <nz-form-item>
+          <nz-form-label nzRequired nzFor="tipo">{{ 'global.tipo' | translate }}
+            </nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName= "tipo">
+            <nz-option *ngFor="let tipo of tipos" [nzValue]="tipo" nzLabel="{{'cons-'+tipo | translate}}"></nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
 

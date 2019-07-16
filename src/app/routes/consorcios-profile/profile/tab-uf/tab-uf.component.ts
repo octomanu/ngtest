@@ -54,7 +54,7 @@ export class TabUfComponent extends TableLambe implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    super.ngOnInit();
     this.dataService.setConsorcio(this.idConsorcio);
+    super.ngOnInit();
   }
 }

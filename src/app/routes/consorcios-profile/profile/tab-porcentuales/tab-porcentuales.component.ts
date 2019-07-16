@@ -19,7 +19,7 @@ export class TabPorcentualesComponent extends TableLambe
   implements OnInit, OnDestroy {
   @Input() idConsorcio: string;
   drawerContent = ProcentualesFormComponent;
-  drawerTitle = 'lambe.porcentuales';
+  drawerTitle = 'global.porcentual';
 
   filtroForm = {
     razon_social: null,
@@ -55,7 +55,41 @@ export class TabPorcentualesComponent extends TableLambe
   }
 
   ngOnInit() {
-    super.ngOnInit();
     this.dataService.setConsorcio(this.idConsorcio);
+    super.ngOnInit();
+  }
+
+  /**
+   * Override
+   */
+  _openForm(id?: number) {
+    this.submitFormSubscription = this.submitForm
+      .asObservable()
+      .subscribe(value => {
+        this.searchData();
+      });
+
+    this.translate.get(this.drawerTitle).subscribe((res: string) => {
+      this.drawerRef = this.drawerService.create({
+        nzTitle: res,
+        nzWidth: this.initialDrawerWidth,
+        nzContent: this.drawerContent,
+        nzContentParams: {
+          id,
+          valueChange: this.submitForm,
+          idConsorcio: this.idConsorcio,
+        },
+      });
+
+      this.drawerRef.afterClose.subscribe(
+        (data: { submit: boolean } | undefined) => {
+          this.drawerAfterClose(data);
+        },
+      );
+
+      this.drawerRef.afterOpen.subscribe(data => {
+        this.drawerAfterOpen(data);
+      });
+    });
   }
 }

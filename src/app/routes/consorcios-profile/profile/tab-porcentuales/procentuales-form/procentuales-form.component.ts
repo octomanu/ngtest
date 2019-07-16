@@ -17,6 +17,7 @@ import { PorcentajesConsorciosService } from '@core/http/porcentajes_consorcios/
   styles: [],
 })
 export class ProcentualesFormComponent implements OnInit {
+  tipos = ['gastos', 'fijo', 'fijo_forzado'];
   protected form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
