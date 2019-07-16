@@ -33,9 +33,9 @@ export class MenuHandlerService {
 
   refreshMenu() {
     this.menuService.getMenu().subscribe((menu: any) => {
-      this.menu = menu;
-      this.localStorage.setItem({ name: 'menu', value: menu });
-      this.subject.next(menu);
+      this.menu = menu.menu;
+      this.localStorage.setItem({ name: 'menu', value: menu.menu });
+      this.subject.next(menu.menu);
     });
   }
 

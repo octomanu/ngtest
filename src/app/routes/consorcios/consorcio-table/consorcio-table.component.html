@@ -106,6 +106,9 @@
       <a>{{ 'global.editar' | translate }}</a>
     </li>
     <li nz-menu-item>
+        <a [routerLink]="['/consorcios', 'perfil', id]">{{ 'global.perfil' | translate }}</a>
+      </li>
+    <li nz-menu-item>
       <a nz-popconfirm (nzOnConfirm)="eliminar(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
         [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
       <ng-template #iconTpl>

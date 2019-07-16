@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { TableLambe } from '@core/lambe/table-lambe.class';
-import { Subscription, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import {
   NzMessageService,
   NzDropdownService,
   NzDrawerService,
 } from 'ng-zorro-antd';
-import { ContactosService } from '@core/http/contactos/contactos.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { EmpleadosFormComponent } from '../empleados-form/empleados-form.component';
+import { EmpleadosService } from '@core/http/empleados/empleados.service';
 
 @Component({
   selector: 'app-empleados-table',
@@ -21,7 +20,7 @@ export class EmpleadosTableComponent extends TableLambe {
   drawerTitle = 'lambe.empleados';
 
   constructor(
-    empleadosService: ContactosService,
+    empleadosService: EmpleadosService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
     translate: TranslateService,
