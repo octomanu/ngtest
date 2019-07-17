@@ -17,10 +17,10 @@ import { FormGroup } from '@angular/forms';
   styles: [],
 })
 export class ConsorcioFormComponent implements OnInit {
-  protected form: FormGroup;
+  form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
-  protected current = 0;
+  current = 0;
   consorcioStatus = ['ACTIVO', 'PENDIENTE', 'INACTIVO', 'BORRADO'];
 
   constructor(

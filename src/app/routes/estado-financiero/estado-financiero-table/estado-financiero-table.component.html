@@ -24,7 +24,7 @@
         <nz-form-label nzFor="uf">{{ 'global.unidad_funcional' | translate }}
         </nz-form-label>
         <nz-form-control>
-          <nz-select nzAllowClear nzShowSearch [nzServerSearch]="true" name="uf" (nzOnSearch)="searchUfs()"
+          <nz-select nzAllowClear nzShowSearch [nzServerSearch]="true" name="uf" (nzOnSearch)="searchUfs('')"
             [(ngModel)]="idUf" (ngModelChange)="changeUf()">
             <ng-container *ngFor="let uf of ufs">
               <nz-option *ngIf="!isLoading" [nzValue]="uf.id" [nzLabel]="uf.display"></nz-option>

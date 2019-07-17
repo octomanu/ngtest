@@ -22,7 +22,7 @@ export class CabecerasFormComponent implements OnInit {
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
   @Input() valueChange: Subject<{ submit: boolean }>;
-  protected form: FormGroup;
+  form: FormGroup;
   protected initialized = false;
   constructor(
     protected fb: CabecerasForm,

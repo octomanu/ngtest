@@ -37,7 +37,6 @@
       <tr (contextmenu)="contextMenu($event, menuTable)">
         <th nzCustomFilter nzShowSort nzSortKey="descripcion">
           <span>{{ 'global.servicio' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
         </th>
       </tr>
     </thead>

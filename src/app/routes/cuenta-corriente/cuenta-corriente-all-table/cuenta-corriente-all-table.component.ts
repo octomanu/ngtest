@@ -24,7 +24,7 @@ export class CuentaCorrienteAllTableComponent extends TableLambe
   drawerTitle = 'global.movimiento';
   isLoading = false;
   timeout = null;
-  protected totales = {
+  totales = {
     total: { monto: 0, titulo: 'global.total' },
     deuda: { monto: 0, titulo: 'global.deuda' },
     cheque: { monto: 0, titulo: 'global.cheque' },
@@ -32,9 +32,9 @@ export class CuentaCorrienteAllTableComponent extends TableLambe
     transferencia: { monto: 0, titulo: 'global.transferencia' },
     otros: { monto: 0, titulo: 'global.otros' },
   };
-  protected proveedores: { id: number; display: string }[];
-  protected consorcios: { id: number; display: string }[];
-  protected filtroForm = {
+  proveedores: { id: number; display: string }[];
+  consorcios: { id: number; display: string }[];
+  filtroForm = {
     id_consorcio: null,
     cc_proveedores: null,
     cc_unidades_funcionales: null,

@@ -34,18 +34,18 @@ export class GastosTableComponent extends TableLambe
   protected rowForm = [];
 
   extraData = false;
-  protected table = {
+  table = {
     gasto: { show: true },
     id_proveedor: { show: true },
     id_consorcio: { show: true },
   };
-  protected form: FormGroup;
+  form: FormGroup;
   protected timeout = null;
-  protected isLoading = false;
+  isLoading = false;
   protected gastosService: GastosService;
-  protected proveedores: { id: number; display: string }[];
-  protected consorcios: { id: number; display: string }[];
-  protected masterFilter = { proveedor: '', consorcio: '', gasto: '' };
+  proveedores: { id: number; display: string }[];
+  consorcios: { id: number; display: string }[];
+  masterFilter = { proveedor: '', consorcio: '', gasto: '' };
   constructor(
     msg: NzMessageService,
     translate: TranslateService,

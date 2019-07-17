@@ -11,7 +11,7 @@ import { ProveedorForm } from './proveedor.form';
   styles: [],
 })
 export class ProveedorFormComponent implements OnInit {
-  protected form: FormGroup;
+  form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
 

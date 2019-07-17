@@ -27,8 +27,8 @@ export class CuentaCorrienteFormComponent implements OnInit {
   protected initialized = false;
   // data selects
   protected timeout = null;
-  protected isLoading = true;
-  protected consorcios: { id: number; display: string }[];
+  isLoading = true;
+  consorcios: { id: number; display: string }[];
   // data selects
 
   constructor(

@@ -31,10 +31,10 @@ export class TableLambe implements TableLambeInterface, OnInit, OnDestroy {
   protected initialDrawerWidth: string;
 
   protected _timeout = null;
-  protected paginatorParams: PaginatorParamsInterface;
+  paginatorParams: PaginatorParamsInterface;
   tableLambe = { total: 1, data: [], loading: true };
   protected filtroForm: {};
-  protected tags = {};
+  tags = {};
   protected dropdown: NzDropdownContextComponent;
   protected smallScreen: boolean;
   constructor(
@@ -61,6 +61,8 @@ export class TableLambe implements TableLambeInterface, OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribeBreakPoint();
   }
+
+  _openFilter() {}
 
   /**
    * Ordena los datos de la grilla

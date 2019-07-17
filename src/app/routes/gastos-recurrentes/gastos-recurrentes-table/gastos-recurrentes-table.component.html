@@ -43,22 +43,18 @@
       <tr (contextmenu)="contextMenu($event, menuTable)">
         <th nzCustomFilter nzShowSort nzSortKey="estado">
           <span>{{ 'lambe.proveedores.proveedor' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
         </th>
 
         <th nzCustomFilter nzShowSort nzSortKey="calle">
           <span>{{ 'lambe.consorcios.consorcio' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
         </th>
 
         <th nzCustomFilter nzShowSort nzSortKey="calle">
           <span>{{ 'lambe.gasto' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
         </th>
 
         <th nzCustomFilter nzShowSort nzSortKey="estado">
           <span>{{ 'global.monto' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
         </th>
       </tr>
     </thead>

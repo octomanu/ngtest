@@ -58,6 +58,8 @@ export class TabUfComponent extends TableLambe implements OnInit, OnDestroy {
     super.ngOnInit();
   }
 
+  _openFilter() {}
+
   /**
    * Override
    */

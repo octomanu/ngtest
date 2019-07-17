@@ -22,7 +22,7 @@ export class CuentaCorrienteTableComponent extends TableLambe
   implements OnInit, OnDestroy {
   drawerContent = CuentaCorrienteFormComponent;
   drawerTitle = 'global.movimiento';
-  protected totales = {
+  totales = {
     total: { monto: 0, titulo: 'global.total' },
     deuda: { monto: 0, titulo: 'global.deuda' },
     cheque: { monto: 0, titulo: 'global.cheque' },
@@ -30,11 +30,11 @@ export class CuentaCorrienteTableComponent extends TableLambe
     transferencia: { monto: 0, titulo: 'global.transferencia' },
     otros: { monto: 0, titulo: 'global.otros' },
   };
-  protected isLoading = false;
+  isLoading = false;
   protected timeout = null;
-  protected proveedores: { id: number; display: string }[];
-  protected consorcios: { id: number; display: string }[];
-  protected filtroForm = {
+  proveedores: { id: number; display: string }[];
+  consorcios: { id: number; display: string }[];
+  filtroForm = {
     cc_consorcios: null,
     cc_proveedores: null,
     cc_unidades_funcionales: null,
@@ -117,6 +117,8 @@ export class CuentaCorrienteTableComponent extends TableLambe
       this.searchConsorciosList(display);
     }, 400);
   }
+
+  _openFilter() {}
 
   protected searchProveedorList(display: string) {
     this.proveedorService

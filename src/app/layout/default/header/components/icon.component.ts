@@ -48,31 +48,31 @@ export class HeaderIconComponent {
     return data.index;
   }
 
-  ngOnInit(): void {
-    const data = [];
-    for (let i = 0; i < 20000; i++) {
-      data.push({
-        index: i,
-        name: `Edward King`,
-        age: 32,
-        address: `London`,
-      });
-    }
-    this.listOfData = data;
-  }
+  // ngOnInit(): void {
+  //   const data = [];
+  //   for (let i = 0; i < 20000; i++) {
+  //     data.push({
+  //       index: i,
+  //       name: `Edward King`,
+  //       age: 32,
+  //       address: `London`,
+  //     });
+  //   }
+  //   this.listOfData = data;
+  // }
 
-  ngAfterViewInit(): void {
-    this.nzTableComponent.cdkVirtualScrollViewport.scrolledIndexChange
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: number) => {
-        console.log('scroll index to', data);
-      });
-  }
+  // ngAfterViewInit(): void {
+  //   this.nzTableComponent.cdkVirtualScrollViewport.scrolledIndexChange
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe((data: number) => {
+  //       console.log('scroll index to', data);
+  //     });
+  // }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
+  // ngOnDestroy(): void {
+  //   this.destroy$.next();
+  //   this.destroy$.complete();
+  // }
   change() {
     setTimeout(() => {
       this.loading = false;

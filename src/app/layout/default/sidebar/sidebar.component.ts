@@ -20,10 +20,10 @@ import { Subscription } from 'rxjs';
 export class SidebarComponent implements OnInit, OnDestroy {
   protected dropdown: NzDropdownContextComponent;
   protected menuSubscription: Subscription;
-  protected form: FormGroup;
+  form: FormGroup;
   protected showAll = false;
-  protected isCollapsed: boolean;
-  protected orderableList = [];
+  isCollapsed: boolean;
+  orderableList = [];
   constructor(
     protected settings: SettingsService,
     protected nzDropdownService: NzDropdownService,

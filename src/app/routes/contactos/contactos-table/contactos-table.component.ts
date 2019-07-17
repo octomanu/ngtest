@@ -37,4 +37,6 @@ export class ContactosTableComponent extends TableLambe {
       msg,
     );
   }
+
+  _openFilter() {}
 }

@@ -19,7 +19,7 @@ import { NotasService } from '@core/http/notas/notas.service';
   styles: [],
 })
 export class NotasFormComponent implements OnInit {
-  protected form: FormGroup;
+  form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
   @Input() valueChange: Subject<{ submit: boolean }>;

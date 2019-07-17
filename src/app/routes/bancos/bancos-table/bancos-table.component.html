@@ -37,15 +37,13 @@
       <tr (contextmenu)="contextMenu($event, menuTable)">
         <th nzCustomFilter nzShowSort nzSortKey="estado">
           <span>{{ 'global.nombre' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
         </th>
         <th nzCustomFilter nzShowSort nzSortKey="estado">
           <span>{{ 'global.numero_cuenta' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
         </th>
         <th nzCustomFilter nzShowSort nzSortKey="estado">
           <span>{{ 'global.sucursal' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
+
         </th>
       </tr>
     </thead>

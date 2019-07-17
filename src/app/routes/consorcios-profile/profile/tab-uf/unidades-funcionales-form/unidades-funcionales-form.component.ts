@@ -18,7 +18,7 @@ import { unlink } from 'fs';
   styles: [],
 })
 export class UnidadesFuncionalesFormComponent implements OnInit {
-  protected form: FormGroup;
+  form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
   @Input() idConsorcio: string;

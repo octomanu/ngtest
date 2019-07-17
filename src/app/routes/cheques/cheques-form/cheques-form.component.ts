@@ -13,11 +13,11 @@ import { ConfigFormComponent } from './config-form/config-form.component';
   styles: [],
 })
 export class ChequesFormComponent implements OnInit {
-  protected form: FormGroup;
+  form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
   protected current = 0;
-  protected isLoading = true;
+  isLoading = true;
   protected checkbooks: { id: number; display: string }[];
   protected timeout = null;
   protected keepData = {

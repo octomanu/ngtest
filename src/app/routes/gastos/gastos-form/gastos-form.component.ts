@@ -36,21 +36,21 @@ export class GastosFormComponent implements OnInit {
   cuotasVisible = false;
   porcentualesVisible = false;
   // cuotas
-  protected form: FormGroup;
+  form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
   @Input() protected valueChange: Subject<{ submit: boolean }>;
   protected cuotasAmount = 1;
-  protected multiPorcentajes = false;
+  multiPorcentajes = false;
   protected cuotas = [];
   protected current = 0;
-  protected isLoading = true;
-  protected proveedores: { id: number; display: string }[];
-  protected consorcios: { id: number; display: string }[];
-  protected servicios: { id: number; display: string }[];
-  protected ufs: { id: number; display: string }[];
-  protected porcentajes: { id: number; display: string }[] = [];
-  protected categorias: { id: number; display: string }[] = [];
+  isLoading = true;
+  proveedores: { id: number; display: string }[];
+  consorcios: { id: number; display: string }[];
+  servicios: { id: number; display: string }[];
+  ufs: { id: number; display: string }[];
+  porcentajes: { id: number; display: string }[] = [];
+  categorias: { id: number; display: string }[] = [];
   protected timeout = null;
   protected keep = { proveedor: false, consorcio: false, gasto: false };
   protected initialized = false;
@@ -91,7 +91,7 @@ export class GastosFormComponent implements OnInit {
     this.porcentualesVisible = false;
   }
 
-  initCuotas(event: any) {
+  initCuotas() {
     if (!this.initialized && this.id) {
       return;
     }
@@ -207,6 +207,11 @@ export class GastosFormComponent implements OnInit {
           'cuotas',
           this.fb.initCuotasChild(data.data.cuotas.length),
         );
+        data.data.consorcios = [data.data.id_consorcio];
+        data.data.unidades_funcionales = [];
+        data.data.id_concepto_gastos = null;
+        delete data.data.id_consorcio;
+        console.log(data.data);
         this.form.setValue(data.data);
         this.porcentajesService
           .searchByDisplay('')
@@ -227,7 +232,7 @@ export class GastosFormComponent implements OnInit {
         // }
       });
     } else {
-      this.initCuotas(1);
+      this.initCuotas();
     }
   }
 
@@ -319,7 +324,7 @@ export class GastosFormComponent implements OnInit {
             if (!data) {
               return;
             }
-            this.form.get('id_rubro').setValue(data.id_rubro);
+            this.form.get('id_categoria').setValue(data.id_categoria);
             this.form.get('monto').setValue(data.monto);
             this.form.get('periodicidad').setValue(data.periodicidad);
             this.form.get('prevision').setValue(data.prevision);
@@ -340,7 +345,6 @@ export class GastosFormComponent implements OnInit {
           }
           this.form.get('id_rubro').setValue(data.id_rubro);
           this.form.get('monto').setValue(data.monto);
-          this.form.get('periodicidad').setValue(data.periodicidad);
           this.form.get('prevision').setValue(data.prevision);
           this.form.get('prorrateable').setValue(data.prorrateable);
           this.form.get('fecha').setValue(data.fecha);

@@ -15,7 +15,6 @@ export class GastosForm {
       consorcios: [[], [Validators.required]],
       id_concepto_gastos: [null, []],
       unidades_funcionales: [[], []],
-      id_rubro: [null, []],
       descripcion: [null, [Validators.required]],
       id_servicio: [null, [Validators.required]],
       monto: [
@@ -28,7 +27,6 @@ export class GastosForm {
       fecha: [null, [Validators.required]],
       prevision: [false, [Validators.required]],
       prorrateable: [false, [Validators.required]],
-      periodicidad: [null, []],
       cuotas: this.initCuotasChild(),
       porcentuales: this.initPorcentualesChild(),
     });
@@ -67,6 +65,9 @@ export class GastosForm {
               Validators.pattern('-?[0-9]{1,8}(?:.[0-9]{1,2})?'),
             ],
           ],
+          numero_cuota: [null, []],
+          id_factura: [null, []],
+          id_periodo: [null, []],
           fecha_pago: [null, [Validators.required]],
           id: [null],
         }),

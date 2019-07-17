@@ -21,12 +21,12 @@ export class EstadoFinancieroTableComponent extends TableLambe
   @Input() protected soruce: string;
   isLoading = true;
   timeout = null;
-  protected idConsorcio: any;
-  protected idUf: string;
-  protected consorcios: { id: number; display: string }[];
-  protected ufs: { id: number; display: string }[];
+  idConsorcio: any;
+  idUf: string;
+  saldo = 0;
+  consorcios: { id: number; display: string }[];
+  ufs: { id: number; display: string }[];
   protected estadoFinancieroService: EstadoFinancieroService;
-  protected saldo = 0;
   constructor(
     protected consorciosService: ConsorciosService,
     protected ufsService: UnidadesFuncionalesService,
@@ -58,7 +58,7 @@ export class EstadoFinancieroTableComponent extends TableLambe
     this.unsubscribeBreakPoint();
   }
 
-  changeConsorcio() {
+  changeConsorcio(event) {
     this.tableLambe.data = [];
     this.idUf = null;
     this.ufs = [];

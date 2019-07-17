@@ -17,7 +17,7 @@ import { AmenitiesService } from '@core/http/amenities/amenities.service';
   styles: [],
 })
 export class AmenitiesFormComponent implements OnInit {
-  protected form: FormGroup;
+  form: FormGroup;
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
   @Input() idConsorcio: string;
