@@ -128,7 +128,7 @@ export class GastosFormComponent implements OnInit {
         id: null,
         numero_cuota: null,
         id_factura: null,
-        id_periodo: null
+        id_periodo: null,
       });
     }
 
@@ -215,7 +215,16 @@ export class GastosFormComponent implements OnInit {
         data.data.unidades_funcionales = [];
         data.data.id_concepto_gastos = null;
         delete data.data.id_consorcio;
-        console.log(data.data);
+        data.data.fecha = data.data.fecha
+          ? moment(data.data.fecha, 'DD-MM-YYYY').toDate()
+          : data.data.fecha;
+
+        for (const cuota of data.data.cuotas) {
+          cuota.fecha_pago = cuota.fecha_pago
+            ? moment(cuota.fecha_pago, 'DD-MM-YY').toDate()
+            : cuota.fecha_pago;
+        }
+
         this.form.setValue(data.data);
         this.porcentajesService
           .searchByDisplay('')
@@ -241,12 +250,22 @@ export class GastosFormComponent implements OnInit {
   }
 
   submit() {
-    const proveedor = this.form.value;
+    const proveedor = Object.assign({}, this.form.value);
     if (proveedor.id) {
+      // REFACTORIZAR:
+      console.log(proveedor);
+      proveedor.fecha = moment(proveedor.fecha).format('DD-MM-YYYY');
+      for (const cuota of proveedor.cuotas) {
+        cuota.fecha_pago = moment(proveedor.fecha_pago).format('DD-MM-YYYY');
+      }
+      console.log(proveedor);
+      // REFACTOR
+
       this.gastosService.update(proveedor.id, proveedor).subscribe(data => {
         // this.drawerRef.close({ submit: true });
         this.msg.success(`Actualizado!`);
         this.cdr.detectChanges();
+        // this.drawerRef.close();
       });
     } else {
       const gasto = this.fb.resolveGasto(this.form, this.multiPorcentajes);
