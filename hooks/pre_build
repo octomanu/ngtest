@@ -1,0 +1,11 @@
+#!/bin/bash
+
+vars="export const environment = {
+  SERVER_URL: \`./\`,
+  production: true,
+  useHash: true,
+  hmr: false,
+  OCTO_API: '${APIURL}',
+};";
+
+echo $vars > ./src/environments/environment.prod.ts;
