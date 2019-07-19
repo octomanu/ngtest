@@ -102,6 +102,7 @@ export class GastosForm {
   protected resolveSingle(form: FormGroup, multiple: boolean) {
     const gasto = form.value;
     gasto.porcentuales = [];
+    console.log(gasto.id_concepto_gastos);
     if (gasto.id_concepto_gastos) {
       gasto.porcentuales = [
         {

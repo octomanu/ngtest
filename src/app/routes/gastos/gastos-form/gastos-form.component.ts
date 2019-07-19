@@ -126,6 +126,9 @@ export class GastosFormComponent implements OnInit {
         monto: i === '0' ? (total + remainder).toFixed(2) : total.toFixed(2),
         fecha_pago: fechaValue.toDate(),
         id: null,
+        numero_cuota: null,
+        id_factura: null,
+        id_periodo: null
       });
     }
 
@@ -187,6 +190,7 @@ export class GastosFormComponent implements OnInit {
     this.formVisible.emit(true);
     if (this.id) {
       this.gastosService.find(this.id).subscribe((data: any) => {
+        console.log(data);
         this.searchProveedorList(data.data['proveedor-razon_social']);
         this.searchConsorciosList(data.data['consorcio-display']);
         this.ufsService.setConsorcio(data.data.id_consorcio);

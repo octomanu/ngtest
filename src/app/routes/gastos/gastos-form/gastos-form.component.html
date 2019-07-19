@@ -126,8 +126,8 @@
         <nz-form-label nzRequired nzFor="fecha">{{ 'lambe.gastos.fecha' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
-          <nz-date-picker style="width:100%;" [nzStyle]="{width: '100%'}"
-            (ngModelChange)="initCuotas()" formControlName="fecha" nzFormat="dd-MM-yyyy">
+          <nz-date-picker style="width:100%;" [nzStyle]="{width: '100%'}" (ngModelChange)="initCuotas()"
+            formControlName="fecha" nzFormat="dd-MM-yyyy">
           </nz-date-picker>
           <nz-form-explain *ngIf="form.get('fecha').dirty && form.get('fecha').errors">
             <ng-container *ngIf="form.get('fecha').hasError('required')">
@@ -154,7 +154,7 @@
           <nz-input-group nzCompact>
             <nz-select [nzDisabled]="multiPorcentajes || form.get('unidades_funcionales').value?.length > 0"
               nzAllowClear nzShowSearch [nzServerSearch]="true" (nzOnSearch)="searchPorcentajes($event)"
-              style="width:90%;">
+              formControlName="id_concepto_gastos" style="width:90%;">
               <ng-container *ngFor="let porcentaje of porcentajes">
                 <nz-option *ngIf="!isLoading" [nzValue]="porcentaje.id" [nzLabel]="porcentaje.display"></nz-option>
               </ng-container>

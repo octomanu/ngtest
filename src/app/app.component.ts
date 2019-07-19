@@ -46,28 +46,28 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    var commands = {
-      proveedores: () => {
-        this.ngZone.run(() => {
-          this.router.navigate(['/proveedores']);
-        });
-      },
-      inicio: () => {
-        this.ngZone.run(() => {
-          this.router.navigate(['/']);
-        });
-      },
-      'saluda a :verb': verb => {
-        this.ngZone.run(() => {
-          this.msg.info('Hola ' + verb);
-        });
-      },
-    };
+    // var commands = {
+    //   proveedores: () => {
+    //     this.ngZone.run(() => {
+    //       this.router.navigate(['/proveedores']);
+    //     });
+    //   },
+    //   inicio: () => {
+    //     this.ngZone.run(() => {
+    //       this.router.navigate(['/']);
+    //     });
+    //   },
+    //   'saluda a :verb': verb => {
+    //     this.ngZone.run(() => {
+    //       this.msg.info('Hola ' + verb);
+    //     });
+    //   },
+    // };
 
-    annyang.addCommands(commands);
-    annyang.setLanguage('es-AR');
-    annyang.debug(true);
-    annyang.start({ autoRestart: true, continuous: false });
+    // annyang.addCommands(commands);
+    // annyang.setLanguage('es-AR');
+    // annyang.debug(true);
+    // annyang.start({ autoRestart: true, continuous: false });
     this.router.events
       .pipe(filter(evt => evt instanceof NavigationEnd))
       .subscribe(() => {
