@@ -7,7 +7,7 @@ WORKDIR /usr/share/nginx/html
 
 RUN apk update && apk add nodejs npm
 RUN npm install 
-RUN ./node_modules/.bin/ng build --prod
+RUN npm run build
 
 # Fin del Builder
 
