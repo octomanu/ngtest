@@ -1,58 +1,65 @@
-<div class="table-operations onlysmall">
-
-  <nz-dropdown [nzTrigger]="'click'">
-    <button nz-button nz-dropdown nzShape="circle">
-      <i nz-icon nzTheme="outline" type="bars"></i>
-    </button>
-    <ul nz-menu>
-      <li nz-menu-item (click)="_openForm()">
-        <span>{{ 'global.crear' | translate }}</span>
-      </li>
-      <li nz-menu-item (click)="clearFilter()">
-        <span>{{ 'global.limpiar_filtros' | translate }}</span>
-      </li>
-    </ul>
-  </nz-dropdown>
-
-  <!-- Muestra filtros de busqueda -->
-  <button nz-button nz-dropdown nzShape="circle" (click)="_openFilter()">
-    <i nz-icon nzTheme="outline" type="search"></i>
+<div class="table-operations" nzType="flex" nz-row nzJustify="end">
+  <button nz-col nz-button nz-dropdown (click)="_openForm()" nzTitle="{{'global.crear' | translate}}" nz-tooltip>
+    <i nz-icon nzTheme="outline" type="plus"></i>
   </button>
 </div>
 
-<div class="table-operations">
-  <span *ngFor="let tag of tags | keys ; let i = index">
-    <nz-tag *ngIf="tags[tag.key].used" nzMode="closeable" (nzOnClose)="onRemoveTag(tag.key)">
-      {{tags[tag.key].title | translate}}</nz-tag>
-  </span>
-</div>
+<nz-card [nzBordered]="false">
+  <div class="table-operations onlysmall">
 
-<nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
-  [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
-  (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)" nzSize="middle">
-  <thead (nzSortChange)="sort($event)" nzSingleSort>
-    <tr (contextmenu)="contextMenu($event, menuTable)">
-      <th nzCustomFilter nzShowSort nzSortKey="calle">
-            <span>{{ 'lambe.cheques_nro' | translate }}</span>
-            <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
-      </th>
-      <th nzCustomFilter nzShowSort nzSortKey="estado">
-        <span>{{ 'lambe.chequera_nro' | translate }}</span>
-        <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
-      </th>
-      <th nzCustomFilter nzShowSort nzSortKey="numero">
+    <nz-dropdown [nzTrigger]="'click'">
+      <button nz-button nz-dropdown nzShape="circle">
+        <i nz-icon nzTheme="outline" type="bars"></i>
+      </button>
+      <ul nz-menu>
+        <li nz-menu-item (click)="_openForm()">
+          <span>{{ 'global.crear' | translate }}</span>
+        </li>
+        <li nz-menu-item (click)="clearFilter()">
+          <span>{{ 'global.limpiar_filtros' | translate }}</span>
+        </li>
+      </ul>
+    </nz-dropdown>
+
+    <!-- Muestra filtros de busqueda -->
+    <button nz-button nz-dropdown nzShape="circle" (click)="_openFilter()">
+      <i nz-icon nzTheme="outline" type="search"></i>
+    </button>
+  </div>
+
+  <div class="table-operations">
+    <span *ngFor="let tag of tags | keys ; let i = index">
+      <nz-tag *ngIf="tags[tag.key].used" nzMode="closeable" (nzOnClose)="onRemoveTag(tag.key)">
+        {{tags[tag.key].title | translate}}</nz-tag>
+    </span>
+  </div>
+
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
+    [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
+    (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)" nzSize="middle">
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <tr (contextmenu)="contextMenu($event, menuTable)">
+        <th nzCustomFilter nzShowSort nzSortKey="calle">
+          <span>{{ 'lambe.cheques_nro' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="estado">
+          <span>{{ 'lambe.chequera_nro' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="numero">
           <span>{{ 'lambe.cheques.monto' | translate }}</span>
           <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
         </th>
-      <th nzCustomFilter nzShowSort nzSortKey="estado">
-        <span>{{ 'lambe.cheques.fecha_deposito' | translate }}</span>
-        <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
-      </th>
-      <th nzCustomFilter nzShowSort nzSortKey="razon_social">
-        <span>{{ 'lambe.cheques.fecha_emision' | translate }}</span>
-        <ng-container *ngTemplateOutlet="filtro_razon_social"></ng-container>
-      </th>
-      <!-- <th nzCustomFilter nzShowSort nzSortKey="cuit">
+        <th nzCustomFilter nzShowSort nzSortKey="estado">
+          <span>{{ 'lambe.cheques.fecha_deposito' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="razon_social">
+          <span>{{ 'lambe.cheques.fecha_emision' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_razon_social"></ng-container>
+        </th>
+        <!-- <th nzCustomFilter nzShowSort nzSortKey="cuit">
         <span>{{ 'lambe.cheques.cruzado' | translate }}</span>
         <ng-container *ngTemplateOutlet="filtro_cuit"></ng-container>
       </th>
@@ -60,35 +67,35 @@
         <span>{{ 'lambe.cheques.a_la_orden' | translate }}</span>
         <ng-container *ngTemplateOutlet="filtro_cuit"></ng-container>
       </th> -->
-    </tr>
-  </thead>
-  <tbody>
-    <ng-template ngFor let-data [ngForOf]="tableLambe.data">
-      <tr (contextmenu)="contextMenu($event, menuRowContainer)">
-        <ng-template #menuRowContainer>
-          <ng-container *ngTemplateOutlet="menuRow; context: {id: data['cheques-id']}"></ng-container>
-        </ng-template>
-        <td>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="tableLambe.data">
+        <tr (contextmenu)="contextMenu($event, menuRowContainer)">
+          <ng-template #menuRowContainer>
+            <ng-container *ngTemplateOutlet="menuRow; context: {id: data['cheques-id']}"></ng-container>
+          </ng-template>
+          <td>
             <strong class="onlysmall">{{ 'lambe.cheques_nro' | translate }}:&nbsp;</strong>
             {{ data['cheques-numero'] }}
           </td>
-        <td>
-          <strong class="onlysmall">{{ 'lambe.chequera_nro' | translate }}:&nbsp;</strong>
-          {{ data['chequeras-numero']}}
-        </td>
-        <td>
+          <td>
+            <strong class="onlysmall">{{ 'lambe.chequera_nro' | translate }}:&nbsp;</strong>
+            {{ data['chequeras-numero']}}
+          </td>
+          <td>
             <strong class="onlysmall">{{ 'lambe.cheques.monto' | translate }}:&nbsp;</strong>
             $ {{ data['cheques-monto'] }}
           </td>
-        <td>
-          <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
-          {{ data['cheques-fecha_deposito']}}
-        </td>
-        <td>
-          <strong class="onlysmall">{{ 'lambe.cheques.fecha_emision' | translate }}:&nbsp;</strong>
-          {{ data['cheques-fecha_emision'] }}
-        </td>
-        <!-- <td>
+          <td>
+            <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
+            {{ data['cheques-fecha_deposito']}}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'lambe.cheques.fecha_emision' | translate }}:&nbsp;</strong>
+            {{ data['cheques-fecha_emision'] }}
+          </td>
+          <!-- <td>
           <strong class="onlysmall">{{ 'lambe.cheques.cruzado' | translate }}:&nbsp;</strong>
           {{ data['cheques-cruzado'] | boolean | async }}
         </td>
@@ -96,11 +103,11 @@
           <strong class="onlysmall">{{ 'lambe.cheques.a_la_orden' | translate }}:&nbsp;</strong>
           {{ data['cheques-a_la_orden'] | boolean | async }}
         </td> -->
-      </tr>
-    </ng-template>
-  </tbody>
-</nz-table>
-
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</nz-card>
 <!-- Menu Table -->
 <ng-template #menuTable>
   <ul nz-menu nzInDropDown>

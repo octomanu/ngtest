@@ -1,10 +1,8 @@
 import { Injectable, Injector, Inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { zip } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {
-  MenuService,
   SettingsService,
   TitleService,
   ALAIN_I18N_TOKEN,
@@ -13,7 +11,6 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { ACLService } from '@delon/acl';
 import { TranslateService } from '@ngx-translate/core';
 import { I18NService } from '../i18n/i18n.service';
-
 import { NzIconService } from 'ng-zorro-antd';
 import { ICONS_AUTO } from '../../../style-icons-auto';
 import { ICONS } from '../../../style-icons';
@@ -26,7 +23,6 @@ import { ICONS } from '../../../style-icons';
 export class StartupService {
   constructor(
     iconSrv: NzIconService,
-    private menuService: MenuService,
     private translate: TranslateService,
     @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
     private settingService: SettingsService,
@@ -65,7 +61,6 @@ export class StartupService {
           // ACL：Establezca los permisos al completo
           this.aclService.setFull(true);
           // Menú de inicialización
-          this.menuService.add(res.menu);
           // Establecer el sufijo del título de la página.
           this.titleService.suffix = res.app.name;
         },

@@ -1,90 +1,99 @@
-<div class="table-operations onlysmall">
-
-  <nz-dropdown [nzTrigger]="'click'">
-    <button nz-button nz-dropdown nzShape="circle">
-      <i nz-icon nzTheme="outline" type="bars"></i>
-    </button>
-    <ul nz-menu>
-      <li nz-menu-item (click)="_openForm()">
-        <span>{{ 'global.crear' | translate }}</span>
-      </li>
-      <li nz-menu-item (click)="clearFilter()">
-        <span>{{ 'global.limpiar_filtros' | translate }}</span>
-      </li>
-    </ul>
-  </nz-dropdown>
-
-  <!-- Muestra filtros de busqueda -->
-  <button nz-button nz-dropdown nzShape="circle" (click)="_openFilter()">
-    <i nz-icon nzTheme="outline" type="search"></i>
+<div class="table-operations" nzType="flex" nz-row nzJustify="end">
+  <button nz-col nz-button nz-dropdown (click)="_openForm()" nzTitle="{{'global.crear' | translate}}" nz-tooltip>
+    <i nz-icon nzTheme="outline" type="plus"></i>
   </button>
 </div>
 
-<div class="table-operations">
-  <span *ngFor="let tag of tags | keys ; let i = index">
-    <nz-tag *ngIf="tags[tag.key].used" nzMode="closeable" (nzOnClose)="onRemoveTag(tag.key)">
-      {{tags[tag.key].title | translate}}</nz-tag>
-  </span>
-</div>
+<nz-card [nzBordered]="false">
+  <div class="table-operations onlysmall">
 
-<nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
-  [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
-  (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)" nzSize="middle">
-  <thead (nzSortChange)="sort($event)" nzSingleSort>
-    <tr (contextmenu)="contextMenu($event, menuTable)">
-      <th nzCustomFilter nzShowSort nzSortKey="estado">
-        <span>{{ 'global.estado' | translate }}</span>
-        <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
-      </th>
-      <th nzCustomFilter nzShowSort nzSortKey="razon_social">
-        <span>{{ 'global.razon_social' | translate }}</span>
-        <ng-container *ngTemplateOutlet="filtro_razon_social"></ng-container>
-      </th>
-      <th nzCustomFilter nzShowSort nzSortKey="calle">
-        <span>{{ 'global.calle' | translate }}</span>
-        <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
-      </th>
-      <th nzCustomFilter nzShowSort nzSortKey="numero">
-        <span>{{ 'global.numero' | translate }}</span>
-        <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
-      </th>
-      <th nzCustomFilter nzShowSort nzSortKey="cuit">
-        <span>{{ 'global.cuit' | translate }}</span>
-        <ng-container *ngTemplateOutlet="filtro_cuit"></ng-container>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <ng-template ngFor let-data [ngForOf]="tableLambe.data">
-      <tr (contextmenu)="contextMenu($event, menuRowContainer)">
-        <ng-template #menuRowContainer>
-          <ng-container *ngTemplateOutlet="menuRow; context: {id: data.id}"></ng-container>
-        </ng-template>
-        <td>
-          <strong class="onlysmall">{{ 'global.estado' | translate }}:&nbsp;</strong>
-          <nz-badge [nzStatus]="getNzColor(data.estado)" nz-tooltip nzTitle="{{ data.estado | translate }}"></nz-badge>
-          {{ data.estado | translate }}
-        </td>
-        <td>
-          <strong class="onlysmall">{{ 'global.razon_social' | translate }}:&nbsp;</strong>
-          {{ data.razon_social }}
-        </td>
-        <td>
-          <strong class="onlysmall">{{ 'global.calle' | translate }}:&nbsp;</strong>
-          {{ data.calle }}
-        </td>
-        <td>
-          <strong class="onlysmall">{{ 'global.numero' | translate }}:&nbsp;</strong>
-          {{ data.numero }}
-        </td>
-        <td>
-          <strong class="onlysmall">{{ 'global.cuit' | translate }}:&nbsp;</strong>
-          {{ data.cuit }}
-        </td>
+    <nz-dropdown [nzTrigger]="'click'">
+      <button nz-button nz-dropdown nzShape="circle">
+        <i nz-icon nzTheme="outline" type="bars"></i>
+      </button>
+      <ul nz-menu>
+        <li nz-menu-item (click)="_openForm()">
+          <span>{{ 'global.crear' | translate }}</span>
+        </li>
+        <li nz-menu-item (click)="clearFilter()">
+          <span>{{ 'global.limpiar_filtros' | translate }}</span>
+        </li>
+      </ul>
+    </nz-dropdown>
+
+    <!-- Muestra filtros de busqueda -->
+    <button nz-button nz-dropdown nzShape="circle" (click)="_openFilter()">
+      <i nz-icon nzTheme="outline" type="search"></i>
+    </button>
+  </div>
+
+  <div class="table-operations">
+    <span *ngFor="let tag of tags | keys ; let i = index">
+      <nz-tag *ngIf="tags[tag.key].used" nzMode="closeable" (nzOnClose)="onRemoveTag(tag.key)">
+        {{tags[tag.key].title | translate}}</nz-tag>
+    </span>
+  </div>
+
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
+    [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
+    (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)" nzSize="middle">
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <tr (contextmenu)="contextMenu($event, menuTable)">
+        <th nzCustomFilter nzShowSort nzSortKey="estado">
+          <span>{{ 'global.estado' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="razon_social">
+          <span>{{ 'global.razon_social' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_razon_social"></ng-container>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="calle">
+          <span>{{ 'global.calle' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="numero">
+          <span>{{ 'global.numero' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="cuit">
+          <span>{{ 'global.cuit' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_cuit"></ng-container>
+        </th>
       </tr>
-    </ng-template>
-  </tbody>
-</nz-table>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="tableLambe.data">
+        <tr (contextmenu)="contextMenu($event, menuRowContainer)">
+          <ng-template #menuRowContainer>
+            <ng-container *ngTemplateOutlet="menuRow; context: {id: data.id}"></ng-container>
+          </ng-template>
+          <td>
+            <strong class="onlysmall">{{ 'global.estado' | translate }}:&nbsp;</strong>
+            <nz-badge [nzStatus]="getNzColor(data.estado)" nz-tooltip nzTitle="{{ data.estado | translate }}">
+            </nz-badge>
+            {{ data.estado | translate }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.razon_social' | translate }}:&nbsp;</strong>
+            {{ data.razon_social }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.calle' | translate }}:&nbsp;</strong>
+            {{ data.calle }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.numero' | translate }}:&nbsp;</strong>
+            {{ data.numero }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.cuit' | translate }}:&nbsp;</strong>
+            {{ data.cuit }}
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</nz-card>
 
 <!-- Menu Table -->
 <ng-template #menuTable>
@@ -106,8 +115,8 @@
       <a>{{ 'global.editar' | translate }}</a>
     </li>
     <li nz-menu-item>
-        <a [routerLink]="['/consorcios', 'perfil', id]">{{ 'global.perfil' | translate }}</a>
-      </li>
+      <a [routerLink]="['/consorcios', 'perfil', id]">{{ 'global.perfil' | translate }}</a>
+    </li>
     <li nz-menu-item>
       <a nz-popconfirm (nzOnConfirm)="eliminar(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
         [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>

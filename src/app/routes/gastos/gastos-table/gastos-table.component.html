@@ -1,3 +1,10 @@
+<div class="table-operations" nzType="flex" nz-row nzJustify="end">
+  <button nz-col nz-button nz-dropdown (click)="_openForm()" nzTitle="{{'global.crear' | translate}}"
+    nz-tooltip>
+    <i nz-icon nzTheme="outline" type="plus"></i>
+  </button>
+</div>
+
 <nz-card [nzBordered]="false">
   <ng-template #extraTpl>
     <i nz-icon nzType="setting"></i>
@@ -181,7 +188,8 @@
 
 
 
-        <tr (contextmenu)="contextMenu($event, menuRowContainer)" (click)="showForm(i, $event)" [formGroup]="rowForm[i].form">
+        <tr (contextmenu)="contextMenu($event, menuRowContainer)" (click)="showForm(i, $event)"
+          [formGroup]="rowForm[i].form">
           <ng-template #menuRowContainer>
             <ng-container *ngTemplateOutlet="menuRow; context: { id: data['gastos-id'] }"></ng-container>
           </ng-template>
@@ -228,8 +236,10 @@
 
           <td *ngIf="extraData">Rubro</td>
           <!-- <td *ngIf="extraData">Periodicidad</td> -->
-          <td *ngIf="extraData"><i nz-icon [nzType]="(data['gastos-prevision']) ? 'check' : 'close'" nzTheme="outline"></i></td>
-          <td *ngIf="extraData"><i nz-icon [nzType]="(data['gastos-prorrateable']) ? 'check' : 'close'" nzTheme="outline"></i></td>
+          <td *ngIf="extraData"><i nz-icon [nzType]="(data['gastos-prevision']) ? 'check' : 'close'"
+              nzTheme="outline"></i></td>
+          <td *ngIf="extraData"><i nz-icon [nzType]="(data['gastos-prorrateable']) ? 'check' : 'close'"
+              nzTheme="outline"></i></td>
         </tr>
       </ng-template>
     </tbody>

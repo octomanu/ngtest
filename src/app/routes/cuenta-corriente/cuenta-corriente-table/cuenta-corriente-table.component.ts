@@ -71,6 +71,20 @@ export class CuentaCorrienteTableComponent extends TableLambe
       this.paginatorParams.page = 1;
     }
 
+    //BORRAR
+    this.totales.deuda.monto = 0;
+    this.totales.total.monto = 0;
+    this.totales.cheque.monto = 0;
+    this.totales.efectivo.monto = 0;
+    this.totales.transferencia.monto = 0;
+    this.totales.otros.monto = 0;
+
+    this.tableLambe.loading = false;
+    this.tableLambe.total = 0;
+    this.tableLambe.data = [];
+    return;
+    //BORRAR
+
     this.tableLambe.loading = true;
     this.dataService
       .paginate(this.paginatorParams, this.filtroForm)

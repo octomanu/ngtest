@@ -25,10 +25,17 @@ export interface VirtualDataInterface {
 export class HeaderIconComponent {
   loading = true;
   menuSubscription;
-  menu = [];
+  menu = [
+    {
+      title: `ant design part`,
+    },
+  ];
   @ViewChild('virtualTable', { static: false })
   nzTableComponent: NzTableComponent;
   private destroy$ = new Subject();
+
+  currentPage = 1;
+  data = [];
   listOfData: VirtualDataInterface[] = [];
   constructor(
     private cdr: ChangeDetectorRef,
@@ -46,6 +53,24 @@ export class HeaderIconComponent {
 
   trackByIndex(_: number, data: VirtualDataInterface): number {
     return data.index;
+  }
+  ngOnInit(): void {
+    this.loadData(3);
+  }
+
+  loadData(pi: number): void {
+    this.data = new Array(36).fill({}).map((_, index) => {
+      return {
+        href: 'http://ant.design',
+        title: `ant design part ${index} (page: ${pi})`,
+        avatar:
+          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+        description:
+          'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+        content:
+          'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+      };
+    });
   }
 
   // ngOnInit(): void {

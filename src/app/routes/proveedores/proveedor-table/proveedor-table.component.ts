@@ -19,7 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ProveedorTableComponent extends TableLambe {
   drawerContent = ProveedorFormComponent;
-  drawerTitle = 'lambe.proveedores';
+  drawerTitle = 'global.proveedores';
   mapOfExpandData: { [key: string]: boolean } = {};
   filtroForm = { razon_social: null, direccion: null, cuit: null };
 

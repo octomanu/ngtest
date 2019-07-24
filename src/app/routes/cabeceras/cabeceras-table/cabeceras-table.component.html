@@ -1,3 +1,10 @@
+<div class="table-operations" nzType="flex" nz-row nzJustify="end">
+  <button nz-col nz-button nz-dropdown (click)="_openForm()" nzTitle="{{'global.crear' | translate}}"
+    nz-tooltip>
+    <i nz-icon nzTheme="outline" type="plus"></i>
+  </button>
+</div>
+
 <nz-card [nzBordered]="false">
   <ng-template #extraTpl>
     <i nz-icon nzType="setting"></i>s

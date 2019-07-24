@@ -2,77 +2,17 @@
   <div class="alain-default__nav-item" nz-dropdown>
     <i class="anticon anticon-appstore"></i>
   </div>
-  <div nz-menu class="wd-xl animated jello">
+  <nz-card>
+    <div nz-row [nzType]="'flex'" [nzAlign]="'middle'" class="app-icons">
 
+      <ng-container *ngFor="let item of menu; let i = index">
+        <div nz-col [nzSpan]="6" *ngIf="i < currentPage * 12 && i > (currentPage * 12) -12">
+          <i class=" bg-error text-white"></i>
+          <small>Calendar {{i}}</small>
+        </div>
+      </ng-container>
 
-    <!-- <nz-spin [nzSpinning]="loading" [nzTip]="'正在读取数据...'"> -->
-
-    <!-- <nz-table #menuTable [nzData]="menu" nzSize="small">
-
-      <div nz-row [nzType]="'flex'" class="app-icons">
-        <div nz-col [nzSpan]="6" *ngFor="let item of menuTable.data">
-          <i class="anticon anticon-calendar bg-geekblue text-white"></i>
-          <small>{{item.title}}</small>
-        </div>
-      </div>
-    </nz-table> -->
-
-
-
-
-
-
-
-    <!-- <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'" class="app-icons">
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-calendar bg-error text-white"></i>
-          <small>Calendar</small>
-        </div>
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-file bg-geekblue text-white"></i>
-          <small>Files</small>
-        </div>
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-cloud bg-success text-white"></i>
-          <small>Cloud</small>
-        </div>
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-star-o bg-magenta text-white"></i>
-          <small>Star</small>
-        </div>
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-team bg-purple text-white"></i>
-          <small>Team</small>
-        </div>
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-scan bg-warning text-white"></i>
-          <small>QR</small>
-        </div>
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-pay-circle-o bg-cyan text-white"></i>
-          <small>Pay</small>
-        </div>
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-printer bg-grey text-white"></i>
-          <small>Print</small>
-        </div>
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-printer bg-grey text-white"></i>
-          <small>Print</small>
-        </div>
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-printer bg-grey text-white"></i>
-          <small>Print</small>
-        </div>
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-printer bg-grey text-white"></i>
-          <small>Print</small>
-        </div>
-        <div nz-col [nzSpan]="6">
-          <i class="anticon anticon-printer bg-grey text-white"></i>
-          <small>Print</small>
-        </div>
-      </div> -->
-    <!-- </nz-spin> -->
-  </div>
+    </div>
+    <nz-pagination #pagination [nzTotal]="menu.length" nzSimple [(nzPageIndex)]="currentPage"></nz-pagination>
+  </nz-card>
 </nz-dropdown>

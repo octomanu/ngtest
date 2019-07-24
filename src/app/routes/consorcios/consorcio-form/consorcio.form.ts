@@ -23,7 +23,7 @@ export class ConsorcioForm {
       nombre_fantasia: [null, [Validators.required, Validators.maxLength(255)]],
       numero_verificacion_siro: [null, [Validators.required]],
       razon_social: [null, [Validators.required, Validators.maxLength(255)]],
-      tipo_edificio: [null, [Validators.required]],
+      tipo_edificio: [null, []],
       numero: [null, [Validators.required]],
     });
   }

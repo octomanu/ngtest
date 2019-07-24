@@ -39,6 +39,8 @@
     "@delon/mock": "^8.1.0",
     "@delon/theme": "^8.1.0",
     "@delon/util": "^8.1.0",
+    "@ngrx/store": "^8.1.0",
+    "@ngrx/store-devtools": "^8.1.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "@swimlane/dragula": "^3.8.0",

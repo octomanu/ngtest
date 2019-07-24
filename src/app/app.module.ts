@@ -92,7 +92,10 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { RoutesModule } from './routes/routes.module';
 import { LayoutModule } from './layout/layout.module';
-
+import { StoreModule } from '@ngrx/store';
+import { appReducers } from 'redux/app.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '@env/environment';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -105,6 +108,11 @@ import { LayoutModule } from './layout/layout.module';
     SharedModule,
     LayoutModule,
     RoutesModule,
+    StoreModule.forRoot(appReducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
     ...I18NSERVICE_MODULES,
     ...FORM_MODULES,
     ...GLOBAL_THIRD_MODULES,
