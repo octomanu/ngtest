@@ -147,6 +147,8 @@
   "menu.account.logout": "Cerrar Sesión",
   "menu.account.trigger": "Errores",
   "global.mostrar_datos_expensa": "Mostrar datos en expensas",
+  "global.fecha_inicio": "Fecha inicial",
+  "global.fecha_fin": "Fecha final",
   "porcentajes_consorcios.oculto_en_expensa": "Oculto en Expensas",
   "porcentajes_consorcios.es_gasto_particular": "Gasto Particular",
   "porcentajes_consorcios.oculto_en_prorateo": "Oculto en Prorateo",

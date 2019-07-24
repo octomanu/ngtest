@@ -18,7 +18,7 @@ import { PeriodosFormComponent } from '../periodos-form/periodos-form.component'
 })
 export class PeriodosTableComponent extends TableLambe {
   drawerContent = PeriodosFormComponent;
-  drawerTitle = 'lambe.periodos';
+  drawerTitle = 'global.periodo';
   constructor(
     translate: TranslateService,
     drawerService: NzDrawerService,

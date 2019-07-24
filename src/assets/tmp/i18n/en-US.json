@@ -147,6 +147,8 @@
   "menu.account.logout": "Logout",
   "menu.account.trigger": "Errors",
   "global.mostrar_datos_expensa": "Show data in expenses",
+  "global.fecha_inicio": "Initial date",
+  "global.fecha_fin": "Close date",
   "porcentajes_consorcios.oculto_en_expensa": "Hidden in Expenses",
   "porcentajes_consorcios.es_gasto_particular": "Particular Spending",
   "porcentajes_consorcios.oculto_en_prorateo": "Hidden in Prorateo",
