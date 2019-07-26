@@ -96,6 +96,8 @@ import { StoreModule } from '@ngrx/store';
 import { appReducers } from 'redux/app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '@env/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { effectsArr } from 'redux';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -109,6 +111,7 @@ import { environment } from '@env/environment';
     LayoutModule,
     RoutesModule,
     StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot(effectsArr),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

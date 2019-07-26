@@ -18,7 +18,7 @@ import { NotasFormComponent } from '../notas-form/notas-form.component';
 })
 export class NotasTableComponent extends TableLambe {
   drawerContent = NotasFormComponent;
-  drawerTitle = 'lambe.notas';
+  drawerTitle = 'global.notas';
 
   constructor(
     msg: NzMessageService,

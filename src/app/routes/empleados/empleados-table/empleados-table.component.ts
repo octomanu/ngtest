@@ -17,7 +17,7 @@ import { EmpleadosService } from '@core/http/empleados/empleados.service';
 })
 export class EmpleadosTableComponent extends TableLambe {
   drawerContent = EmpleadosFormComponent;
-  drawerTitle = 'lambe.empleados';
+  drawerTitle = 'global.empleados';
 
   constructor(
     empleadosService: EmpleadosService,

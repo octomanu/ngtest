@@ -1,26 +1,56 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { CrudService } from '../crud-service.class';
 import { environment } from '@env/environment';
 import { HttpParams, HttpClient } from '@angular/common/http';
-import { throwError, Observable } from 'rxjs';
+import { throwError, Observable, Subscription } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import { AppState } from 'redux/app.reducer';
 import { PaginatorParamsInterface } from 'app/interfaces/local/paginator-params.interface';
-import { LoadServiciosAction } from 'redux/servicios/servicios.actions';
+import { Store, select, createSelector } from '@ngrx/store';
+import { AppState } from 'redux/app.reducer';
+import * as fromServicios from 'redux/servicios/servicios.reducer';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ServiciosService extends CrudService {
-  constructor(http: HttpClient, protected store: Store<AppState>) {
+  subscription: Subscription;
+  filtros: any;
+  parametros: PaginatorParamsInterface;
+  serviciosState = createSelector(
+    (state: AppState) => state.serviciosState,
+    (state: fromServicios.ServiciosState) => state.filtros,
+  );
+
+  constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
+    this.subscription = this.store
+      .select('serviciosState')
+      .subscribe((state: fromServicios.ServiciosState) => {
+        this.filtros = state.paginator.filtros;
+        this.parametros = state.paginator.parametros;
+      });
+  }
+
+  paginateRedux(): Observable<{}> {
+    let params = new HttpParams();
+    const url = `${environment.OCTO_API}/${this.getPath()}`;
+    // tslint:disable-next-line: forin
+    for (const key in this.filtros) {
+      params = params.append(key, this.filtros[key]);
+    }
+
+    // tslint:disable-next-line: forin
+    for (const key in this.parametros) {
+      params = params.append(key, this.parametros[key]);
+    }
+    return this.http.get(url, { params });
   }
 
   paginate(
     paginatorParams: PaginatorParamsInterface,
     filtros: {},
   ): Observable<{}> {
+    console.log(this.filtros);
     let params = new HttpParams();
     const url = `${environment.OCTO_API}/${this.getPath()}`;
     for (const key in filtros) {
@@ -36,7 +66,6 @@ export class ServiciosService extends CrudService {
     }
     return this.http.get(`${url}`, { params }).pipe(
       map((resp: any) => {
-        this.store.dispatch(new LoadServiciosAction(resp.data));
         return resp;
       }),
       catchError(err => {
