@@ -22,10 +22,6 @@ export class ServiciosTableComponent extends TableLambe {
   drawerContent = ServiciosFormComponent;
   drawerTitle = 'global.servicios';
 
-  serviceState = createFeatureSelector<AppState, ServiciosState>(
-    'serviciosState',
-  );
-
   constructor(
     protected store: Store<AppState>,
     translate: TranslateService,

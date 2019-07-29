@@ -12,6 +12,9 @@ import { NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { ServiciosService } from '@core/http/servicios/servicios.service';
 import { ServiciosForm } from './servicios.form';
+import { Store } from '@ngrx/store';
+import { AppState } from 'redux/app.reducer';
+import { GlobalState } from 'redux/global/globa.reducer';
 
 @Component({
   selector: 'app-servicios-form',
@@ -23,23 +26,22 @@ export class ServiciosFormComponent implements OnInit {
   @Input() id: number | undefined;
   @Input() valueChange: Subject<{ submit: boolean }>;
   form: FormGroup;
-  initialized = false;
   constructor(
+    protected store: Store<AppState>,
     protected fb: ServiciosForm,
     protected msg: NzMessageService,
     protected cdr: ChangeDetectorRef,
     protected drawerRef: NzDrawerRef<{ submit: boolean }>,
     protected fbBulder: FormBuilder,
-    protected translate: TranslateService,
     protected serviciosService: ServiciosService,
-  ) {
-    this.drawerRef.afterOpen.subscribe(data => {
-      this.initialized = true;
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.initForm();
+
+    this.store.select('globalState').subscribe((state: GlobalState) => {
+      this.drawerRef.nzWidth = state.smallViewport ? '100%' : '75%';
+    });
 
     if (this.id) {
       this.serviciosService.find(this.id).subscribe((data: any) => {

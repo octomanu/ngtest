@@ -17,7 +17,7 @@
               <span *ngIf="!isCollapsed">{{item.title | translate}}</span>
             </a>
 
-            <a *ngIf="item.custom" [href]="item.route">
+            <a *ngIf="item.custom" [href]="item.route" target="_blank">
               <i nz-icon [nzType]="item.icon || 'link'"></i>
               <span *ngIf="!isCollapsed">{{item.title | translate}}</span>
             </a>
@@ -46,7 +46,7 @@
               <span>{{item.title | translate}}</span>
             </a>
 
-            <a *ngIf="item.custom" [href]="item.route">
+            <a *ngIf="item.custom" [href]="item.route" target="_blank">
               <i nz-icon [nzType]="item.icon || 'link'"></i>
               <span>{{item.title | translate}}</span>
             </a>
