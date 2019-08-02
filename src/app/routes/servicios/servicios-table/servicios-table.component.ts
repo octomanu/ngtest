@@ -1,61 +1,57 @@
-import { Component } from '@angular/core';
-import { TableLambe } from '@core/lambe/table-lambe.class';
-import { TranslateService } from '@ngx-translate/core';
-import {
-  NzDrawerService,
-  NzMessageService,
-  NzDropdownService,
-} from 'ng-zorro-antd';
-import { ServiciosService } from '@core/http/servicios/servicios.service';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { ServiciosFormComponent } from '../servicios-form/servicios-form.component';
-import { Store, createFeatureSelector } from '@ngrx/store';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Output, EventEmitter } from '@angular/core';
+import { TemplateRef, Input, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { ServiciosState } from 'redux/servicios/servicios.reducer';
 import * as serviciosActions from 'redux/servicios/servicios.actions';
+import { TooltipHelperService } from '../helpers/tooltip-helper.service';
+import { TooltipHelpComponent } from '@shared/components/tooltip-help/tooltip-help.component';
+import { TableComponent } from 'app/classes/table-component.class';
+import { NzDropdownService } from 'ng-zorro-antd';
+
 @Component({
   selector: 'app-servicios-table',
   templateUrl: './servicios-table.component.html',
   styles: [],
 })
-export class ServiciosTableComponent extends TableLambe {
-  drawerContent = ServiciosFormComponent;
-  drawerTitle = 'global.servicios';
+export class ServiciosTableComponent extends TableComponent
+  implements OnInit, OnDestroy {
+  @Input() help: boolean;
+  @Input() keepHelp: boolean;
+  @Output() openForm = new EventEmitter();
+
+  tooltips: {
+    tableHeader: TemplateRef<TooltipHelpComponent>;
+    tableBody: TemplateRef<TooltipHelpComponent>;
+  };
 
   constructor(
-    protected store: Store<AppState>,
-    translate: TranslateService,
-    drawerService: NzDrawerService,
-    msg: NzMessageService,
-    serviciosService: ServiciosService,
-    nzDropdownService: NzDropdownService,
-    breakpointObserver: BreakpointObserver,
+    public store: Store<AppState>,
+    public nzDropdownService: NzDropdownService,
+    public tooltipBuilder: TooltipHelperService,
+    viewContainerRef: ViewContainerRef,
   ) {
-    super(
-      serviciosService,
-      nzDropdownService,
-      breakpointObserver,
-      translate,
-      drawerService,
-      msg,
-    );
+    super();
+    this.tooltipBuilder.setViewContainerRef(viewContainerRef);
+    this.tooltips = this.tooltipBuilder.getTableTooltips();
   }
 
   ngOnInit() {
-    this.store.select('serviciosState').subscribe((state: ServiciosState) => {
-      if (!state.initialized) {
-        this.store.dispatch(new serviciosActions.LoadServiciosAction());
-      }
-      this.tableLambe.data = state.paginator.data;
-      this.tableLambe.loading = state.loading;
-      this.tableLambe.total = state.paginator.recordsFiltered;
-      this.paginatorParams.page = state.paginator.parametros.page;
-      this.paginatorParams.page_size = state.paginator.parametros.page_size;
-      this.paginatorParams.sort_field = state.paginator.parametros.sort_field;
-      this.paginatorParams.sort_order = state.paginator.parametros.sort_order;
-    });
+    const sub = this.store
+      .select('serviciosState')
+      .subscribe((state: ServiciosState) => {
+        if (!state.initialized) {
+          this.store.dispatch(new serviciosActions.LoadServiciosAction());
+        }
+        this.tableLambe.data = state.paginator.data;
+        this.tableLambe.loading = state.loading;
+        this.tableLambe.total = state.paginator.recordsFiltered;
+        this.paginatorParams = { ...state.paginator.parametros };
+      });
+
+    this.subscripctions.push(sub);
   }
-  ngOnDestroy() {}
 
   pageChange(page: number) {
     this.store.dispatch(
@@ -63,16 +59,19 @@ export class ServiciosTableComponent extends TableLambe {
     );
   }
 
-  /**
-   * Busca los datos al inico y despues de aplicar filtros y orden
-   */
-  searchData(reset: boolean = false): void {
-    return;
+  editar(id: number) {
+    this.openForm.emit(id);
   }
 
-  sort(sort: { key: string; value: string }): void {
-    const field = sort.key;
-    const order = sort.value ? sort.value.replace('end', '') : sort.value;
+  eliminar(id: number) {
+    this.store.dispatch(new serviciosActions.DeleteServicioAction(id));
+  }
+
+  changeOrder(field: string, order: string) {
     this.store.dispatch(new serviciosActions.ChangeOrderAction(field, order));
+  }
+
+  contextMenu($event: MouseEvent, template: TemplateRef<void>) {
+    this.dropdown = this.nzDropdownService.create($event, template);
   }
 }

@@ -37,7 +37,6 @@ export class CreateUpdateForm implements OnInit {
 
     if (this.id) {
       this.dataService.find(this.id).subscribe((data: any) => {
-        console.log(data);
         this.form.setValue(data.data);
       });
     }

@@ -1,16 +1,22 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  TemplateRef,
   ChangeDetectorRef,
   OnInit,
   OnDestroy,
 } from '@angular/core';
 import { SettingsService } from '@delon/theme';
-import { NzDropdownContextComponent, NzDropdownService } from 'ng-zorro-antd';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { NzDrawerService } from 'ng-zorro-antd';
 import { MenuHandlerService } from 'app/utils/menu-handler/menu-handler.service';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'redux/app.reducer';
+import { GlobalState } from 'redux/global/globa.reducer';
+import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+import { CrearMenuComponent } from '../crear-menu/crear-menu.component';
+import { MenuState } from 'redux/menu/menu.reducer';
+import { EditarMenuComponent } from '../editar-menu/editar-menu.component';
 
 @Component({
   selector: 'layout-sidebar',
@@ -18,112 +24,97 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  protected dropdown: NzDropdownContextComponent;
-  protected menuSubscription: Subscription;
-  form: FormGroup;
-  protected showAll = false;
+  help: boolean;
+  keepHelp: boolean;
+  icons = [];
+  subscriptions: Subscription[];
   isCollapsed: boolean;
   orderableList = [];
+
+  panel = {
+    active: false,
+    disabled: false,
+    customStyle: {
+      background: '#ffffff',
+      'border-radius': '4px',
+      'margin-bottom': '24px',
+      border: '0px',
+    },
+  };
+
   constructor(
-    protected settings: SettingsService,
-    protected nzDropdownService: NzDropdownService,
-    protected cdr: ChangeDetectorRef,
-    private fb: FormBuilder,
-    protected menuHandler: MenuHandlerService,
+    public http: HttpClient,
+    public store: Store<AppState>,
+    public settings: SettingsService,
+    public cdr: ChangeDetectorRef,
+    public menuHandler: MenuHandlerService,
+    public translate: TranslateService,
+    public drawerService: NzDrawerService,
   ) {}
 
+  openCrearMenu() {
+    this.translate.get('global.nuevo_menu').subscribe((res: string) => {
+      this.drawerService.create({
+        nzTitle: res,
+        nzWidth: '50%',
+        nzContent: CrearMenuComponent,
+        nzPlacement: 'left',
+      });
+    });
+  }
+
+  openEditarMenu(item: any, index: number) {
+    this.translate.get('global.nuevo_menu').subscribe((res: string) => {
+      this.drawerService.create({
+        nzTitle: res,
+        nzWidth: '50%',
+        nzContent: EditarMenuComponent,
+        nzPlacement: 'left',
+        nzContentParams: { item: { ...item }, index },
+      });
+    });
+    return false;
+  }
+
   ngOnInit() {
+    const menuSub = this.store
+      .select('menuState')
+      .subscribe((state: MenuState) => {
+        this.orderableList = state.menu;
+        this.cdr.detectChanges();
+      });
+
+    const clogalSub = this.store
+      .select('globalState')
+      .subscribe((state: GlobalState) => {
+        this.help = state.help;
+        this.keepHelp = state.keepHelp;
+        this.cdr.detectChanges();
+      });
+
     this.isCollapsed = this.settings.layout.collapsed;
 
-    this.settings.notify.subscribe((event: any) => {
+    const settingsSub = this.settings.notify.subscribe((event: any) => {
       if (event.type === 'layout') {
         this.isCollapsed = event.value;
         this.cdr.detectChanges();
       }
     });
 
-    this.menuSubscription = this.menuHandler.getMenu().subscribe(menu => {
-      this.orderableList = menu;
-      this.cdr.detectChanges();
+    this.http.get('assets/tmp/icons.json').subscribe(data => {
+      this.icons = data['icons'];
     });
-  }
 
-  ngOnDestroy(): void {
-    this.menuSubscription.unsubscribe();
-  }
-
-  initFormn() {
-    this.form = this.fb.group({
-      title: [null, [Validators.required]],
-      route: [null, [Validators.required]],
-      fav: [null, []],
-    });
+    this.subscriptions.push(menuSub, clogalSub, settingsSub);
   }
 
   toggleCollapsed(): void {
-    this.isCollapsed = !this.isCollapsed;
+    this.settings.setLayout('collapsed', !this.settings.layout.collapsed);
   }
 
-  contextMenu($event: MouseEvent, template: TemplateRef<void>): void {
-    this.initFormn();
-    this.dropdown = this.nzDropdownService.create($event, template);
-  }
-
-  contextMenuRow(
-    $event: MouseEvent,
-    template: TemplateRef<void>,
-    item: any,
-  ): void {
-    this.initFormn();
-    console.log(item);
-    this.form.get('title').setValue(item.title);
-    this.form.get('route').setValue(item.route);
-    this.form.get('fav').setValue(item.fav);
-    this.dropdown = this.nzDropdownService.create($event, template);
-  }
-
-  closeMenu() {
-    this.dropdown.close();
-    this.cdr.detectChanges();
-  }
-
-  crearItem(favorito: boolean) {
-    if (this.form.invalid) {
-      return;
-    }
-
-    this.orderableList.push({
-      custom: true,
-      title: this.form.value.title,
-      route: this.form.value.route,
-      icon: 'link',
-      fav: favorito,
+  ngOnDestroy(): void {
+    this.subscriptions.map((sub: Subscription) => {
+      sub.unsubscribe();
     });
-    this.cdr.detectChanges();
-    this.menuHandler.updateMenu(this.orderableList);
-    this.dropdown.close();
-  }
-
-  editarItem(item: any) {
-    if (this.form.invalid) {
-      return;
-    }
-    item.title = this.form.value.title;
-    item.route = this.form.value.route;
-    item.fav = this.form.value.fav;
-    this.cdr.detectChanges();
-    this.menuHandler.updateMenu(this.orderableList);
-    this.dropdown.close();
-  }
-
-  eliminarItem(item: any) {
-    this.menuHandler.updateMenu(this.orderableList);
-    const index: number = this.orderableList.indexOf(item);
-    if (index !== -1) {
-      this.orderableList.splice(index, 1);
-    }
-    this.cdr.detectChanges();
-    this.menuHandler.updateMenu(this.orderableList);
-    this.dropdown.close();
   }
 }

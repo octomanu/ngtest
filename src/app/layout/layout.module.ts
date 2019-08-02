@@ -16,7 +16,14 @@ import { HeaderUserComponent } from './default/header/components/user.component'
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 import { SettingDrawerComponent } from './default/setting-drawer/setting-drawer.component';
 import { SettingDrawerItemComponent } from './default/setting-drawer/setting-drawer-item.component';
-const SETTINGDRAWER = [SettingDrawerComponent, SettingDrawerItemComponent];
+import { CrearMenuComponent } from './default/crear-menu/crear-menu.component';
+import { EditarMenuComponent } from './default/editar-menu/editar-menu.component';
+const SETTINGDRAWER = [
+  SettingDrawerComponent,
+  SettingDrawerItemComponent,
+  CrearMenuComponent,
+  EditarMenuComponent,
+];
 
 const COMPONENTS = [
   LayoutDefaultComponent,

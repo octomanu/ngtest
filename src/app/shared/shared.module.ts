@@ -14,12 +14,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
 import { BooleanPipe } from './pipes/boolean.pipe';
+import { ModalHelpComponent } from './components/modal-help/modal-help.component';
+import { TooltipHelpComponent } from './components/tooltip-help/tooltip-help.component';
 
 const THIRDMODULES = [NgZorroAntdModule, CountdownModule];
 // #endregion
 
 // #region your componets & directives
-const COMPONENTS = [];
+const COMPONENTS = [ModalHelpComponent, TooltipHelpComponent];
 const DIRECTIVES = [];
 const PIPES = [BooleanPipe];
 // #endregion
@@ -34,6 +36,7 @@ const PIPES = [BooleanPipe];
     DelonABCModule,
     DelonACLModule.forRoot(),
     DelonFormModule,
+    TranslateModule,
     // third libs
     ...THIRDMODULES,
   ],
@@ -41,9 +44,9 @@ const PIPES = [BooleanPipe];
     // your components
     ...COMPONENTS,
     ...DIRECTIVES,
-    ...PIPES
+    ...PIPES,
   ],
-  entryComponents: [],
+  entryComponents: [TooltipHelpComponent],
   exports: [
     CommonModule,
     FormsModule,
@@ -60,7 +63,7 @@ const PIPES = [BooleanPipe];
     // your components
     ...COMPONENTS,
     ...DIRECTIVES,
-    ...PIPES
+    ...PIPES,
   ],
 })
 export class SharedModule {}

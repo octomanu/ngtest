@@ -27,6 +27,7 @@ declare var annyang;
   selector: 'app-root',
   template: `
     <router-outlet></router-outlet>
+    <app-modal-help></app-modal-help>
   `,
 })
 export class AppComponent implements OnInit, OnDestroy {

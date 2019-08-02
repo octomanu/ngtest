@@ -90,7 +90,6 @@ export class HeaderIconComponent {
   //   this.nzTableComponent.cdkVirtualScrollViewport.scrolledIndexChange
   //     .pipe(takeUntil(this.destroy$))
   //     .subscribe((data: number) => {
-  //       console.log('scroll index to', data);
   //     });
   // }
 

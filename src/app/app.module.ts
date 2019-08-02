@@ -107,7 +107,6 @@ import { effectsArr } from 'redux';
     DelonModule.forRoot(),
     NgxDnDModule.forRoot(),
     CoreModule,
-    SharedModule,
     LayoutModule,
     RoutesModule,
     StoreModule.forRoot(appReducers),
@@ -119,6 +118,7 @@ import { effectsArr } from 'redux';
     ...I18NSERVICE_MODULES,
     ...FORM_MODULES,
     ...GLOBAL_THIRD_MODULES,
+    SharedModule,
   ],
   providers: [
     ...LANG_PROVIDES,

@@ -1,51 +1,18 @@
-<div class="table-operations" nzType="flex" nz-row nzJustify="end">
-  <button nz-col nz-button nz-dropdown (click)="_openForm()" nzTitle="{{'global.crear' | translate}}" nz-tooltip>
-    <i nz-icon nzTheme="outline" type="plus"></i>
-  </button>
-</div>
-
 <nz-card [nzBordered]="false">
-
-  <div class="table-operations">
-    <span *ngFor="let tag of (tags | keys); let i = index">
-      <nz-tag *ngIf="tags[tag.key].used" nzMode="closeable" (nzOnClose)="onRemoveTag(tag.key)">
-        {{ tags[tag.key].title | translate }}</nz-tag>
-    </span>
-  </div>
-
-  <div class="table-operations onlysmall">
-    <nz-dropdown [nzTrigger]="'click'">
-      <button nz-button nz-dropdown nzShape="circle">
-        <i nz-icon nzTheme="outline" type="bars"></i>
-      </button>
-      <ul nz-menu>
-        <li nz-menu-item (click)="_openForm()">
-          <span>{{ 'global.crear' | translate }}</span>
-        </li>
-        <li nz-menu-item (click)="clearFilter()">
-          <span>{{ 'global.limpiar_filtros' | translate }}</span>
-        </li>
-      </ul>
-    </nz-dropdown>
-
-    <!-- Muestra filtros de busqueda -->
-    <button nz-button nz-dropdown nzShape="circle" (click)="_openFilter()">
-      <i nz-icon nzTheme="outline" type="search"></i>
-    </button>
-  </div>
-
+  <app-servicios-tags></app-servicios-tags>
   <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
     [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
     (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">
     <thead (nzSortChange)="sort($event)" nzSingleSort>
 
-      <tr (contextmenu)="contextMenu($event, menuTable)">
+      <tr nz-tooltip [nzVisible]="keepHelp" [nzTitle]="(keepHelp || help) ? tooltips.tableHeader: ''">
         <th nzCustomFilter nzShowSort nzSortKey="descripcion">
           <span>{{ 'global.servicio' | translate }}</span>
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody nz-tooltip [nzVisible]="keepHelp" nzPlacement="topRight"
+      [nzTitle]="help || keepHelp ? tooltips.tableBody : ''">
       <ng-template ngFor let-data [ngForOf]="tableLambe.data" let-i="index">
         <tr (contextmenu)="contextMenu($event, menuRowContainer)">
           <ng-template #menuRowContainer>
@@ -61,23 +28,10 @@
   </nz-table>
 </nz-card>
 
-
-<!-- Menu Table -->
-<ng-template #menuTable>
-  <ul nz-menu nzInDropDown>
-    <li nz-menu-item (click)="_openForm()">
-      <a>{{ 'global.crear' | translate }}</a>
-    </li>
-    <li nz-menu-item (click)="clearFilter()">
-      <a>{{ 'global.limpiar_filtros' | translate }}</a>
-    </li>
-  </ul>
-</ng-template>
-
 <!-- Menu Row -->
 <ng-template #menuRow let-id="id">
   <ul nz-menu nzInDropDown>
-    <li nz-menu-item (click)="_openForm(id)">
+    <li nz-menu-item (click)="editar(id)">
       <a>{{ 'global.editar' | translate }}</a>
     </li>
     <li nz-menu-item>

@@ -18,10 +18,26 @@ export class ServiciosEffects {
         serviciosActions.LOAD_SERVICIOS,
         serviciosActions.CHANGE_ORDER,
         serviciosActions.CHANGE_PARAMS,
+        serviciosActions.CHANGE_FILTER,
       ),
       switchMap(() => this.searchData()),
     );
   });
+
+  deleteServicio$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(serviciosActions.DELETE_SERVICIO),
+      switchMap((action: serviciosActions.DeleteServicioAction) => {
+        return this.deleteServicio(action.id);
+      }),
+    );
+  });
+
+  deleteServicio(id: number) {
+    return this.serviciosService
+      .delete(id)
+      .pipe(map(resp => new serviciosActions.LoadServiciosAction()));
+  }
 
   searchData() {
     return this.serviciosService.paginateRedux().pipe(

@@ -2,24 +2,28 @@
   <a [routerLink]="['/']" class="alain-default__header-logo-link alain-default__header-logo-link">
     <!--<img class="alain-default__header-logo-expanded" src="./assets/logo-full.svg" alt="{{settings.app.name}}" style="max-height:40px;" />-->
     <!--<img class="alain-default__header-logo-collapsed" src="./assets/logo.svg" alt="{{settings.app.name}}" style="max-height:30px;" />-->
-    <img class="alain-default__header-logo-expanded" src="./assets/logo_octopus_full.png" alt="{{settings.app.name}}" style="max-height:40px;">
-    <img class="alain-default__header-logo-collapsed" src="./assets/logo_octopus.png" alt="{{settings.app.name}}" style="max-height:30px;">
+    <img class="alain-default__header-logo-expanded" src="./assets/logo_octopus_full.png" alt="{{settings.app.name}}"
+      style="max-height:40px;">
+    <img class="alain-default__header-logo-collapsed" src="./assets/logo_octopus.png" alt="{{settings.app.name}}"
+      style="max-height:30px;">
   </a>
 </div>
 <div class="alain-default__nav-wrap">
   <ul class="alain-default__nav">
     <!--Menu-->
-    <li>
+    <li class="hidden-pc">
       <div class="alain-default__nav-item" (click)="toggleCollapsedSidebar()">
         <i nz-icon type="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>
       </div>
     </li>
-    <!--Github Page-->
-    <!-- <li>
-      <a class="alain-default__nav-item" href="//github.com/ng-alain/ng-alain" target="_blank">
-        <i nz-icon type="github"></i>
+
+    <li>
+      <a class="alain-default__nav-item" (mouseenter)="changeShowHelp(true)" (mouseleave)="changeShowHelp(false)" (click)="changeHelp()">
+        <nz-badge [nzDot]="true" [nzStyle]="{ backgroundColor: helpActive ? '#52c41a' : '#d9d9d9' }">
+          <i nz-icon nzType="question-circle" nzTheme="outline"></i>
+        </nz-badge>
       </a>
-    </li> -->
+    </li>
     <!--Lock Page-->
     <!-- <li class="hidden-mobile">
       <div class="alain-default__nav-item" [routerLink]="['/lock']">

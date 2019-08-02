@@ -1,0 +1,5 @@
+<nz-modal [(nzVisible)]="visible" nzTitle="{{'global.ayuda' | translate}}" (nzOnCancel)="close()" [nzFooter]="null"
+  (nzOnOk)="close()">
+  <iframe width="100%" height="250px" [src]="url" frameborder="0"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</nz-modal>

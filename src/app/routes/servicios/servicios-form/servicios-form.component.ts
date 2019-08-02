@@ -1,20 +1,12 @@
-import {
-  Component,
-  OnInit,
-  Output,
-  Input,
-  EventEmitter,
-  ChangeDetectorRef,
-} from '@angular/core';
-import { Subject } from 'rxjs';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
 import { ServiciosService } from '@core/http/servicios/servicios.service';
 import { ServiciosForm } from './servicios.form';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { GlobalState } from 'redux/global/globa.reducer';
+import { LoadServiciosAction } from 'redux/servicios/servicios.actions';
 
 @Component({
   selector: 'app-servicios-form',
@@ -22,17 +14,13 @@ import { GlobalState } from 'redux/global/globa.reducer';
   styles: [],
 })
 export class ServiciosFormComponent implements OnInit {
-  @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
-  @Input() valueChange: Subject<{ submit: boolean }>;
   form: FormGroup;
   constructor(
     protected store: Store<AppState>,
     protected fb: ServiciosForm,
     protected msg: NzMessageService,
-    protected cdr: ChangeDetectorRef,
     protected drawerRef: NzDrawerRef<{ submit: boolean }>,
-    protected fbBulder: FormBuilder,
     protected serviciosService: ServiciosService,
   ) {}
 
@@ -66,9 +54,8 @@ export class ServiciosFormComponent implements OnInit {
     const formData = this.form.value;
     this.serviciosService.create(formData).subscribe(data => {
       this.initForm();
-      this.valueChange.next({ submit: true });
+      this.store.dispatch(new LoadServiciosAction());
       this.msg.success(`Creado!`);
-      this.cdr.detectChanges();
     });
   }
 
@@ -76,8 +63,7 @@ export class ServiciosFormComponent implements OnInit {
     const formData = this.form.value;
     this.serviciosService.update(formData.id, formData).subscribe(data => {
       this.msg.success(`Actualizado!`);
-      this.valueChange.next({ submit: true });
-      this.cdr.detectChanges();
+      this.store.dispatch(new LoadServiciosAction());
     });
   }
 }

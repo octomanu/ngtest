@@ -1,16 +1,31 @@
+<ng-template #menuHeader>
+  <div nzType="flex" nz-row nzJustify="space-between">
+    <div nz-col>
+      <i nz-icon nzType="plus" nzTheme="outline" class="pointer" (click)="openCrearMenu()"></i>
+    </div>
+    <div nz-col>
+      <i nz-icon nzType="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}" nzTheme="outline" class="pointer"
+        (click)="toggleCollapsed()"></i>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #collapseTittle>
+  <span *ngIf="!isCollapsed">Menu</span>
+  <i *ngIf="isCollapsed" nz-icon nzType="menu" nzTheme="outline"></i>
+</ng-template>
+
+
 <div class="alain-default__aside-inner">
   <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
     <!-- FAVORITOSS -->
-    <li nz-menu-group>
-      <span title (contextmenu)="contextMenu($event, favoritoCrearContainer)">Favoritos</span>
-      <ng-template #favoritoCrearContainer>
-        <ng-container *ngTemplateOutlet="menuCrear; context: { favorito: true }"></ng-container>
-      </ng-template>
-      <ul ngxDroppable [ngStyle]="{'min-height': '30px'}">
+    <li nz-menu-group [nzTitle]="menuHeader">
+
+      <ul ngxDroppable [ngStyle]="{'min-height': '30px'}" nz-tooltip [nzVisible]="keepHelp"
+        nzTitle="{{help || keepHelp ? ('global.menu_help_edit' | translate) : ''}}">
         <ng-container *ngFor="let item of orderableList; let i = index">
           <li nz-menu-item *ngIf="item.fav" ngxDraggable [model]="item" nz-tooltip
-            [nzTitle]="isCollapsed ? (item.title | translate) : ''"
-            (contextmenu)="contextMenuRow($event, menuRowContainer, item)">
+            [nzTitle]="isCollapsed ? (item.title | translate) : ''" (contextmenu)="openEditarMenu(item, i)">
 
             <a *ngIf="!item.custom" [routerLink]="item.route">
               <i nz-icon [nzType]="item.icon || 'link'"></i>
@@ -22,166 +37,35 @@
               <span *ngIf="!isCollapsed">{{item.title | translate}}</span>
             </a>
 
-            <ng-template #menuRowContainer>
-              <ng-container *ngTemplateOutlet="menuRow; context: { item: item, index: i }"></ng-container>
-            </ng-template>
           </li>
         </ng-container>
       </ul>
     </li>
 
-    <!-- MENUUU -->
-    <li nz-submenu nzOpen="false">
-      <span title (contextmenu)="contextMenu($event, menuCrearContainer)">Menu</span>
-      <ng-template #menuCrearContainer>
-        <ng-container *ngTemplateOutlet="menuCrear; context: { favorito: false }"></ng-container>
-      </ng-template>
-      <ul ngxDroppable [ngStyle]="{'min-height': '30px'}">
-        <ng-container *ngFor="let item of orderableList; let i = index">
-          <li nz-menu-item *ngIf="!item.fav" ngxDraggable [model]="item"
-            (contextmenu)="contextMenuRow($event, menuRowContainer, item)">
+    <nz-collapse [nzBordered]="false" class="menu-collapse">
+      <nz-collapse-panel #p [nzHeader]="collapseTittle" [nzActive]="panel.active" [ngStyle]="panel.customStyle">
+        <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed" ngxDroppable [ngStyle]="{'min-height': '30px'}">
+          <ng-container *ngFor="let item of orderableList; let i = index">
+            <li nz-menu-item *ngIf="!item.fav" ngxDraggable [model]="item" (contextmenu)="openEditarMenu(item, i)">
 
-            <a *ngIf="!item.custom" [routerLink]="item.route">
-              <i nz-icon [nzType]="item.icon || 'link'"></i>
-              <span>{{item.title | translate}}</span>
-            </a>
+              <a *ngIf="!item.custom" [routerLink]="item.route">
+                <i nz-icon [nzType]="item.icon || 'link'"></i>
+                <span *ngIf="!isCollapsed">{{item.title | translate}}</span>
+              </a>
 
-            <a *ngIf="item.custom" [href]="item.route" target="_blank">
-              <i nz-icon [nzType]="item.icon || 'link'"></i>
-              <span>{{item.title | translate}}</span>
-            </a>
+              <a *ngIf="item.custom" [href]="item.route" target="_blank">
+                <i nz-icon [nzType]="item.icon || 'link'"></i>
+                <span *ngIf="!isCollapsed">{{item.title | translate}}</span>
+              </a>
 
-            <ng-template #menuRowContainer>
-              <ng-container *ngTemplateOutlet="menuRow; context: { item: item, index: i }"></ng-container>
-            </ng-template>
-          </li>
-        </ng-container>
-      </ul>
-    </li>
-
-
-
-
-
-
-
+            </li>
+          </ng-container>
+        </ul>
+        <ng-template #expandedIcon let-active>
+          {{ active }}
+          <i nz-icon nzType="caret-right" class="ant-collapse-arrow" [nzRotate]="p.nzActive ? 90 : -90"></i>
+        </ng-template>
+      </nz-collapse-panel>
+    </nz-collapse>
   </ul>
-
-
-
 </div>
-
-
-<!-- Menu Crear -->
-<ng-template #menuCrear let-favorito="favorito">
-  <nz-card>
-    <ng-template #titleTemplate2> <i nz-icon nzType="plus" nzTheme="outline"></i> Crear </ng-template>
-    <form nz-form [formGroup]="form" [nzLayout]="'horizontal'">
-
-      <nz-form-item>
-        <nz-form-label nzRequired nzFor="title">{{ 'global.titulo' | translate }}
-        </nz-form-label>
-        <nz-form-control>
-          <input nz-input formControlName="title">
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label nzRequired nzFor="route">{{ 'global.ruta' | translate }}
-        </nz-form-label>
-        <nz-form-control>
-          <input nz-input formControlName="route">
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-control>
-          <button type="button" nz-button [disabled]="!form.valid" (click)="crearItem(favorito)"
-            class="ant-btn ant-btn-primary">
-            <span>{{ 'global.guardar' | translate }}</span>
-          </button>
-        </nz-form-control>
-      </nz-form-item>
-
-    </form>
-  </nz-card>
-</ng-template>
-
-
-
-
-
-
-
-<!-- Menu editar -->
-<ng-template #menuRow let-item="item" let-index="index">
-  <nz-card>
-    <form nz-form [formGroup]="form" [nzLayout]="'horizontal'">
-
-      <nz-form-item>
-        <nz-form-label nzRequired nzFor="title">{{ 'global.favorito' | translate }}
-        </nz-form-label>
-        <nz-form-control>
-          <nz-switch (ngModelChange)="cdr.detectChanges()" formControlName="fav"></nz-switch>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label nzRequired nzFor="title">{{ 'global.titulo' | translate }}
-        </nz-form-label>
-        <nz-form-control>
-          <input nz-input formControlName="title">
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item *ngIf="item.custom">
-        <nz-form-label nzRequired nzFor="route">{{ 'global.ruta' | translate }}
-        </nz-form-label>
-        <nz-form-control>
-          <input nz-input formControlName="route">
-        </nz-form-control>
-      </nz-form-item>
-
-      <div nz-row nzType="flex" nzJustify="space-between">
-        <div nz-col>
-          <nz-form-item>
-            <nz-form-control>
-              <button type="button" nz-button [disabled]="!form.valid" (click)="editarItem(item)"
-                class="ant-btn ant-btn-primary">
-                <span>{{ 'global.guardar' | translate }}</span>
-              </button>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <div nz-col>
-          <nz-form-item>
-            <nz-form-control>
-              <button *ngIf="item.custom" nz-button type="button" nzType="danger" (click)="eliminarItem(item)">
-                <span>{{ 'global.eliminar' | translate }}</span>
-              </button>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
-
-
-
-    </form>
-
-
-
-
-
-  </nz-card>
-</ng-template>
-
-
-
-
-<ng-template #extraTemplate>
-  <i nz-icon nzType="close" nzTheme="outline" (click)="closeMenu()"></i>
-</ng-template>
-
-<ng-template #extraTempl>
-  <i nz-icon nzType="plus" nzTheme="outline"></i>
-</ng-template>

@@ -1,2 +1,5 @@
 <page-header [title]=" 'global.servicios' | translate "></page-header>
-<app-servicios-table></app-servicios-table>
+
+<app-servicios-buttons [help]="help" [keepHelp]="keepHelp" [smallViewport]="smallViewport"
+  (openForm)="openForm($event)"></app-servicios-buttons>
+<app-servicios-table [help]="help" [keepHelp]="keepHelp" (openForm)="openForm($event)"></app-servicios-table>

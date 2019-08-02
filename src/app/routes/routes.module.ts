@@ -71,6 +71,9 @@ import { BancosFormComponent } from './bancos/bancos-form/bancos-form.component'
 import { UnidadesFuncionalesFormComponent } from './consorcios-profile/profile/tab-uf/unidades-funcionales-form/unidades-funcionales-form.component';
 import { TabAmenitiesComponent } from './consorcios-profile/profile/tab-amenities/tab-amenities.component';
 import { AmenitiesFormComponent } from './consorcios-profile/profile/tab-amenities/amenities-form/amenities-form.component';
+import { ServiciosFilterComponent } from './servicios/servicios-filter/servicios-filter.component';
+import { ServiciosButtonsComponent } from './servicios/servicios-buttons/servicios-buttons.component';
+import { ServiciosTagsComponent } from './servicios/servicios-tags/servicios-tags.component';
 const COMPONENTS = [
   DashboardComponent,
   // passport pages
@@ -141,6 +144,9 @@ const COMPONENTS_NOROUNT = [
   UnidadesFuncionalesFormComponent,
   AmenitiesFormComponent,
   TabAmenitiesComponent,
+  ServiciosFilterComponent,
+  ServiciosButtonsComponent,
+  ServiciosTagsComponent,
 ];
 
 @NgModule({

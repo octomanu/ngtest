@@ -1,11 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+.pointer {
+  cursor: pointer;
+}
+// sobreescribo el 80 porque se ve feo el titulo con los iconos
+.ant-menu-inline-collapsed {
+  width: 64px;
+}
+
+.menu-collapse > .ant-collapse > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+  padding: 0px;
+}
+
+.menu-collapse  > .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  color: rgba(0, 0, 0, 0.45);
+}
+
 .table-operations {
   margin-bottom: 16px;
 }
 
-.table-operations>button {
-  margin-right: 8px;
-}
+// .table-operations>button {
+//   margin-right: 8px;
+// }
 
 .search-box {
   padding: 8px;

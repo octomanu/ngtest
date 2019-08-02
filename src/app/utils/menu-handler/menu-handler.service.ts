@@ -43,6 +43,6 @@ export class MenuHandlerService {
   updateMenu(menu: any[]) {
     this.menu = menu;
     this.localStorage.setItem({ name: 'menu', value: menu });
-    this.menuService.update(menu).subscribe(data => {});
+    return this.menuService.update(menu);
   }
 }

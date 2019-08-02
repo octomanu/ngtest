@@ -7,6 +7,10 @@ export const CLEAR_SERVICIOS = '[Servicios] Clear Servicios';
 export const CHANGE_ORDER = '[Servicios] Change Order';
 export const CHANGE_PARAMS = '[Servicios] Change Params';
 export const LOAD_SERVICIOS_FAIL = '[Servicios] Load Servicios Fail';
+export const CLOSE_FILTER = '[Servicios] Close Filter';
+export const OPEN_FILTER = '[Servicios] Open Filter';
+export const CHANGE_FILTER = '[Servicios] Change Filter';
+export const DELETE_SERVICIO = '[Servicios] Delete';
 
 export class ChangeOrderAction implements Action {
   readonly type = CHANGE_ORDER;
@@ -36,7 +40,29 @@ export class ChangeParamsAction implements Action {
   constructor(public params: PaginatorParams) {}
 }
 
+export class OpenFilterAction implements Action {
+  readonly type = OPEN_FILTER;
+}
+
+export class CloseFilterAction implements Action {
+  readonly type = CLOSE_FILTER;
+}
+
+export class ChangeFilterAction implements Action {
+  readonly type = CHANGE_FILTER;
+  constructor(public filter: { descripcion: string }) {}
+}
+
+export class DeleteServicioAction implements Action {
+  readonly type = DELETE_SERVICIO;
+  constructor(public id: number) {}
+}
+
 export type acciones =
+  | DeleteServicioAction
+  | CloseFilterAction
+  | OpenFilterAction
+  | ChangeFilterAction
   | ChangeParamsAction
   | LoadServiciosFailAction
   | ChangeOrderAction

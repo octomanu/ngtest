@@ -3,18 +3,22 @@ import { LambePaginator } from 'redux/lambe-paginator.model';
 
 export interface ServiciosState {
   paginator: LambePaginator;
-  filtros: any;
+  filtros: { descripcion: string };
   loading: boolean;
   error: any;
   initialized: boolean;
+  filterVisible: boolean;
+  formVisible: boolean;
 }
 
 const initState: ServiciosState = {
   paginator: new LambePaginator(),
-  filtros: [],
+  filtros: { descripcion: null },
   loading: false,
   error: null,
   initialized: false,
+  filterVisible: false,
+  formVisible: false,
 };
 
 export function serviciosReducer(
@@ -88,7 +92,23 @@ export function serviciosReducer(
         },
         loading: true,
       };
+    case fromServicios.CHANGE_FILTER:
+      return {
+        ...state,
+        filtros: { descripcion: action.filter.descripcion },
+        loading: true,
+      };
 
+    case fromServicios.OPEN_FILTER:
+      return {
+        ...state,
+        filterVisible: true,
+      };
+    case fromServicios.CLOSE_FILTER:
+      return {
+        ...state,
+        filterVisible: false,
+      };
     default:
       return state;
   }
