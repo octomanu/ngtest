@@ -31,6 +31,8 @@ import { EmpleadosComponent } from './empleados/empleados.component';
 import { ContactosComponent } from './contactos/contactos.component';
 import { ServiciosComponent } from './servicios/servicios.component';
 import { BancosComponent } from './bancos/bancos.component';
+import { CuentasBancariasComponent } from './cuentas-bancarias/cuentas-bancarias.component';
+import { GastosDescripcionesComponent } from './gastos-descripciones/gastos-descripciones.component';
 
 const routes: Routes = [
   {
@@ -115,6 +117,16 @@ const routes: Routes = [
         path: 'bancos',
         component: BancosComponent,
         data: { title: 'Bancos' },
+      },
+      {
+        path: 'cuentas-bancarias',
+        component: CuentasBancariasComponent,
+        data: { title: 'Cuentas Bancarias' },
+      },
+      {
+        path: 'gastos-descripciones',
+        component: GastosDescripcionesComponent,
+        data: { title: 'Cuentas Bancarias' },
       },
       {
         path: 'exception',

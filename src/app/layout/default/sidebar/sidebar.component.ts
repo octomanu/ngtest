@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   help: boolean;
   keepHelp: boolean;
   icons = [];
-  subscriptions: Subscription[];
+  subscriptions: Subscription[] = [];
   isCollapsed: boolean;
   orderableList = [];
 

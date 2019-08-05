@@ -163,6 +163,8 @@
   "global.filtros": "Búsqueda",
   "global.eliminar_busqueda": "Limpiar filtros de busqueda",
   "global.nuevo_menu": "Nuevo elemento de menu",
+  "global.banco": "Banco",
+  "global.cuenta_bancaria": "Cuenta Bancaria",
   "porcentajes_consorcios.oculto_en_expensa": "Oculto en Expensas",
   "porcentajes_consorcios.es_gasto_particular": "Gasto Particular",
   "porcentajes_consorcios.oculto_en_prorateo": "Oculto en Prorateo",

@@ -26,7 +26,7 @@ export class GastosForm {
       ],
       fecha: [null, [Validators.required]],
       prevision: [false, [Validators.required]],
-      prorrateable: [false, [Validators.required]],
+      prorrateable: [true, [Validators.required]],
       cuotas: this.initCuotasChild(),
       porcentuales: this.initPorcentualesChild(),
     });

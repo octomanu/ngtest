@@ -58,24 +58,24 @@
       <ng-template ngFor let-data [ngForOf]="tableLambe.data">
         <tr (contextmenu)="contextMenu($event, menuRowContainer)">
           <ng-template #menuRowContainer>
-            <ng-container *ngTemplateOutlet="menuRow; context: {id: data.id}"></ng-container>
+            <ng-container *ngTemplateOutlet="menuRow; context: {id: data['proveedores-id']}"></ng-container>
           </ng-template>
-          <td nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]"></td>
+          <td nzShowExpand [(nzExpand)]="mapOfExpandData[data['proveedores-id']]"></td>
           <td>
             <strong class="onlysmall">{{ 'global.razon_social' | translate }}:&nbsp;</strong>
-            <nz-badge nzStatus="success" nz-tooltip nzTitle="Activo"></nz-badge>{{ data.razon_social }}
+            <nz-badge nzStatus="success" nz-tooltip nzTitle="Activo"></nz-badge>{{ data['proveedores-razon_social'] }}
           </td>
           <td>
             <strong class="onlysmall">{{ 'global.direccion' | translate }}:&nbsp;</strong>
-            {{ data.direccion }}
+            {{ data['proveedores-direccion'] }}
           </td>
           <td>
             <strong class="onlysmall">{{ 'global.cuit' | translate }}:&nbsp;</strong>
-            {{ data.cuit }}
+            {{ data['proveedores-cuit'] }}
           </td>
         </tr>
-        <tr [nzExpand]="mapOfExpandData[data.id]">
-          <td colspan="3">{{ data.direccion }}</td>
+        <tr [nzExpand]="mapOfExpandData[data['proveedores-id']]">
+          <td colspan="3">{{ data['proveedores-direccion'] }}</td>
         </tr>
       </ng-template>
     </tbody>

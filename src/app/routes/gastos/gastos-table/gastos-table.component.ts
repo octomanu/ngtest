@@ -192,6 +192,7 @@ export class GastosTableComponent extends TableLambe
       if (this.rowForm[i].form.valid && this.rowForm[i].form.touched) {
         const gastoId = this.rowForm[i].form.get('id').value;
         const gastoData = this.rowForm[i].form.value;
+        gastoData.fecha = moment(gastoData.fecha).format('DD-MM-YYYY');
         this.gastosService.update(gastoId, gastoData).subscribe((resp: any) => {
           this.tableLambe.data[i]['gastos-monto'] = resp.data.monto;
           this.tableLambe.data[i]['gastos-fecha'] = moment(

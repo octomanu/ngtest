@@ -150,24 +150,16 @@
         <nz-form-label nzFor="id_concepto_gastos">{{ 'Porcentuales' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
-
-          <nz-input-group nzCompact>
-            <nz-select [nzDisabled]="multiPorcentajes || form.get('unidades_funcionales').value?.length > 0"
-              nzAllowClear nzShowSearch [nzServerSearch]="true" (nzOnSearch)="searchPorcentajes($event)"
-              formControlName="id_concepto_gastos" style="width:90%;">
-              <ng-container *ngFor="let porcentaje of porcentajes">
-                <nz-option *ngIf="!isLoading" [nzValue]="porcentaje.id" [nzLabel]="porcentaje.display"></nz-option>
-              </ng-container>
-              <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-                <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
-              </nz-option>
-            </nz-select>
-            <button nz-button [disabled]="form.get('consorcios').value.length == 0" (click)="openPorcentualesForm()"
-              type="button" class="ant-btn ant-btn-primary" style="width:10%;">
-              <i nz-icon type="plus"></i>
-            </button>
-
-          </nz-input-group>
+          <nz-select [nzDisabled]="multiPorcentajes || form.get('unidades_funcionales').value?.length > 0" nzAllowClear
+            nzShowSearch [nzServerSearch]="true" (nzOnSearch)="searchPorcentajes($event)"
+            formControlName="id_concepto_gastos">
+            <ng-container *ngFor="let porcentaje of porcentajes">
+              <nz-option *ngIf="!isLoading" [nzValue]="porcentaje.id" [nzLabel]="porcentaje.display"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            </nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
     </div>

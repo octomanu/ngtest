@@ -1,4 +1,4 @@
-import { Input, OnDestroy } from '@angular/core';
+import { Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { PaginatorParamsInterface } from 'app/interfaces/local/paginator-params.interface';
 import { Subscription } from 'rxjs';
 import { NzDropdownContextComponent } from 'ng-zorro-antd';
@@ -6,6 +6,7 @@ import { NzDropdownContextComponent } from 'ng-zorro-antd';
 export abstract class TableComponent implements OnDestroy {
   @Input() help: boolean;
   @Input() keepHelp: boolean;
+  @Output() openForm = new EventEmitter<number>();
   tableLambe = { total: 1, data: [], loading: true };
   paginatorParams: PaginatorParamsInterface;
   subscripctions: Subscription[] = [];

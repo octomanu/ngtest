@@ -522,29 +522,6 @@ export class GastosFormComponent implements OnInit {
     }
   }
 
-  openPorcentualesForm() {
-    this.translate.get('Porcentuales').subscribe((res: string) => {
-      this.drawerRef = this.drawerService.create<
-        ProcentualesFormComponent,
-        { id: number; idConsorcio: any }
-      >({
-        nzTitle: res,
-        nzWidth: '50%',
-        nzContent: ProcentualesFormComponent,
-        nzContentParams: {
-          id: null,
-          idConsorcio: this.form.get('id_consorcio').value,
-        },
-      });
-    });
-
-    this.drawerRef.afterClose.subscribe(
-      (data: { submit: boolean } | undefined) => {
-        this.searchPorcentajesList('');
-      },
-    );
-  }
-
   openProveedoresForm() {
     this.translate
       .get('lambe.proveedores.proveedor')
