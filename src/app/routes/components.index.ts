@@ -48,6 +48,10 @@ import { CuentasBancariasTableComponent } from './cuentas-bancarias/cuentas-banc
 import { CuentasBancariasFilterComponent } from './cuentas-bancarias/cuentas-bancarias-filter/cuentas-bancarias-filter.component';
 import { CuentasBancariasTagsComponent } from './cuentas-bancarias/cuentas-bancarias-tags/cuentas-bancarias-tags.component';
 import { CuentasBancariasFormComponent } from './cuentas-bancarias/cuentas-bancarias-form/cuentas-bancarias-form.component';
+import { GastosDescripcionesFormComponent } from './gastos-descripciones/gastos-descripciones-form/gastos-descripciones-form.component';
+import { GastosDescripcionesButtonsComponent } from './gastos-descripciones/gastos-descripciones-buttons/gastos-descripciones-buttons.component';
+import { GastosDescripcionesTableComponent } from './gastos-descripciones/gastos-descripciones-table/gastos-descripciones-table.component';
+import { GastosDescripcionesFilterComponent } from './gastos-descripciones/gastos-descripciones-filter/gastos-descripciones-filter.component';
 
 export const COMPONENTS = [
   ProveedorFormComponent,
@@ -100,4 +104,8 @@ export const COMPONENTS = [
   CuentasBancariasFilterComponent,
   CuentasBancariasFormComponent,
   CuentasBancariasTableComponent,
+  GastosDescripcionesFormComponent,
+  GastosDescripcionesButtonsComponent,
+  GastosDescripcionesTableComponent,
+  GastosDescripcionesFilterComponent,
 ];

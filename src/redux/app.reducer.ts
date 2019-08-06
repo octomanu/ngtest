@@ -4,6 +4,7 @@ import * as fromGlobal from './global/globa.reducer';
 import * as fromServicios from './servicios/servicios.reducer';
 import * as fromMenu from './menu/menu.reducer';
 import * as fromCuentasBancarias from './cuentas-bancarias/cuentas-bancarias.reducer';
+import * as fromGastosDescripciones from './gastos-descripciones/gastos-descripciones.reducer';
 
 export interface AppState {
   menuState: fromMenu.MenuState;
@@ -11,6 +12,7 @@ export interface AppState {
   authState: fromAuth.AuthState;
   serviciosState: fromServicios.ServiciosState;
   cuentasBancariasState: fromCuentasBancarias.CuentasBancariasState;
+  gastosDescripcionesState: fromGastosDescripciones.GastosDescripcionesState;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
@@ -19,4 +21,5 @@ export const appReducers: ActionReducerMap<AppState> = {
   authState: fromAuth.authReducer,
   serviciosState: fromServicios.serviciosReducer,
   cuentasBancariasState: fromCuentasBancarias.CuentasBancariasReducer,
+  gastosDescripcionesState: fromGastosDescripciones.GastosDescripcionesReducer,
 };

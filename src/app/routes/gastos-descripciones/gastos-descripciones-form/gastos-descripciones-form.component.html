@@ -1,3 +1,40 @@
-<p>
-  gastos-descripciones-form works!
-</p>
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
+
+
+
+
+
+  <nz-form-item>
+    <nz-form-label nzRequired>{{ 'global.titulo' | translate }}</nz-form-label>
+    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+      <input nz-input formControlName="titulo" />
+      <ng-template #userErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired>{{ 'global.descripcion' | translate }}</nz-form-label>
+    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+      <input nz-input formControlName="descripcion" />
+      <ng-template #userErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+
+</form>
+
+<div class="footer">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+      <span>{{ 'global.guardar' | translate }}</span>
+    </button>
+  </div>
+</div>

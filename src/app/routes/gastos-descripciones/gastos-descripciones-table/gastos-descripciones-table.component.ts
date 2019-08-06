@@ -1,30 +1,29 @@
 import {
   Component,
-  ViewContainerRef,
-  TemplateRef,
   OnInit,
+  TemplateRef,
+  ViewContainerRef,
 } from '@angular/core';
 import { TableComponent } from 'app/classes/table-component.class';
-import { Store } from '@ngrx/store';
+import { TooltipHelpComponent } from '@shared/components/tooltip-help/tooltip-help.component';
 import { AppState } from 'redux/app.reducer';
+import { Store } from '@ngrx/store';
 import { NzDropdownService } from 'ng-zorro-antd';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
-import { TooltipHelpComponent } from '@shared/components/tooltip-help/tooltip-help.component';
-import * as cbActions from 'redux/cuentas-bancarias/cuentas-bancarias.actions';
-import { CuentasBancariasState } from 'redux/cuentas-bancarias/cuentas-bancarias.reducer';
+import { GastosDescripcionesState } from 'redux/gastos-descripciones/gastos-descripciones.reducer';
+import * as gdActions from 'redux/gastos-descripciones/gastos-descripciones.actions';
 
 @Component({
-  selector: 'app-cuentas-bancarias-table',
-  templateUrl: './cuentas-bancarias-table.component.html',
+  selector: 'app-gastos-descripciones-table',
+  templateUrl: './gastos-descripciones-table.component.html',
   styles: [],
 })
-export class CuentasBancariasTableComponent extends TableComponent
+export class GastosDescripcionesTableComponent extends TableComponent
   implements OnInit {
   tooltips: {
     tableHeader: TemplateRef<TooltipHelpComponent>;
     tableBody: TemplateRef<TooltipHelpComponent>;
   };
-
   constructor(
     public store: Store<AppState>,
     public nzDropdownService: NzDropdownService,
@@ -38,10 +37,10 @@ export class CuentasBancariasTableComponent extends TableComponent
 
   ngOnInit() {
     const sub = this.store
-      .select('cuentasBancariasState')
-      .subscribe((state: CuentasBancariasState) => {
+      .select('gastosDescripcionesState')
+      .subscribe((state: GastosDescripcionesState) => {
         if (!state.initialized) {
-          this.store.dispatch(new cbActions.LoadCuentasBancariasAction());
+          this.store.dispatch(new gdActions.LoadGastosDescripcionesAction());
         }
         this.tableLambe.data = state.paginator.data;
         this.tableLambe.loading = state.loading;
@@ -53,7 +52,7 @@ export class CuentasBancariasTableComponent extends TableComponent
   }
 
   pageChange(page: number) {
-    this.store.dispatch(new cbActions.ChangeParamsAction(this.paginatorParams));
+    this.store.dispatch(new gdActions.ChangeParamsAction(this.paginatorParams));
   }
 
   editar(id: number) {
@@ -61,11 +60,11 @@ export class CuentasBancariasTableComponent extends TableComponent
   }
 
   eliminar(id: number) {
-    this.store.dispatch(new cbActions.DeleteCuentasBancariasAction(id));
+    this.store.dispatch(new gdActions.DeleteGastosDescripcionesAction(id));
   }
 
   changeOrder(field: string, order: string) {
-    this.store.dispatch(new cbActions.ChangeOrderAction(field, order));
+    this.store.dispatch(new gdActions.ChangeOrderAction(field, order));
   }
 
   contextMenu($event: MouseEvent, template: TemplateRef<void>) {

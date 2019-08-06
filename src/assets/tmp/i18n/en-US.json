@@ -165,6 +165,7 @@
   "global.nuevo_menu": "New menu item",
   "global.banco": "Bank",
   "global.cuenta_bancaria": "Bank Account",
+  "global.gastos_descripciones": "Spending Description",
   "porcentajes_consorcios.oculto_en_expensa": "Hidden in Expenses",
   "porcentajes_consorcios.es_gasto_particular": "Particular Spending",
   "porcentajes_consorcios.oculto_en_prorateo": "Hidden in Prorateo",

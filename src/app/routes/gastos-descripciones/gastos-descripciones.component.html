@@ -1,3 +1,6 @@
-<p>
-  gastos-descripciones works!
-</p>
+<page-header [title]=" 'global.gastos_descripciones' | translate "></page-header>
+
+<app-gastos-descripciones-buttons [help]="help" [keepHelp]="keepHelp" [smallViewport]="smallViewport"
+  (openForm)="openForm($event)"></app-gastos-descripciones-buttons>
+<app-gastos-descripciones-table [help]="help" [keepHelp]="keepHelp" (openForm)="openForm($event)">
+</app-gastos-descripciones-table>

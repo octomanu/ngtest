@@ -17,6 +17,15 @@ export class GastosService extends CrudService {
     return 'gastos';
   }
 
+  updateMontoFecha(id: number, data) {
+    const URL = `${environment.OCTO_API}/${this.getPath()}/editarGrilla/${id}`;
+
+    return this.http.put(URL, data).pipe(
+      map(resp => resp),
+      catchError(err => throwError(err)),
+    );
+  }
+
   findPrevious(params: {
     id_proveedor: string;
     id_consorcio: string;

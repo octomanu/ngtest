@@ -1,0 +1,22 @@
+<div nz-row nzType="flex" nzJustify="space-between">
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+  
+      <nz-form-item>
+        <nz-form-label>{{ 'global.titulo' | translate }}</nz-form-label>
+        <nz-form-control>
+          <input nz-input [(ngModel)]="titulo" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  
+  </div>
+  
+  <div class="footer">
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <button nz-button (click)="submit()" class="ant-btn ant-btn-primary">
+        <span>{{ 'global.buscar' | translate }}</span>
+      </button>
+    </div>
+  </div>
+  

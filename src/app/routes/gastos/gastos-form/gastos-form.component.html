@@ -8,6 +8,32 @@
     [(ngModel)]="keep.consorcio">{{ 'lambe.consorcios.consorcio' | translate }}</label>
 </ng-template>
 
+<ng-template #descripcion_title>
+  <nz-form-label nzFor="descripcion">{{ 'global.descripcion' | translate }}
+  </nz-form-label>
+  <button type="button" nz-col nz-button nzType="primary" nzSize="small" (click)="crearPlantilla()">
+    <i nz-icon nzTheme="outline" type="plus"></i>
+  </button>
+  <button type="button" nz-col nz-button nzType="primary" nzSize="small"
+    (click)="descripcionsfilter = !descripcionsfilter">
+    <i nz-icon nzTheme="outline" type="search"></i>
+  </button>
+
+  <nz-form-item *ngIf="descripcionsfilter">
+    <nz-select nzAllowClear nzShowSearch [nzServerSearch]="true" [(ngModel)]="plantilla"
+      (nzOnSearch)="searchDescripciones($event)" (ngModelChange)="cargarPlantilla($event)">
+      <ng-container *ngFor="let descripcion of descripciones">
+        <nz-option *ngIf="!isLoading" [nzValue]="descripcion.id" [nzLabel]="descripcion.display"></nz-option>
+      </ng-container>
+      <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+        <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+      </nz-option>
+    </nz-select>
+  </nz-form-item>
+
+
+</ng-template>
+
 <ng-template #multiPorcentajesCheck>
 
   <label nz-checkbox [(ngModel)]="multiPorcentajes"
@@ -203,10 +229,10 @@
   </div>
 
   <div nz-row nzType="flex" nzJustify="space-between">
+
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 24 }">
       <nz-form-item>
-        <nz-form-label nzFor="descripcion">{{ 'global.descripcion' | translate }}
-        </nz-form-label>
+        <ng-container [ngTemplateOutlet]="descripcion_title"></ng-container>
         <nz-form-control nzHasFeedback>
           <textarea rows="2" nz-input formControlName="descripcion"></textarea>
         </nz-form-control>

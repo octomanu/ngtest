@@ -126,7 +126,7 @@ const routes: Routes = [
       {
         path: 'gastos-descripciones',
         component: GastosDescripcionesComponent,
-        data: { title: 'Cuentas Bancarias' },
+        data: { title: 'Descripciones de Gastos' },
       },
       {
         path: 'exception',
