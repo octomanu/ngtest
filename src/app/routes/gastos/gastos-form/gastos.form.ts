@@ -66,7 +66,7 @@ export class GastosForm {
             ],
           ],
           numero_cuota: [null, []],
-          id_factura: [null, []],
+          numero_factura: [null, []],
           id_periodo: [null, []],
           fecha_pago: [null, [Validators.required]],
           id: [null],

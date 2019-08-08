@@ -1,0 +1,101 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.descripcion' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="descripcion" />
+          <ng-template #userErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="fecha">{{ 'lambe.gastos.fecha' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-date-picker style="width:100%;" [nzStyle]="{width: '100%'}" formControlName="fecha" nzFormat="dd-MM-yyyy">
+          </nz-date-picker>
+          <nz-form-explain *ngIf="form.get('fecha').dirty && form.get('fecha').errors">
+            <ng-container *ngIf="form.get('fecha').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.consorcio' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-select formControlName="id_consorcio" nzShowSearch [nzServerSearch]="true"
+            (nzOnSearch)="searchConsorcios($event)" (ngModelChange)="changeConsorcio()">
+            <ng-container *ngFor="let consorcio of consorcios">
+              <nz-option *ngIf="!isLoading" [nzValue]="consorcio.id" [nzLabel]="consorcio.display"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label>{{ 'global.unidad_funcional' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-select formControlName="id_unidad_funcional" nzAllowClear nzShowSearch [nzServerSearch]="true"
+            (nzOnSearch)="searchUfs($event)">
+            <ng-container *ngFor="let uf of ufs">
+              <nz-option *ngIf="!isLoading" [nzValue]="uf.id" [nzLabel]="uf.display"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label>{{ 'global.efectivo' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="efectivo" />
+          <ng-template #userErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('pattern')">
+              {{ 'global.patron' | translate }} : ########,##
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
+</form>
+
+<div class="footer">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+      <span>{{ 'global.guardar' | translate }}</span>
+    </button>
+  </div>
+</div>

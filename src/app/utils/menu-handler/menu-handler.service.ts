@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import { MenuService } from '@core/http/menu/menu.service';
 import { Subject, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,17 @@ export class MenuHandlerService {
       this.localStorage.setItem({ name: 'menu', value: menu.menu });
       this.subject.next(menu.menu);
     });
+  }
+
+  deleteMenu() {
+    return this.menuService.delete().pipe(
+      map((menu: any) => {
+        this.menu = menu.menu;
+        this.localStorage.setItem({ name: 'menu', value: menu.menu });
+        this.subject.next(menu.menu);
+        return menu.menu;
+      }),
+    );
   }
 
   // Actualzia el emnu aca y en el backend

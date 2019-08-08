@@ -1,0 +1,77 @@
+<nz-card [nzBordered]="false">
+
+  <app-caja-consorcio-table-config></app-caja-consorcio-table-config>
+  <app-servicios-tags></app-servicios-tags>
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
+    [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
+    (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <tr nz-tooltip [nzVisible]="keepHelp" [nzTitle]="(keepHelp || help) ? tooltips.tableHeader: ''">
+        <th nzCustomFilter nzShowSort nzSortKey="descripcion">
+          <span>{{ 'global.descripcion' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="consorcio">
+          <span>{{ 'global.consorcio' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="fecha">
+          <span>{{ 'global.fecha' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="fecha">
+          <span>{{ 'global.debe' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="fecha">
+          <span>{{ 'global.haber' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="fecha">
+          <span>{{ 'global.saldo' | translate }}</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tooltip [nzVisible]="keepHelp" nzPlacement="topRight"
+      [nzTitle]="help || keepHelp ? tooltips.tableBody : ''">
+      <ng-template ngFor let-data [ngForOf]="tableLambe.data" let-i="index">
+        <tr (contextmenu)="contextMenu($event, menuRowContainer)">
+          <ng-template #menuRowContainer>
+            <ng-container *ngTemplateOutlet="menuRow; context: { id: data['id'] }"></ng-container>
+          </ng-template>
+          <td>
+            <strong class="onlysmall">{{ 'global.descripcion' | translate }}:&nbsp;</strong>
+            {{ data['movimientos_caja_consorcio-descripcion'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.consorcio' | translate }}:&nbsp;</strong>
+            {{ data['consorcios-nombre_fantasia'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.fecha' | translate }}:&nbsp;</strong>
+            {{ data['movimientos_caja_consorcio-fecha'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.debe' | translate }}:&nbsp;</strong>
+            {{(data['movimientos_caja_consorcio-tipo_movimiento'] === 'ingreso') ?
+            data['movimientos_caja_consorcio-monto']  : 0}}
+
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.haber' | translate }}:&nbsp;</strong>
+            {{(data['movimientos_caja_consorcio-tipo_movimiento'] === 'egreso') ?
+            data['movimientos_caja_consorcio-monto']  : 0}}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.saldo' | translate }}:&nbsp;</strong>
+            -
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<!-- Menu Row -->
+<ng-template #menuRow let-id="id">
+  <ul nz-menu nzInDropDown>
+    <li nz-menu-item (click)="editar(id)">
+      <a>{{ 'global.editar' | translate }}</a>
+    </li>
+  </ul>
+</ng-template>

@@ -26,4 +26,12 @@ export class MenuService {
       catchError(err => throwError(err)),
     );
   }
+
+  delete() {
+    const URL = `${environment.OCTO_API}/menu`;
+    return this.http.delete(URL).pipe(
+      map((resp: any) => resp.data),
+      catchError(err => throwError(err)),
+    );
+  }
 }

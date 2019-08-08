@@ -33,6 +33,7 @@ import { ServiciosComponent } from './servicios/servicios.component';
 import { BancosComponent } from './bancos/bancos.component';
 import { CuentasBancariasComponent } from './cuentas-bancarias/cuentas-bancarias.component';
 import { GastosDescripcionesComponent } from './gastos-descripciones/gastos-descripciones.component';
+import { CajaConsorcioComponent } from './caja-consorcio/caja-consorcio.component';
 
 const routes: Routes = [
   {
@@ -127,6 +128,11 @@ const routes: Routes = [
         path: 'gastos-descripciones',
         component: GastosDescripcionesComponent,
         data: { title: 'Descripciones de Gastos' },
+      },
+      {
+        path: 'caja-consorcio',
+        component: CajaConsorcioComponent,
+        data: { title: 'Caja Consorcio' },
       },
       {
         path: 'exception',

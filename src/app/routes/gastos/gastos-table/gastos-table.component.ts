@@ -184,7 +184,10 @@ export class GastosTableComponent extends TableLambe
 
   showForm(i: number, event) {
     // click al imput asi que no hago nada.
-    if (typeof event.path[0].attributes.formcontrolname === 'object') {
+    if (
+      typeof event.path[0].attributes.formcontrolname === 'object' ||
+      event.srcElement.classList[0] === 'ant-calendar-picker-input'
+    ) {
       return;
     }
 
@@ -197,9 +200,7 @@ export class GastosTableComponent extends TableLambe
           .updateMontoFecha(gastoId, gastoData)
           .subscribe((resp: any) => {
             this.tableLambe.data[i]['gastos-monto'] = gastoData.monto;
-            this.tableLambe.data[i]['gastos-fecha'] = moment(
-              gastoData.fecha,
-            ).format('DD-MM-YYYY');
+            this.tableLambe.data[i]['gastos-fecha'] = gastoData.fecha;
           });
       }
       this.rowForm[i].visible = false;

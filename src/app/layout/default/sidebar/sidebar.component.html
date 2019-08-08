@@ -1,7 +1,15 @@
+<ng-template #iconTpl>
+  <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+</ng-template>
+
 <ng-template #menuHeader>
   <div nzType="flex" nz-row nzJustify="space-between">
     <div nz-col>
       <i nz-icon nzType="plus" nzTheme="outline" class="pointer" (click)="openCrearMenu()"></i>
+    </div>
+    <div nz-col>
+      <i nz-popconfirm nzTitle="Quiere restablecer le menu por defecto?" (nzOnConfirm)="deleteMenu()" nzCancelText="No" nzOkText="Si" nz-icon
+        [nzIcon]="iconTpl" nzType="rollback" nzTheme="outline" class="pointer"></i>
     </div>
     <div nz-col>
       <i nz-icon nzType="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}" nzTheme="outline" class="pointer"
@@ -44,7 +52,8 @@
 
     <nz-collapse [nzBordered]="false" class="menu-collapse">
       <nz-collapse-panel #p [nzHeader]="collapseTittle" [nzActive]="panel.active" [ngStyle]="panel.customStyle">
-        <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed" ngxDroppable [ngStyle]="{'min-height': '30px'}">
+        <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed" ngxDroppable
+          [ngStyle]="{'min-height': '30px'}">
           <ng-container *ngFor="let item of orderableList; let i = index">
             <li nz-menu-item *ngIf="!item.fav" ngxDraggable [model]="item" (contextmenu)="openEditarMenu(item, i)">
 

@@ -1,0 +1,14 @@
+<div class="table-operations" nzType="flex" nz-row nzJustify="space-between">
+
+  <div nz-col nzType="flex" nz-row nzJustify="start">
+    <button nz-col nz-button nz-dropdown (click)="ingreso()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="left"
+      [nzTitle]=" (keepHelp || help) ? tooltips.btnFiltros: ''">
+      Ingreso
+    </button>
+    <button nz-col nz-button nz-dropdown (click)="egreso()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="right"
+      [nzTitle]=" (keepHelp || help) ? tooltips.btnNoFltros: ''">
+      Egreso
+    </button>
+  </div>
+
+</div>

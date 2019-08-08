@@ -1,7 +1,9 @@
 <div class="table-operations" nzType="flex" nz-row nzJustify="end">
-  <button nz-col nz-button nz-dropdown (click)="_openForm()" nzTitle="{{'global.crear' | translate}}"
-    nz-tooltip>
-    <i nz-icon nzTheme="outline" type="plus"></i>
+  <button nz-col nz-button>
+    {{'global.clonar' | translate}}
+  </button>
+  <button nz-col nz-button (click)="_openForm()">
+    {{'global.crear' | translate}}
   </button>
 </div>
 
@@ -147,7 +149,7 @@
         </th>
 
         <th nzCustomFilter nzShowSort nzSortKey="calle" *ngIf="table.gasto.show">
-          <span>{{ 'lambe.gasto' | translate }}</span>
+          <span>{{ 'global.servicio' | translate }}</span>
           <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
         </th>
 
@@ -193,7 +195,6 @@
           <ng-template #menuRowContainer>
             <ng-container *ngTemplateOutlet="menuRow; context: { id: data['gastos-id'] }"></ng-container>
           </ng-template>
-
           <td *ngIf="table.id_proveedor.show">
             <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
             {{ data['proveedores-razon_social'] }}
@@ -204,8 +205,8 @@
           </td>
 
           <td *ngIf="table.gasto.show">
-            <strong class="onlysmall">{{ 'lambe.cheques_nro' | translate }}:&nbsp;</strong>
-            {{ data['concepto_gastos-descripcion'] }}
+            <strong class="onlysmall">{{ 'lambe.servicio' | translate }}:&nbsp;</strong>
+            {{ data['servicios-descripcion'] }}
           </td>
           <td>
             <strong class="onlysmall">{{ 'lambe.chequera_nro' | translate }}:&nbsp;</strong>
@@ -226,11 +227,7 @@
 
             <nz-form-control nzHasFeedback *ngIf="rowForm[i].visible">
               <nz-date-picker formControlName="fecha" nzFormat="dd-MM-yyyy"></nz-date-picker>
-              <nz-form-explain *ngIf="rowForm[i].form.get('fecha').dirty && rowForm[i].get('fecha').errors">
-                <ng-container *ngIf="rowForm[i].form.get('fecha').hasError('required')">
-                  {{ 'global.campo_requerido' | translate }}
-                </ng-container>
-              </nz-form-explain>
+
             </nz-form-control>
           </td>
 

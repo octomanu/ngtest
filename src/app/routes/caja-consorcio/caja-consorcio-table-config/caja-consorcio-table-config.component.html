@@ -1,0 +1,42 @@
+<ng-template #extraTpl>
+  <i nz-icon nzType="setting"></i>
+</ng-template>
+<ng-template #headerTpl>
+  &nbsp;
+</ng-template>
+
+<nz-collapse [nzBordered]="false">
+  <nz-collapse-panel #p [nzHeader]="headerTpl" [nzActive]="false" [nzExtra]="extraTpl" [ngStyle]="{
+            background: '#f7f7f7',
+            'border-radius': '4px',
+            'margin-bottom': '24px',
+            border: '0px'
+          }">
+    <form>
+
+      <div nz-row nzType="flex" nzJustify="space-between">
+
+        <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
+          <nz-form-item>
+            <nz-form-label nzFor="monto">{{ 'lambe.consorcios.consorcio' | translate }}
+            </nz-form-label>
+            <nz-form-control>
+              <nz-select zPlaceHolder=" lambe.gastos.consorcio | translate " [(ngModel)]="idConsorcios"
+                id="id_consorcio" nzAllowClear nzShowSearch nzMode="multiple" [nzServerSearch]="true"
+                name="id_consorcio" (nzOnSearch)="searchConsorcios($event)"
+                (ngModelChange)="changeCuentaCorrienteConfig()">
+                <ng-container *ngFor="let consorcio of consorcios">
+                  <nz-option *ngIf="!isLoading" [nzValue]="consorcio.id" [nzLabel]="consorcio.display"></nz-option>
+                </ng-container>
+                <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+                  <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+
+  </nz-collapse-panel>
+</nz-collapse>

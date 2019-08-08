@@ -23,6 +23,7 @@ import { EmpleadosComponent } from './empleados/empleados.component';
 import { BancosComponent } from './bancos/bancos.component';
 import { CuentasBancariasComponent } from './cuentas-bancarias/cuentas-bancarias.component';
 import { GastosDescripcionesComponent } from './gastos-descripciones/gastos-descripciones.component';
+import { CajaConsorcioComponent } from './caja-consorcio/caja-consorcio.component';
 
 export const ROUTE_COMPONENTS = [
   DashboardComponent,
@@ -49,5 +50,6 @@ export const ROUTE_COMPONENTS = [
   EmpleadosComponent,
   BancosComponent,
   CuentasBancariasComponent,
-  GastosDescripcionesComponent
+  GastosDescripcionesComponent,
+  CajaConsorcioComponent,
 ];

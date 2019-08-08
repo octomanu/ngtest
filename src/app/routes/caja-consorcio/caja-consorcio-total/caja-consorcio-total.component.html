@@ -1,0 +1,36 @@
+<nz-card [nzBordered]="false">
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+
+    <div nz-col>
+      <nz-statistic [nzValue]="totales.deuda.monto | number: '1.0-2'" [nzTitle]="totales.deuda.titulo | translate"
+        [nzSuffix]="'$'" [nzValueStyle]="{ color: (totales.otros.monto >= 0)  ? '#3F8600' : '#CF1322' }">
+      </nz-statistic>
+    </div>
+
+    <div nz-col>
+      <nz-statistic [nzValue]="totales.transferencia.monto | number: '1.0-2'"
+        [nzTitle]="totales.transferencia.titulo | translate" [nzSuffix]="'$'"
+        [nzValueStyle]="{ color: (totales.transferencia.monto >= 0)  ? '#3F8600' : '#CF1322' }">
+      </nz-statistic>
+    </div>
+
+    <div nz-col>
+      <nz-statistic [nzValue]="totales.cheque.monto | number: '1.0-2'" [nzTitle]="totales.cheque.titulo | translate"
+        [nzSuffix]="'$'" [nzValueStyle]="{ color: (totales.cheque.monto >= 0)  ? '#3F8600' : '#CF1322' }">
+      </nz-statistic>
+    </div>
+
+    <div nz-col>
+      <nz-statistic [nzValue]="totales.efectivo.monto | number: '1.0-2'" [nzTitle]="totales.efectivo.titulo | translate"
+        [nzSuffix]="'$'" [nzValueStyle]="{ color: (totales.efectivo.monto >= 0)  ? '#3F8600' : '#CF1322' }">
+      </nz-statistic>
+    </div>
+
+    <div nz-col>
+      <nz-statistic [nzValue]="totales.total.monto | number: '1.0-2'" [nzTitle]="totales.total.titulo | translate"
+        [nzSuffix]="'$'" [nzValueStyle]="{ color: (totales.total.monto >= 0)  ? '#3F8600' : '#CF1322' }">
+      </nz-statistic>
+    </div>
+  </div>
+</nz-card>

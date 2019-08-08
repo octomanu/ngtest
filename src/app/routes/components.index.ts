@@ -52,6 +52,12 @@ import { GastosDescripcionesFormComponent } from './gastos-descripciones/gastos-
 import { GastosDescripcionesButtonsComponent } from './gastos-descripciones/gastos-descripciones-buttons/gastos-descripciones-buttons.component';
 import { GastosDescripcionesTableComponent } from './gastos-descripciones/gastos-descripciones-table/gastos-descripciones-table.component';
 import { GastosDescripcionesFilterComponent } from './gastos-descripciones/gastos-descripciones-filter/gastos-descripciones-filter.component';
+import { CajaConsorcioButtonsComponent } from './caja-consorcio/caja-consorcio-buttons/caja-consorcio-buttons.component';
+import { CajaConsorcioTableComponent } from './caja-consorcio/caja-consorcio-table/caja-consorcio-table.component';
+import { EgresoFormComponent } from './caja-consorcio/egreso-form/egreso-form.component';
+import { IngresoFormComponent } from './caja-consorcio/ingreso-form/ingreso-form.component';
+import { CajaConsorcioTotalComponent } from './caja-consorcio/caja-consorcio-total/caja-consorcio-total.component';
+import { CajaConsorcioTableConfigComponent } from './caja-consorcio/caja-consorcio-table-config/caja-consorcio-table-config.component';
 
 export const COMPONENTS = [
   ProveedorFormComponent,
@@ -108,4 +114,10 @@ export const COMPONENTS = [
   GastosDescripcionesButtonsComponent,
   GastosDescripcionesTableComponent,
   GastosDescripcionesFilterComponent,
+  CajaConsorcioButtonsComponent,
+  CajaConsorcioTableComponent,
+  EgresoFormComponent,
+  IngresoFormComponent,
+  CajaConsorcioTotalComponent,
+  CajaConsorcioTableConfigComponent,
 ];

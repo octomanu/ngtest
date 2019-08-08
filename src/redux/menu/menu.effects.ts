@@ -8,6 +8,7 @@ import {
 import { MenuHandlerService } from 'app/utils/menu-handler/menu-handler.service';
 import { switchMap, map } from 'rxjs/operators';
 import * as fromMenu from 'redux/menu/menu.actions';
+import { of } from 'rxjs';
 
 @Injectable()
 export class MenuEffects {
@@ -36,6 +37,20 @@ export class MenuEffects {
         return this.menuHandler.updateMenu(action.menu).pipe(
           map(data => {
             return { type: 'dummy' };
+          }),
+        );
+      }),
+    ),
+  );
+
+  eliminarMenu$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(fromMenu.DELETE_MENU),
+      switchMap((action: fromMenu.DeleteMenuAction) => {
+        return this.menuHandler.deleteMenu().pipe(
+          map((menu: any) => {
+            console.log(menu);
+            return new fromMenu.LoadMenuAction(menu);
           }),
         );
       }),

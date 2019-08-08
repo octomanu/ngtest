@@ -19,7 +19,7 @@
     <i nz-icon nzTheme="outline" type="search"></i>
   </button>
 
-  <nz-form-item *ngIf="descripcionsfilter">
+  <nz-form-item *ngIf="descripcionsfilter" class="animated faster fadeIn">
     <nz-select nzAllowClear nzShowSearch [nzServerSearch]="true" [(ngModel)]="plantilla"
       (nzOnSearch)="searchDescripciones($event)" (ngModelChange)="cargarPlantilla($event)">
       <ng-container *ngFor="let descripcion of descripciones">
@@ -268,7 +268,7 @@
       <!-- <nz-divider [nzText]="'Cuota ' + (i+1)" style="margin: 0px 0;"></nz-divider> -->
       <div nz-row nzType="flex" nzJustify="space-between" [formGroupName]="i">
 
-        <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+        <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
           <nz-form-item>
             <nz-form-label nzRequired>{{ 'Cuota ' + (i+1) }}
             </nz-form-label>
@@ -288,7 +288,7 @@
           </nz-form-item>
         </div>
 
-        <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+        <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
           <nz-form-item>
             <nz-form-label nzRequired>{{ 'global.fecha' | translate }}
             </nz-form-label>
@@ -300,6 +300,16 @@
                   {{ 'global.campo_requerido' | translate }}
                 </ng-container>
               </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+          <nz-form-item>
+            <nz-form-label>{{ 'global.factura' | translate }}
+            </nz-form-label>
+            <nz-form-control>
+              <input formControlName="numero_factura" nz-input>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -357,20 +367,37 @@
 </div>
 
 <ng-template #cuotas_amount_outlet>
-  <nz-form-item>
-    <nz-form-label>{{ 'global.cuotas' | translate }}
-    </nz-form-label>
-    <nz-form-control>
-      <nz-input-group nzCompact>
-        <nz-input-number [nzDisabled]="form.get('monto').errors || !form.get('monto').value || form.get('id').value"
-          [(ngModel)]="cuotasAmount" style="width:100%;" (ngModelChange)="initCuotas($event)" [nzMin]="1" [nzMax]="24"
-          [nzStep]="1" style="width:75%;">
-        </nz-input-number>
-        <button nz-button (click)="openCuotasDrawer()" type="button" class="ant-btn ant-btn-primary"
-          [disabled]="form.get('monto').errors || !form.get('monto').value || cuotasAmount <= 1" style="width:25%;">
-          <i nz-icon type="profile"></i>
-        </button>
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label>{{ 'global.factura' | translate }}
+        </nz-form-label>
+        <nz-form-control>
+
+          <input nz-input [(ngModel)]="factura" (ngModelChange)="changeFactura()" />
+
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label>{{ 'global.cuotas' | translate }}
+        </nz-form-label>
+        <nz-form-control>
+          <nz-input-group nzCompact>
+            <nz-input-number [nzDisabled]="form.get('monto').errors || !form.get('monto').value || form.get('id').value"
+              [(ngModel)]="cuotasAmount" style="width:100%;" (ngModelChange)="initCuotas($event)" [nzMin]="1"
+              [nzMax]="24" [nzStep]="1" style="width:75%;">
+            </nz-input-number>
+            <button nz-button (click)="openCuotasDrawer()" type="button" class="ant-btn ant-btn-primary"
+              [disabled]="form.get('monto').errors || !form.get('monto').value || cuotasAmount <= 1" style="width:25%;">
+              <i nz-icon type="profile"></i>
+            </button>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
 </ng-template>

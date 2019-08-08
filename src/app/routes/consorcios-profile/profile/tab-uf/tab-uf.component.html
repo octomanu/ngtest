@@ -1,24 +1,17 @@
-<div class="table-operations onlysmall">
+<div class="table-operations" nzType="flex" nz-row nzJustify="end">
+  <button nz-col nz-button (click)="_openFilter()" class="onlysmall">
+    {{'global.buscar' | translate}}
+  </button>
 
-  <nz-dropdown [nzTrigger]="'click'">
-    <button nz-button nz-dropdown nzShape="circle">
-      <i nz-icon nzTheme="outline" type="bars"></i>
-    </button>
-    <ul nz-menu>
-      <li nz-menu-item (click)="_openForm()">
-        <span>{{ 'global.crear' | translate }}</span>
-      </li>
-      <li nz-menu-item (click)="clearFilter()">
-        <span>{{ 'global.limpiar_filtros' | translate }}</span>
-      </li>
-    </ul>
-  </nz-dropdown>
+  <button nz-col nz-button (click)="clearFilter()" class="onlysmall">
+    {{'global.limpiar_filtros' | translate}}
+  </button>
 
-  <!-- Muestra filtros de busqueda -->
-  <button nz-button nz-dropdown nzShape="circle" (click)="_openFilter()">
-    <i nz-icon nzTheme="outline" type="search"></i>
+  <button nz-col nz-button (click)="_openForm()">
+    {{'global.crear' | translate}}
   </button>
 </div>
+
 
 <div class="table-operations">
   <span *ngFor="let tag of tags | keys ; let i = index">

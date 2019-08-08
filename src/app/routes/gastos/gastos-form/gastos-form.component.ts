@@ -24,6 +24,7 @@ import { GastosDescripcionesService } from '@core/http/gastos-descripciones/gast
 export class GastosFormComponent implements OnInit {
   descripcionsfilter = false;
   plantilla: number;
+  factura: string = null;
   // cuotas
   cuotasVisible = false;
   porcentualesVisible = false;
@@ -121,7 +122,7 @@ export class GastosFormComponent implements OnInit {
         fecha_pago: fechaValue.toDate(),
         id: null,
         numero_cuota: null,
-        id_factura: null,
+        numero_factura: index === 0 ? this.factura : null,
         id_periodo: null,
       });
     }
@@ -219,6 +220,8 @@ export class GastosFormComponent implements OnInit {
             ? moment(cuota.fecha_pago, 'DD-MM-YY').toDate()
             : cuota.fecha_pago;
         }
+
+        this.factura = data.data.cuotas[0].numero_factura;
 
         this.form.setValue(data.data);
         this.porcentajesService
@@ -583,5 +586,11 @@ export class GastosFormComponent implements OnInit {
     this.gastosDescripcionesService.find(id).subscribe((resp: any) => {
       this.form.get('descripcion').setValue(resp.data.descripcion);
     });
+  }
+
+  changeFactura() {
+    const cuotas = this.form.get('cuotas') as FormArray;
+    const value: any = cuotas.controls[0].value;
+    value.numero_factura = this.factura;
   }
 }

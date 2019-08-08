@@ -5,6 +5,7 @@ import * as fromServicios from './servicios/servicios.reducer';
 import * as fromMenu from './menu/menu.reducer';
 import * as fromCuentasBancarias from './cuentas-bancarias/cuentas-bancarias.reducer';
 import * as fromGastosDescripciones from './gastos-descripciones/gastos-descripciones.reducer';
+import * as fromCajaConsorcio from './caja-consorcio/caja-consorcio.reducer';
 
 export interface AppState {
   menuState: fromMenu.MenuState;
@@ -13,6 +14,7 @@ export interface AppState {
   serviciosState: fromServicios.ServiciosState;
   cuentasBancariasState: fromCuentasBancarias.CuentasBancariasState;
   gastosDescripcionesState: fromGastosDescripciones.GastosDescripcionesState;
+  cajaConsorcioState: fromCajaConsorcio.CajaConsorcioState;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
@@ -22,4 +24,5 @@ export const appReducers: ActionReducerMap<AppState> = {
   serviciosState: fromServicios.serviciosReducer,
   cuentasBancariasState: fromCuentasBancarias.CuentasBancariasReducer,
   gastosDescripcionesState: fromGastosDescripciones.GastosDescripcionesReducer,
+  cajaConsorcioState: fromCajaConsorcio.CajaConsorcioReducer,
 };

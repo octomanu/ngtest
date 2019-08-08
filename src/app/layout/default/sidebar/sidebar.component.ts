@@ -17,6 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CrearMenuComponent } from '../crear-menu/crear-menu.component';
 import { MenuState } from 'redux/menu/menu.reducer';
 import { EditarMenuComponent } from '../editar-menu/editar-menu.component';
+import { DeleteMenuAction } from 'redux/menu/menu.actions';
 
 @Component({
   selector: 'layout-sidebar',
@@ -110,6 +111,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   toggleCollapsed(): void {
     this.settings.setLayout('collapsed', !this.settings.layout.collapsed);
+  }
+
+  deleteMenu() {
+    this.store.dispatch(new DeleteMenuAction());
   }
 
   ngOnDestroy(): void {
