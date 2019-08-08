@@ -13,7 +13,7 @@ export class ProveedorForm {
       nombre_fantasia: [null, [Validators.required]],
       direccion: [null, [Validators.required]],
       localidad: [null, [Validators.required]],
-      provincia: [null, [Validators.required]],
+      id_provincia: [null, [Validators.required]],
       codigo_postal: [null, [Validators.required]],
       cuit: [null, [Validators.required]],
       nota: [null, []],

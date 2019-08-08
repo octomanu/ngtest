@@ -53,9 +53,9 @@
   <nz-form-item>
     <nz-form-label nzRequired nzFor="provincia">{{ 'lambe.proveedores.provincia' | translate }}</nz-form-label>
     <nz-form-control nzHasFeedback>
-      <input nz-input formControlName="provincia" id="provincia" placeholder="Provincia">
-      <nz-form-explain *ngIf="form.get('provincia').dirty && form.get('provincia').errors">
-        <ng-container *ngIf="form.get('provincia').hasError('required')">
+      <input nz-input formControlName="id_provincia" id="id_provincia" placeholder="Provincia">
+      <nz-form-explain *ngIf="form.get('id_provincia').dirty && form.get('id_provincia').errors">
+        <ng-container *ngIf="form.get('id_provincia').hasError('required')">
           {{ 'global.campo_requerido' | translate }}
         </ng-container>
       </nz-form-explain>
