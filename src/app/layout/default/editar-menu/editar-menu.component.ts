@@ -24,8 +24,8 @@ export class EditarMenuComponent implements OnInit {
   };
 
   constructor(
-    private fb: FormBuilder,
-    protected cdr: ChangeDetectorRef,
+    public fb: FormBuilder,
+    public cdr: ChangeDetectorRef,
     public store: Store<AppState>,
     public drawerRef: NzDrawerRef,
   ) {}

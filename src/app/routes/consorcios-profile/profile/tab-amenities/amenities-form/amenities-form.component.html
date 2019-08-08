@@ -20,7 +20,7 @@
         <nz-form-label nzRequired nzFor="ubicacion">{{ 'global.ubicacion' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
-          <input nz-input formControlName="ubicacion">
+          <input nz-input formControlName="ubicacion" placeholder="Ejemplo: 1er piso...">
           <nz-form-explain *ngIf="form.get('ubicacion').dirty && form.get('ubicacion').errors">
             <ng-container *ngIf="form.get('ubicacion').hasError('required')">
               {{ 'global.campo_requerido' | translate }}

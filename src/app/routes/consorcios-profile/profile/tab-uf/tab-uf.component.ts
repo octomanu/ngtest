@@ -18,7 +18,7 @@ import { UnidadesFuncionalesFormComponent } from './unidades-funcionales-form/un
 export class TabUfComponent extends TableLambe implements OnInit, OnDestroy {
   @Input() idConsorcio: string;
   drawerContent = UnidadesFuncionalesFormComponent;
-  drawerTitle = 'lambe.porcentuales';
+  drawerTitle = 'global.ufs';
 
   filtroForm = {
     razon_social: null,

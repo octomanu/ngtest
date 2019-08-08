@@ -256,18 +256,37 @@
         </nz-form-item>
       </div>
       <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
-        <!-- <nz-form-item>
-          <nz-form-label nzRequired nzFor="tipo_edificio">{{ 'lambe.consorcios.tipo_edificio' | translate }}
+        <nz-form-item>
+          <nz-form-label nzFor="codigo_pmc">
+            {{ 'global.codigo_pmc' | translate }}
           </nz-form-label>
-          <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="tipo_edificio" id="tipo_edificio">
-            <nz-form-explain *ngIf="form.get('tipo_edificio').dirty && form.get('tipo_edificio').errors">
-              <ng-container *ngIf="form.get('tipo_edificio').hasError('required')">
-                {{ 'global.campo_requerido' | translate }}
-              </ng-container>
-            </nz-form-explain>
+          <nz-form-control>
+            <input nz-input formControlName="codigo_pmc">
           </nz-form-control>
-        </nz-form-item> -->
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+        <nz-form-item>
+          <nz-form-label nzFor="codigo_pme">
+            {{ 'global.codigo_pme' | translate }}
+          </nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="codigo_pme">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+        <nz-form-item>
+          <nz-form-label nzFor="codigo_ep">
+            {{ 'global.codigo_ep' | translate }}
+          </nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="codigo_ep">
+          </nz-form-control>
+        </nz-form-item>
       </div>
     </div>
   </div>

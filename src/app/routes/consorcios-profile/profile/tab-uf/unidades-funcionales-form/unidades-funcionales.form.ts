@@ -14,8 +14,8 @@ export class UnidadesFuncionalesForm {
       depto: [null, [Validators.required]],
       numero: [null, [Validators.required]],
       tipo_uf: [null, [Validators.required]],
-      tipo_perdon_interes: [null, [Validators.required]],
-      estado_legal: [null, [Validators.required]],
+      tipo_perdon_interes: [null, []],
+      estado_legal: [null, []],
       m2: [
         null,
         [
