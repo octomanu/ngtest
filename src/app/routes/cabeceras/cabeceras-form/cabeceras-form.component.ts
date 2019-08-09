@@ -43,7 +43,7 @@ export class CabecerasFormComponent implements OnInit {
 
     if (this.id) {
       this.cabecerasService.find(this.id).subscribe((data: any) => {
-        this.form.setValue(data.data);
+        this.form.setValue(data);
       });
     }
   }

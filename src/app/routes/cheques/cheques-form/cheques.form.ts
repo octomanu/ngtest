@@ -17,6 +17,8 @@ export class ChequesForm {
       monto: [null, [Validators.required, Validators.pattern('[0-9]{1,8}(?:\.[0-9]{1,2})?')]],
       numero: [null, [Validators.required]],
       id_chequera: [null, []],
+      id_consorcio: [null, []],
+      id_unidad_funcional: [null, []],
     });
   }
 }

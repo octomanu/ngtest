@@ -11,7 +11,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { ChequesTableFilterComponent } from '../cheques-table-filter/cheques-table-filter.component';
 import { ChequesFormFields } from './interfaces/cheques-form-fields.interface';
 import { ChequesFormComponent } from '../cheques-form/cheques-form.component';
-import { ChequesForm } from '../cheques-form/cheques.form';
 
 @Component({
   selector: 'app-cheques-table',
@@ -20,7 +19,7 @@ import { ChequesForm } from '../cheques-form/cheques.form';
 })
 export class ChequesTableComponent extends TableLambe
   implements OnInit, OnDestroy {
-  drawerContent = ChequesForm;
+  drawerContent = ChequesFormComponent;
   drawerTitle = 'lambe.cheques';
 
   filtroForm = {

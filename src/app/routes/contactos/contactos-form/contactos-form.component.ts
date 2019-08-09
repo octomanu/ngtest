@@ -43,7 +43,7 @@ export class ContactosFormComponent implements OnInit {
 
     if (this.id) {
       this.contactosService.find(this.id).subscribe((data: any) => {
-        this.form.setValue(data.data);
+        this.form.setValue(data);
       });
     }
   }

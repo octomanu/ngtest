@@ -48,7 +48,7 @@ export class UnidadesFuncionalesFormComponent implements OnInit {
     this.formVisible.emit(true);
     if (this.id) {
       this.unidadesFuncionalesService.find(this.id).subscribe((data: any) => {
-        this.form.setValue(data.data);
+        this.form.setValue(data);
       });
     }
   }

@@ -59,7 +59,8 @@ export class GastosRecurrentesFormComponent implements OnInit {
 
     if (this.id) {
       this.gastosRecurrentesService.find(this.id).subscribe((data: any) => {
-        this.form.setValue(data.data);
+        console.log(data);
+        this.form.setValue(data);
       });
     }
   }

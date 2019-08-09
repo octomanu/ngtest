@@ -37,7 +37,7 @@ export class ServiciosFormComponent implements OnInit, OnDestroy {
 
     if (this.id) {
       this.serviciosService.find(this.id).subscribe((data: any) => {
-        this.form.setValue(data.data);
+        this.form.setValue(data);
       });
     }
   }

@@ -6,6 +6,7 @@ import { NzMessageService, NzDrawerRef, NzDrawerService } from 'ng-zorro-antd';
 import { ChequesService } from '@core/http/cheques/cheques.service';
 import { ChequerasService } from '@core/http/chequeras/chequeras.service';
 import { ConfigFormComponent } from './config-form/config-form.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-cheques-form',
@@ -57,13 +58,21 @@ export class ChequesFormComponent implements OnInit {
     this.formVisible.emit(true);
     if (this.id) {
       this.chequesService.find(this.id).subscribe((data: any) => {
-        this.form.setValue(data.data);
+        console.log(data);
+        this.form.setValue(data);
       });
     }
   }
 
   submit() {
-    const proveedor = this.form.value;
+    const proveedor = { ...this.form.value };
+    proveedor.fecha_emision = moment(proveedor.fecha_emision).format(
+      'DD-MM-YYYY',
+    );
+    proveedor.fecha_deposito = moment(proveedor.fecha_deposito).format(
+      'DD-MM-YYYY',
+    );
+    console.log(proveedor);
     if (proveedor.id) {
       this.chequesService.update(proveedor.id, proveedor).subscribe(data => {
         this.drawerRef.close({ submit: true });

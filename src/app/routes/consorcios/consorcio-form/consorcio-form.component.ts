@@ -44,7 +44,7 @@ export class ConsorcioFormComponent implements OnInit {
     this.formVisible.emit(true);
     if (this.id) {
       this.consorciosService.find(this.id).subscribe((data: any) => {
-        this.form.setValue(data.data);
+        this.form.setValue(data);
       });
     }
   }

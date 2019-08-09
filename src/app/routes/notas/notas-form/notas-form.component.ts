@@ -12,6 +12,7 @@ import { NotasForm } from './notas.form';
 import { NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { NotasService } from '@core/http/notas/notas.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-notas-form',
@@ -42,8 +43,8 @@ export class NotasFormComponent implements OnInit {
     this.initForm();
 
     if (this.id) {
-      this.notasService.find(this.id).subscribe((data: any) => {
-        this.form.setValue(data.data);
+      this.notasService.find(this.id).subscribe((nota: any) => {
+        this.form.setValue(nota);
       });
     }
   }
@@ -53,7 +54,8 @@ export class NotasFormComponent implements OnInit {
   }
 
   submit() {
-    const formData = this.form.value;
+    const formData = { ...this.form.value };
+    formData.fecha_limite = moment(formData.fecha_limite).format('DD-MM-YYYY');
     if (formData.id) {
       this.notasService.update(formData.id, formData).subscribe(data => {
         this.msg.success(`Actualizado!`);

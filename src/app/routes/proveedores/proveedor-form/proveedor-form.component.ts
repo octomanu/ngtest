@@ -35,8 +35,8 @@ export class ProveedorFormComponent implements OnInit {
     this.initForm();
     this.formVisible.emit(true);
     if (this.id) {
-      this.proveedorService.find(this.id).subscribe((resp: any) => {
-        this.form.setValue(resp.data);
+      this.proveedorService.find(this.id).subscribe((data: any) => {
+        this.form.setValue(data);
       });
     }
   }

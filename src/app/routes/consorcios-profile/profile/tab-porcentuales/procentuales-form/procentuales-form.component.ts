@@ -45,7 +45,7 @@ export class ProcentualesFormComponent implements OnInit {
     this.formVisible.emit(true);
     if (this.id) {
       this.porcentajesConsorciosService.find(this.id).subscribe((data: any) => {
-        this.form.setValue(data.data);
+        this.form.setValue(data);
       });
     }
   }

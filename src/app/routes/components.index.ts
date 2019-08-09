@@ -5,7 +5,6 @@ import { ConsorcioFormComponent } from './consorcios/consorcio-form/consorcio-fo
 import { ConsorcioTableComponent } from './consorcios/consorcio-table/consorcio-table.component';
 import { ConsorcioTableFilterComponent } from './consorcios/consorcio-table-filter/consorcio-table-filter.component';
 import { ChequesTableComponent } from './cheques/cheques-table/cheques-table.component';
-import { ChequesFormComponent } from './cheques/cheques-form/cheques-form.component';
 import { ChequesTableFilterComponent } from './cheques/cheques-table-filter/cheques-table-filter.component';
 import { ChequerasTableComponent } from './chequeras/chequeras-table/chequeras-table.component';
 import { ChequerasFormComponent } from './chequeras/chequeras-form/chequeras-form.component';
@@ -58,6 +57,7 @@ import { EgresoFormComponent } from './caja-consorcio/egreso-form/egreso-form.co
 import { IngresoFormComponent } from './caja-consorcio/ingreso-form/ingreso-form.component';
 import { CajaConsorcioTotalComponent } from './caja-consorcio/caja-consorcio-total/caja-consorcio-total.component';
 import { CajaConsorcioTableConfigComponent } from './caja-consorcio/caja-consorcio-table-config/caja-consorcio-table-config.component';
+import { ChequesFormComponent } from './cheques/cheques-form/cheques-form.component';
 
 export const COMPONENTS = [
   ProveedorFormComponent,
@@ -68,7 +68,6 @@ export const COMPONENTS = [
   ConsorcioTableFilterComponent,
   ChequesTableFilterComponent,
   ChequesTableComponent,
-  ChequesFormComponent,
   ConfigFormComponent,
   ChequerasTableComponent,
   ChequerasFormComponent,
@@ -120,4 +119,5 @@ export const COMPONENTS = [
   IngresoFormComponent,
   CajaConsorcioTotalComponent,
   CajaConsorcioTableConfigComponent,
+  ChequesFormComponent
 ];
