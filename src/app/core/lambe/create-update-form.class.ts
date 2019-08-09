@@ -37,7 +37,7 @@ export class CreateUpdateForm implements OnInit {
 
     if (this.id) {
       this.dataService.find(this.id).subscribe((data: any) => {
-        this.form.setValue(data.data);
+        this.form.setValue(data);
       });
     }
   }
@@ -55,7 +55,7 @@ export class CreateUpdateForm implements OnInit {
   }
 
   create() {
-    const formData = this.form.value;
+    const formData = this.getFormData();
     this.dataService.create(formData).subscribe(data => {
       this.initForm();
       this.valueChange.next({ submit: true });
@@ -65,11 +65,15 @@ export class CreateUpdateForm implements OnInit {
   }
 
   update() {
-    const formData = this.form.value;
+    const formData = this.getFormData();
     this.dataService.update(formData.id, formData).subscribe(data => {
       this.msg.success(`Actualizado!`);
       this.valueChange.next({ submit: true });
       this.cdr.detectChanges();
     });
+  }
+
+  getFormData() {
+    return this.form.value;
   }
 }

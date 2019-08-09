@@ -40,9 +40,17 @@
 
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
       <nz-form-item>
-        <nz-form-label nzRequired>{{ 'global.fecha_nacimiento' | translate }}</nz-form-label>
-        <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
-          <input nz-input formControlName="fecha_nacimiento" />
+        <nz-form-label nzRequired nzFor="fecha_nacimiento">{{ 'global.fecha_nacimiento' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-date-picker style="width:100%;" [nzStyle]="{width: '100%'}" formControlName="fecha_nacimiento"
+            nzFormat="dd-MM-yyyy">
+          </nz-date-picker>
+          <nz-form-explain *ngIf="form.get('fecha_nacimiento').dirty && form.get('fecha_nacimiento').errors">
+            <ng-container *ngIf="form.get('fecha_nacimiento').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -59,8 +67,16 @@
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'global.estado' | translate }}</nz-form-label>
-        <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
-          <input nz-input formControlName="estado_empleado" />
+        <nz-form-control nzHasFeedback>
+          <nz-select formControlName="id_estado_empleado">
+            <ng-container *ngFor="let estadoEmpleado of estadoEmpleados">
+              <nz-option *ngIf="!isLoading" [nzValue]="estadoEmpleado.id" [nzLabel]="estadoEmpleado.display">
+              </nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            </nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -68,8 +84,17 @@
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'global.funcion_profesional' | translate }}</nz-form-label>
-        <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
-          <input nz-input formControlName="id_funcion_profesional" />
+        <nz-form-control nzHasFeedback>
+          <nz-select formControlName="id_funcion_profesional" nzShowSearch [nzServerSearch]="true"
+            (nzOnSearch)="searchFuncionesProfesionales($event)">
+            <ng-container *ngFor="let funcionProfesional of funcionesProfesionales">
+              <nz-option *ngIf="!isLoading" [nzValue]="funcionProfesional.id" [nzLabel]="funcionProfesional.display">
+              </nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            </nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -79,6 +104,23 @@
         <nz-form-label nzRequired>{{ 'global.activo' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
           <input nz-input formControlName="activo" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.consorcio' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-select formControlName="id_consorcio" nzShowSearch [nzServerSearch]="true"
+            (nzOnSearch)="searchConsorcios($event)">
+            <ng-container *ngFor="let consorcio of consorcios">
+              <nz-option *ngIf="!isLoading" [nzValue]="consorcio.id" [nzLabel]="consorcio.display"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            </nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
     </div>

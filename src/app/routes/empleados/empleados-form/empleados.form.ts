@@ -16,7 +16,8 @@ export class EmpleadosForm implements CreateUpdateForm {
       cuil: [null, Validators.required],
       fecha_nacimiento: [null, Validators.required],
       numero_legajo: [null, Validators.required],
-      estado_empleado: [null, Validators.required],
+      id_estado_empleado: [1, Validators.required],
+      id_consorcio: [null, Validators.required],
       id_funcion_profesional: [null, Validators.required],
       activo: [true, Validators.required],
     });

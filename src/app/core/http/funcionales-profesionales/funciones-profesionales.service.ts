@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from 'environments/environment';
-import { CrudService } from '../crud-service.class';
 @Injectable({
   providedIn: 'root',
 })
-export class ConsorciosService extends CrudService {
+export class FuncionesProfesionalesService {
   url = `${environment.OCTO_API}/consorcios`;
 
-  getPath() {
-    return 'consorcios';
-  }
+  constructor(public http: HttpClient) {}
 
   searchByDisplay(display: string, id?: string) {
     const URL = `${this.url}/buscar`;
@@ -23,5 +20,8 @@ export class ConsorciosService extends CrudService {
       map((resp: any) => resp.data),
       catchError(err => throwError(err)),
     );
+  }
+  getPath() {
+    return 'funciones-profesionales';
   }
 }

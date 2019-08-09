@@ -187,43 +187,43 @@ export class GastosFormComponent implements OnInit {
     if (this.id) {
       this.gastosService.find(this.id).subscribe((data: any) => {
         console.log(data);
-        this.searchProveedorList(data.data['proveedor-razon_social']);
-        this.searchConsorciosList(data.data['consorcio-display']);
-        this.ufsService.setConsorcio(data.data.id_consorcio);
-        this.porcentajesService.setConsorcio(data.data.id_consorcio);
-        this.cuotasAmount = data.data.cuotas.length;
+        this.searchProveedorList(data['proveedor-razon_social']);
+        this.searchConsorciosList(data['consorcio-display']);
+        this.ufsService.setConsorcio(data.id_consorcio);
+        this.porcentajesService.setConsorcio(data.id_consorcio);
+        this.cuotasAmount = data.cuotas.length;
         this.multiPorcentajes =
-          data.data.porcentuales.length > 1 ? true : false;
+          data.porcentuales.length > 1 ? true : false;
 
         this.searchUfsList('');
         this.form.setControl(
           'porcentuales',
-          this.fb.initPorcentualesChild(data.data.porcentuales.length),
+          this.fb.initPorcentualesChild(data.porcentuales.length),
         );
-        delete data.data['proveedor-razon_social'];
-        delete data.data['consorcio-display'];
+        delete data['proveedor-razon_social'];
+        delete data['consorcio-display'];
 
         this.form.setControl(
           'cuotas',
-          this.fb.initCuotasChild(data.data.cuotas.length),
+          this.fb.initCuotasChild(data.cuotas.length),
         );
-        data.data.consorcios = [data.data.id_consorcio];
-        data.data.unidades_funcionales = [];
-        data.data.id_concepto_gastos = null;
-        delete data.data.id_consorcio;
-        data.data.fecha = data.data.fecha
-          ? moment(data.data.fecha, 'DD-MM-YYYY').toDate()
-          : data.data.fecha;
+        data.consorcios = [data.id_consorcio];
+        data.unidades_funcionales = [];
+        data.id_concepto_gastos = null;
+        delete data.id_consorcio;
+        data.fecha = data.fecha
+          ? moment(data.fecha, 'DD-MM-YYYY').toDate()
+          : data.fecha;
 
-        for (const cuota of data.data.cuotas) {
+        for (const cuota of data.cuotas) {
           cuota.fecha_pago = cuota.fecha_pago
             ? moment(cuota.fecha_pago, 'DD-MM-YY').toDate()
             : cuota.fecha_pago;
         }
 
-        this.factura = data.data.cuotas[0].numero_factura;
+        this.factura = data.cuotas[0].numero_factura;
 
-        this.form.setValue(data.data);
+        this.form.setValue(data);
         this.porcentajesService
           .searchByDisplay('')
           .subscribe((data: { id: number; display: string }[]) => {

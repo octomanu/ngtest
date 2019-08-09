@@ -72,7 +72,12 @@ export abstract class CrudService implements ServicePathGetter {
   find(id: number) {
     const URL = `${environment.OCTO_API}/${this.getPath()}/mostrar/${id}`;
     return this.http.get(URL).pipe(
-      map(resp => resp),
+      map((resp: any) => {
+        if (resp.data) {
+          return resp.data;
+        }
+        return resp;
+      }),
       catchError(err => throwError(err)),
     );
   }
