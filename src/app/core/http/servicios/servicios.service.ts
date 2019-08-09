@@ -80,10 +80,11 @@ export class ServiciosService extends CrudService implements OnInit, OnDestroy {
     return 'servicios';
   }
 
-  searchByDisplay(display: string) {
+  searchByDisplay(display: string, id?: string) {
     const URL = `${environment.OCTO_API}/${this.getPath()}/buscar`;
     let params = new HttpParams();
     params = params.append('display', display);
+    params = id ? params.append('id', id) : params;
     return this.http.get(URL, { params }).pipe(
       map((resp: any) => {
         return resp.data;

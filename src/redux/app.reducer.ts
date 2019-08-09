@@ -6,7 +6,7 @@ import * as fromMenu from './menu/menu.reducer';
 import * as fromCuentasBancarias from './cuentas-bancarias/cuentas-bancarias.reducer';
 import * as fromGastosDescripciones from './gastos-descripciones/gastos-descripciones.reducer';
 import * as fromCajaConsorcio from './caja-consorcio/caja-consorcio.reducer';
-
+import * as fromChequeras from './chequeras/chequeras.reducer';
 export interface AppState {
   menuState: fromMenu.MenuState;
   globalState: fromGlobal.GlobalState;
@@ -15,6 +15,7 @@ export interface AppState {
   cuentasBancariasState: fromCuentasBancarias.CuentasBancariasState;
   gastosDescripcionesState: fromGastosDescripciones.GastosDescripcionesState;
   cajaConsorcioState: fromCajaConsorcio.CajaConsorcioState;
+  chequerasState: fromChequeras.ChequerasState;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
@@ -25,4 +26,5 @@ export const appReducers: ActionReducerMap<AppState> = {
   cuentasBancariasState: fromCuentasBancarias.CuentasBancariasReducer,
   gastosDescripcionesState: fromGastosDescripciones.GastosDescripcionesReducer,
   cajaConsorcioState: fromCajaConsorcio.CajaConsorcioReducer,
+  chequerasState: fromChequeras.ChequerasReducer,
 };

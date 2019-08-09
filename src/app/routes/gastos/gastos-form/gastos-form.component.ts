@@ -167,14 +167,13 @@ export class GastosFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.searchCategoriasList('');
     if (!this.id) {
       this.searchProveedorList('');
       this.searchConsorciosList('');
       this.searchServiciosList('');
-      this.searchCategoriasList('');
       this.searchDescripcionesList('');
     }
-
     this.open();
   }
 
@@ -189,11 +188,11 @@ export class GastosFormComponent implements OnInit {
         console.log(data);
         this.searchProveedorList(data['proveedor-razon_social']);
         this.searchConsorciosList(data['consorcio-display']);
+        this.searchServiciosList('', data['id_servicio']);
         this.ufsService.setConsorcio(data.id_consorcio);
         this.porcentajesService.setConsorcio(data.id_consorcio);
         this.cuotasAmount = data.cuotas.length;
-        this.multiPorcentajes =
-          data.porcentuales.length > 1 ? true : false;
+        this.multiPorcentajes = data.porcentuales.length > 1 ? true : false;
 
         this.searchUfsList('');
         this.form.setControl(
@@ -222,7 +221,6 @@ export class GastosFormComponent implements OnInit {
         }
 
         this.factura = data.cuotas[0].numero_factura;
-
         this.form.setValue(data);
         this.porcentajesService
           .searchByDisplay('')
@@ -466,9 +464,9 @@ export class GastosFormComponent implements OnInit {
       });
   }
 
-  protected searchServiciosList(display: string) {
+  protected searchServiciosList(display: string, id?: string) {
     this.serviciosService
-      .searchByDisplay(display)
+      .searchByDisplay(display, id)
       .subscribe((data: { id: number; display: string }[]) => {
         this.isLoading = false;
         this.servicios = data;
@@ -479,7 +477,6 @@ export class GastosFormComponent implements OnInit {
     this.categoriasService
       .searchByDisplay(display)
       .subscribe((data: { id: number; display: string }[]) => {
-        console.log(data);
         this.isLoading = false;
         this.categorias = data;
       });
@@ -583,8 +580,8 @@ export class GastosFormComponent implements OnInit {
       this.form.get('descripcion').setValue('');
       return;
     }
-    this.gastosDescripcionesService.find(id).subscribe((resp: any) => {
-      this.form.get('descripcion').setValue(resp.data.descripcion);
+    this.gastosDescripcionesService.find(id).subscribe((data: any) => {
+      this.form.get('descripcion').setValue(data.descripcion);
     });
   }
 

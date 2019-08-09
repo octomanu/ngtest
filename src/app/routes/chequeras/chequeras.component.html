@@ -1,4 +1,5 @@
-<page-header [title]=" 'lambe.consorcios.chequeras' | translate "></page-header>
-<nz-card [nzBordered]="false">
-  <app-chequeras-table></app-chequeras-table>
-</nz-card>
+<page-header [title]=" 'global.chequeras' | translate "></page-header>
+
+<app-chequeras-buttons [help]="help" [keepHelp]="keepHelp" [smallViewport]="smallViewport"
+  (openForm)="openForm($event)"></app-chequeras-buttons>
+<app-chequeras-table [help]="help" [keepHelp]="keepHelp" (openForm)="openForm($event)"></app-chequeras-table>
