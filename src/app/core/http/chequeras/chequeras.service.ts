@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { CrudService } from '../crud-service.class';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
@@ -12,16 +12,13 @@ import * as fromChequeras from 'redux/chequeras/chequeras.reducer';
 @Injectable({
   providedIn: 'root',
 })
-export class ChequerasService extends CrudService implements OnInit, OnDestroy {
+export class ChequerasService extends CrudService implements OnDestroy {
   subscription: Subscription;
   filtros: any;
   parametros: PaginatorParamsInterface;
 
   constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
-  }
-
-  ngOnInit() {
     this.subscription = this.store
       .select('serviciosState')
       .subscribe((state: fromChequeras.ChequerasState) => {
@@ -29,6 +26,7 @@ export class ChequerasService extends CrudService implements OnInit, OnDestroy {
         this.parametros = state.paginator.parametros;
       });
   }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

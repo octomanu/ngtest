@@ -12,16 +12,13 @@ import * as fromServicios from 'redux/servicios/servicios.reducer';
 @Injectable({
   providedIn: 'root',
 })
-export class ServiciosService extends CrudService implements OnInit, OnDestroy {
+export class ServiciosService extends CrudService implements OnDestroy {
   subscription: Subscription;
   filtros: any;
   parametros: PaginatorParamsInterface;
 
   constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
-  }
-
-  ngOnInit() {
     this.subscription = this.store
       .select('serviciosState')
       .subscribe((state: fromServicios.ServiciosState) => {
@@ -29,6 +26,7 @@ export class ServiciosService extends CrudService implements OnInit, OnDestroy {
         this.parametros = state.paginator.parametros;
       });
   }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

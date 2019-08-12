@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment.prod';
@@ -11,16 +11,13 @@ import { CuentasBancariasState } from 'redux/cuentas-bancarias/cuentas-bancarias
 @Injectable({
   providedIn: 'root',
 })
-export class CuentasBancariasService extends CrudService
-  implements OnInit, OnDestroy {
+export class CuentasBancariasService extends CrudService implements OnDestroy {
   subscription: Subscription;
   filtros: any;
   parametros: PaginatorParamsInterface;
 
   constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
-  }
-  ngOnInit() {
     this.subscription = this.store
       .select('cuentasBancariasState')
       .subscribe((state: CuentasBancariasState) => {

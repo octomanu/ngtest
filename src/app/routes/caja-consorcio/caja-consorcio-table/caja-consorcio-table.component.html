@@ -48,18 +48,18 @@
           </td>
           <td>
             <strong class="onlysmall">{{ 'global.debe' | translate }}:&nbsp;</strong>
-            {{(data['movimientos_caja_consorcio-tipo_movimiento'] === 'ingreso') ?
+            {{(data['movimientos_caja_consorcio-tipo_movimiento'] === 'egreso') ?
             data['movimientos_caja_consorcio-monto']  : 0}}
 
           </td>
           <td>
             <strong class="onlysmall">{{ 'global.haber' | translate }}:&nbsp;</strong>
-            {{(data['movimientos_caja_consorcio-tipo_movimiento'] === 'egreso') ?
+            {{(data['movimientos_caja_consorcio-tipo_movimiento'] === 'ingreso') ?
             data['movimientos_caja_consorcio-monto']  : 0}}
           </td>
           <td>
             <strong class="onlysmall">{{ 'global.saldo' | translate }}:&nbsp;</strong>
-            -
+            {{ data['saldo'] }}
           </td>
         </tr>
       </ng-template>

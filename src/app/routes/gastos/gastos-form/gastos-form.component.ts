@@ -49,7 +49,6 @@ export class GastosFormComponent implements OnInit {
   protected timeout = null;
   protected keep = { proveedor: false, consorcio: false, gasto: false };
   protected initialized = false;
-  this: any;
   constructor(
     protected fb: GastosForm,
     protected msg: NzMessageService,
@@ -148,23 +147,38 @@ export class GastosFormComponent implements OnInit {
     if (!this.initialized && this.id) {
       return;
     }
+    const cuotas = this.form.get('cuotas') as FormArray;
     const gastoAmount = this.form.get('monto').value;
-    const totalCuotas = this.cuotas.length;
+
+    const totalCuotas = cuotas.length;
     let previousAmount = 0;
     const leftCuotas = totalCuotas - (index + 1);
     if (leftCuotas === 0) {
       return;
     }
     for (let i = 0; i <= index; i++) {
-      previousAmount += parseFloat(this.cuotas[i].monto);
+      previousAmount += parseFloat(cuotas.controls[i].value.monto);
     }
 
     const nextAmount = gastoAmount - previousAmount;
-    const nextValue = nextAmount / leftCuotas;
-
-    for (let j = index + 1; j < totalCuotas; j++) {
+    let nextValue = nextAmount / leftCuotas;
+    nextValue = +nextValue.toFixed(2);
+    let remainder = nextAmount - nextValue * leftCuotas;
+    remainder = +remainder.toFixed(2);
+    console.log('SOBRA:', remainder);
+    let j = index + 1;
+    for (j; j < totalCuotas; j++) {
+      const value = { ...cuotas.controls[j].value, monto: nextValue };
+      cuotas.controls[j].setValue(value);
       this.cuotas[j].monto = nextValue;
     }
+
+    const lastValue = {
+      ...cuotas.controls[j - 1].value,
+      monto: nextValue + remainder,
+    };
+    cuotas.controls[j - 1].setValue(lastValue);
+    this.cdr.detectChanges();
   }
 
   ngOnInit() {

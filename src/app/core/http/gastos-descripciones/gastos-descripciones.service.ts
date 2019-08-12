@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription, Observable, throwError } from 'rxjs';
 import { PaginatorParamsInterface } from 'app/interfaces/local/paginator-params.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -13,15 +13,13 @@ import { map, catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class GastosDescripcionesService extends CrudService
-  implements OnInit, OnDestroy {
+  implements OnDestroy {
   subscription: Subscription;
   filtros: any;
   parametros: PaginatorParamsInterface;
 
   constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
-  }
-  ngOnInit() {
     this.subscription = this.store
       .select('')
       .subscribe((state: GastosDescripcionesState) => {
