@@ -16,6 +16,7 @@ import { ServiciosService } from '@core/http/servicios/servicios.service';
 import { CategoriasService } from '@core/http/categorias/categorias.service';
 import { GastosDescripcionesFormComponent } from 'app/routes/gastos-descripciones/gastos-descripciones-form/gastos-descripciones-form.component';
 import { GastosDescripcionesService } from '@core/http/gastos-descripciones/gastos-descripciones.service';
+
 @Component({
   selector: 'app-gastos-form',
   templateUrl: './gastos-form.component.html',
