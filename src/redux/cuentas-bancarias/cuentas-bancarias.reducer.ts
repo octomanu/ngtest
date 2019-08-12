@@ -3,7 +3,7 @@ import * as fromCbancarias from './cuentas-bancarias.actions';
 
 export interface CuentasBancariasState {
   paginator: LambePaginator;
-  filtros: { descripcion: string };
+  filtros: { banco: string; alias: string; numero_cuenta: string };
   loading: boolean;
   error: any;
   initialized: boolean;
@@ -13,7 +13,7 @@ export interface CuentasBancariasState {
 
 export const initState = {
   paginator: new LambePaginator(),
-  filtros: { descripcion: null },
+  filtros: { banco: null, alias: null, numero_cuenta: null },
   loading: false,
   error: null,
   initialized: false,
@@ -95,7 +95,7 @@ export function CuentasBancariasReducer(
     case fromCbancarias.CHANGE_FILTER:
       return {
         ...state,
-        filtros: { descripcion: action.filter.descripcion },
+        filtros: { ...action.filter },
         loading: true,
       };
 

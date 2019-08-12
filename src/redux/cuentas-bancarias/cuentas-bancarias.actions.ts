@@ -54,7 +54,7 @@ export class CloseFilterAction implements Action {
 
 export class ChangeFilterAction implements Action {
   readonly type = CHANGE_FILTER;
-  constructor(public filter: { descripcion: string }) {}
+  constructor(public filter: { banco: string; alias: string; numero_cuenta: string }) {}
 }
 
 export class DeleteCuentasBancariasAction implements Action {

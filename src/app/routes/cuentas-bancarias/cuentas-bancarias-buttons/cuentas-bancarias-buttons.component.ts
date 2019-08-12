@@ -7,6 +7,7 @@ import { NzDrawerService } from 'ng-zorro-antd';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
 import { ChangeFilterAction } from 'redux/cuentas-bancarias/cuentas-bancarias.actions';
 import { ButtonsComponent } from 'app/routes/classes/ButtonsComponent.class';
+import { CuentasBancariasFilterComponent } from '../cuentas-bancarias-filter/cuentas-bancarias-filter.component';
 
 @Component({
   selector: 'app-cuentas-bancarias-buttons',
@@ -14,8 +15,8 @@ import { ButtonsComponent } from 'app/routes/classes/ButtonsComponent.class';
   styles: [],
 })
 export class CuentasBancariasButtonsComponent extends ButtonsComponent {
-  drawerTitle = 'global.cuenta.bancaria';
-  drawerContent: any;
+  drawerTitle = 'global.cuenta_bancaria';
+  drawerContent = CuentasBancariasFilterComponent;
   tooltips: {
     btnCrear: TemplateRef<TooltipHelpComponent>;
     btnFiltros: TemplateRef<TooltipHelpComponent>;
@@ -35,6 +36,8 @@ export class CuentasBancariasButtonsComponent extends ButtonsComponent {
   }
 
   clearFilter() {
-    this.store.dispatch(new ChangeFilterAction({ descripcion: null }));
+    this.store.dispatch(
+      new ChangeFilterAction({ banco: null, alias: null, numero_cuenta: null }),
+    );
   }
 }

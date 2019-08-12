@@ -165,7 +165,6 @@ export class GastosFormComponent implements OnInit {
     nextValue = +nextValue.toFixed(2);
     let remainder = nextAmount - nextValue * leftCuotas;
     remainder = +remainder.toFixed(2);
-    console.log('SOBRA:', remainder);
     let j = index + 1;
     for (j; j < totalCuotas; j++) {
       const value = { ...cuotas.controls[j].value, monto: nextValue };
