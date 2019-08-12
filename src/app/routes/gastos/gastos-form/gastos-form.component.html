@@ -242,19 +242,24 @@
 
 
   <div nz-row nzType="flex" nzJustify="space-between">
-    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
       <nz-form-item>
         <ng-container [ngTemplateOutlet]="multiPorcentajesCheck"></ng-container>
       </nz-form-item>
     </div>
-    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
       <nz-form-item>
         <label nz-checkbox formControlName="prevision">{{ 'lambe.gastos.prevision' | translate }}</label>
       </nz-form-item>
     </div>
-    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
       <nz-form-item>
         <label nz-checkbox formControlName="prorrateable">{{ 'lambe.gastos.prorrateable' | translate }}</label>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
+      <nz-form-item>
+        <label nz-checkbox formControlName="incluir_periodo_actual">{{ 'global.periodo_actual' | translate }}</label>
       </nz-form-item>
     </div>
   </div>

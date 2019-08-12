@@ -190,12 +190,11 @@
 
 
 
-        <tr (contextmenu)="contextMenu($event, menuRowContainer)" (click)="showForm(i, $event)"
-          [formGroup]="rowForm[i].form">
+        <tr (contextmenu)="contextMenu($event, menuRowContainer)" [formGroup]="rowForm[i].form">
           <ng-template #menuRowContainer>
             <ng-container *ngTemplateOutlet="menuRow; context: { id: data['gastos-id'] }"></ng-container>
           </ng-template>
-          <td *ngIf="table.id_proveedor.show">
+          <td *ngIf="table.id_proveedor.show" (click)="toggleGasto(data['gastos-id'])">
             <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
             {{ data['proveedores-razon_social'] }}
           </td>
@@ -208,7 +207,7 @@
             <strong class="onlysmall">{{ 'lambe.servicio' | translate }}:&nbsp;</strong>
             {{ data['servicios-descripcion'] }}
           </td>
-          <td>
+          <td (click)="showForm(i, $event)">
             <strong class="onlysmall">{{ 'lambe.chequera_nro' | translate }}:&nbsp;</strong>
             <span *ngIf="!rowForm[i].visible">$ {{ data['gastos-monto'] }}</span>
             <nz-form-control nzHasFeedback *ngIf="rowForm[i].visible">
@@ -220,7 +219,7 @@
               </nz-form-explain>
             </nz-form-control>
           </td>
-          <td>
+          <td (click)="showForm(i, $event)">
             <strong class="onlysmall">
               {{ 'lambe.cheques.monto' | translate }}:&nbsp;</strong>
             <span *ngIf="!rowForm[i].visible">{{ data['gastos-fecha'] }}</span>

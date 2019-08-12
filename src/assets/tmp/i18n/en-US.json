@@ -183,6 +183,7 @@
   "global.codigo_pmc": "Pago mis cuentas code",
   "global.codigo_pme": "Pago mi expensa code",
   "global.codigo_ep": "Expensas pagas code",
+  "global.periodo_actual": "Current period",
   "porcentajes_consorcios.oculto_en_expensa": "Hidden in Expenses",
   "porcentajes_consorcios.es_gasto_particular": "Particular Spending",
   "porcentajes_consorcios.oculto_en_prorateo": "Hidden in Prorateo",

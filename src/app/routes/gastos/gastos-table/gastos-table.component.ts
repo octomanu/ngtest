@@ -46,6 +46,7 @@ export class GastosTableComponent extends TableLambe
   proveedores: { id: number; display: string }[];
   consorcios: { id: number; display: string }[];
   masterFilter = { proveedor: '', consorcio: '', gasto: '' };
+  selectedGastos = [];
   constructor(
     msg: NzMessageService,
     translate: TranslateService,
@@ -119,6 +120,16 @@ export class GastosTableComponent extends TableLambe
     });
   }
 
+  toggleGasto(id) {
+    console.log(this.selectedGastos.indexOf(id));
+    if (this.selectedGastos.indexOf(id) === -1) {
+      this.selectedGastos.push(id);
+    } else {
+      this.selectedGastos = this.selectedGastos.filter(gasto => gasto !== id);
+    }
+    console.log(this.selectedGastos);
+  }
+
   _openFilter() {
     this.drawerRef = this.drawerService.create<
       GastosTableFilterComponent
@@ -184,6 +195,7 @@ export class GastosTableComponent extends TableLambe
 
   showForm(i: number, event) {
     // click al imput asi que no hago nada.
+    console.log('CLICKEADO');
     if (
       typeof event.path[0].attributes.formcontrolname === 'object' ||
       event.srcElement.classList[0] === 'ant-calendar-picker-input'

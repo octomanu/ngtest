@@ -17,6 +17,7 @@ export class GastosForm {
       unidades_funcionales: [[], []],
       descripcion: [null, [Validators.required]],
       id_servicio: [null, [Validators.required]],
+      incluir_periodo_actual: [true, [Validators.required]],
       monto: [
         null,
         [
