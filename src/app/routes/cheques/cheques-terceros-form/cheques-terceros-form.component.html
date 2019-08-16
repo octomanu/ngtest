@@ -1,0 +1,69 @@
+<form nz-form [formGroup]="form" [nzLayout]="'horizontal'" (submit)="submit()">
+  <div nz-row nzType="flex" nzJustify="space-between">
+
+    <div nz-col>
+      <nz-form-item>
+        <label nz-checkbox formControlName="cruzado" id="cruzado">{{ 'lambe.cheques.cruzado' | translate }}</label>
+      </nz-form-item>
+    </div>
+
+    <div nz-col>
+      <nz-form-item>
+        <label nz-checkbox formControlName="a_la_orden"
+          id="a_la_orden">{{ 'lambe.cheques.a_la_orden' | translate }}</label>
+      </nz-form-item>
+    </div>
+
+    <div nz-col>
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.numero' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="numero" />
+          <ng-template #userErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+      <nz-form-item>
+        <nz-form-label>{{ 'global.monto' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="monto" />
+          <ng-template #userErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('pattern')">
+              {{ 'global.patron' | translate }} : ########,##
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col>
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="fecha_vencimiento">{{ 'global.fecha_vencimiento' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-date-picker formControlName="fecha_vencimiento" nzFormat="dd/MM/yyyy"></nz-date-picker>
+          <nz-form-explain *ngIf="form.get('fecha_vencimiento').dirty && form.get('fecha_vencimiento').errors">
+            <ng-container *ngIf="form.get('fecha_vencimiento').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+
+  <div class="footer">
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <button nz-button>
+        <span>{{ 'global.cerrar' | translate }}</span>
+      </button>
+    </div>
+  </div>
+</form>

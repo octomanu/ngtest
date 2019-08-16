@@ -192,8 +192,11 @@
 
         <tr (contextmenu)="contextMenu($event, menuRowContainer)" [formGroup]="rowForm[i].form">
           <ng-template #menuRowContainer>
-            <ng-container *ngTemplateOutlet="menuRow; context: { id: data['gastos-id'] }"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="menuRow; context: { id: data['gastos-id'], idCuota: data['gastos_cuotas-id'], montoCuota:  data['gastos_cuotas-monto']}">
+            </ng-container>
           </ng-template>
+
           <td *ngIf="table.id_proveedor.show" (click)="toggleGasto(data['gastos-id'])">
             <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
             {{ data['proveedores-razon_social'] }}
@@ -254,10 +257,13 @@
   </ng-template>
 
   <!-- Menu Row -->
-  <ng-template #menuRow let-id="id">
+  <ng-template #menuRow let-id="id" let-idCuota="idCuota" let-montoCuota="montoCuota">
     <ul nz-menu nzInDropDown>
       <li nz-menu-item (click)="_openForm(id)">
         <a>{{ 'global.editar' | translate }}</a>
+      </li>
+      <li nz-menu-item (click)="openPaymentForm(idCuota, montoCuota)">
+        <a>{{ 'global.pagar' | translate }}</a>
       </li>
       <li nz-menu-item>
         <a nz-popconfirm (nzOnConfirm)="eliminar(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"

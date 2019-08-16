@@ -13,7 +13,15 @@ export class IngresoForm {
       descripcion: [null, Validators.required],
       id_consorcio: [null, []],
       id_unidad_funcional: [null, []],
+      id_cheque: [null, []],
       efectivo: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern('-?[0-9]{1,8}(?:.[0-9]{1,2})?'),
+        ],
+      ],
+      transferencia: [
         null,
         [
           Validators.required,

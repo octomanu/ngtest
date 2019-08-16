@@ -16,6 +16,7 @@ import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import { GastosForm } from './gastos.form';
 import { FormGroup } from '@angular/forms';
 import * as moment from 'moment';
+import { PaymentFormComponent } from '../payment-form/payment-form.component';
 @Component({
   selector: 'app-gastos-table',
   templateUrl: './gastos-table.component.html',
@@ -86,6 +87,15 @@ export class GastosTableComponent extends TableLambe
 
   ngOnDestroy(): void {
     this.unsubscribeBreakPoint();
+  }
+
+  openPaymentForm(idCuota: number, montoCuota: string) {
+    this.drawerService.create({
+      nzTitle: 'Pago de gasto',
+      nzWidth: this.initialDrawerWidth,
+      nzContent: PaymentFormComponent,
+      nzContentParams: { idCuota, montoCuota },
+    });
   }
 
   _openForm(id?: number) {

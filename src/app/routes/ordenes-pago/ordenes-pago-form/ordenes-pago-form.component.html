@@ -1,0 +1,37 @@
+<div *ngIf="currentTab !== 2">
+  <nz-steps [nzCurrent]="currentTab" nzSize="small">
+    <nz-step nzTitle="Datos Basicos" nzIcon="user">
+    </nz-step>
+    <nz-step nzTitle="Facturas" nzIcon="solution"></nz-step>
+  </nz-steps>
+
+  <div nz-row nzType="flex" nzJustify="space-between" class="space-top">
+
+    <nz-statistic [nzValue]="totalOrden" [nzPrefix]="('Total' | translate) + ' $'"></nz-statistic>
+
+
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <button nz-button (click)="moveTab()">
+        <i *ngIf="currentTab === 1" nz-icon nzType="left" nzTheme="outline"></i>
+
+        <i *ngIf="currentTab === 0" nz-icon nzType="right" nzTheme="outline"></i>
+      </button>
+
+      <button nz-button nzType="primary" (click)="submit()" *ngIf="formData.valid && facturas.length > 0">
+        {{'global.guardar' | translate}}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<app-datos-basicos-tab *ngIf="currentTab === 0" [formData]="formData.value" (formValue)="formData = $event">
+</app-datos-basicos-tab>
+
+<app-facturas-tab *ngIf="currentTab === 1" [initTotal]="totalOrden" [initFacturas]="facturas"
+  (total)="totalOrden = $event" (facturas)="facturas = $event">
+</app-facturas-tab>
+
+<app-success-tab [totalFacturas]="facturas.length" [total]="totalOrden" (crear)="init()" (cerrar)="drawerRef.close()"
+  *ngIf="currentTab === 2"></app-success-tab>

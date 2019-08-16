@@ -1,0 +1,7 @@
+<page-header [title]=" 'global.ordenes_pago' | translate "></page-header>
+
+<app-ordenes-pago-buttons [help]="help" [keepHelp]="keepHelp" [smallViewport]="smallViewport"
+  (openForm)="openForm($event)"></app-ordenes-pago-buttons>
+<app-ordenes-pago-table (payOrder)="openPaymentForm($event)" [help]="help" [keepHelp]="keepHelp"
+  (openForm)="openForm($event)">
+</app-ordenes-pago-table>

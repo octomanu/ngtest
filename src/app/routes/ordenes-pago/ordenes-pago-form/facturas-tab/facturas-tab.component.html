@@ -1,0 +1,38 @@
+<nz-card [nzBordered]="false">
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
+    [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
+    nzPaginationPosition="bottom" (nzPageIndexChange)="searchData()" [nzSize]="'small'" [nzBordered]="'false'"
+    [nzScroll]="{ x: '100%' }">
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="tableLambe.data" let-i="index">
+        <tr (click)="toggleFactura(data['facturas_proveedor-id'], data['gastos_cuotas-monto'])">
+          <td class="pointer">
+            <nz-descriptions [nzTitle]="title" nzSize="small" nzColumn="4">
+              <nz-descriptions-item nzTitle="Cuota">
+                {{data['gastos_cuotas-numero_cuota']}}
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Fecha">
+                {{data['gastos_cuotas-fecha_pago']}}
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Monto">
+                {{data['gastos_cuotas-monto']}} $
+              </nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Consorcio">
+                {{data['consorcios-nombre_fantasia'] | slice:0:20}}
+              </nz-descriptions-item>
+
+
+            </nz-descriptions>
+          </td>
+        </tr>
+        <ng-template #title>
+          <nz-tag *ngIf="facturas$.indexOf(data['facturas_proveedor-id']) !== -1" [nzColor]="'green'"><i nz-icon
+              nzType="check" nzTheme="outline"></i></nz-tag>
+          # {{data['facturas_proveedor-numero_factura']}} Gasto: {{data['gastos-descripcion']}}
+        </ng-template>
+      </ng-template>
+
+
+    </tbody>
+  </nz-table>
+</nz-card>

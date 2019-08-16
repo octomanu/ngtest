@@ -1,0 +1,76 @@
+<nz-card [nzBordered]="false">
+  <app-servicios-tags></app-servicios-tags>
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
+    [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
+    (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+
+      <tr nz-tooltip [nzVisible]="keepHelp" [nzTitle]="(keepHelp || help) ? tooltips.tableHeader: ''">
+        <th nzCustomFilter nzShowSort nzSortKey="descripcion">
+          <span>{{ 'global.proveedor' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="descripcion">
+          <span>{{ 'global.descripcion' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="descripcion">
+          <span>{{ 'global.estado' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="descripcion">
+          <span>{{ 'global.monto' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="descripcion">
+          <span>{{ 'global.fecha' | translate }}</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tooltip [nzVisible]="keepHelp" nzPlacement="topRight"
+      [nzTitle]="help || keepHelp ? tooltips.tableBody : ''">
+      <ng-template ngFor let-data [ngForOf]="tableLambe.data" let-i="index">
+        <tr (contextmenu)="contextMenu($event, menuRowContainer)">
+          <ng-template #menuRowContainer>
+            <ng-container *ngTemplateOutlet="menuRow; context: { id: data['id'] }"></ng-container>
+          </ng-template>
+          <td>
+            <strong class="onlysmall">{{ 'global.proveedor' | translate }}:&nbsp;</strong>
+            {{ data['id_proveedor'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.descripcion' | translate }}:&nbsp;</strong>
+            {{ data['descripcion'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.estado' | translate }}:&nbsp;</strong>
+            {{ data['estado'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.monto' | translate }}:&nbsp;</strong>
+            {{ data['valor'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.fecha' | translate }}:&nbsp;</strong>
+            {{ data['fecha'] }}
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<!-- Menu Row -->
+<ng-template #menuRow let-id="id">
+  <ul nz-menu nzInDropDown>
+    <li nz-menu-item (click)="editar(id)">
+      <a>{{ 'global.editar' | translate }}</a>
+    </li>
+    <li nz-menu-item (click)="pay(id)">
+      <a>{{ 'global.pagar' | translate }}</a>
+    </li>
+    <li nz-menu-item>
+      <a nz-popconfirm (nzOnConfirm)="eliminar(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
+        [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
+      <ng-template #iconTpl>
+        <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+      </ng-template>
+    </li>
+  </ul>
+</ng-template>

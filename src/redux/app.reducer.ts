@@ -7,6 +7,8 @@ import * as fromCuentasBancarias from './cuentas-bancarias/cuentas-bancarias.red
 import * as fromGastosDescripciones from './gastos-descripciones/gastos-descripciones.reducer';
 import * as fromCajaConsorcio from './caja-consorcio/caja-consorcio.reducer';
 import * as fromChequeras from './chequeras/chequeras.reducer';
+import * as fromOrdenesPago from './ordenes-pago/ordenes-pago.reducer';
+
 export interface AppState {
   menuState: fromMenu.MenuState;
   globalState: fromGlobal.GlobalState;
@@ -16,6 +18,7 @@ export interface AppState {
   gastosDescripcionesState: fromGastosDescripciones.GastosDescripcionesState;
   cajaConsorcioState: fromCajaConsorcio.CajaConsorcioState;
   chequerasState: fromChequeras.ChequerasState;
+  ordenesPagoState: fromOrdenesPago.OrdenesPagoState;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
@@ -27,4 +30,5 @@ export const appReducers: ActionReducerMap<AppState> = {
   gastosDescripcionesState: fromGastosDescripciones.GastosDescripcionesReducer,
   cajaConsorcioState: fromCajaConsorcio.CajaConsorcioReducer,
   chequerasState: fromChequeras.ChequerasReducer,
+  ordenesPagoState: fromOrdenesPago.OrdenesPagoReducer,
 };

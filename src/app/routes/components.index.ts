@@ -58,6 +58,18 @@ import { IngresoFormComponent } from './caja-consorcio/ingreso-form/ingreso-form
 import { CajaConsorcioTotalComponent } from './caja-consorcio/caja-consorcio-total/caja-consorcio-total.component';
 import { CajaConsorcioTableConfigComponent } from './caja-consorcio/caja-consorcio-table-config/caja-consorcio-table-config.component';
 import { ChequesFormComponent } from './cheques/cheques-form/cheques-form.component';
+import { OrdenesPagoButtonsComponent } from './ordenes-pago/ordenes-pago-buttons/ordenes-pago-buttons.component';
+import { ChequerasTagsComponent } from './chequeras/chequeras-tags/chequeras-tags.component';
+import { ChequerasButtonsComponent } from './chequeras/chequeras-buttons/chequeras-buttons.component';
+import { OrdenesPagoFilterComponent } from './ordenes-pago/ordenes-pago-filter/ordenes-pago-filter.component';
+import { OrdenesPagoFormComponent } from './ordenes-pago/ordenes-pago-form/ordenes-pago-form.component';
+import { OrdenesPagoTableComponent } from './ordenes-pago/ordenes-pago-table/ordenes-pago-table.component';
+import { OrdenesPagoTagsComponent } from './ordenes-pago/ordenes-pago-tags/ordenes-pago-tags.component';
+import { SuccessTabComponent } from './ordenes-pago/ordenes-pago-form/success-tab/success-tab.component';
+import { DatosBasicosTabComponent } from './ordenes-pago/ordenes-pago-form/datos-basicos-tab/datos-basicos-tab.component';
+import { FacturasTabComponent } from './ordenes-pago/ordenes-pago-form/facturas-tab/facturas-tab.component';
+import { PaymentFormComponent } from './gastos/payment-form/payment-form.component';
+import { ChequesTercerosFormComponent } from './cheques/cheques-terceros-form/cheques-terceros-form.component';
 
 export const COMPONENTS = [
   ProveedorFormComponent,
@@ -119,5 +131,17 @@ export const COMPONENTS = [
   IngresoFormComponent,
   CajaConsorcioTotalComponent,
   CajaConsorcioTableConfigComponent,
-  ChequesFormComponent
+  ChequesFormComponent,
+  ChequerasTagsComponent,
+  ChequerasButtonsComponent,
+  OrdenesPagoFilterComponent,
+  OrdenesPagoFormComponent,
+  OrdenesPagoTableComponent,
+  OrdenesPagoTagsComponent,
+  OrdenesPagoButtonsComponent,
+  SuccessTabComponent,
+  DatosBasicosTabComponent,
+  FacturasTabComponent,
+  PaymentFormComponent,
+  ChequesTercerosFormComponent,
 ];

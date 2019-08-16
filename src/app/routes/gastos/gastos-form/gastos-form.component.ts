@@ -191,13 +191,13 @@ export class GastosFormComponent implements OnInit {
     this.open();
   }
 
-  initForm() {
-    this.form = this.fb.getForm();
+  initForm(edit?: boolean) {
+    this.form = this.fb.getForm(edit);
   }
   open() {
-    this.initForm();
     this.formVisible.emit(true);
     if (this.id) {
+      this.initForm(true);
       this.gastosService.find(this.id).subscribe((data: any) => {
         console.log(data);
         this.searchProveedorList(data['proveedor-razon_social']);
@@ -255,6 +255,7 @@ export class GastosFormComponent implements OnInit {
         // }
       });
     } else {
+      this.initForm();
       this.initCuotas();
     }
   }

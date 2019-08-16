@@ -7,8 +7,8 @@ import * as moment from 'moment';
 })
 export class GastosForm {
   constructor(private fb: FormBuilder) {}
-  getForm(): FormGroup {
-    return this.fb.group({
+  getForm(edit?: boolean): FormGroup {
+    const form = this.fb.group({
       id: [null, []],
       id_proveedor: [null, []],
       id_categoria: [null, [Validators.required]],
@@ -31,6 +31,11 @@ export class GastosForm {
       cuotas: this.initCuotasChild(),
       porcentuales: this.initPorcentualesChild(),
     });
+    if (edit) {
+      form.removeControl('incluir_periodo_actual');
+    }
+    console.log(edit, form);
+    return form;
   }
 
   initPorcentualesChild(amount = 0) {
@@ -96,12 +101,12 @@ export class GastosForm {
   }
 
   protected resolveMultiple(form: FormGroup, multiple: boolean) {
-    const gasto = form.value;
+    const gasto = { ...form.value };
     return gasto;
   }
 
   protected resolveSingle(form: FormGroup, multiple: boolean) {
-    const gasto = form.value;
+    const gasto = { ...form.value };
     gasto.porcentuales = [];
     console.log(gasto.id_concepto_gastos);
     if (gasto.id_concepto_gastos) {

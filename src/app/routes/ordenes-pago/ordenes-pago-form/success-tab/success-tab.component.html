@@ -1,0 +1,17 @@
+  <result type="success" [title]="'Orden creada'" description="Resumen de la orden" [extra]="resultExtra"
+    class="animated faster fadeIn">
+    <ng-template #resultExtra>
+      <div nz-row [nzGutter]="16" class="mb-md">
+        <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12" [nzLg]="12" [nzXl]="12">
+          <span class="text-grey-darker">Nro de facturas：</span>
+          {{totalFacturas}}
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12" [nzLg]="12" [nzXl]="12">
+          <span class="text-grey-darker">Monto total：</span>
+          {{total}}
+        </div>
+      </div>
+    </ng-template>
+    <button (click)="crear.emit()" nz-button [nzType]="'primary'">Crear nueva orden</button>
+    <button (click)="cerrar.emit()" nz-button>Cerrar</button>
+  </result>

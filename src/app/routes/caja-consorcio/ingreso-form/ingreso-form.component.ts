@@ -4,13 +4,15 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { IngresoForm } from './ingreso.form';
-import { NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
+import { NzMessageService, NzDrawerRef, NzDrawerService } from 'ng-zorro-antd';
 import { CajaConsorcioService } from '@core/http/caja-consorcio/caja-consorcio.service';
 import { GlobalState } from 'redux/global/globa.reducer';
 import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unidades-funcionales.service';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import * as moment from 'moment';
 import { LoadCajaConsorcioAction } from 'redux/caja-consorcio/caja-consorcio.actions';
+import { ChequesTercerosFormComponent } from 'app/routes/cheques/cheques-terceros-form/cheques-terceros-form.component';
+import { ChequesTercerosService } from '@core/http/cheques-terceros.service';
 
 @Component({
   selector: 'app-ingreso-form',
@@ -24,6 +26,7 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
   isLoading = false;
   timeout = null;
   consorcios: { id: number; display: string }[];
+  cheques: { id: number; display: string; monto: number }[];
   ufs: { id: number; display: string }[];
 
   constructor(
@@ -32,14 +35,16 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
     public msg: NzMessageService,
     public drawerRef: NzDrawerRef<{ submit: boolean }>,
     public cajaConsorcioService: CajaConsorcioService,
+    public chequesTercerosService: ChequesTercerosService,
     public ufsService: UnidadesFuncionalesService,
     public consorciosService: ConsorciosService,
+    public drawerService: NzDrawerService,
   ) {}
 
   ngOnInit() {
-    console.log(this.type);
     this.initForm();
     this.searchConsorciosList('');
+    this.searchChequesTercerosList('');
     this.drawerRef.afterOpen.subscribe(() => {
       this.subscripcion = this.store
         .select('globalState')
@@ -49,13 +54,16 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnDestroy() {
+    this.subscripcion.unsubscribe();
+  }
+
   initForm() {
     this.form = this.fb.getForm();
   }
 
   submit() {
     const ingreso = this.buildIngreso();
-    console.log(ingreso);
     if (this.type === 'ingreso') {
       this.cajaConsorcioService
         .createIngreso(ingreso)
@@ -74,21 +82,57 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
   }
 
   buildIngreso() {
+    const lineas: any[] = [];
     const formValue = this.form.value;
-    const efectivo = formValue.efectivo ? parseInt(formValue.efectivo, 10) : 0;
+    const efectivo = formValue.efectivo ? parseFloat(formValue.efectivo) : 0;
+    const transferencia = formValue.transferencia
+      ? parseInt(formValue.transferencia)
+      : 0;
+
+    lineas.push(
+      {
+        monto: efectivo,
+        metodo: 'efectivo',
+      },
+      {
+        monto: transferencia,
+        metodo: 'transferencia',
+      },
+    );
+
+    if (formValue.id_cheque) {
+      lineas.push({
+        monto: formValue.id_cheque.monto,
+        metodo: 'cheque',
+        id_cheque_externo: formValue.id_cheque.id,
+      });
+    }
+
     const ingreso = {
       fecha: moment(formValue.fecha).format('DD-MM-YYYY'),
       descripcion: formValue.descripcion,
-      monto: efectivo,
+      monto:
+        (efectivo * 10 + transferencia * 10 + formValue.id_cheque.monto * 10) /
+        10,
       id_consorcio: formValue.id_consorcio,
-      lineas: [{ monto: efectivo, metodo: 'efectivo' }],
+      lineas,
     };
 
     if (formValue.id_unidad_funcional) {
-      return { ...ingreso, id_unidad_funcional: formValue.id_unidad_funcional };
+      return {
+        ...ingreso,
+        id_unidad_funcional: formValue.id_unidad_funcional,
+      };
     }
 
     return ingreso;
+  }
+
+  openChequeForm() {
+    const drawerConfigForm = this.drawerService.create({
+      nzTitle: 'global cheque',
+      nzContent: ChequesTercerosFormComponent,
+    });
   }
 
   changeConsorcio() {
@@ -120,12 +164,32 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
     }, 400);
   }
 
+  searchChequesTerceros(display: string) {
+    if (this.timeout) {
+      window.clearTimeout(this.timeout);
+    }
+    this.timeout = window.setTimeout(() => {
+      this.timeout = null;
+      this.isLoading = true;
+      this.searchChequesTercerosList(display);
+    }, 400);
+  }
+
   protected searchConsorciosList(display: string) {
     this.consorciosService
       .searchByDisplay(display)
       .subscribe((data: { id: number; display: string }[]) => {
         this.isLoading = false;
         this.consorcios = data;
+      });
+  }
+
+  protected searchChequesTercerosList(display: string) {
+    this.chequesTercerosService
+      .searchByDisplay(display)
+      .subscribe((data: { id: number; display: string; monto: number }[]) => {
+        this.isLoading = false;
+        this.cheques = data;
       });
   }
 
@@ -136,9 +200,5 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         this.ufs = data;
       });
-  }
-
-  ngOnDestroy() {
-    this.subscripcion.unsubscribe();
   }
 }
