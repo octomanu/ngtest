@@ -3,22 +3,23 @@ import {
   OnInit,
   TemplateRef,
   ViewContainerRef,
+  Input,
 } from '@angular/core';
 import { TableComponent } from 'app/classes/table-component.class';
 import { TooltipHelpComponent } from '@shared/components/tooltip-help/tooltip-help.component';
-import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
+import { Store } from '@ngrx/store';
 import { NzDropdownService } from 'ng-zorro-antd';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
-import { CajaConsorcioState } from 'redux/caja-consorcio/caja-consorcio.reducer';
-import * as ccActions from 'redux/caja-consorcio/caja-consorcio.actions';
+import { CuentaCorrienteProveedorState } from 'redux/cuenta-corriente-proveedor/cuenta-corriente-proveedor.reducer';
+import * as ccpActions from 'redux/cuenta-corriente-proveedor/cuenta-corriente-proveedor.actions';
 
 @Component({
-  selector: 'app-caja-consorcio-table',
-  templateUrl: './caja-consorcio-table.component.html',
+  selector: 'app-cuenta-corriente-proveedor-table',
+  templateUrl: './cuenta-corriente-proveedor-table.component.html',
   styles: [],
 })
-export class CajaConsorcioTableComponent extends TableComponent
+export class CuentaCorrienteProveedorTableComponent extends TableComponent
   implements OnInit {
   tooltips: {
     tableHeader: TemplateRef<TooltipHelpComponent>;
@@ -38,23 +39,33 @@ export class CajaConsorcioTableComponent extends TableComponent
 
   ngOnInit() {
     const sub = this.store
-      .select('cajaConsorcioState')
-      .subscribe((state: CajaConsorcioState) => {
-        if (!state.initialized) {
-          this.store.dispatch(new ccActions.LoadCajaConsorcioAction());
+      .select('cuentaCorrienteProveedor')
+      .subscribe((state: CuentaCorrienteProveedorState) => {
+        if (state.id_proveedor) {
+          this.tableLambe.data = state.paginator.data;
+          this.tableLambe.loading = state.loading;
+          this.tableLambe.total = state.paginator.recordsFiltered;
+          this.paginatorParams = { ...state.paginator.parametros };
+        } else {
+          this.tableLambe.data = [];
+          this.tableLambe.loading = false;
+          this.tableLambe.total = 0;
+          this.paginatorParams = {
+            page: null,
+            page_size: null,
+            sort_field: null,
+            sort_order: null,
+          };
         }
-        console.log(state);
-        this.tableLambe.data = state.paginator.data;
-        this.tableLambe.loading = state.loading;
-        this.tableLambe.total = state.paginator.recordsFiltered;
-        this.paginatorParams = { ...state.paginator.parametros };
       });
 
     this.subscripctions.push(sub);
   }
 
   pageChange(page: number) {
-    this.store.dispatch(new ccActions.ChangeParamsAction(this.paginatorParams));
+    this.store.dispatch(
+      new ccpActions.ChangeParamsAction(this.paginatorParams),
+    );
   }
 
   editar(id: number) {
@@ -62,7 +73,7 @@ export class CajaConsorcioTableComponent extends TableComponent
   }
 
   changeOrder(field: string, order: string) {
-    this.store.dispatch(new ccActions.ChangeOrderAction(field, order));
+    this.store.dispatch(new ccpActions.ChangeOrderAction(field, order));
   }
 
   contextMenu($event: MouseEvent, template: TemplateRef<void>) {

@@ -25,6 +25,8 @@ import { CuentasBancariasComponent } from './cuentas-bancarias/cuentas-bancarias
 import { GastosDescripcionesComponent } from './gastos-descripciones/gastos-descripciones.component';
 import { CajaConsorcioComponent } from './caja-consorcio/caja-consorcio.component';
 import { OrdenesPagoComponent } from './ordenes-pago/ordenes-pago.component';
+import { CuentaCorrienteProveedorComponent } from './cuenta-corriente-proveedor/cuenta-corriente-proveedor.component';
+import { CuentaCorrienteConsorcioComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio.component';
 
 export const ROUTE_COMPONENTS = [
   DashboardComponent,
@@ -54,4 +56,6 @@ export const ROUTE_COMPONENTS = [
   GastosDescripcionesComponent,
   CajaConsorcioComponent,
   OrdenesPagoComponent,
+  CuentaCorrienteProveedorComponent,
+  CuentaCorrienteConsorcioComponent,
 ];

@@ -186,6 +186,7 @@
   "global.periodo_actual": "Current period",
   "global.proveedor": "Provider",
   "global.ordenes_pago": "Payment orders",
+  "global.cuenta_corriente_proveedor": "Supplier Current Account",
   "porcentajes_consorcios.oculto_en_expensa": "Hidden in Expenses",
   "porcentajes_consorcios.es_gasto_particular": "Particular Spending",
   "porcentajes_consorcios.oculto_en_prorateo": "Hidden in Prorateo",

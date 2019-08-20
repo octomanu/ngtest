@@ -1,0 +1,34 @@
+<div class="table-operations" nzType="flex" nz-row nzJustify="space-between">
+
+  <div nz-col nzType="flex" nz-row nzJustify="start">
+    <button nz-col nz-button nz-dropdown (click)="openFilter()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="left"
+      [nzTitle]=" (keepHelp || help) ? tooltips.btnFiltros: ''">
+      <i nz-icon nzTheme="outline" type="search"></i>
+    </button>
+    <button nz-col nz-button nz-dropdown (click)="clearFilter()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="right"
+      [nzTitle]=" (keepHelp || help) ? tooltips.btnNoFltros: ''">
+      <i nz-icon nzTheme="outline" type="delete"></i>
+    </button>
+  </div>
+
+  <div nz-col nzType="flex" nz-row nzJustify="center">
+    <nz-select nz-col nz [(ngModel)]="idProveedor" nzShowSearch [nzServerSearch]="true"
+      [nzPlaceHolder]="'global.proveedor' | translate" (nzOnSearch)="searchProveedores($event)"
+      (ngModelChange)="changeProveedor()">
+      <ng-container *ngFor="let proveedor of proveedores">
+        <nz-option *ngIf="!isLoading" [nzValue]="proveedor.id" [nzLabel]="proveedor.display"></nz-option>
+      </ng-container>
+      <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+        <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+      </nz-option>
+    </nz-select>
+  </div>
+
+  <div nz-col nzType="flex" nz-row nzJustify="end">
+    <!-- <button nz-col nz-button nz-dropdown (click)="crear()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="left"
+      [nzTitle]=" (keepHelp || help) ? tooltips.btnCrear: ''">
+      <i nz-icon nzTheme="outline" type="plus"></i>
+    </button> -->
+  </div>
+
+</div>

@@ -1,0 +1,41 @@
+<nz-card [nzBordered]="false">
+  <app-cuenta-corriente-proveedor-tags></app-cuenta-corriente-proveedor-tags>
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
+    [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
+    (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+
+      <tr nz-tooltip [nzVisible]="keepHelp" [nzTitle]="(keepHelp || help) ? tooltips.tableHeader: ''">
+        <th nzCustomFilter nzShowSort nzSortKey="descripcion">
+          <span>{{ 'global.descripcion' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="descripcion">
+          <span>{{ 'global.fecha' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="descripcion">
+          <span>{{ 'global.monto' | translate }}</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tooltip [nzVisible]="keepHelp" nzPlacement="topRight"
+      [nzTitle]="help || keepHelp ? tooltips.tableBody : ''">
+      <ng-template ngFor let-data [ngForOf]="tableLambe.data" let-i="index">
+        <tr>
+          <td>
+            <strong class="onlysmall">{{ 'global.banco' | translate }}:&nbsp;</strong>
+            {{ data['descripcion'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.alias' | translate }}:&nbsp;</strong>
+            {{ data['fecha'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.numero_cuenta' | translate }}:&nbsp;</strong>
+            {{(data['tipo_transaccion'] === 'egreso') ?
+              '- '  : ''}} $ {{ data['monto']}}
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</nz-card>

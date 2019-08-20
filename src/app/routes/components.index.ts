@@ -70,6 +70,16 @@ import { DatosBasicosTabComponent } from './ordenes-pago/ordenes-pago-form/datos
 import { FacturasTabComponent } from './ordenes-pago/ordenes-pago-form/facturas-tab/facturas-tab.component';
 import { PaymentFormComponent } from './gastos/payment-form/payment-form.component';
 import { ChequesTercerosFormComponent } from './cheques/cheques-terceros-form/cheques-terceros-form.component';
+import { CuentaCorrienteProveedorTagsComponent } from './cuenta-corriente-proveedor/cuenta-corriente-proveedor-tags/cuenta-corriente-proveedor-tags.component';
+import { CuentaCorrienteProveedorTableComponent } from './cuenta-corriente-proveedor/cuenta-corriente-proveedor-table/cuenta-corriente-proveedor-table.component';
+import { CuentaCorrienteProveedorFormComponent } from './cuenta-corriente-proveedor/cuenta-corriente-proveedor-form/cuenta-corriente-proveedor-form.component';
+import { CuentaCorrienteProveedorFilterComponent } from './cuenta-corriente-proveedor/cuenta-corriente-proveedor-filter/cuenta-corriente-proveedor-filter.component';
+import { CuentaCorrienteProveedorButtonsComponent } from './cuenta-corriente-proveedor/cuenta-corriente-proveedor-buttons/cuenta-corriente-proveedor-buttons.component';
+import { CuentaCorrienteConsorcioButtonsComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio-buttons/cuenta-corriente-consorcio-buttons.component';
+import { CuentaCorrienteConsorcioFilterComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio-filter/cuenta-corriente-consorcio-filter.component';
+import { CuentaCorrienteConsorcioFormComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio-form/cuenta-corriente-consorcio-form.component';
+import { CuentaCorrienteConsorcioTableComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio-table/cuenta-corriente-consorcio-table.component';
+import { CuentaCorrienteConsorcioTagsComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio-tags/cuenta-corriente-consorcio-tags.component';
 
 export const COMPONENTS = [
   ProveedorFormComponent,
@@ -144,4 +154,14 @@ export const COMPONENTS = [
   FacturasTabComponent,
   PaymentFormComponent,
   ChequesTercerosFormComponent,
+  CuentaCorrienteProveedorButtonsComponent,
+  CuentaCorrienteProveedorFilterComponent,
+  CuentaCorrienteProveedorFormComponent,
+  CuentaCorrienteProveedorTableComponent,
+  CuentaCorrienteProveedorTagsComponent,
+  CuentaCorrienteConsorcioButtonsComponent,
+  CuentaCorrienteConsorcioFilterComponent,
+  CuentaCorrienteConsorcioFormComponent,
+  CuentaCorrienteConsorcioTableComponent,
+  CuentaCorrienteConsorcioTagsComponent,
 ];

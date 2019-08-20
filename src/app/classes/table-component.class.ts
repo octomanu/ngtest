@@ -8,7 +8,12 @@ export abstract class TableComponent implements OnDestroy {
   @Input() keepHelp: boolean;
   @Output() openForm = new EventEmitter<number>();
   tableLambe = { total: 1, data: [], loading: true };
-  paginatorParams: PaginatorParamsInterface;
+  paginatorParams = {
+    page: null,
+    page_size: null,
+    sort_field: null,
+    sort_order: null,
+  };
   subscripctions: Subscription[] = [];
   dropdown: NzDropdownContextComponent;
 

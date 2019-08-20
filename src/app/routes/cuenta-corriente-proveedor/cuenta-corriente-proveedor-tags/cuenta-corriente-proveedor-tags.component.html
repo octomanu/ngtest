@@ -1,0 +1,6 @@
+<div class="table-operations">
+  <span *ngFor="let tag of (tags | keys); let i = index">
+    <nz-tag *ngIf="tags[tag.key].used" nzMode="closeable" (nzOnClose)="onRemoveTag(tag.key)">
+      {{ tags[tag.key].title | translate }}</nz-tag>
+  </span>
+</div>

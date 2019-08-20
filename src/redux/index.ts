@@ -5,6 +5,8 @@ import { GastosDescripcionesEffects } from './gastos-descripciones/gastos-descri
 import { CajaConsorcioEffects } from './caja-consorcio/caja-consorcio.effects';
 import { ChequerasEffects } from './chequeras/chequeras.effects';
 import { OrdenesPagoEffects } from './ordenes-pago/ordenes-pago.effects';
+import { CuentaCorrienteProveedorEffects } from './cuenta-corriente-proveedor/cuenta-corriente-proveedor.effects';
+import { CuentaCorrienteConsorcioEffects } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio.effects';
 
 export const effectsArr: any[] = [
   ServiciosEffects,
@@ -14,4 +16,6 @@ export const effectsArr: any[] = [
   CajaConsorcioEffects,
   ChequerasEffects,
   OrdenesPagoEffects,
+  CuentaCorrienteProveedorEffects,
+  CuentaCorrienteConsorcioEffects,
 ];

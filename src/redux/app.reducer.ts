@@ -8,6 +8,8 @@ import * as fromGastosDescripciones from './gastos-descripciones/gastos-descripc
 import * as fromCajaConsorcio from './caja-consorcio/caja-consorcio.reducer';
 import * as fromChequeras from './chequeras/chequeras.reducer';
 import * as fromOrdenesPago from './ordenes-pago/ordenes-pago.reducer';
+import * as fromCuentaCorrienteProveedor from './cuenta-corriente-proveedor/cuenta-corriente-proveedor.reducer';
+import * as fromCuentaCorrienteConsorcio from './cuenta-corriente-consorcio/cuenta-corriente-consorcio.reducer';
 
 export interface AppState {
   menuState: fromMenu.MenuState;
@@ -19,6 +21,8 @@ export interface AppState {
   cajaConsorcioState: fromCajaConsorcio.CajaConsorcioState;
   chequerasState: fromChequeras.ChequerasState;
   ordenesPagoState: fromOrdenesPago.OrdenesPagoState;
+  cuentaCorrienteProveedor: fromCuentaCorrienteProveedor.CuentaCorrienteProveedorState;
+  cuentaCorrienteConsorcio: fromCuentaCorrienteConsorcio.CuentaCorrienteConsorcioState;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
@@ -31,4 +35,8 @@ export const appReducers: ActionReducerMap<AppState> = {
   cajaConsorcioState: fromCajaConsorcio.CajaConsorcioReducer,
   chequerasState: fromChequeras.ChequerasReducer,
   ordenesPagoState: fromOrdenesPago.OrdenesPagoReducer,
+  cuentaCorrienteProveedor:
+    fromCuentaCorrienteProveedor.CuentaCorrienteProveedorReducer,
+  cuentaCorrienteConsorcio:
+    fromCuentaCorrienteConsorcio.CuentaCorrienteConsorcioReducer,
 };
