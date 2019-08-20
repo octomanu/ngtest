@@ -46,6 +46,7 @@ export class CuentaCorrienteProveedorFilterComponent
 
   submit() {
     this.store.dispatch(new ChangeFilterAction({ ...this.form.value }));
+    this.drawerRef.close();
   }
 
   ngOnDestroy() {
