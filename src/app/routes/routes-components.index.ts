@@ -27,6 +27,7 @@ import { CajaConsorcioComponent } from './caja-consorcio/caja-consorcio.componen
 import { OrdenesPagoComponent } from './ordenes-pago/ordenes-pago.component';
 import { CuentaCorrienteProveedorComponent } from './cuenta-corriente-proveedor/cuenta-corriente-proveedor.component';
 import { CuentaCorrienteConsorcioComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio.component';
+import { CuentaCorrienteUfComponent } from './cuenta-corriente-uf/cuenta-corriente-uf.component';
 
 export const ROUTE_COMPONENTS = [
   DashboardComponent,
@@ -58,4 +59,5 @@ export const ROUTE_COMPONENTS = [
   OrdenesPagoComponent,
   CuentaCorrienteProveedorComponent,
   CuentaCorrienteConsorcioComponent,
+  CuentaCorrienteUfComponent,
 ];

@@ -80,6 +80,10 @@ import { CuentaCorrienteConsorcioFilterComponent } from './cuenta-corriente-cons
 import { CuentaCorrienteConsorcioFormComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio-form/cuenta-corriente-consorcio-form.component';
 import { CuentaCorrienteConsorcioTableComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio-table/cuenta-corriente-consorcio-table.component';
 import { CuentaCorrienteConsorcioTagsComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio-tags/cuenta-corriente-consorcio-tags.component';
+import { CuentaCorrienteUfButtonsComponent } from './cuenta-corriente-uf/cuenta-corriente-uf-buttons/cuenta-corriente-uf-buttons.component';
+import { CuentaCorrienteUfFilterComponent } from './cuenta-corriente-uf/cuenta-corriente-uf-filter/cuenta-corriente-uf-filter.component';
+import { CuentaCorrienteUfTableComponent } from './cuenta-corriente-uf/cuenta-corriente-uf-table/cuenta-corriente-uf-table.component';
+import { CuentaCorrienteUfTagsComponent } from './cuenta-corriente-uf/cuenta-corriente-uf-tags/cuenta-corriente-uf-tags.component';
 
 export const COMPONENTS = [
   ProveedorFormComponent,
@@ -164,4 +168,8 @@ export const COMPONENTS = [
   CuentaCorrienteConsorcioFormComponent,
   CuentaCorrienteConsorcioTableComponent,
   CuentaCorrienteConsorcioTagsComponent,
+  CuentaCorrienteUfButtonsComponent,
+  CuentaCorrienteUfFilterComponent,
+  CuentaCorrienteUfTableComponent,
+  CuentaCorrienteUfTagsComponent,
 ];

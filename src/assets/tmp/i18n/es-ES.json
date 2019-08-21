@@ -188,6 +188,8 @@
   "global.ordenes_pago": "Ordenes de pago",
   "global.cuenta_corriente_proveedor": "Cuenta Corriente Proveedor",
   "global.cuenta_corriente_consorcio": "Cuenta Corriente Consorcio",
+  "global.cuenta_corriente_uf": "Cuenta Corriente Uf",
+  "global.uf": "Unidad Funcional",
   "porcentajes_consorcios.oculto_en_expensa": "Oculto en Expensas",
   "porcentajes_consorcios.es_gasto_particular": "Gasto Particular",
   "porcentajes_consorcios.oculto_en_prorateo": "Oculto en Prorateo",

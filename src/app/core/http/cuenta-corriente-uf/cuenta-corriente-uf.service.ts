@@ -5,14 +5,13 @@ import { PaginatorParamsInterface } from 'app/interfaces/local/paginator-params.
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
-import { CuentaCorrienteProveedorState } from 'redux/cuenta-corriente-proveedor/cuenta-corriente-proveedor.reducer';
+import { CuentaCorrienteUfState } from 'redux/cuenta-corriente-uf/cuenta-corriente-uf-reducer';
 import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CuentaCorrienteProveedorService extends CrudService
-  implements OnDestroy {
+export class CuentaCorrienteUfService extends CrudService implements OnDestroy {
   subscription: Subscription;
   filtros: any;
   parametros: PaginatorParamsInterface;
@@ -20,11 +19,12 @@ export class CuentaCorrienteProveedorService extends CrudService
   constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
     this.subscription = this.store
-      .select('cuentaCorrienteProveedor')
-      .subscribe((state: CuentaCorrienteProveedorState) => {
+      .select('cuentaCorrienteUf')
+      .subscribe((state: CuentaCorrienteUfState) => {
         this.filtros = state.filtros;
         this.parametros = state.paginator.parametros;
-        this.filtros.id_proveedor = state.id_proveedor;
+        this.filtros.id_consorcio = state.id_consorcio;
+        this.filtros.id_uf = state.id_uf;
       });
   }
 
@@ -50,7 +50,7 @@ export class CuentaCorrienteProveedorService extends CrudService
   }
 
   getPath() {
-    return 'cuenta-corriente-proveedor';
+    return 'cuenta-corriente-uf';
   }
 
   ngOnDestroy() {

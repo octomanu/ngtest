@@ -10,6 +10,7 @@ import * as fromChequeras from './chequeras/chequeras.reducer';
 import * as fromOrdenesPago from './ordenes-pago/ordenes-pago.reducer';
 import * as fromCuentaCorrienteProveedor from './cuenta-corriente-proveedor/cuenta-corriente-proveedor.reducer';
 import * as fromCuentaCorrienteConsorcio from './cuenta-corriente-consorcio/cuenta-corriente-consorcio.reducer';
+import * as fromCuentaCorrienteUf from './cuenta-corriente-uf/cuenta-corriente-uf-reducer';
 
 export interface AppState {
   menuState: fromMenu.MenuState;
@@ -23,6 +24,7 @@ export interface AppState {
   ordenesPagoState: fromOrdenesPago.OrdenesPagoState;
   cuentaCorrienteProveedor: fromCuentaCorrienteProveedor.CuentaCorrienteProveedorState;
   cuentaCorrienteConsorcio: fromCuentaCorrienteConsorcio.CuentaCorrienteConsorcioState;
+  cuentaCorrienteUf: fromCuentaCorrienteUf.CuentaCorrienteUfState;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
@@ -39,4 +41,5 @@ export const appReducers: ActionReducerMap<AppState> = {
     fromCuentaCorrienteProveedor.CuentaCorrienteProveedorReducer,
   cuentaCorrienteConsorcio:
     fromCuentaCorrienteConsorcio.CuentaCorrienteConsorcioReducer,
+  cuentaCorrienteUf: fromCuentaCorrienteUf.CuentaCorrienteUfReducer,
 };
