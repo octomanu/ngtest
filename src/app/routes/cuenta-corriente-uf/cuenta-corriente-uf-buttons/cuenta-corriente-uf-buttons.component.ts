@@ -20,6 +20,8 @@ import {
   ChangeFilterAction,
 } from 'redux/cuenta-corriente-uf/cuenta-corriente-uf-actions';
 import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unidades-funcionales.service';
+import { CobroFormComponent } from '../cobro-form/cobro-form.component';
+import { DeudaFormComponent } from '../deuda-form/deuda-form.component';
 
 @Component({
   selector: 'app-cuenta-corriente-uf-buttons',
@@ -63,7 +65,29 @@ export class CuentaCorrienteUfButtonsComponent extends ButtonsComponent
       .subscribe((state: CuentaCorrienteUfState) => {
         this.idConsorcio = state.id_consorcio;
         this.idUf = state.id_uf;
+        if (state.id_uf) this.searchUfsList('');
       });
+  }
+
+  cobro() {
+    this.translate.get('global.cobro').subscribe((res: string) => {
+      this.drawerService.create({
+        nzTitle: res,
+        nzWidth: this.smallViewport ? '100%' : '75%',
+        nzContent: CobroFormComponent,
+        nzPlacement: 'right',
+      });
+    });
+  }
+  deuda() {
+    this.translate.get('global.deuda').subscribe((res: string) => {
+      this.drawerService.create({
+        nzTitle: res,
+        nzWidth: this.smallViewport ? '100%' : '75%',
+        nzContent: DeudaFormComponent,
+        nzPlacement: 'right',
+      });
+    });
   }
 
   changeConsorcio() {

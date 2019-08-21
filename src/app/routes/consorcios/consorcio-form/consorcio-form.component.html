@@ -8,7 +8,7 @@
   <div *ngIf="steps.nzCurrent == 0">
 
     <div nz-row nzType="flex" nzJustify="space-between">
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
         <nz-form-item>
           <nz-form-label nzRequired nzFor="razon_social">{{ 'global.razon_social' | translate }}
           </nz-form-label>
@@ -23,7 +23,7 @@
         </nz-form-item>
       </div>
 
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
         <nz-form-item>
           <nz-form-label nzRequired nzFor="nombre_fantasia">{{ 'lambe.proveedores.nombre_fantasia' | translate }}
           </nz-form-label>
@@ -37,10 +37,40 @@
           </nz-form-control>
         </nz-form-item>
       </div>
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="cuit">{{ 'global.cuit' | translate }}
+          </nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <input nz-input formControlName="cuit" id="cuit">
+            <nz-form-explain *ngIf="form.get('cuit').dirty && form.get('cuit').errors">
+              <ng-container *ngIf="form.get('cuit').hasError('required')">
+                {{ 'global.campo_requerido' | translate }}
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
     </div>
 
     <div nz-row nzType="flex" nzJustify="space-between">
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="id_provincia">{{ 'lambe.consorcios.id_provincia' | translate }}
+          </nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <input nz-input formControlName="id_provincia" id="id_provincia">
+            <nz-form-explain *ngIf="form.get('id_provincia').dirty && form.get('id_provincia').errors">
+              <ng-container *ngIf="form.get('id_provincia').hasError('required')">
+                {{ 'global.campo_requerido' | translate }}
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
         <nz-form-item>
           <nz-form-label nzRequired nzFor="calle">{{ 'global.calle' | translate }}
           </nz-form-label>
@@ -55,7 +85,7 @@
         </nz-form-item>
       </div>
 
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
         <nz-form-item>
           <nz-form-label nzRequired nzFor="numero">{{ 'global.numero' | translate }}
           </nz-form-label>
@@ -72,39 +102,7 @@
     </div>
 
     <div nz-row nzType="flex" nzJustify="space-between">
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
-        <nz-form-item>
-          <nz-form-label nzRequired nzFor="cantidad_ufs">{{ 'lambe.consorcios.cantidad_ufs' | translate }}
-          </nz-form-label>
-          <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="cantidad_ufs" id="cantidad_ufs">
-            <nz-form-explain *ngIf="form.get('cantidad_ufs').dirty && form.get('cantidad_ufs').errors">
-              <ng-container *ngIf="form.get('cantidad_ufs').hasError('required')">
-                {{ 'global.campo_requerido' | translate }}
-              </ng-container>
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
-        <nz-form-item>
-          <nz-form-label nzRequired nzFor="codigo">{{ 'global.codigo' | translate }}
-          </nz-form-label>
-          <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="codigo" id="codigo">
-            <nz-form-explain *ngIf="form.get('codigo').dirty && form.get('codigo').errors">
-              <ng-container *ngIf="form.get('codigo').hasError('required')">
-                {{ 'global.campo_requerido' | translate }}
-              </ng-container>
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-    </div>
-
-    <div nz-row nzType="flex" nzJustify="space-between">
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
         <nz-form-item>
           <nz-form-label nzRequired nzFor="codigo_postal">{{ 'global.codigo_postal' | translate }}
           </nz-form-label>
@@ -119,14 +117,29 @@
         </nz-form-item>
       </div>
 
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
         <nz-form-item>
-          <nz-form-label nzRequired nzFor="codigo_siro">{{ 'lambe.consorcios.codigo_siro' | translate }}
+          <nz-form-label nzRequired nzFor="cantidad_ufs">{{ 'lambe.consorcios.cantidad_ufs' | translate }}
           </nz-form-label>
           <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="codigo_siro" id="codigo_siro">
-            <nz-form-explain *ngIf="form.get('codigo_siro').dirty && form.get('codigo_siro').errors">
-              <ng-container *ngIf="form.get('codigo_siro').hasError('required')">
+            <input nz-input formControlName="cantidad_ufs" id="cantidad_ufs">
+            <nz-form-explain *ngIf="form.get('cantidad_ufs').dirty && form.get('cantidad_ufs').errors">
+              <ng-container *ngIf="form.get('cantidad_ufs').hasError('required')">
+                {{ 'global.campo_requerido' | translate }}
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="codigo">{{ 'global.codigo' | translate }}
+          </nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <input nz-input formControlName="codigo" id="codigo">
+            <nz-form-explain *ngIf="form.get('codigo').dirty && form.get('codigo').errors">
+              <ng-container *ngIf="form.get('codigo').hasError('required')">
                 {{ 'global.campo_requerido' | translate }}
               </ng-container>
             </nz-form-explain>
@@ -134,76 +147,8 @@
         </nz-form-item>
       </div>
     </div>
-  </div>
-
-  <div *ngIf="steps.nzCurrent == 1">
-
     <div nz-row nzType="flex" nzJustify="space-between">
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
-        <nz-form-item>
-          <nz-form-label nzRequired nzFor="cantidad_pisos">{{ 'lambe.consorcios.cantidad_pisos' | translate }}
-          </nz-form-label>
-          <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="cantidad_pisos" id="cantidad_pisos">
-            <nz-form-explain *ngIf="form.get('cantidad_pisos').dirty && form.get('cantidad_pisos').errors">
-              <ng-container *ngIf="form.get('cantidad_pisos').hasError('required')">
-                {{ 'global.campo_requerido' | translate }}
-              </ng-container>
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
-        <nz-form-item>
-          <nz-form-label nzRequired nzFor="codigo_suterh">{{ 'lambe.consorcios.codigo_suterh' | translate }}
-          </nz-form-label>
-          <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="codigo_suterh" id="codigo_suterh">
-            <nz-form-explain *ngIf="form.get('codigo_suterh').dirty && form.get('codigo_suterh').errors">
-              <ng-container *ngIf="form.get('codigo_suterh').hasError('required')">
-                {{ 'global.campo_requerido' | translate }}
-              </ng-container>
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-    </div>
-
-    <div nz-row nzType="flex" nzJustify="space-between">
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
-        <nz-form-item>
-          <nz-form-label nzRequired nzFor="cuit">{{ 'global.cuit' | translate }}
-          </nz-form-label>
-          <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="cuit" id="cuit">
-            <nz-form-explain *ngIf="form.get('cuit').dirty && form.get('cuit').errors">
-              <ng-container *ngIf="form.get('cuit').hasError('required')">
-                {{ 'global.campo_requerido' | translate }}
-              </ng-container>
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
-        <nz-form-item>
-          <nz-form-label nzRequired nzFor="dia_comienzo">{{ 'lambe.consorcios.dia_comienzo' | translate }}
-          </nz-form-label>
-          <nz-form-control nzHasFeedback>
-            <!-- <input nz-input  id="dia_comienzo"> -->
-            <nz-date-picker formControlName="dia_comienzo"></nz-date-picker>
-            <nz-form-explain *ngIf="form.get('dia_comienzo').dirty && form.get('dia_comienzo').errors">
-              <ng-container *ngIf="form.get('dia_comienzo').hasError('required')">
-                {{ 'global.campo_requerido' | translate }}
-              </ng-container>
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-    </div>
-
-
-    <div nz-row nzType="flex" nzJustify="space-between">
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
         <nz-form-item>
           <nz-form-label nzRequired nzFor="estado">{{ 'global.estado' | translate }}
           </nz-form-label>
@@ -222,14 +167,30 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
         <nz-form-item>
-          <nz-form-label nzRequired nzFor="id_provincia">{{ 'lambe.consorcios.id_provincia' | translate }}
+          <nz-form-label nzRequired nzFor="cantidad_pisos">{{ 'lambe.consorcios.cantidad_pisos' | translate }}
           </nz-form-label>
           <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="id_provincia" id="id_provincia">
-            <nz-form-explain *ngIf="form.get('id_provincia').dirty && form.get('id_provincia').errors">
-              <ng-container *ngIf="form.get('id_provincia').hasError('required')">
+            <input nz-input formControlName="cantidad_pisos" id="cantidad_pisos">
+            <nz-form-explain *ngIf="form.get('cantidad_pisos').dirty && form.get('cantidad_pisos').errors">
+              <ng-container *ngIf="form.get('cantidad_pisos').hasError('required')">
+                {{ 'global.campo_requerido' | translate }}
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="dia_comienzo">{{ 'lambe.consorcios.dia_comienzo' | translate }}
+          </nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-date-picker formControlName="dia_comienzo"></nz-date-picker>
+            <nz-form-explain *ngIf="form.get('dia_comienzo').dirty && form.get('dia_comienzo').errors">
+              <ng-container *ngIf="form.get('dia_comienzo').hasError('required')">
                 {{ 'global.campo_requerido' | translate }}
               </ng-container>
             </nz-form-explain>
@@ -237,8 +198,26 @@
         </nz-form-item>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="steps.nzCurrent == 1">
 
     <div nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="codigo_siro">{{ 'lambe.consorcios.codigo_siro' | translate }}
+          </nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <input nz-input formControlName="codigo_siro" id="codigo_siro">
+            <nz-form-explain *ngIf="form.get('codigo_siro').dirty && form.get('codigo_siro').errors">
+              <ng-container *ngIf="form.get('codigo_siro').hasError('required')">
+                {{ 'global.campo_requerido' | translate }}
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
       <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
         <nz-form-item>
           <nz-form-label nzRequired nzFor="numero_verificacion_siro">
@@ -255,6 +234,30 @@
           </nz-form-control>
         </nz-form-item>
       </div>
+
+    </div>
+
+
+
+
+
+    <div nz-row nzType="flex" nzJustify="space-between">
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="codigo_suterh">{{ 'lambe.consorcios.codigo_suterh' | translate }}
+          </nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <input nz-input formControlName="codigo_suterh" id="codigo_suterh">
+            <nz-form-explain *ngIf="form.get('codigo_suterh').dirty && form.get('codigo_suterh').errors">
+              <ng-container *ngIf="form.get('codigo_suterh').hasError('required')">
+                {{ 'global.campo_requerido' | translate }}
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
       <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
         <nz-form-item>
           <nz-form-label nzFor="codigo_pmc">
@@ -278,6 +281,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
+
       <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
         <nz-form-item>
           <nz-form-label nzFor="codigo_ep">

@@ -90,11 +90,15 @@ export class GastosTableComponent extends TableLambe
   }
 
   openPaymentForm(idCuota: number, montoCuota: string) {
-    this.drawerService.create({
+    const drawerRef = this.drawerService.create({
       nzTitle: 'Pago de gasto',
       nzWidth: this.initialDrawerWidth,
       nzContent: PaymentFormComponent,
       nzContentParams: { idCuota, montoCuota },
+    });
+
+    drawerRef.afterClose.subscribe(data => {
+      this.searchData();
     });
   }
 

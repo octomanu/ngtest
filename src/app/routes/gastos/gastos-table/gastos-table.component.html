@@ -212,7 +212,10 @@
           </td>
           <td (click)="showForm(i, $event)">
             <strong class="onlysmall">{{ 'lambe.chequera_nro' | translate }}:&nbsp;</strong>
-            <span *ngIf="!rowForm[i].visible">$ {{ data['gastos-monto'] }}</span>
+            <span *ngIf="!rowForm[i].visible">$
+              {{ data['gastos-monto_pagado'] }} / {{ data['gastos_cuotas-monto'] }}</span>
+            <span *ngIf="!rowForm[i].visible && data['gastos_cuotas-numero_cuota'] !== 1">
+              ({{ data['gastos_cuotas-numero_cuota'] }})</span>
             <nz-form-control nzHasFeedback *ngIf="rowForm[i].visible">
               <input nz-input formControlName="monto">
               <nz-form-explain *ngIf="rowForm[i].form.get('monto').dirty && rowForm[i].form.get('monto').errors">

@@ -1,12 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { CrudService } from '../crud-service.class';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, throwError } from 'rxjs';
 import { PaginatorParamsInterface } from 'app/interfaces/local/paginator-params.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { CuentaCorrienteUfState } from 'redux/cuenta-corriente-uf/cuenta-corriente-uf-reducer';
 import { environment } from '@env/environment';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,24 @@ export class CuentaCorrienteUfService extends CrudService implements OnDestroy {
       params = params.append(key, this.parametros[key]);
     }
     return params;
+  }
+
+  crearCobro(data) {
+    const URL = `${environment.OCTO_API}/${this.getPath()}/cobro/${this.filtros.id_uf}`;
+
+    return this.http.post(URL, data).pipe(
+      map(resp => resp),
+      catchError(err => throwError(err)),
+    );
+  }
+
+  crearDeuda(data) {
+    const URL = `${environment.OCTO_API}/${this.getPath()}/deuda/${this.filtros.id_uf}`;
+
+    return this.http.post(URL, data).pipe(
+      map(resp => resp),
+      catchError(err => throwError(err)),
+    );
   }
 
   getPath() {

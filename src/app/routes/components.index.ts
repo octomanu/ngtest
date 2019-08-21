@@ -84,6 +84,8 @@ import { CuentaCorrienteUfButtonsComponent } from './cuenta-corriente-uf/cuenta-
 import { CuentaCorrienteUfFilterComponent } from './cuenta-corriente-uf/cuenta-corriente-uf-filter/cuenta-corriente-uf-filter.component';
 import { CuentaCorrienteUfTableComponent } from './cuenta-corriente-uf/cuenta-corriente-uf-table/cuenta-corriente-uf-table.component';
 import { CuentaCorrienteUfTagsComponent } from './cuenta-corriente-uf/cuenta-corriente-uf-tags/cuenta-corriente-uf-tags.component';
+import { CobroFormComponent } from './cuenta-corriente-uf/cobro-form/cobro-form.component';
+import { DeudaFormComponent } from './cuenta-corriente-uf/deuda-form/deuda-form.component';
 
 export const COMPONENTS = [
   ProveedorFormComponent,
@@ -172,4 +174,6 @@ export const COMPONENTS = [
   CuentaCorrienteUfFilterComponent,
   CuentaCorrienteUfTableComponent,
   CuentaCorrienteUfTagsComponent,
+  CobroFormComponent,
+  DeudaFormComponent,
 ];

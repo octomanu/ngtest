@@ -35,10 +35,17 @@
   </div>
 
   <div nz-col nzType="flex" nz-row nzJustify="end">
-    <!-- <button nz-col nz-button nz-dropdown (click)="crear()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="left"
-        [nzTitle]=" (keepHelp || help) ? tooltips.btnCrear: ''">
-        <i nz-icon nzTheme="outline" type="plus"></i>
-      </button> -->
+
+    <button [disabled]="!idUf" nz-col nz-button nz-dropdown (click)="cobro()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="left"
+      [nzTitle]=" (keepHelp || help) ? tooltips.btnCrear: ''">
+      <span>{{'global.cobro' | translate}}</span>
+    </button>
+
+    <button [disabled]="!idUf" nz-col nz-button nz-dropdown (click)="deuda()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="left"
+      [nzTitle]=" (keepHelp || help) ? tooltips.btnCrear: ''">
+      <span>{{'global.deuda' | translate}}</span>
+    </button>
+
   </div>
 
 </div>
