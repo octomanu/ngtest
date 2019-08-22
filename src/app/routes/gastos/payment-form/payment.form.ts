@@ -12,7 +12,8 @@ export class PaymentForm {
         id: [null],
         fecha: [null, Validators.required],
         descripcion: [null, Validators.required],
-        cheque: [null, []],
+        id_cheque: [null, []],
+        id_cheque_tercero: [null, []],
         efectivo: [null, [Validators.pattern('-?[0-9]{1,8}(?:.[0-9]{1,2})?')]],
         transferencia: [
           null,
@@ -25,7 +26,10 @@ export class PaymentForm {
 }
 
 export function amountValidator(form: FormGroup) {
-  const efectivo = form.value.efectivo;
-  const transferencia = form.value.transferencia;
-  return efectivo || transferencia ? null : { amount: true };
+  return form.value.efectivo ||
+    form.value.transferencia ||
+    form.value.id_cheque ||
+    form.value.transferencia
+    ? null
+    : { amount: true };
 }

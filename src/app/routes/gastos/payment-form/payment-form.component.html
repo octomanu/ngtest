@@ -37,11 +37,11 @@
 
   <div nz-row nzType="flex" nzJustify="space-between">
 
-    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
       <nz-form-item>
         <nz-form-label>{{ 'global.efectivo' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-          <input nz-input formControlName="efectivo" />
+          <input nz-input formControlName="efectivo" (ngModelChange)="sumAcumulado($event)" />
           <ng-template #userErrorTpl let-control>
             <ng-container *ngIf="control.hasError('pattern')">
               {{ 'global.patron' | translate }} : ########,##
@@ -51,11 +51,11 @@
       </nz-form-item>
     </div>
 
-    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
       <nz-form-item>
         <nz-form-label>{{ 'global.transferencia' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-          <input nz-input formControlName="transferencia" />
+          <input nz-input formControlName="transferencia" (ngModelChange)="sumAcumulado($event)" />
           <ng-template #userErrorTpl let-control>
             <ng-container *ngIf="control.hasError('pattern')">
               {{ 'global.patron' | translate }} : ########,##
@@ -64,32 +64,55 @@
         </nz-form-control>
       </nz-form-item>
     </div>
+  </div>
 
 
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label>{{ 'global.cheque' | translate }}</nz-form-label>
+        <nz-form-control>
+          <nz-input-group nzCompact>
+            <nz-select formControlName="id_cheque" nzShowSearch nzAllowClear [nzServerSearch]="true" style="width: 90%"
+              (nzOnSearch)="searchChequesTerceros($event)" (ngModelChange)="sumAcumulado($event.monto)">
+              <ng-container *ngFor="let cheque of cheques">
+                <nz-option *ngIf="!isLoading" [nzValue]="cheque" [nzLabel]="cheque.display"></nz-option>
+              </ng-container>
+              <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+                <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+              </nz-option>
+            </nz-select>
+            <button nz-button nzType="primary" (click)="openChequeForm()" type="button">
+              <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
+            </button>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
 
-
-    <!-- <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
-        <nz-form-item>
-          <nz-form-label>{{ 'global.cheque' | translate }}</nz-form-label>
-          <nz-form-control>
-            <nz-input-group nzCompact>
-              <nz-select formControlName="id_cheque" nzShowSearch [nzServerSearch]="true" style="width: 87%"
-                (nzOnSearch)="searchChequesTerceros($event)" (ngModelChange)="chequeData = $event">
-                <ng-container *ngFor="let cheque of cheques">
-                  <nz-option *ngIf="!isLoading" [nzValue]="cheque" [nzLabel]="cheque.display"></nz-option>
-                </ng-container>
-                <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-                  <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label>{{ 'global.cheque_tercero' | translate }}</nz-form-label>
+        <nz-form-control>
+          <nz-input-group nzCompact>
+            <nz-select formControlName="id_cheque_tercero" nzShowSearch nzAllowClear [nzServerSearch]="true"
+              style="width: 90%" (nzOnSearch)="searchChequesTerceros($event)"
+              (ngModelChange)="sumAcumulado($event.monto)">
+              <ng-container *ngFor="let chequeTercero of chequesTerceros">
+                <nz-option *ngIf="!isLoading" [nzValue]="chequeTercero" [nzLabel]="chequeTercero.display">
                 </nz-option>
-              </nz-select>
-              <button nz-button nzType="primary" (click)="openChequeForm()" type="button">
-                <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
-              </button>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-      </div> -->
-
+              </ng-container>
+              <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+                <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+              </nz-option>
+            </nz-select>
+            <button nz-button nzType="primary" (click)="openChequeForm()" type="button">
+              <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
+            </button>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
   </div>
 
 </form>
@@ -99,5 +122,8 @@
     <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
       <span>{{ 'global.guardar' | translate }}</span>
     </button>
+
+    <h2 nz-col>{{'global.total' | translate}}: $ {{acumulado}} / $ {{montoCuota}}</h2>
+
   </div>
 </div>
