@@ -86,9 +86,10 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
     const formValue = this.form.value;
     const efectivo = formValue.efectivo ? parseFloat(formValue.efectivo) : 0;
     const transferencia = formValue.transferencia
-      ? parseInt(formValue.transferencia)
+      ? parseFloat(formValue.transferencia)
       : 0;
 
+    let monto = efectivo + transferencia;
     lineas.push(
       {
         monto: efectivo,
@@ -101,19 +102,25 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
     );
 
     if (formValue.id_cheque) {
-      lineas.push({
+      monto = monto + parseFloat(formValue.id_cheque.monto);
+      const cheque: any = {
         monto: formValue.id_cheque.monto,
         metodo: 'cheque',
-        id_cheque_externo: formValue.id_cheque.id,
-      });
+      };
+
+      if (this.type === 'ingreso') {
+        cheque.id_cheque_externo = formValue.id_cheque.id;
+      } else {
+        cheque.id_cheque = formValue.id_cheque.id;
+      }
+
+      lineas.push(cheque);
     }
 
     const ingreso = {
       fecha: moment(formValue.fecha).format('DD-MM-YYYY'),
       descripcion: formValue.descripcion,
-      monto:
-        (efectivo * 10 + transferencia * 10 + formValue.id_cheque.monto * 10) /
-        10,
+      monto: parseFloat(monto.toFixed(2)),
       id_consorcio: formValue.id_consorcio,
       lineas,
     };
@@ -130,7 +137,7 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
 
   openChequeForm() {
     const drawerConfigForm = this.drawerService.create({
-      nzTitle: 'global cheque',
+      nzTitle: 'global.cheque',
       nzContent: ChequesTercerosFormComponent,
     });
   }

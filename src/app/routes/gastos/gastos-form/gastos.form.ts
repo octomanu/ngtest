@@ -92,11 +92,13 @@ export class GastosForm {
     }
     delete gasto.id_concepto_gastos;
     gasto.fecha = moment(gasto.fecha).format('DD-MM-YYYY');
-
+    const cuotasCollections = [];
     for (const cuota of gasto.cuotas) {
-      cuota.fecha_pago = moment(cuota.fecha_pago).format('DD-MM-YYYY');
+      const newCuota = { ...cuota };
+      newCuota.fecha_pago = moment(newCuota.fecha_pago).format('DD-MM-YYYY');
+      cuotasCollections.push(newCuota);
     }
-
+    gasto.cuotas = cuotasCollections;
     return gasto;
   }
 

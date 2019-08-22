@@ -194,6 +194,8 @@
   "global.cobro": "Cobro",
   "global.pagar": "Pagar",
   "global.cheque_tercero": "Cheque de Terceros",
+  "global.fecha_vencimiento": "Fecha de Vencimiento",
+  "global.cerrar": "Cerrar",
   "porcentajes_consorcios.oculto_en_expensa": "Oculto en Expensas",
   "porcentajes_consorcios.es_gasto_particular": "Gasto Particular",
   "porcentajes_consorcios.oculto_en_prorateo": "Oculto en Prorateo",
