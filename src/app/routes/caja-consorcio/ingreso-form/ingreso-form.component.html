@@ -107,10 +107,10 @@
 
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
       <nz-form-item>
-        <nz-form-label>{{ 'global.cheque' | translate }}</nz-form-label>
+        <nz-form-label>{{ 'global.cheque_tercero' | translate }}</nz-form-label>
         <nz-form-control>
           <nz-input-group nzCompact>
-            <nz-select formControlName="id_cheque" nzShowSearch [nzServerSearch]="true" style="width: 87%"
+            <nz-select formControlName="id_cheque" nzShowSearch nzAllowClear [nzServerSearch]="true" style="width: 87%"
               (nzOnSearch)="searchChequesTerceros($event)" (ngModelChange)="chequeData = $event">
               <ng-container *ngFor="let cheque of cheques">
                 <nz-option *ngIf="!isLoading" [nzValue]="cheque" [nzLabel]="cheque.display"></nz-option>

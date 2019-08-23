@@ -69,12 +69,14 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
         .createIngreso(ingreso)
         .subscribe((data: any) => {
           this.initForm();
+          this.searchChequesTercerosList('');
           this.store.dispatch(new LoadCajaConsorcioAction());
           this.msg.success(`Creado!`);
         });
     } else {
       this.cajaConsorcioService.createEgreso(ingreso).subscribe((data: any) => {
         this.initForm();
+        this.searchChequesTercerosList('');
         this.store.dispatch(new LoadCajaConsorcioAction());
         this.msg.success(`Creado!`);
       });
@@ -106,13 +108,8 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
       const cheque: any = {
         monto: formValue.id_cheque.monto,
         metodo: 'cheque',
+        id_cheque_externo: formValue.id_cheque.id,
       };
-
-      if (this.type === 'ingreso') {
-        cheque.id_cheque_externo = formValue.id_cheque.id;
-      } else {
-        cheque.id_cheque = formValue.id_cheque.id;
-      }
 
       lineas.push(cheque);
     }
@@ -192,12 +189,21 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
   }
 
   protected searchChequesTercerosList(display: string) {
-    this.chequesTercerosService
-      .searchByDisplay(display)
-      .subscribe((data: { id: number; display: string; monto: number }[]) => {
-        this.isLoading = false;
-        this.cheques = data;
-      });
+    if (this.type === 'ingreso') {
+      this.chequesTercerosService
+        .searchByDisplayForIngreso(display)
+        .subscribe((data: { id: number; display: string; monto: number }[]) => {
+          this.isLoading = false;
+          this.cheques = data;
+        });
+    } else {
+      this.chequesTercerosService
+        .searchByDisplayForEgreso(display)
+        .subscribe((data: { id: number; display: string; monto: number }[]) => {
+          this.isLoading = false;
+          this.cheques = data;
+        });
+    }
   }
 
   protected searchUfsList(display: string) {
