@@ -43,7 +43,7 @@ export class CajaConsorcioTableComponent extends TableComponent
         if (!state.initialized) {
           this.store.dispatch(new ccActions.LoadCajaConsorcioAction());
         }
-        console.log(state);
+        console.log('hi');
         this.tableLambe.data = state.paginator.data;
         this.tableLambe.loading = state.loading;
         this.tableLambe.total = state.paginator.recordsFiltered;

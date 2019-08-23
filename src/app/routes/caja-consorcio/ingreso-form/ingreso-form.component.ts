@@ -20,7 +20,6 @@ import { ChequesTercerosService } from '@core/http/cheques-terceros.service';
   styles: [],
 })
 export class IngresoFormComponent implements OnInit, OnDestroy {
-  @Input() type: string;
   form: FormGroup;
   subscripcion: Subscription;
   isLoading = false;
@@ -64,23 +63,12 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
 
   submit() {
     const ingreso = this.buildIngreso();
-    if (this.type === 'ingreso') {
-      this.cajaConsorcioService
-        .createIngreso(ingreso)
-        .subscribe((data: any) => {
-          this.initForm();
-          this.searchChequesTercerosList('');
-          this.store.dispatch(new LoadCajaConsorcioAction());
-          this.msg.success(`Creado!`);
-        });
-    } else {
-      this.cajaConsorcioService.createEgreso(ingreso).subscribe((data: any) => {
-        this.initForm();
-        this.searchChequesTercerosList('');
-        this.store.dispatch(new LoadCajaConsorcioAction());
-        this.msg.success(`Creado!`);
-      });
-    }
+    this.cajaConsorcioService.createIngreso(ingreso).subscribe((data: any) => {
+      this.initForm();
+      this.searchChequesTercerosList('');
+      this.store.dispatch(new LoadCajaConsorcioAction());
+      this.msg.success(`Creado!`);
+    });
   }
 
   buildIngreso() {
@@ -189,21 +177,12 @@ export class IngresoFormComponent implements OnInit, OnDestroy {
   }
 
   protected searchChequesTercerosList(display: string) {
-    if (this.type === 'ingreso') {
-      this.chequesTercerosService
-        .searchByDisplayForIngreso(display)
-        .subscribe((data: { id: number; display: string; monto: number }[]) => {
-          this.isLoading = false;
-          this.cheques = data;
-        });
-    } else {
-      this.chequesTercerosService
-        .searchByDisplayForEgreso(display)
-        .subscribe((data: { id: number; display: string; monto: number }[]) => {
-          this.isLoading = false;
-          this.cheques = data;
-        });
-    }
+    this.chequesTercerosService
+      .searchByDisplayForIngreso(display)
+      .subscribe((data: { id: number; display: string; monto: number }[]) => {
+        this.isLoading = false;
+        this.cheques = data;
+      });
   }
 
   protected searchUfsList(display: string) {

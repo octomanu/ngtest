@@ -75,6 +75,11 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       ? parseFloat(formValue.transferencia)
       : 0;
 
+    const id_cheque_externo = formValue.id_cheque_tercero
+      ? formValue.id_cheque_tercero.id
+      : null;
+    const id_cheque = formValue.id_cheque ? formValue.id_cheque.id : null;
+
     lineas.push(
       {
         monto: efectivo,
@@ -89,8 +94,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     return {
       fecha: moment(formValue.fecha).format('DD-MM-YYYY'),
       descripcion: formValue.descripcion,
-      id_cheque: formValue.id_cheque.id,
-      id_cheque_externo: formValue.id_cheque_tercero.id,
+      id_cheque,
+      id_cheque_externo,
       lineas,
     };
   }
@@ -126,7 +131,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   protected searchChequesTercerosList(display: string) {
     this.chequesTercerosService
-      .searchByDisplay(display)
+      .searchByDisplayForEgreso(display)
       .subscribe((data: { id: number; display: string; monto: number }[]) => {
         this.isLoading = false;
         this.chequesTerceros = data;

@@ -6,7 +6,6 @@ import { AppState } from 'redux/app.reducer';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NzDrawerService } from 'ng-zorro-antd';
-import { ChangeFilterAction } from 'redux/caja-consorcio/caja-consorcio.actions';
 import { IngresoFormComponent } from '../ingreso-form/ingreso-form.component';
 import { EgresoFormComponent } from '../egreso-form/egreso-form.component';
 
@@ -43,7 +42,6 @@ export class CajaConsorcioButtonsComponent extends ButtonsComponent {
         nzWidth: this.smallViewport ? '100%' : '75%',
         nzContent: IngresoFormComponent,
         nzPlacement: 'right',
-        nzContentParams: { type: 'ingreso' },
       });
     });
   }
@@ -53,9 +51,8 @@ export class CajaConsorcioButtonsComponent extends ButtonsComponent {
       this.drawerService.create({
         nzTitle: res,
         nzWidth: this.smallViewport ? '100%' : '75%',
-        nzContent: IngresoFormComponent,
+        nzContent: EgresoFormComponent,
         nzPlacement: 'right',
-        nzContentParams: { type: 'egreso' },
       });
     });
   }

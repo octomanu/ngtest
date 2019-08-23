@@ -6,6 +6,7 @@
 import {
   AppstoreOutline,
   ArrowDownOutline,
+  CaretRightOutline,
   FullscreenExitOutline,
   FullscreenOutline,
   GlobalOutline,
@@ -13,15 +14,21 @@ import {
   LogoutOutline,
   MailOutline,
   MenuFoldOutline,
+  MenuOutline,
   MenuUnfoldOutline,
+  PlayCircleOutline,
+  RollbackOutline,
   SettingOutline,
   ToolOutline,
+  UnorderedListOutline,
   UserOutline,
+  UnderlineOutline,
 } from '@ant-design/icons-angular/icons';
 
 export const ICONS_AUTO = [
   AppstoreOutline,
   ArrowDownOutline,
+  CaretRightOutline,
   FullscreenExitOutline,
   FullscreenOutline,
   GlobalOutline,
@@ -29,8 +36,13 @@ export const ICONS_AUTO = [
   LogoutOutline,
   MailOutline,
   MenuFoldOutline,
+  MenuOutline,
   MenuUnfoldOutline,
+  PlayCircleOutline,
+  RollbackOutline,
   SettingOutline,
   ToolOutline,
+  UnorderedListOutline,
   UserOutline,
+  UnderlineOutline,
 ];

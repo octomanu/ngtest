@@ -36,8 +36,9 @@ export class CuentaCorrienteUfButtonsComponent extends ButtonsComponent
   drawerContent = CuentaCorrienteUfFilterComponent;
   consorcios: { id: number; display: string }[];
   ufs: { id: number; display: string }[];
+  isLoading = false;
   protected timeout = null;
-  protected isLoading = false;
+
   tooltips: {
     btnCrear: TemplateRef<TooltipHelpComponent>;
     btnFiltros: TemplateRef<TooltipHelpComponent>;
