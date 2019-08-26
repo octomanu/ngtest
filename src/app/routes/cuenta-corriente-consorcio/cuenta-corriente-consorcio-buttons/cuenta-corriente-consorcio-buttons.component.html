@@ -15,10 +15,11 @@
     <nz-select nz-col nz [(ngModel)]="idConsorcio" nzShowSearch [nzServerSearch]="true"
       [nzPlaceHolder]="'global.consorcio' | translate" (nzOnSearch)="searchConsorcios($event)"
       (ngModelChange)="changeProveedor()">
-      <ng-container *ngFor="let consorcio of consorcios">
-        <nz-option *ngIf="!isLoading" [nzValue]="consorcio.id" [nzLabel]="consorcio.display"></nz-option>
+      <ng-container *ngFor="let consorcio of consorciosFinder.consorcios | async">
+        <nz-option *ngIf="!(consorciosFinder.isLoading | async)" [nzValue]="consorcio.id" [nzLabel]="consorcio.display">
+        </nz-option>
       </ng-container>
-      <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+      <nz-option *ngIf="consorciosFinder.isLoading | async" nzDisabled nzCustomContent>
         <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
       </nz-option>
     </nz-select>

@@ -3,6 +3,7 @@ import {
   OnInit,
   TemplateRef,
   ViewContainerRef,
+  OnDestroy,
 } from '@angular/core';
 import { ButtonsComponent } from 'app/routes/classes/ButtonsComponent.class';
 import { CuentaCorrienteConsorcioFilterComponent } from '../cuenta-corriente-consorcio-filter/cuenta-corriente-consorcio-filter.component';
@@ -12,26 +13,28 @@ import { AppState } from 'redux/app.reducer';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NzDrawerService } from 'ng-zorro-antd';
-import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
-import { CuentaCorrienteConsorcioState } from 'redux/cuenta-corriente-consorcio/cuenta-corriente-consorcio.reducer';
 import {
   ChangeConsorcioAction,
   ChangeFilterAction,
 } from 'redux/cuenta-corriente-consorcio/cuenta-corriente-consorcio.actions';
+import { ConsorciosFinderService } from 'app/routes/services/consorcios-finder.service';
+import { selectIdConsorcio } from 'redux/cuenta-corriente-consorcio/cuenta-corriente-consorcio.selectors';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cuenta-corriente-consorcio-buttons',
   templateUrl: './cuenta-corriente-consorcio-buttons.component.html',
   styles: [],
+  providers: [ConsorciosFinderService],
 })
 export class CuentaCorrienteConsorcioButtonsComponent extends ButtonsComponent
-  implements OnInit {
-  public idConsorcio;
+  implements OnInit, OnDestroy {
+  idConsorcio;
   drawerTitle = 'global.cuenta_corriente_consorcio';
   drawerContent = CuentaCorrienteConsorcioFilterComponent;
-  consorcios: { id: number; display: string }[];
   protected timeout = null;
   protected isLoading = false;
+  protected storeSubscripcion: Subscription;
   tooltips: {
     btnCrear: TemplateRef<TooltipHelpComponent>;
     btnFiltros: TemplateRef<TooltipHelpComponent>;
@@ -41,7 +44,7 @@ export class CuentaCorrienteConsorcioButtonsComponent extends ButtonsComponent
   constructor(
     protected store: Store<AppState>,
     protected tooltipBuilder: TooltipHelperService,
-    protected consorciosService: ConsorciosService,
+    public consorciosFinder: ConsorciosFinderService,
     translate: TranslateService,
     drawerService: NzDrawerService,
     viewContainerRef: ViewContainerRef,
@@ -51,13 +54,14 @@ export class CuentaCorrienteConsorcioButtonsComponent extends ButtonsComponent
     this.tooltips = this.tooltipBuilder.getButtonsTooltips();
   }
 
-  ngOnInit(): void {
-    this.searchConsorcioList('');
-    this.store
-      .select('cuentaCorrienteConsorcio')
-      .subscribe((state: CuentaCorrienteConsorcioState) => {
-        this.idConsorcio = state.id_consorcio;
-      });
+  ngOnInit() {
+    this.storeSubscripcion = this.store
+      .select(selectIdConsorcio)
+      .subscribe(idConsorcio => (this.idConsorcio = idConsorcio));
+  }
+
+  ngOnDestroy() {
+    this.storeSubscripcion.unsubscribe();
   }
 
   changeProveedor() {
@@ -65,23 +69,7 @@ export class CuentaCorrienteConsorcioButtonsComponent extends ButtonsComponent
   }
 
   searchConsorcios(display: string) {
-    if (this.timeout) {
-      window.clearTimeout(this.timeout);
-    }
-    this.timeout = window.setTimeout(() => {
-      this.timeout = null;
-      this.isLoading = true;
-      this.searchConsorcioList(display);
-    }, 400);
-  }
-
-  protected searchConsorcioList(display: string) {
-    this.consorciosService
-      .searchByDisplay(display)
-      .subscribe((data: { id: number; display: string }[]) => {
-        this.isLoading = false;
-        this.consorcios = data;
-      });
+    this.consorciosFinder.searchConsorcios(display);
   }
 
   clearFilter() {

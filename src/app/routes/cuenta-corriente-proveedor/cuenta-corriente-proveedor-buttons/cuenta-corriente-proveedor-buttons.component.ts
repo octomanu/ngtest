@@ -16,13 +16,14 @@ import {
   ChangeFilterAction,
   ChangeProveedorAction,
 } from 'redux/cuenta-corriente-proveedor/cuenta-corriente-proveedor.actions';
-import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
-import { CuentaCorrienteProveedorState } from 'redux/cuenta-corriente-proveedor/cuenta-corriente-proveedor.reducer';
+import { ProveedorFinderService } from 'app/routes/services/proveedor-finder/proveedor-finder.service';
+import { selectIdProveedor } from 'redux/cuenta-corriente-proveedor/cuenta-corriente-proveedor.selector';
 
 @Component({
   selector: 'app-cuenta-corriente-proveedor-buttons',
   templateUrl: './cuenta-corriente-proveedor-buttons.component.html',
   styles: [],
+  providers: [ProveedorFinderService],
 })
 export class CuentaCorrienteProveedorButtonsComponent extends ButtonsComponent
   implements OnInit {
@@ -41,7 +42,7 @@ export class CuentaCorrienteProveedorButtonsComponent extends ButtonsComponent
   constructor(
     protected store: Store<AppState>,
     protected tooltipBuilder: TooltipHelperService,
-    protected proveedorService: ProveedoresService,
+    public proveedoresFinder: ProveedorFinderService,
     translate: TranslateService,
     drawerService: NzDrawerService,
     viewContainerRef: ViewContainerRef,
@@ -52,12 +53,9 @@ export class CuentaCorrienteProveedorButtonsComponent extends ButtonsComponent
   }
 
   ngOnInit(): void {
-    this.searchProveedorList('');
     this.store
-      .select('cuentaCorrienteProveedor')
-      .subscribe((state: CuentaCorrienteProveedorState) => {
-        this.idProveedor = state.id_proveedor;
-      });
+      .select(selectIdProveedor)
+      .subscribe(idProveedor => (this.idProveedor = idProveedor));
   }
 
   changeProveedor() {
@@ -65,23 +63,7 @@ export class CuentaCorrienteProveedorButtonsComponent extends ButtonsComponent
   }
 
   searchProveedores(display: string) {
-    if (this.timeout) {
-      window.clearTimeout(this.timeout);
-    }
-    this.timeout = window.setTimeout(() => {
-      this.timeout = null;
-      this.isLoading = true;
-      this.searchProveedorList(display);
-    }, 400);
-  }
-
-  protected searchProveedorList(display: string) {
-    this.proveedorService
-      .searchProveedor(display)
-      .subscribe((data: { id: number; display: string }[]) => {
-        this.isLoading = false;
-        this.proveedores = data;
-      });
+    this.proveedoresFinder.searchProveedores(display);
   }
 
   clearFilter() {

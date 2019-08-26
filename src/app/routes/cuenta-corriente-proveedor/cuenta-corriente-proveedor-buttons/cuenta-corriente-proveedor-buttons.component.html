@@ -15,20 +15,17 @@
     <nz-select nz-col nz [(ngModel)]="idProveedor" nzShowSearch [nzServerSearch]="true"
       [nzPlaceHolder]="'global.proveedor' | translate" (nzOnSearch)="searchProveedores($event)"
       (ngModelChange)="changeProveedor()">
-      <ng-container *ngFor="let proveedor of proveedores">
-        <nz-option *ngIf="!isLoading" [nzValue]="proveedor.id" [nzLabel]="proveedor.display"></nz-option>
+      <ng-container *ngFor="let proveedor of proveedoresFinder.proveedores | async">
+        <nz-option *ngIf="!(proveedoresFinder.isLoading | async)" [nzValue]="proveedor.id"
+          [nzLabel]="proveedor.display"></nz-option>
       </ng-container>
-      <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+      <nz-option *ngIf="proveedoresFinder.isLoading | async" nzDisabled nzCustomContent>
         <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
       </nz-option>
     </nz-select>
   </div>
 
   <div nz-col nzType="flex" nz-row nzJustify="end">
-    <!-- <button nz-col nz-button nz-dropdown (click)="crear()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="left"
-      [nzTitle]=" (keepHelp || help) ? tooltips.btnCrear: ''">
-      <i nz-icon nzTheme="outline" type="plus"></i>
-    </button> -->
   </div>
 
 </div>

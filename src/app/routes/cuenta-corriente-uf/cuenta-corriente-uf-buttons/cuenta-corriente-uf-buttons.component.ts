@@ -10,7 +10,6 @@ import { TooltipHelpComponent } from '@shared/components/tooltip-help/tooltip-he
 import { AppState } from 'redux/app.reducer';
 import { Store } from '@ngrx/store';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
-import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { CuentaCorrienteUfState } from 'redux/cuenta-corriente-uf/cuenta-corriente-uf-reducer';
@@ -19,14 +18,15 @@ import {
   ChangeUfAction,
   ChangeFilterAction,
 } from 'redux/cuenta-corriente-uf/cuenta-corriente-uf-actions';
-import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unidades-funcionales.service';
 import { CobroFormComponent } from '../cobro-form/cobro-form.component';
 import { DeudaFormComponent } from '../deuda-form/deuda-form.component';
+import { UfFinderService } from 'app/routes/services/uf-finder.service';
 
 @Component({
   selector: 'app-cuenta-corriente-uf-buttons',
   templateUrl: './cuenta-corriente-uf-buttons.component.html',
   styles: [],
+  providers: [UfFinderService],
 })
 export class CuentaCorrienteUfButtonsComponent extends ButtonsComponent
   implements OnInit {
@@ -48,8 +48,7 @@ export class CuentaCorrienteUfButtonsComponent extends ButtonsComponent
   constructor(
     protected store: Store<AppState>,
     protected tooltipBuilder: TooltipHelperService,
-    protected consorciosService: ConsorciosService,
-    protected ufsService: UnidadesFuncionalesService,
+    public ufFinder: UfFinderService,
     translate: TranslateService,
     drawerService: NzDrawerService,
     viewContainerRef: ViewContainerRef,
@@ -60,13 +59,15 @@ export class CuentaCorrienteUfButtonsComponent extends ButtonsComponent
   }
 
   ngOnInit(): void {
-    this.searchConsorcioList('');
     this.store
       .select('cuentaCorrienteUf')
       .subscribe((state: CuentaCorrienteUfState) => {
+        if (state.id_consorcio) {
+          this.ufFinder.ufsService.setConsorcio(state.id_consorcio.toString());
+          this.ufFinder.searchUfs('', false);
+        }
         this.idConsorcio = state.id_consorcio;
         this.idUf = state.id_uf;
-        if (state.id_uf) this.searchUfsList('');
       });
   }
 
@@ -80,6 +81,7 @@ export class CuentaCorrienteUfButtonsComponent extends ButtonsComponent
       });
     });
   }
+
   deuda() {
     this.translate.get('global.deuda').subscribe((res: string) => {
       this.drawerService.create({
@@ -93,51 +95,20 @@ export class CuentaCorrienteUfButtonsComponent extends ButtonsComponent
 
   changeConsorcio() {
     this.store.dispatch(new ChangeConsorcioAction(this.idConsorcio));
-    this.ufsService.setConsorcio(this.idConsorcio);
-    this.searchUfsList('');
+    this.ufFinder.ufsService.setConsorcio(this.idConsorcio);
+    this.ufFinder.searchUfs('', false);
   }
+
   changeUf() {
     this.store.dispatch(new ChangeUfAction(this.idUf));
   }
 
   searchConsorcios(display: string) {
-    if (this.timeout) {
-      window.clearTimeout(this.timeout);
-    }
-    this.timeout = window.setTimeout(() => {
-      this.timeout = null;
-      this.isLoading = true;
-      this.searchConsorcioList(display);
-    }, 400);
-  }
-
-  protected searchConsorcioList(display: string) {
-    this.consorciosService
-      .searchByDisplay(display)
-      .subscribe((data: { id: number; display: string }[]) => {
-        this.isLoading = false;
-        this.consorcios = data;
-      });
+    this.ufFinder.searchConsorcios(display);
   }
 
   searchUfs(display: string) {
-    if (this.timeout) {
-      window.clearTimeout(this.timeout);
-    }
-    this.timeout = window.setTimeout(() => {
-      this.timeout = null;
-      this.isLoading = true;
-      this.searchUfsList(display);
-    }, 400);
-  }
-
-  protected searchUfsList(display: string) {
-    this.ufsService
-      .searchByDisplay(display)
-      .subscribe((data: { id: number; display: string }[]) => {
-        this.isLoading = false;
-        this.ufs = data;
-      });
+    this.ufFinder.searchUfs(display);
   }
 
   clearFilter() {

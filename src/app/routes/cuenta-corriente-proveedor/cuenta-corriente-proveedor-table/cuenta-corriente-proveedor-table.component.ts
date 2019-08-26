@@ -3,7 +3,6 @@ import {
   OnInit,
   TemplateRef,
   ViewContainerRef,
-  Input,
 } from '@angular/core';
 import { TableComponent } from 'app/classes/table-component.class';
 import { TooltipHelpComponent } from '@shared/components/tooltip-help/tooltip-help.component';
@@ -47,9 +46,7 @@ export class CuentaCorrienteProveedorTableComponent extends TableComponent
           this.tableLambe.total = state.paginator.recordsFiltered;
           this.paginatorParams = { ...state.paginator.parametros };
         } else {
-          this.tableLambe.data = [];
-          this.tableLambe.loading = false;
-          this.tableLambe.total = 0;
+          this.tableLambe = { data: [], loading: false, total: 0 };
           this.paginatorParams = {
             page: null,
             page_size: null,

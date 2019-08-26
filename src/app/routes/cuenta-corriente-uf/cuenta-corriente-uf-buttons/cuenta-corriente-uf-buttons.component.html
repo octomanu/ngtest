@@ -15,20 +15,21 @@
     <nz-select nz-col nz [(ngModel)]="idConsorcio" nzShowSearch [nzServerSearch]="true"
       [nzPlaceHolder]="'global.consorcio' | translate" (nzOnSearch)="searchConsorcios($event)"
       (ngModelChange)="changeConsorcio()">
-      <ng-container *ngFor="let consorcio of consorcios">
-        <nz-option *ngIf="!isLoading" [nzValue]="consorcio.id" [nzLabel]="consorcio.display"></nz-option>
+      <ng-container *ngFor="let consorcio of ufFinder.consorcios | async">
+        <nz-option *ngIf="!(ufFinder.isLoading | async)" [nzValue]="consorcio.id" [nzLabel]="consorcio.display">
+        </nz-option>
       </ng-container>
-      <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+      <nz-option *ngIf="ufFinder.isLoading | async" nzDisabled nzCustomContent>
         <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
       </nz-option>
     </nz-select>
 
     <nz-select nz-col nz [(ngModel)]="idUf" nzShowSearch [nzServerSearch]="true"
       [nzPlaceHolder]="'global.uf' | translate" (nzOnSearch)="searchUfs($event)" (ngModelChange)="changeUf()">
-      <ng-container *ngFor="let uf of ufs">
-        <nz-option *ngIf="!isLoading" [nzValue]="uf.id" [nzLabel]="uf.display"></nz-option>
+      <ng-container *ngFor="let uf of ufFinder.ufs | async">
+        <nz-option *ngIf="!(ufFinder.isLoading | async)" [nzValue]="uf.id" [nzLabel]="uf.display"></nz-option>
       </ng-container>
-      <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+      <nz-option *ngIf="ufFinder.isLoading | async" nzDisabled nzCustomContent>
         <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
       </nz-option>
     </nz-select>
@@ -36,13 +37,13 @@
 
   <div nz-col nzType="flex" nz-row nzJustify="end">
 
-    <button [disabled]="!idUf" nz-col nz-button nz-dropdown (click)="cobro()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="left"
-      [nzTitle]=" (keepHelp || help) ? tooltips.btnCrear: ''">
+    <button [disabled]="!idUf" nz-col nz-button nz-dropdown (click)="cobro()" nz-tooltip [nzVisible]="keepHelp"
+      nzPlacement="left" [nzTitle]=" (keepHelp || help) ? tooltips.btnCrear: ''">
       <span>{{'global.cobro' | translate}}</span>
     </button>
 
-    <button [disabled]="!idUf" nz-col nz-button nz-dropdown (click)="deuda()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="left"
-      [nzTitle]=" (keepHelp || help) ? tooltips.btnCrear: ''">
+    <button [disabled]="!idUf" nz-col nz-button nz-dropdown (click)="deuda()" nz-tooltip [nzVisible]="keepHelp"
+      nzPlacement="left" [nzTitle]=" (keepHelp || help) ? tooltips.btnCrear: ''">
       <span>{{'global.deuda' | translate}}</span>
     </button>
 

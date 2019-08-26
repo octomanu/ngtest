@@ -9,3 +9,8 @@ export const selectFiltros = createSelector(
   selectCuentaCorrienteProveedor,
   (state: CuentaCorrienteProveedorState) => state.filtros,
 );
+
+export const selectIdProveedor = createSelector(
+  selectCuentaCorrienteProveedor,
+  (state: CuentaCorrienteProveedorState) => state.id_proveedor,
+);
