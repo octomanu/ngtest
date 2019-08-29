@@ -1,0 +1,53 @@
+<nz-result *ngIf="intermediateSalaryForm.form.value.horas_extras.length === 0" [nzIcon]="'smile-twotone'"
+  [nzTitle]="'global.agregar_horas_extras' | translate">
+  <div nz-result-extra>
+    <button nz-button (click)="addRow()">
+      <i nz-icon nzType="plus" nzTheme="outline"></i>
+    </button>
+  </div>
+</nz-result>
+
+<div nz-form [nzLayout]="'horizontal'" [formGroup]="intermediateSalaryForm.form">
+  <div formArrayName="horas_extras" [@fadeInOut]="'in'"
+    *ngFor="let item of intermediateSalaryForm.form.get('horas_extras')['controls']; let i = index;">
+
+    <div nz-row nzType="flex" nzJustify="space-between" [formGroupName]="i" (contextmenu)="contextMenu($event, menu)">
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item>
+            <a nz-popconfirm (nzOnConfirm)="deleteRow(i)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
+              [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
+            <ng-template #iconTpl>
+              <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+            </ng-template>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'global.concepto' | translate }}</nz-form-label>
+          <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+            <input formControlName="concepto" nz-input />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'global.valor' | translate }}</nz-form-label>
+          <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+            <input formControlName="valor" nz-input />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #userErrorTpl let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    {{ 'global.campo_requerido' | translate }}
+  </ng-container>
+</ng-template>

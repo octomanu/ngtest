@@ -1,0 +1,49 @@
+<div class="table-operations" nzType="flex" nz-row nzJustify="space-between">
+
+  <div nz-col nzType="flex" nz-row nzJustify="start">
+    <button nz-col nz-button nz-dropdown (click)="openFilter()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="left"
+      [nzTitle]=" (keepHelp || help) ? tooltips.btnFiltros: ''">
+      <i nz-icon nzTheme="outline" type="search"></i>
+    </button>
+    <button nz-col nz-button nz-dropdown (click)="clearFilter()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="right"
+      [nzTitle]=" (keepHelp || help) ? tooltips.btnNoFltros: ''">
+      <i nz-icon nzTheme="outline" type="delete"></i>
+    </button>
+  </div>
+
+  <div nz-col nzType="flex" nz-row nzJustify="center">
+    <nz-select nz-col nz [(ngModel)]="idEmpleado" nzShowSearch [nzServerSearch]="true"
+      [nzPlaceHolder]="'global.empleado' | translate" (nzOnSearch)="searchEmpleados($event)"
+      (ngModelChange)="changeEmpleado()">
+      <ng-container *ngFor="let proveedor of empleadosFinder.options | async">
+        <nz-option *ngIf="!(empleadosFinder.isLoading | async)" [nzValue]="proveedor.id" [nzLabel]="proveedor.display">
+        </nz-option>
+      </ng-container>
+      <nz-option *ngIf="empleadosFinder.isLoading | async" nzDisabled nzCustomContent>
+        <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+      </nz-option>
+    </nz-select>
+  </div>
+
+  <div nz-col nzType="flex" nz-row nzJustify="end">
+    <button [nzDisabled]="!idEmpleado" nz-button nz-dropdown [nzDropdownMenu]="menu">
+      {{'global.liquidaciones' | translate}}
+      <i nz-icon nzType="down"></i>
+    </button>
+  </div>
+
+</div>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item (click)="salarySettlement()">
+      <a>{{'global.sueldos' | translate}}</a>
+    </li>
+    <li nz-menu-item (click)="intermediateSalarySettlement()">
+      <a>{{'global.sueldo_intermedio' | translate}}</a>
+    </li>
+    <li nz-menu-item (click)="vacationSettlement()">
+      <a>{{'global.vacaciones' | translate}}</a>
+    </li>
+  </ul>
+</nz-dropdown-menu>

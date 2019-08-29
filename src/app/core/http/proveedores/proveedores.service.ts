@@ -4,19 +4,14 @@ import { throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { CrudService } from '../crud-service.class';
 import { environment } from '@env/environment';
+import { TypeAheadService } from 'app/interfaces/local/type-ahead-service.interface';
+import { ServicePathGetter } from '../service-path-getter.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class ProveedoresService extends CrudService {
-  constructor(http: HttpClient) {
-    super(http);
-  }
-
-  getPath() {
-    return 'proveedores';
-  }
-
-  searchProveedor(display: string) {
+export class ProveedoresService extends CrudService
+  implements TypeAheadService, ServicePathGetter {
+  searchByDisplay(display: string) {
     const URL = `${environment.OCTO_API}/${this.getPath()}/buscar`;
     let params = new HttpParams();
     params = params.append('display', display);
@@ -24,5 +19,9 @@ export class ProveedoresService extends CrudService {
       map((resp: any) => resp.data),
       catchError(err => throwError(err)),
     );
+  }
+
+  getPath() {
+    return 'proveedores';
   }
 }

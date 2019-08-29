@@ -1,0 +1,57 @@
+<form nz-form [nzLayout]="'horizontal'" [formGroup]="salaryForm.form">
+  <div nz-row nzType="flex" nzJustify="space-between">
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 24 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.concepto_recibo' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input formControlName="concepto_recibo" nz-input />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.horas_trabajadas' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input formControlName="horas_trabajadas" nz-input />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.mes' | translate }} / {{ 'global.año' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <nz-month-picker style="width:100%;" [nzStyle]="{width: '100%'}" formControlName="mes_anio" nzFormat="MM-yyyy">
+          </nz-month-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.licencia_justificada' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input formControlName="dias_licencia_justificada" nz-input />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.licencia_injustificada' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input formControlName="dias_licencia" nz-input />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+</form>
+
+<ng-template #userErrorTpl let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    {{ 'global.campo_requerido' | translate }}
+  </ng-container>
+</ng-template>

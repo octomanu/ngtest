@@ -4,11 +4,14 @@ import { CrudService } from '../crud-service.class';
 import { environment } from '@env/environment';
 import { throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { TypeAheadService } from 'app/interfaces/local/type-ahead-service.interface';
+import { ServicePathGetter } from '../service-path-getter.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ChequesService extends CrudService {
+export class ChequesService extends CrudService
+  implements TypeAheadService, ServicePathGetter {
   constructor(http: HttpClient) {
     super(http);
   }

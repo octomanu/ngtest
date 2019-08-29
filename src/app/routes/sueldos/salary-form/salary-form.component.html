@@ -1,0 +1,36 @@
+<div nz-row nzType="flex" nzJustify="space-between">
+
+  <div nz-row nzType="flex" nzJustify="start">
+    <button nz-button [disabled]="salaryForm.form.invalid" [nzType]="salaryForm.preview ? 'default' : 'primary'"
+      (click)="submit()">
+      <span>{{ 'global.calcular' | translate }}</span>
+    </button>
+    <button nz-button [@fadeInOut]="'in'" *ngIf="salaryForm.preview" nzType="primary">
+      <span>{{ 'global.guardar' | translate }}</span>
+    </button>
+  </div>
+
+
+  <button *ngIf="showAddRow && salaryForm.form.value.horas_extras.length > 0" [@fadeInOut]="'in'" nz-button (click)="addRow()">
+    <i nz-icon nzType="plus" nzTheme="outline"></i>
+  </button>
+</div>
+
+
+<nz-tabset (nzSelectedIndexChange)="chageTab($event)" [(nzSelectedIndex)]="currentTab">
+  <nz-tab [nzTitle]="'global.informacion_basica' | translate">
+    <app-basic-information-tab></app-basic-information-tab>
+  </nz-tab>
+
+  <nz-tab [nzTitle]="'global.aportes_contribuciones' | translate">
+    <app-contributions-tab></app-contributions-tab>
+  </nz-tab>
+
+  <nz-tab [nzTitle]="'global.horas_extras' | translate">
+    <app-extra-hours-tab></app-extra-hours-tab>
+  </nz-tab>
+
+  <nz-tab [nzTitle]="'global.previsualizacion' | translate" [nzDisabled]="!salaryForm.preview">
+    <app-preview-tab *ngIf="salaryForm.preview"></app-preview-tab>
+  </nz-tab>
+</nz-tabset>

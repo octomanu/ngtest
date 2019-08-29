@@ -16,6 +16,7 @@ import { CountdownModule } from 'ngx-countdown';
 import { BooleanPipe } from './pipes/boolean.pipe';
 import { ModalHelpComponent } from './components/modal-help/modal-help.component';
 import { TooltipHelpComponent } from './components/tooltip-help/tooltip-help.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const THIRDMODULES = [NgZorroAntdModule, CountdownModule];
 // #endregion
@@ -37,6 +38,7 @@ const PIPES = [BooleanPipe];
     DelonACLModule.forRoot(),
     DelonFormModule,
     TranslateModule,
+    BrowserAnimationsModule,
     // third libs
     ...THIRDMODULES,
   ],
@@ -48,6 +50,7 @@ const PIPES = [BooleanPipe];
   ],
   entryComponents: [TooltipHelpComponent],
   exports: [
+    BrowserAnimationsModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

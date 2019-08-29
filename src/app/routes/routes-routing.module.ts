@@ -38,6 +38,7 @@ import { OrdenesPagoComponent } from './ordenes-pago/ordenes-pago.component';
 import { CuentaCorrienteProveedorComponent } from './cuenta-corriente-proveedor/cuenta-corriente-proveedor.component';
 import { CuentaCorrienteConsorcioComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio.component';
 import { CuentaCorrienteUfComponent } from './cuenta-corriente-uf/cuenta-corriente-uf.component';
+import { SueldosComponent } from './sueldos/sueldos.component';
 
 const routes: Routes = [
   {
@@ -157,6 +158,11 @@ const routes: Routes = [
         path: 'cuenta-corriente-uf',
         component: CuentaCorrienteUfComponent,
         data: { title: 'Cuenta Corriente Uf' },
+      },
+      {
+        path: 'sueldos',
+        component: SueldosComponent,
+        data: { title: 'Sueldos' },
       },
       {
         path: 'exception',

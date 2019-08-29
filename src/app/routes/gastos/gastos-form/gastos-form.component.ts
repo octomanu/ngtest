@@ -463,7 +463,7 @@ export class GastosFormComponent implements OnInit {
 
   protected searchProveedorList(display: string) {
     this.proveedorService
-      .searchProveedor(display)
+      .searchByDisplay(display)
       .subscribe((data: { id: number; display: string }[]) => {
         this.isLoading = false;
         this.proveedores = data;

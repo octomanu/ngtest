@@ -120,7 +120,7 @@ export class CuentaCorrienteAllTableComponent extends TableLambe
 
   searchProveedorList(display: string) {
     this.proveedorService
-      .searchProveedor(display)
+      .searchByDisplay(display)
       .subscribe((data: { id: number; display: string }[]) => {
         this.isLoading = false;
         this.proveedores = data;

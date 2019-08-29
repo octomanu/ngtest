@@ -1,0 +1,72 @@
+<form nz-form [nzLayout]="'horizontal'" [formGroup]="vacationForm.form">
+  <div nz-row nzType="flex" nzJustify="space-between">
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.mes' | translate }} / {{ 'global.año' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <nz-month-picker style="width:100%;" [nzStyle]="{width: '100%'}" formControlName="mes_anio"
+            nzFormat="MM-yyyy">
+          </nz-month-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.dias' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input formControlName="dias_vacaciones" nz-input />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.valor' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input formControlName="dias_vacaciones_valor" nz-input />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <nz-divider nzText="{{'global.aportes_contribuciones' | translate}}" nzOrientation="left"></nz-divider>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.mes' | translate }} / {{ 'global.año' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <nz-month-picker style="width:100%;" [nzStyle]="{width: '100%'}" formControlName="aportes_mes_anio"
+            nzFormat="MM-yyyy">
+          </nz-month-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.banco' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input formControlName="aportes_banco" nz-input />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.fecha_deposito' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <nz-date-picker style="width:100%;" [nzStyle]="{width: '100%'}" formControlName="aportes_fecha_deposito"
+            nzFormat="dd-MM-yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+</form>
+
+<ng-template #userErrorTpl let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    {{ 'global.campo_requerido' | translate }}
+  </ng-container>
+</ng-template>

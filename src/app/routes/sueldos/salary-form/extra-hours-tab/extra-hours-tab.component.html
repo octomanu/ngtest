@@ -1,0 +1,65 @@
+<nz-result *ngIf="salaryForm.form.value.horas_extras.length === 0" [nzIcon]="'smile-twotone'"
+  [nzTitle]="'global.agregar_horas_extras' | translate">
+  <div nz-result-extra>
+    <button nz-button (click)="addRow()">
+      <i nz-icon nzType="plus" nzTheme="outline"></i>
+    </button>
+  </div>
+</nz-result>
+
+<div nz-form [nzLayout]="'horizontal'" [formGroup]="salaryForm.form">
+  <div formArrayName="horas_extras" [@fadeInOut]="'in'"
+    *ngFor="let item of salaryForm.form.get('horas_extras')['controls']; let i = index;">
+
+    <div nz-row nzType="flex" nzJustify="space-between" [formGroupName]="i"
+      (contextmenu)="contextMenu($event, menuRowContainer)">
+      <ng-template #menuRowContainer>
+        <ul nz-menu nzInDropDown>
+          <li nz-menu-item>
+            <a nz-popconfirm (nzOnConfirm)="deleteRow(i)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
+              [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
+            <ng-template #iconTpl>
+              <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+            </ng-template>
+          </li>
+        </ul>
+      </ng-template>
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 6 }">
+        <nz-form-item>
+          <nz-form-label nzRequired>
+            {{ 'global.concepto_recibo' | translate }}
+          </nz-form-label>
+          <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+            <input formControlName="porcentaje" nz-input />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 6 }">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'global.concepto_recibo' | translate }}</nz-form-label>
+          <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+            <input formControlName="descripcion" nz-input />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 6 }">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ 'global.concepto_recibo' | translate }}</nz-form-label>
+          <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+            <input formControlName="cantidad_horas" nz-input />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #userErrorTpl let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    {{ 'global.campo_requerido' | translate }}
+  </ng-container>
+</ng-template>

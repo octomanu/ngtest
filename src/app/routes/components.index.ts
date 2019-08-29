@@ -86,7 +86,19 @@ import { CuentaCorrienteUfTableComponent } from './cuenta-corriente-uf/cuenta-co
 import { CuentaCorrienteUfTagsComponent } from './cuenta-corriente-uf/cuenta-corriente-uf-tags/cuenta-corriente-uf-tags.component';
 import { CobroFormComponent } from './cuenta-corriente-uf/cobro-form/cobro-form.component';
 import { DeudaFormComponent } from './cuenta-corriente-uf/deuda-form/deuda-form.component';
-
+import { SalaryFormComponent } from './sueldos/salary-form/salary-form.component';
+import { SueldosButtonsComponent } from './sueldos/sueldos-buttons/sueldos-buttons.component';
+import { BasicInformationTabComponent } from './sueldos/salary-form/basic-information-tab/basic-information-tab.component';
+import { ContributionsTabComponent } from './sueldos/salary-form/contributions-tab/contributions-tab.component';
+import { ExtraHoursTabComponent } from './sueldos/salary-form/extra-hours-tab/extra-hours-tab.component';
+import { IntermediateSalaryFormComponent } from './sueldos/intermediate-salary-form/intermediate-salary-form.component';
+import { BasicInformationTabComponent as BasicInformationTabComponentIs } from './sueldos/intermediate-salary-form/basic-information-tab/basic-information-tab.component';
+import { ExtraHoursTabComponent as ExtraHoursTabComponentIs } from './sueldos/intermediate-salary-form/extra-hours-tab/extra-hours-tab.component';
+import { VacationFormComponent } from './sueldos/vacation-form/vacation-form.component';
+import { PreviewTabComponent as PreviewTabComponentVacation } from './sueldos/vacation-form/preview-tab/preview-tab.component';
+import { PreviewTabComponent } from './sueldos/salary-form/preview-tab/preview-tab.component';
+import { BasicInformationTabComponent as BasicInformationTabComponentVacation } from './sueldos/vacation-form/basic-information-tab/basic-information-tab.component';
+import { PreviewTabComponent as PreviewTabComponentIntermediate } from './sueldos/intermediate-salary-form/preview-tab/preview-tab.component';
 export const COMPONENTS = [
   ProveedorFormComponent,
   ProveedorTableFilterComponent,
@@ -176,4 +188,17 @@ export const COMPONENTS = [
   CuentaCorrienteUfTagsComponent,
   CobroFormComponent,
   DeudaFormComponent,
+  SalaryFormComponent,
+  SueldosButtonsComponent,
+  BasicInformationTabComponent,
+  ContributionsTabComponent,
+  ExtraHoursTabComponent,
+  IntermediateSalaryFormComponent,
+  BasicInformationTabComponentIs,
+  ExtraHoursTabComponentIs,
+  VacationFormComponent,
+  PreviewTabComponentVacation,
+  PreviewTabComponent,
+  BasicInformationTabComponentVacation,
+  PreviewTabComponentIntermediate,
 ];

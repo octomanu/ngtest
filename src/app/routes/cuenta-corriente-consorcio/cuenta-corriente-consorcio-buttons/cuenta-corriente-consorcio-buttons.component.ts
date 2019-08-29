@@ -17,9 +17,9 @@ import {
   ChangeConsorcioAction,
   ChangeFilterAction,
 } from 'redux/cuenta-corriente-consorcio/cuenta-corriente-consorcio.actions';
-import { ConsorciosFinderService } from 'app/routes/services/consorcios-finder.service';
 import { selectIdConsorcio } from 'redux/cuenta-corriente-consorcio/cuenta-corriente-consorcio.selectors';
 import { Subscription } from 'rxjs';
+import { ConsorciosFinderService } from 'app/routes/services/type-ahead/consorcios-finder/consorcios-finder.service';
 
 @Component({
   selector: 'app-cuenta-corriente-consorcio-buttons',
@@ -34,7 +34,6 @@ export class CuentaCorrienteConsorcioButtonsComponent extends ButtonsComponent
   drawerContent = CuentaCorrienteConsorcioFilterComponent;
   protected timeout = null;
   protected isLoading = false;
-  protected storeSubscripcion: Subscription;
   tooltips: {
     btnCrear: TemplateRef<TooltipHelpComponent>;
     btnFiltros: TemplateRef<TooltipHelpComponent>;

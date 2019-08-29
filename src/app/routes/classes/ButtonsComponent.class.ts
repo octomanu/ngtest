@@ -1,12 +1,14 @@
 import { EventEmitter, Output, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NzDrawerService } from 'ng-zorro-antd';
+import { Subscription } from 'rxjs';
 
 export class ButtonsComponent {
   @Input() help: boolean;
   @Input() keepHelp: boolean;
   @Input() smallViewport: boolean;
   @Output() openForm = new EventEmitter();
+  protected storeSubscripcion: Subscription;
   drawerTitle = '';
   drawerContent: any;
   constructor(

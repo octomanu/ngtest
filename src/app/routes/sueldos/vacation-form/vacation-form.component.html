@@ -1,0 +1,23 @@
+<div nz-row nzType="flex" nzJustify="space-between">
+
+  <div nz-row nzType="flex" nzJustify="start">
+    <button nz-button [disabled]="vacationForm.form.invalid" [nzType]="vacationForm.preview ? 'default' : 'primary'"
+      (click)="submit()">
+      <span>{{ 'global.calcular' | translate }}</span>
+    </button>
+    <button nz-button [@fadeInOut]="'in'" *ngIf="vacationForm.preview" nzType="primary">
+      <span>{{ 'global.guardar' | translate }}</span>
+    </button>
+  </div>
+</div>
+
+
+<nz-tabset (nzSelectedIndexChange)="chageTab($event)" [(nzSelectedIndex)]="currentTab">
+  <nz-tab [nzTitle]="'global.informacion_basica' | translate">
+    <app-basic-information-tab-vacation></app-basic-information-tab-vacation>
+  </nz-tab>
+
+  <nz-tab [nzTitle]="'global.previsualizacion' | translate" [nzDisabled]="!vacationForm.preview">
+    <app-preview-tab-vacation *ngIf="vacationForm.preview"></app-preview-tab-vacation>
+  </nz-tab>
+</nz-tabset>

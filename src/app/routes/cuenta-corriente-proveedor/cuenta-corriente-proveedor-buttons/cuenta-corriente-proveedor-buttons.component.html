@@ -15,7 +15,7 @@
     <nz-select nz-col nz [(ngModel)]="idProveedor" nzShowSearch [nzServerSearch]="true"
       [nzPlaceHolder]="'global.proveedor' | translate" (nzOnSearch)="searchProveedores($event)"
       (ngModelChange)="changeProveedor()">
-      <ng-container *ngFor="let proveedor of proveedoresFinder.proveedores | async">
+      <ng-container *ngFor="let proveedor of proveedoresFinder.options | async">
         <nz-option *ngIf="!(proveedoresFinder.isLoading | async)" [nzValue]="proveedor.id"
           [nzLabel]="proveedor.display"></nz-option>
       </ng-container>

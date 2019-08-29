@@ -20,7 +20,7 @@ import {
 } from 'redux/cuenta-corriente-uf/cuenta-corriente-uf-actions';
 import { CobroFormComponent } from '../cobro-form/cobro-form.component';
 import { DeudaFormComponent } from '../deuda-form/deuda-form.component';
-import { UfFinderService } from 'app/routes/services/uf-finder.service';
+import { UfFinderService } from 'app/routes/services/type-ahead/uf-finder/uf-finder.service';
 
 @Component({
   selector: 'app-cuenta-corriente-uf-buttons',

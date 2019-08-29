@@ -16,8 +16,8 @@ import {
   ChangeFilterAction,
   ChangeProveedorAction,
 } from 'redux/cuenta-corriente-proveedor/cuenta-corriente-proveedor.actions';
-import { ProveedorFinderService } from 'app/routes/services/proveedor-finder/proveedor-finder.service';
 import { selectIdProveedor } from 'redux/cuenta-corriente-proveedor/cuenta-corriente-proveedor.selector';
+import { ProveedorFinderService } from 'app/routes/services/type-ahead/proveedor-finder/proveedor-finder.service';
 
 @Component({
   selector: 'app-cuenta-corriente-proveedor-buttons',
@@ -63,7 +63,7 @@ export class CuentaCorrienteProveedorButtonsComponent extends ButtonsComponent
   }
 
   searchProveedores(display: string) {
-    this.proveedoresFinder.searchProveedores(display);
+    this.proveedoresFinder.search(display);
   }
 
   clearFilter() {
