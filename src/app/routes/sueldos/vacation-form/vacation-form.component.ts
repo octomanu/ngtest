@@ -2,11 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import { VacationForm } from './vacation.form';
 import { SueldosService } from '@core/http/sueldos/sueldos.service';
 import { NzMessageService } from 'ng-zorro-antd';
+import { fadeInOut } from '@shared/animations/fade-in-out.animation';
 
 @Component({
   selector: 'app-vacation-form',
   templateUrl: './vacation-form.component.html',
   styles: [],
+  animations: [fadeInOut],
 })
 export class VacationFormComponent implements OnInit {
   @Input() idEmpleado;
