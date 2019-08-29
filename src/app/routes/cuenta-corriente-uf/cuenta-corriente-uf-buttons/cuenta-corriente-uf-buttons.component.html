@@ -3,11 +3,11 @@
   <div nz-col nzType="flex" nz-row nzJustify="start">
     <button nz-col nz-button nz-dropdown (click)="openFilter()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="left"
       [nzTitle]=" (keepHelp || help) ? tooltips.btnFiltros: ''">
-      <i nz-icon nzTheme="outline" type="search"></i>
+      <i nz-icon nzTheme="outline" nzType="search"></i>
     </button>
     <button nz-col nz-button nz-dropdown (click)="clearFilter()" nz-tooltip [nzVisible]="keepHelp" nzPlacement="right"
       [nzTitle]=" (keepHelp || help) ? tooltips.btnNoFltros: ''">
-      <i nz-icon nzTheme="outline" type="delete"></i>
+      <i nz-icon nzTheme="outline" nzType="delete"></i>
     </button>
   </div>
 
@@ -20,7 +20,7 @@
         </nz-option>
       </ng-container>
       <nz-option *ngIf="ufFinder.isLoading | async" nzDisabled nzCustomContent>
-        <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+        <i nz-icon nzType="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
       </nz-option>
     </nz-select>
 
@@ -30,7 +30,7 @@
         <nz-option *ngIf="!(ufFinder.isLoading | async)" [nzValue]="uf.id" [nzLabel]="uf.display"></nz-option>
       </ng-container>
       <nz-option *ngIf="ufFinder.isLoading | async" nzDisabled nzCustomContent>
-        <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+        <i nz-icon nzType="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
       </nz-option>
     </nz-select>
   </div>

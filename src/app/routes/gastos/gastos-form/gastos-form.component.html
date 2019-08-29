@@ -12,11 +12,11 @@
   <nz-form-label nzFor="descripcion">{{ 'global.descripcion' | translate }}
   </nz-form-label>
   <button type="button" nz-col nz-button nzType="primary" nzSize="small" (click)="crearPlantilla()">
-    <i nz-icon nzTheme="outline" type="plus"></i>
+    <i nz-icon nzTheme="outline" nzType="plus"></i>
   </button>
   <button type="button" nz-col nz-button nzType="primary" nzSize="small"
     (click)="descripcionsfilter = !descripcionsfilter">
-    <i nz-icon nzTheme="outline" type="search"></i>
+    <i nz-icon nzTheme="outline" nzType="search"></i>
   </button>
 
   <nz-form-item *ngIf="descripcionsfilter" class="animated faster fadeIn">
@@ -77,7 +77,7 @@
 
             <button nz-button (click)="openProveedoresForm()" type="button" class="ant-btn ant-btn-primary"
               style="width:15%;">
-              <i nz-icon type="plus"></i>
+              <i nz-icon nzType="plus"></i>
             </button>
 
           </nz-input-group>
