@@ -13,25 +13,23 @@ export class SueldosService implements ServicePathGetter {
   constructor(protected http: HttpClient) {}
 
   calculateSalary(data) {
-    const URL = `${environment.OCTO_API}/${this.getPath()}/calcular-mensual`;
-
-    return this.http.post(URL, data).pipe(
-      map((resp: any) => resp.data),
-      catchError(err => throwError(err)),
-    );
+    return this.post('calcular-mensual', data);
   }
 
   calculateVacation(data) {
-    const URL = `${environment.OCTO_API}/${this.getPath()}/calcular-vacaciones`;
-
-    return this.http.post(URL, data).pipe(
-      map((resp: any) => resp.data),
-      catchError(err => throwError(err)),
-    );
+    return this.post('calcular-vacaciones', data);
   }
 
   calculateIntermediate(data) {
-    const URL = `${environment.OCTO_API}/${this.getPath()}/calcular-intermedio`;
+    return this.post('calcular-intermedio', data);
+  }
+
+  calculateSac(data) {
+    return this.post('calcular-sac', data);
+  }
+
+  protected post(endUrl: string, data: any) {
+    const URL = `${environment.OCTO_API}/${this.getPath()}/${endUrl}`;
 
     return this.http.post(URL, data).pipe(
       map((resp: any) => resp.data),

@@ -1,13 +1,13 @@
 import { Component, TemplateRef } from '@angular/core';
 import { SalayForm } from '../salary.form';
 import { NzDropdownService } from 'ng-zorro-antd';
-import { fadeInOut } from '@shared/animations/fade-in-out.animation';
+import { fadeInOut, fadeIn } from '@shared/animations/fade-in-out.animation';
 
 @Component({
   selector: 'app-extra-hours-tab',
   templateUrl: './extra-hours-tab.component.html',
   styles: [],
-  animations: [fadeInOut],
+  animations: [fadeInOut, fadeIn],
 })
 export class ExtraHoursTabComponent {
   constructor(

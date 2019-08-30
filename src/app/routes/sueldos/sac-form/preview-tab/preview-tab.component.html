@@ -1,0 +1,81 @@
+<nz-tabset nzTabPosition="right" [nzType]="'line'">
+
+  <nz-tab [nzTitle]="'global.sueldo' | translate">
+    <ng-template nz-tab>
+      <nz-table [@fadeInOut]="'in'" [nzData]="[1,2,3]" [nzShowPagination]="false">
+        <tbody>
+          <tr>
+            <td>
+              <strong>
+                {{'global.noRemunerativo' | translate}}:&nbsp;
+              </strong>
+              {{sacForm.preview.noRemunerativo}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>
+                {{'global.sueldo_bruto' | translate}}:&nbsp;
+              </strong>
+              {{sacForm.preview.sueldoBruto}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>
+                {{'global.sueldo_jornal' | translate}}:&nbsp;
+              </strong>
+              {{sacForm.preview.sueldoJornal}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>
+                {{'global.sueldo_neto' | translate}}:&nbsp;
+              </strong>
+              {{sacForm.preview.sueldoNeto}}
+            </td>
+            <td></td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </ng-template>
+  </nz-tab>
+
+  <nz-tab [nzTitle]="'global.conceptos' | translate">
+    <ng-template nz-tab>
+      <nz-list [@fadeInOut]="'in'" [nzDataSource]="sacForm.preview.conceptos" nzBordered nzSize="small"
+        [nzRenderItem]="smallItem">
+        <ng-template #smallItem let-item>
+          <nz-list-item [nzActions]="[opAction]" [nzContent]="item.descripcion" nzNoFlex></nz-list-item>
+          <ng-template #opAction><a>{{item.valor}}</a></ng-template>
+        </ng-template>
+      </nz-list>
+    </ng-template>
+  </nz-tab>
+
+  <nz-tab [nzTitle]="'global.contribuciones_empleado' | translate">
+    <ng-template nz-tab>
+      <nz-list [@fadeInOut]="'in'" [nzDataSource]="sacForm.preview.contribucionesEmpleado" nzBordered nzSize="small"
+        [nzRenderItem]="smallItem">
+        <ng-template #smallItem let-item>
+          <nz-list-item [nzActions]="[opAction]" [nzContent]="item.descripcion" nzNoFlex></nz-list-item>
+          <ng-template #opAction><a>{{item.valor}}</a></ng-template>
+        </ng-template>
+      </nz-list>
+    </ng-template>
+  </nz-tab>
+
+  <nz-tab [nzTitle]="'global.contribuciones_empleador' | translate">
+    <ng-template nz-tab>
+      <nz-list [@fadeInOut]="'in'" [nzDataSource]="sacForm.preview.contribucionesEmpleador" nzBordered nzSize="small"
+        [nzRenderItem]="smallItem">
+        <ng-template #smallItem let-item>
+          <nz-list-item [nzActions]="[opAction]" [nzContent]="item.descripcion" nzNoFlex></nz-list-item>
+          <ng-template #opAction><a>{{item.valor}}</a></ng-template>
+        </ng-template>
+      </nz-list>
+    </ng-template>
+  </nz-tab>
+
+</nz-tabset>

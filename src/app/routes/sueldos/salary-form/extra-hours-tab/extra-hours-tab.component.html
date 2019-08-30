@@ -1,4 +1,4 @@
-<nz-result *ngIf="salaryForm.form.value.horas_extras.length === 0" [nzIcon]="'smile-twotone'"
+<nz-result [@fadeIn]="'in'" *ngIf="salaryForm.form.value.horas_extras.length === 0" [nzIcon]="'smile-twotone'"
   [nzTitle]="'global.agregar_horas_extras' | translate">
   <div nz-result-extra>
     <button nz-button (click)="addRow()">
@@ -7,7 +7,8 @@
   </div>
 </nz-result>
 
-<div nz-form [nzLayout]="'horizontal'" [formGroup]="salaryForm.form">
+<div nz-form [nzLayout]="'horizontal'" [formGroup]="salaryForm.form"
+  *ngIf="salaryForm.form.value.horas_extras.length > 0">
   <div formArrayName="horas_extras" [@fadeInOut]="'in'"
     *ngFor="let item of salaryForm.form.get('horas_extras')['controls']; let i = index;">
 

@@ -1,26 +1,26 @@
 import { Component } from '@angular/core';
-import { IntermediateSalayForm } from '../intermediate-salary.form';
+import { SacForm } from '../sac.form';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd';
 import { fadeInOut, fadeIn } from '@shared/animations/fade-in-out.animation';
 
 @Component({
-  selector: 'app-extra-hours-tab-is',
+  selector: 'app-extra-hours-tab-sac',
   templateUrl: './extra-hours-tab.component.html',
   styles: [],
   animations: [fadeInOut, fadeIn],
 })
 export class ExtraHoursTabComponent {
   constructor(
-    public intermediateSalaryForm: IntermediateSalayForm,
+    public sacForm: SacForm,
     protected nzContextMenuService: NzContextMenuService,
   ) {}
 
-  deleteRow(index) {
-    this.intermediateSalaryForm.deleteHoraExtra(index);
+  deleteRow(index: any) {
+    this.sacForm.deleteHoraExtra(index);
   }
 
   addRow() {
-    this.intermediateSalaryForm.newHoraExtra();
+    this.sacForm.newHoraExtra();
   }
 
   contextMenu($event: MouseEvent, template: NzDropdownMenuComponent) {

@@ -99,6 +99,10 @@ import { PreviewTabComponent as PreviewTabComponentVacation } from './sueldos/va
 import { PreviewTabComponent } from './sueldos/salary-form/preview-tab/preview-tab.component';
 import { BasicInformationTabComponent as BasicInformationTabComponentVacation } from './sueldos/vacation-form/basic-information-tab/basic-information-tab.component';
 import { PreviewTabComponent as PreviewTabComponentIntermediate } from './sueldos/intermediate-salary-form/preview-tab/preview-tab.component';
+import { SacFormComponent } from './sueldos/sac-form/sac-form.component';
+import { BasicInformationTabComponent as BasicInformationTabComponentSac } from './sueldos/sac-form/basic-information-tab/basic-information-tab.component';
+import { ExtraHoursTabComponent as ExtraHoursTabComponentSac } from './sueldos/sac-form/extra-hours-tab/extra-hours-tab.component';
+import { PreviewTabComponent as PreviewTabComponentSac } from './sueldos/sac-form/preview-tab/preview-tab.component';
 export const COMPONENTS = [
   ProveedorFormComponent,
   ProveedorTableFilterComponent,
@@ -201,4 +205,8 @@ export const COMPONENTS = [
   PreviewTabComponent,
   BasicInformationTabComponentVacation,
   PreviewTabComponentIntermediate,
+  SacFormComponent,
+  BasicInformationTabComponentSac,
+  ExtraHoursTabComponentSac,
+  PreviewTabComponentSac,
 ];

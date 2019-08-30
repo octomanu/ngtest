@@ -1,10 +1,5 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewContainerRef,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ViewContainerRef, OnDestroy } from '@angular/core';
 import { ButtonsComponent } from 'app/routes/classes/ButtonsComponent.class';
 import { TooltipHelpComponent } from '@shared/components/tooltip-help/tooltip-help.component';
 import { AppState } from 'redux/app.reducer';
@@ -21,6 +16,7 @@ import {
 import { SalaryFormComponent } from '../salary-form/salary-form.component';
 import { IntermediateSalaryFormComponent } from '../intermediate-salary-form/intermediate-salary-form.component';
 import { VacationFormComponent } from '../vacation-form/vacation-form.component';
+import { SacFormComponent } from '../sac-form/sac-form.component';
 
 @Component({
   selector: 'app-sueldos-buttons',
@@ -61,44 +57,27 @@ export class SueldosButtonsComponent extends ButtonsComponent
       .subscribe(idEmpleado => (this.idEmpleado = idEmpleado));
   }
 
+  ngOnDestroy() {
+    this.storeSubscripcion.unsubscribe();
+  }
+
   salarySettlement() {
-    this.translate.get('global.sueldo').subscribe((res: string) => {
-      this.drawerService.create({
-        nzTitle: res,
-        nzWidth: this.smallViewport ? '100%' : '75%',
-        nzContent: SalaryFormComponent,
-        nzPlacement: 'right',
-        nzContentParams: { idEmpleado: this.idEmpleado },
-      });
-    });
+    this.openDrawer('global.sueldo', SalaryFormComponent);
   }
 
   intermediateSalarySettlement() {
-    this.translate.get('global.sueldo_intermedio').subscribe((res: string) => {
-      this.drawerService.create({
-        nzTitle: res,
-        nzWidth: this.smallViewport ? '100%' : '75%',
-        nzContent: IntermediateSalaryFormComponent,
-        nzPlacement: 'right',
-        nzContentParams: { idEmpleado: this.idEmpleado },
-      });
-    });
+    this.openDrawer(
+      'global.sueldo_intermedio',
+      IntermediateSalaryFormComponent,
+    );
   }
 
   vacationSettlement() {
-    this.translate.get('global.vacaciones').subscribe((res: string) => {
-      this.drawerService.create({
-        nzTitle: res,
-        nzWidth: this.smallViewport ? '100%' : '75%',
-        nzContent: VacationFormComponent,
-        nzPlacement: 'right',
-        nzContentParams: { idEmpleado: this.idEmpleado },
-      });
-    });
+    this.openDrawer('global.vacaciones', VacationFormComponent);
   }
 
-  ngOnDestroy() {
-    this.storeSubscripcion.unsubscribe();
+  SacSettlement() {
+    this.openDrawer('global.sac', SacFormComponent);
   }
 
   changeEmpleado() {
@@ -113,5 +92,17 @@ export class SueldosButtonsComponent extends ButtonsComponent
     this.store.dispatch(
       new ChangeFilterAction({ descripcion: null, fecha: null, monto: null }),
     );
+  }
+
+  protected openDrawer(title: string, content: any) {
+    this.translate.get(title).subscribe((res: string) => {
+      this.drawerService.create({
+        nzTitle: res,
+        nzWidth: this.smallViewport ? '100%' : '75%',
+        nzContent: content,
+        nzPlacement: 'right',
+        nzContentParams: { idEmpleado: this.idEmpleado },
+      });
+    });
   }
 }

@@ -1,5 +1,5 @@
-<nz-result [@fadeIn]="'in'" *ngIf="intermediateSalaryForm.form.value.horas_extras.length === 0"
-  [nzIcon]="'smile-twotone'" [nzTitle]="'global.agregar_horas_extras' | translate">
+<nz-result [@fadeIn]="'in'" *ngIf="sacForm.form.value.horas_extras.length === 0" [nzIcon]="'smile-twotone'"
+  [nzTitle]="'global.agregar_horas_extras' | translate">
   <div nz-result-extra>
     <button nz-button (click)="addRow()">
       <i nz-icon nzType="plus" nzTheme="outline"></i>
@@ -7,10 +7,9 @@
   </div>
 </nz-result>
 
-<div nz-form [nzLayout]="'horizontal'" [formGroup]="intermediateSalaryForm.form"
-  *ngIf="intermediateSalaryForm.form.value.horas_extras.length > 0">
+<div nz-form [nzLayout]="'horizontal'" [formGroup]="sacForm.form" *ngIf="sacForm.form.value.horas_extras.length > 0">
   <div formArrayName="horas_extras" [@fadeInOut]="'in'"
-    *ngFor="let item of intermediateSalaryForm.form.get('horas_extras')['controls']; let i = index;">
+    *ngFor="let item of sacForm.form.get('horas_extras')['controls']; let i = index;">
 
     <div nz-row nzType="flex" nzJustify="space-between" [formGroupName]="i" (contextmenu)="contextMenu($event, menu)">
       <nz-dropdown-menu #menu="nzDropdownMenu">
