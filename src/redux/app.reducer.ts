@@ -26,7 +26,7 @@ export interface AppState {
   cuentaCorrienteProveedor: fromCuentaCorrienteProveedor.CuentaCorrienteProveedorState;
   cuentaCorrienteConsorcio: fromCuentaCorrienteConsorcio.CuentaCorrienteConsorcioState;
   cuentaCorrienteUf: fromCuentaCorrienteUf.CuentaCorrienteUfState;
-  sueldos: fromSueldos.SueldosState;
+  sueldosState: fromSueldos.SueldosState;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
@@ -44,5 +44,5 @@ export const appReducers: ActionReducerMap<AppState> = {
   cuentaCorrienteConsorcio:
     fromCuentaCorrienteConsorcio.CuentaCorrienteConsorcioReducer,
   cuentaCorrienteUf: fromCuentaCorrienteUf.CuentaCorrienteUfReducer,
-  sueldos: fromSueldos.SueldosReducer,
+  sueldosState: fromSueldos.SueldosReducer,
 };

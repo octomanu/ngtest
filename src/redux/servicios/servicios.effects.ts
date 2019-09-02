@@ -1,16 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import {
+  switchMap,
+  map,
+  catchError,
+  withLatestFrom,
+  filter,
+} from 'rxjs/operators';
 import { ServiciosService } from '@core/http/servicios/servicios.service';
 import * as serviciosActions from './servicios.actions';
 import { of } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'redux/app.reducer';
+import { selectPaginatorData } from './servicios.selectors';
 
 @Injectable()
 export class ServiciosEffects {
   constructor(
-    public actions$: Actions,
-    public serviciosService: ServiciosService,
+    protected actions$: Actions,
+    protected serviciosService: ServiciosService,
+    protected store: Store<AppState>,
   ) {}
+
+  initTable$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(serviciosActions.INIT_TABLE),
+      withLatestFrom(this.store.select(selectPaginatorData)),
+      filter(([action, data]) => !(data.length > 0)),
+      switchMap(() => this.searchData()),
+    );
+  });
 
   loadServicios$ = createEffect(() => {
     return this.actions$.pipe(
@@ -19,6 +38,7 @@ export class ServiciosEffects {
         serviciosActions.CHANGE_ORDER,
         serviciosActions.CHANGE_PARAMS,
         serviciosActions.CHANGE_FILTER,
+        serviciosActions.CHANGE_PAGE,
       ),
       switchMap(() => this.searchData()),
     );

@@ -1,5 +1,4 @@
 import { Input, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { PaginatorParamsInterface } from 'app/interfaces/local/paginator-params.interface';
 import { Subscription } from 'rxjs';
 import { NzDropdownContextComponent } from 'ng-zorro-antd';
 
@@ -7,7 +6,9 @@ export abstract class TableComponent implements OnDestroy {
   @Input() help: boolean;
   @Input() keepHelp: boolean;
   @Output() openForm = new EventEmitter<number>();
+  //esta propeida debe se eliminada o refactorizada por los observables.
   tableLambe = { total: 1, data: [], loading: true };
+  //esta propeida debe se eliminada o refactorizada por los observables.
   paginatorParams = {
     page: null,
     page_size: null,
@@ -24,6 +25,7 @@ export abstract class TableComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('este metodo es deprecado. debe refactorizar para eliminarlo.');
     this.subscripctions.map((sub: Subscription) => {
       sub.unsubscribe();
     });
@@ -31,7 +33,7 @@ export abstract class TableComponent implements OnDestroy {
 
   changeOrder(field: string, order: string) {
     throw new Error(
-      'Implemente el metodo changeOrder para que dispare el reducer correspondiente',
+      'Implemente el metodo changeOrder para que dispare la accion correspondiente',
     );
   }
 }

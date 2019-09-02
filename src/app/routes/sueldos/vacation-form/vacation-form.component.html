@@ -5,14 +5,14 @@
       (click)="submit()">
       <span>{{ 'global.calcular' | translate }}</span>
     </button>
-    <button nz-button [@fadeInOut]="'in'" *ngIf="vacationForm.preview" nzType="primary">
+    <button nz-button [@fadeInOut]="'in'" *ngIf="vacationForm.preview" nzType="primary" (click)="save()">
       <span>{{ 'global.guardar' | translate }}</span>
     </button>
   </div>
 </div>
 
 
-<nz-tabset (nzSelectedIndexChange)="chageTab($event)" [(nzSelectedIndex)]="currentTab">
+<nz-tabset [(nzSelectedIndex)]="currentTab">
   <nz-tab [nzTitle]="'global.informacion_basica' | translate">
     <app-basic-information-tab-vacation></app-basic-information-tab-vacation>
   </nz-tab>

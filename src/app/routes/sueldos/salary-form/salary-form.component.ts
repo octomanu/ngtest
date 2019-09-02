@@ -3,6 +3,9 @@ import { SalayForm } from './salary.form';
 import { SueldosService } from '@core/http/sueldos/sueldos.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { fadeInOut } from '@shared/animations/fade-in-out.animation';
+import { Store } from '@ngrx/store';
+import { AppState } from 'redux/app.reducer';
+import { LoadSueldosAction } from 'redux/sueldos/sueldos.actions';
 
 @Component({
   selector: 'app-salary-form',
@@ -19,6 +22,7 @@ export class SalaryFormComponent {
     public salaryForm: SalayForm,
     protected sueldosService: SueldosService,
     protected msgService: NzMessageService,
+    protected store: Store<AppState>,
   ) {}
 
   addRow() {
@@ -27,6 +31,16 @@ export class SalaryFormComponent {
 
   chageTab(index) {
     this.showAddRow = index === 2 ? true : false;
+  }
+
+  save() {
+    const salary = this.salaryForm.buildSalary(this.idEmpleado);
+    this.sueldosService.saveSalary(salary).subscribe(data => {
+      this.msgService.success('Sueldo guardado');
+      this.salaryForm.initForm();
+      this.currentTab = 0;
+      this.store.dispatch(new LoadSueldosAction());
+    });
   }
 
   submit() {

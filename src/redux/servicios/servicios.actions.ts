@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { PaginatorParams } from 'redux/paginator-params.model';
 
+export const INIT_TABLE = '[Servicios] Init Table';
 export const LOAD_SERVICIOS = '[Servicios] Load Servicios';
 export const LOAD_SERVICIOS_SUCCESS = '[Servicios] Load Servicios Success';
 export const CLEAR_SERVICIOS = '[Servicios] Clear Servicios';
@@ -11,10 +12,15 @@ export const CLOSE_FILTER = '[Servicios] Close Filter';
 export const OPEN_FILTER = '[Servicios] Open Filter';
 export const CHANGE_FILTER = '[Servicios] Change Filter';
 export const DELETE_SERVICIO = '[Servicios] Delete';
+export const CHANGE_PAGE = '[Servicios] Change Page';
 
 export class ChangeOrderAction implements Action {
   readonly type = CHANGE_ORDER;
   constructor(public field: string, public order: string) {}
+}
+
+export class InitTableAction implements Action {
+  readonly type = INIT_TABLE;
 }
 
 export class LoadServiciosAction implements Action {
@@ -58,7 +64,13 @@ export class DeleteServicioAction implements Action {
   constructor(public id: number) {}
 }
 
+export class ChangePageAction implements Action {
+  readonly type = CHANGE_PAGE;
+  constructor(public payload: { page: number }) {}
+}
+
 export type acciones =
+  | InitTableAction
   | DeleteServicioAction
   | CloseFilterAction
   | OpenFilterAction
@@ -68,4 +80,5 @@ export type acciones =
   | ChangeOrderAction
   | LoadServiciosAction
   | LoadServiciosSuccessAction
+  | ChangePageAction
   | ClearServiciosAction;

@@ -5,7 +5,7 @@
       [nzType]="intermediateSalaryForm.preview ? 'default' : 'primary'" (click)="submit()">
       <span>{{ 'global.calcular' | translate }}</span>
     </button>
-    <button nz-button [@fadeInOut]="'in'" *ngIf="intermediateSalaryForm.preview" nzType="primary">
+    <button nz-button [@fadeInOut]="'in'" *ngIf="intermediateSalaryForm.preview" nzType="primary" (click)="save()">
       <span>{{ 'global.guardar' | translate }}</span>
     </button>
   </div>

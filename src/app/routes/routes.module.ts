@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BasicInformationTabComponent } from './sueldos/sac-form/basic-information-tab/basic-information-tab.component';
 import { ExtraHoursTabComponent } from './sueldos/sac-form/extra-hours-tab/extra-hours-tab.component';
 import { PreviewTabComponent } from './sueldos/sac-form/preview-tab/preview-tab.component';
+import { SueldosTableComponent } from './sueldos/sueldos-table/sueldos-table.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -17,7 +18,7 @@ import { PreviewTabComponent } from './sueldos/sac-form/preview-tab/preview-tab.
     NzResultModule,
     BrowserAnimationsModule,
   ],
-  declarations: [...COMPONENTS, ...ROUTE_COMPONENTS, BasicInformationTabComponent, ExtraHoursTabComponent, PreviewTabComponent],
+  declarations: [...COMPONENTS, ...ROUTE_COMPONENTS, BasicInformationTabComponent, ExtraHoursTabComponent, PreviewTabComponent, SueldosTableComponent],
   entryComponents: COMPONENTS,
 })
 export class RoutesModule {}

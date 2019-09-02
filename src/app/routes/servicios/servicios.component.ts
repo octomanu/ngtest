@@ -2,8 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppState } from 'redux/app.reducer';
 import { Store } from '@ngrx/store';
 import { GlobalState } from 'redux/global/globa.reducer';
-import { Subscription } from 'rxjs';
-import { selectGlobal } from 'redux/global/global.selectors';
+import { Subscription, Observable } from 'rxjs';
+import {
+  selectGlobal,
+  selectHelp,
+  selectKeepHelp,
+  smallViewport,
+} from 'redux/global/global.selectors';
 import { TranslateService } from '@ngx-translate/core';
 import { ServiciosFormComponent } from './servicios-form/servicios-form.component';
 import { NzDrawerService } from 'ng-zorro-antd';
@@ -14,8 +19,8 @@ import { NzDrawerService } from 'ng-zorro-antd';
   styles: [],
 })
 export class ServiciosComponent implements OnInit, OnDestroy {
-  help: boolean;
-  keepHelp: boolean;
+  help: Observable<boolean>;
+  keepHelp: Observable<boolean>;
   smallViewport: boolean;
   subscription: Subscription;
 
@@ -26,12 +31,13 @@ export class ServiciosComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.help = this.store.select(selectHelp);
+    this.keepHelp = this.store.select(selectKeepHelp);
+
     this.subscription = this.store
-      .select(selectGlobal)
-      .subscribe((state: GlobalState) => {
-        this.help = state.help;
-        this.keepHelp = state.keepHelp;
-        this.smallViewport = state.smallViewport;
+      .select(smallViewport)
+      .subscribe((small: boolean) => {
+        this.smallViewport = small;
       });
   }
 

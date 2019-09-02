@@ -2,12 +2,20 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { TemplateRef, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
-import { ServiciosState } from 'redux/servicios/servicios.reducer';
 import * as serviciosActions from 'redux/servicios/servicios.actions';
 import { TooltipHelperService } from '../helpers/tooltip-helper.service';
 import { TooltipHelpComponent } from '@shared/components/tooltip-help/tooltip-help.component';
 import { TableComponent } from 'app/classes/table-component.class';
 import { NzDropdownService } from 'ng-zorro-antd';
+import {
+  selectPaginatorData,
+  selectPaginatorParams,
+  selectLoading,
+  selectPaginatorTotal,
+  selectPaginatorPage,
+  selectPaginatorPageSize,
+} from 'redux/servicios/servicios.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-servicios-table',
@@ -16,6 +24,12 @@ import { NzDropdownService } from 'ng-zorro-antd';
 })
 export class ServiciosTableComponent extends TableComponent
   implements OnInit, OnDestroy {
+  paginatorData: Observable<any>;
+  paginatorParameters: Observable<any>;
+  paginatorLoading: Observable<any>;
+  paginatorTotal: Observable<any>;
+  paginatorPage: Observable<any>;
+  paginatorPageSize: Observable<any>;
   tooltips: {
     tableHeader: TemplateRef<TooltipHelpComponent>;
     tableBody: TemplateRef<TooltipHelpComponent>;
@@ -33,25 +47,17 @@ export class ServiciosTableComponent extends TableComponent
   }
 
   ngOnInit() {
-    const sub = this.store
-      .select('serviciosState')
-      .subscribe((state: ServiciosState) => {
-        if (!state.initialized) {
-          this.store.dispatch(new serviciosActions.LoadServiciosAction());
-        }
-        this.tableLambe.data = state.paginator.data;
-        this.tableLambe.loading = state.loading;
-        this.tableLambe.total = state.paginator.recordsFiltered;
-        this.paginatorParams = { ...state.paginator.parametros };
-      });
-
-    this.subscripctions.push(sub);
+    this.store.dispatch(new serviciosActions.InitTableAction());
+    this.paginatorData = this.store.select(selectPaginatorData);
+    this.paginatorParameters = this.store.select(selectPaginatorParams);
+    this.paginatorLoading = this.store.select(selectLoading);
+    this.paginatorTotal = this.store.select(selectPaginatorTotal);
+    this.paginatorPage = this.store.select(selectPaginatorPage);
+    this.paginatorPageSize = this.store.select(selectPaginatorPageSize);
   }
 
   pageChange(page: number) {
-    this.store.dispatch(
-      new serviciosActions.ChangeParamsAction(this.paginatorParams),
-    );
+    this.store.dispatch(new serviciosActions.ChangePageAction({ page }));
   }
 
   editar(id: number) {

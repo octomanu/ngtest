@@ -8,3 +8,13 @@ export const smallViewport = createSelector(
   selectGlobal,
   (state: GlobalState) => state.smallViewport,
 );
+
+export const selectHelp = createSelector(
+  selectGlobal,
+  (state: GlobalState) => state.help,
+);
+
+export const selectKeepHelp = createSelector(
+  selectGlobal,
+  (state: GlobalState) => state.keepHelp,
+);

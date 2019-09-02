@@ -1,5 +1,6 @@
 <page-header [title]=" 'global.servicios' | translate "></page-header>
 
-<app-servicios-buttons [help]="help" [keepHelp]="keepHelp" [smallViewport]="smallViewport"
+<app-servicios-buttons [help]="help | async" [keepHelp]="keepHelp | async" [smallViewport]="smallViewport"
   (openForm)="openForm($event)"></app-servicios-buttons>
-<app-servicios-table [help]="help" [keepHelp]="keepHelp" (openForm)="openForm($event)"></app-servicios-table>
+<app-servicios-table [help]="help | async" [keepHelp]="keepHelp | async" (openForm)="openForm($event)">
+</app-servicios-table>

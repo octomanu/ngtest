@@ -19,11 +19,15 @@ export class SalayForm {
   }
 
   initForm() {
+    this.preview = null;
+    this.salarayData = null;
     this.form = this.fb.group({
       mes_anio: [null, [Validators.required]],
       horas_trabajadas: [null, [Validators.required]],
       dias_licencia: [0, [Validators.required]],
       dias_licencia_justificada: [0, [Validators.required]],
+      dias_vacaciones: [0, [Validators.required]],
+      dias_no_vacaciones: [0, [Validators.required]],
       concepto_recibo: [null, [Validators.required]],
       aportes_mes_anio: [null, [Validators.required]],
       aportes_fecha_deposito: [null, [Validators.required]],

@@ -5,7 +5,7 @@
       (click)="submit()">
       <span>{{ 'global.calcular' | translate }}</span>
     </button>
-    <button nz-button [@fadeInOut]="'in'" *ngIf="sacForm.preview" nzType="primary">
+    <button nz-button [@fadeInOut]="'in'" *ngIf="sacForm.preview" nzType="primary" (click)="save()">
       <span>{{ 'global.guardar' | translate }}</span>
     </button>
   </div>

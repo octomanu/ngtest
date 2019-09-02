@@ -5,13 +5,14 @@
       (click)="submit()">
       <span>{{ 'global.calcular' | translate }}</span>
     </button>
-    <button nz-button [@fadeInOut]="'in'" *ngIf="salaryForm.preview" nzType="primary">
+    <button nz-button [@fadeInOut]="'in'" *ngIf="salaryForm.preview" nzType="primary" (click)="save()">
       <span>{{ 'global.guardar' | translate }}</span>
     </button>
   </div>
 
 
-  <button *ngIf="showAddRow && salaryForm.form.value.horas_extras.length > 0" [@fadeInOut]="'in'" nz-button (click)="addRow()">
+  <button *ngIf="showAddRow && salaryForm.form.value.horas_extras.length > 0" [@fadeInOut]="'in'" nz-button
+    (click)="addRow()">
     <i nz-icon nzType="plus" nzTheme="outline"></i>
   </button>
 </div>

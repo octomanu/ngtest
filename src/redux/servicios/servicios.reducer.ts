@@ -26,11 +26,12 @@ export function serviciosReducer(
   action: fromServicios.acciones,
 ): ServiciosState {
   switch (action.type) {
+    case fromServicios.INIT_TABLE:
+      return { ...state, initialized: true };
     case fromServicios.LOAD_SERVICIOS:
       return {
         ...state,
         loading: true,
-        initialized: true,
       };
 
     case fromServicios.LOAD_SERVICIOS_SUCCESS:
@@ -88,6 +89,19 @@ export function serviciosReducer(
             page_size: action.params.page_size,
             sort_field: action.params.sort_field,
             sort_order: action.params.sort_order,
+          },
+        },
+        loading: true,
+      };
+
+    case fromServicios.CHANGE_PAGE:
+      return {
+        ...state,
+        paginator: {
+          ...state.paginator,
+          parametros: {
+            ...state.paginator.parametros,
+            page: action.payload.page,
           },
         },
         loading: true,

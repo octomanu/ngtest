@@ -1,1 +1,5 @@
+<page-header [title]=" 'global.sueldos' | translate "></page-header>
+
 <app-sueldos-buttons></app-sueldos-buttons>
+<app-sueldos-table [help]="help" [keepHelp]="keepHelp" (openForm)="openForm($event)">
+</app-sueldos-table>

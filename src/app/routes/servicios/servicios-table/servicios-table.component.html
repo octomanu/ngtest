@@ -1,8 +1,9 @@
 <nz-card [nzBordered]="false">
   <app-servicios-tags></app-servicios-tags>
-  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
-    [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
-    (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="paginatorData | async"
+    [nzLoading]="paginatorLoading | async" [nzTotal]="paginatorTotal | async" [nzPageIndex]="paginatorPage | async"
+    [nzPageSize]="paginatorPageSize | async" (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'"
+    [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">
     <thead (nzSortChange)="sort($event)" nzSingleSort>
 
       <tr nz-tooltip [nzVisible]="keepHelp" [nzTitle]="(keepHelp || help) ? tooltips.tableHeader: ''">
@@ -13,7 +14,7 @@
     </thead>
     <tbody nz-tooltip [nzVisible]="keepHelp" nzPlacement="topRight"
       [nzTitle]="help || keepHelp ? tooltips.tableBody : ''">
-      <ng-template ngFor let-data [ngForOf]="tableLambe.data" let-i="index">
+      <ng-template ngFor let-data [ngForOf]="paginatorData | async" let-i="index">
         <tr (contextmenu)="contextMenu($event, menuRowContainer)">
           <ng-template #menuRowContainer>
             <ng-container *ngTemplateOutlet="menuRow; context: { id: data['id'] }"></ng-container>

@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { WrapComponent } from '../classes/WrapComponent.class';
 
 @Component({
   selector: 'app-sueldos',
   templateUrl: './sueldos.component.html',
-  styles: []
+  styles: [],
 })
-export class SueldosComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class SueldosComponent extends WrapComponent {
+  drawerTitle = 'global.sueldos';
+  drawerContent = '';
 }

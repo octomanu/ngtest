@@ -23,7 +23,8 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'global.mes' | translate }} / {{ 'global.año' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-          <nz-month-picker style="width:100%;" [nzStyle]="{width: '100%'}" formControlName="mes_anio" nzFormat="MM-yyyy">
+          <nz-month-picker style="width:100%;" [nzStyle]="{width: '100%'}" formControlName="mes_anio"
+            nzFormat="MM-yyyy">
           </nz-month-picker>
         </nz-form-control>
       </nz-form-item>
@@ -43,6 +44,24 @@
         <nz-form-label nzRequired>{{ 'global.licencia_injustificada' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
           <input formControlName="dias_licencia" nz-input />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.dias_vacaiones' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input formControlName="dias_vacaciones" nz-input />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired>{{ 'global.dias_no_vacaiones' | translate }}</nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input formControlName="dias_no_vacaciones" nz-input />
         </nz-form-control>
       </nz-form-item>
     </div>

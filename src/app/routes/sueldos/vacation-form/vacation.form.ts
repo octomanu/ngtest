@@ -14,6 +14,8 @@ export class VacationForm {
   }
 
   initForm() {
+    this.preview = null;
+    this.vacationData = null;
     this.form = this.fb.group({
       mes_anio: [null, [Validators.required]],
       aportes_mes_anio: [null, [Validators.required]],
