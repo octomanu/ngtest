@@ -1,4 +1,4 @@
-<form nz-form [formGroup]="form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
+<form nz-form [formGroup]="fb.form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
 
   <div nz-row nzType="flex" nzJustify="space-between">
 
@@ -8,8 +8,8 @@
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <input nz-input formControlName="cuit">
-          <nz-form-explain *ngIf="form.get('cuit').dirty && form.get('cuit').errors">
-            <ng-container *ngIf="form.get('cuit').hasError('required')">
+          <nz-form-explain *ngIf="fb.form.get('cuit').dirty && fb.form.get('cuit').errors">
+            <ng-container *ngIf="fb.form.get('cuit').hasError('required')">
               {{ 'global.campo_requerido' | translate }}
             </ng-container>
           </nz-form-explain>
@@ -23,8 +23,8 @@
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <input nz-input formControlName="nombre">
-          <nz-form-explain *ngIf="form.get('nombre').dirty && form.get('nombre').errors">
-            <ng-container *ngIf="form.get('nombre').hasError('required')">
+          <nz-form-explain *ngIf="fb.form.get('nombre').dirty && fb.form.get('nombre').errors">
+            <ng-container *ngIf="fb.form.get('nombre').hasError('required')">
               {{ 'global.campo_requerido' | translate }}
             </ng-container>
           </nz-form-explain>
@@ -38,8 +38,8 @@
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <input nz-input formControlName="direccion">
-          <nz-form-explain *ngIf="form.get('direccion').dirty && form.get('direccion').errors">
-            <ng-container *ngIf="form.get('direccion').hasError('required')">
+          <nz-form-explain *ngIf="fb.form.get('direccion').dirty && fb.form.get('direccion').errors">
+            <ng-container *ngIf="fb.form.get('direccion').hasError('required')">
               {{ 'global.campo_requerido' | translate }}
             </ng-container>
           </nz-form-explain>
@@ -53,8 +53,8 @@
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <input nz-input formControlName="email">
-          <nz-form-explain *ngIf="form.get('email').dirty && form.get('email').errors">
-            <ng-container *ngIf="form.get('email').hasError('required')">
+          <nz-form-explain *ngIf="fb.form.get('email').dirty && fb.form.get('email').errors">
+            <ng-container *ngIf="fb.form.get('email').hasError('required')">
               {{ 'global.campo_requerido' | translate }}
             </ng-container>
           </nz-form-explain>
@@ -68,8 +68,8 @@
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <input nz-input formControlName="telefono">
-          <nz-form-explain *ngIf="form.get('telefono').dirty && form.get('telefono').errors">
-            <ng-container *ngIf="form.get('telefono').hasError('required')">
+          <nz-form-explain *ngIf="fb.form.get('telefono').dirty && fb.form.get('telefono').errors">
+            <ng-container *ngIf="fb.form.get('telefono').hasError('required')">
               {{ 'global.campo_requerido' | translate }}
             </ng-container>
           </nz-form-explain>
@@ -83,8 +83,8 @@
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <input nz-input formControlName="situacion_fiscal">
-          <nz-form-explain *ngIf="form.get('situacion_fiscal').dirty && form.get('situacion_fiscal').errors">
-            <ng-container *ngIf="form.get('situacion_fiscal').hasError('required')">
+          <nz-form-explain *ngIf="fb.form.get('situacion_fiscal').dirty && fb.form.get('situacion_fiscal').errors">
+            <ng-container *ngIf="fb.form.get('situacion_fiscal').hasError('required')">
               {{ 'global.campo_requerido' | translate }}
             </ng-container>
           </nz-form-explain>
@@ -98,8 +98,8 @@
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <input nz-input formControlName="codigo_postal">
-          <nz-form-explain *ngIf="form.get('codigo_postal').dirty && form.get('codigo_postal').errors">
-            <ng-container *ngIf="form.get('codigo_postal').hasError('required')">
+          <nz-form-explain *ngIf="fb.form.get('codigo_postal').dirty && fb.form.get('codigo_postal').errors">
+            <ng-container *ngIf="fb.form.get('codigo_postal').hasError('required')">
               {{ 'global.campo_requerido' | translate }}
             </ng-container>
           </nz-form-explain>
@@ -113,8 +113,8 @@
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <input nz-input formControlName="rpa">
-          <nz-form-explain *ngIf="form.get('rpa').dirty && form.get('rpa').errors">
-            <ng-container *ngIf="form.get('rpa').hasError('required')">
+          <nz-form-explain *ngIf="fb.form.get('rpa').dirty && fb.form.get('rpa').errors">
+            <ng-container *ngIf="fb.form.get('rpa').hasError('required')">
               {{ 'global.campo_requerido' | translate }}
             </ng-container>
           </nz-form-explain>
@@ -128,8 +128,9 @@
 
 <div class="footer">
   <div nz-row nzType="flex" nzJustify="space-between">
-    <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+    <button nz-button [disabled]="!fb.form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
       <span>{{ 'global.guardar' | translate }}</span>
+      <i nz-icon *ngIf="loading" [nzType]="'loading'"></i>
     </button>
   </div>
 </div>

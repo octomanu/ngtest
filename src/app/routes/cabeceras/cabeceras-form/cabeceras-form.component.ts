@@ -1,17 +1,9 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ChangeDetectorRef,
-} from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { CabecerasService } from '@core/http/cabeceras/cabeceras.service';
-import { TranslateService } from '@ngx-translate/core';
-import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd';
+import { Component, OnInit } from '@angular/core';
 import { CabecerasForm } from './cabeceras.form';
+import { Store } from '@ngrx/store';
+import { AppState } from 'redux/app.reducer';
+import { formLoading } from 'redux/cabeceras/cabeceras.selectors';
+import { CabecerasUpdateRequest } from 'redux/cabeceras/cabeceras.actions';
 
 @Component({
   selector: 'app-cabeceras-form',
@@ -19,53 +11,31 @@ import { CabecerasForm } from './cabeceras.form';
   styles: [],
 })
 export class CabecerasFormComponent implements OnInit {
-  @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
-  @Input() id: number | undefined;
-  @Input() valueChange: Subject<{ submit: boolean }>;
-  form: FormGroup;
-  protected initialized = false;
-  constructor(
-    protected fb: CabecerasForm,
-    protected msg: NzMessageService,
-    protected cdr: ChangeDetectorRef,
-    protected drawerRef: NzDrawerRef<{ submit: boolean }>,
-    protected fbBulder: FormBuilder,
-    protected translate: TranslateService,
-    protected cabecerasService: CabecerasService,
-  ) {
-    this.drawerRef.afterOpen.subscribe(data => {
-      this.initialized = true;
+  loading: boolean;
+
+  constructor(private store: Store<AppState>, protected fb: CabecerasForm) {}
+
+  ngOnInit() {
+    this.store.select(formLoading).subscribe(loading => {
+      this.loading = loading;
+      if (loading) {
+        this.fb.form.disable();
+      } else {
+        this.fb.form.enable();
+      }
     });
   }
 
-  ngOnInit() {
-    this.initForm();
-
-    if (this.id) {
-      this.cabecerasService.find(this.id).subscribe((data: any) => {
-        this.form.setValue(data);
-      });
-    }
-  }
-
-  initForm() {
-    this.form = this.fb.getForm();
-  }
-
   submit() {
-    const formData = this.form.value;
+    const formData = this.fb.form.value;
     if (formData.id) {
-      this.cabecerasService.update(formData.id, formData).subscribe(data => {
-        this.msg.success(`Actualizado!`);
-        this.cdr.detectChanges();
-      });
+      this.store.dispatch(new CabecerasUpdateRequest({ data: formData }));
     } else {
-      this.cabecerasService.create(formData).subscribe(data => {
-        this.initForm();
-        this.valueChange.next({ submit: true });
-        this.msg.success(`Creado!`);
-        this.cdr.detectChanges();
-      });
+      // this.cabecerasService.create(formData).subscribe(data => {
+      //   this.initForm();
+      //   this.msg.success(`Creado!`);
+      //   this.cdr.detectChanges();
+      // });
     }
   }
 }

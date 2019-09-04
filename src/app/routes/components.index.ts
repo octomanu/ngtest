@@ -103,6 +103,9 @@ import { SacFormComponent } from './sueldos/sac-form/sac-form.component';
 import { BasicInformationTabComponent as BasicInformationTabComponentSac } from './sueldos/sac-form/basic-information-tab/basic-information-tab.component';
 import { ExtraHoursTabComponent as ExtraHoursTabComponentSac } from './sueldos/sac-form/extra-hours-tab/extra-hours-tab.component';
 import { PreviewTabComponent as PreviewTabComponentSac } from './sueldos/sac-form/preview-tab/preview-tab.component';
+import { SueldosTableComponent } from './sueldos/sueldos-table/sueldos-table.component';
+import { CabecerasButtonsComponent } from './cabeceras/cabeceras-buttons/cabeceras-buttons.component';
+import { CabecerasFilterComponent } from './cabeceras/cabeceras-filter/cabeceras-filter.component';
 export const COMPONENTS = [
   ProveedorFormComponent,
   ProveedorTableFilterComponent,
@@ -209,4 +212,7 @@ export const COMPONENTS = [
   BasicInformationTabComponentSac,
   ExtraHoursTabComponentSac,
   PreviewTabComponentSac,
+  SueldosTableComponent,
+  CabecerasButtonsComponent,
+  CabecerasFilterComponent,
 ];
