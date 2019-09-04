@@ -18,8 +18,6 @@ import { TabPorcentualesComponent } from './consorcios-profile/profile/tab-porce
 import { ProcentualesFormComponent } from './consorcios-profile/profile/tab-porcentuales/procentuales-form/procentuales-form.component';
 import { GastosRecurrentesTableComponent } from './gastos-recurrentes/gastos-recurrentes-table/gastos-recurrentes-table.component';
 import { GastosRecurrentesFormComponent } from './gastos-recurrentes/gastos-recurrentes-form/gastos-recurrentes-form.component';
-import { CabecerasTableComponent } from './cabeceras/cabeceras-table/cabeceras-table.component';
-import { CabecerasFormComponent } from './cabeceras/cabeceras-form/cabeceras-form.component';
 import { NotasTableComponent } from './notas/notas-table/notas-table.component';
 import { NotasFormComponent } from './notas/notas-form/notas-form.component';
 import { CuentaCorrienteTableComponent } from './cuenta-corriente/cuenta-corriente-table/cuenta-corriente-table.component';
@@ -104,8 +102,7 @@ import { BasicInformationTabComponent as BasicInformationTabComponentSac } from 
 import { ExtraHoursTabComponent as ExtraHoursTabComponentSac } from './sueldos/sac-form/extra-hours-tab/extra-hours-tab.component';
 import { PreviewTabComponent as PreviewTabComponentSac } from './sueldos/sac-form/preview-tab/preview-tab.component';
 import { SueldosTableComponent } from './sueldos/sueldos-table/sueldos-table.component';
-import { CabecerasButtonsComponent } from './cabeceras/cabeceras-buttons/cabeceras-buttons.component';
-import { CabecerasFilterComponent } from './cabeceras/cabeceras-filter/cabeceras-filter.component';
+
 export const COMPONENTS = [
   ProveedorFormComponent,
   ProveedorTableFilterComponent,
@@ -127,8 +124,6 @@ export const COMPONENTS = [
   ProcentualesFormComponent,
   GastosRecurrentesFormComponent,
   GastosRecurrentesTableComponent,
-  CabecerasTableComponent,
-  CabecerasFormComponent,
   NotasTableComponent,
   NotasFormComponent,
   CuentaCorrienteFormComponent,
@@ -213,6 +208,4 @@ export const COMPONENTS = [
   ExtraHoursTabComponentSac,
   PreviewTabComponentSac,
   SueldosTableComponent,
-  CabecerasButtonsComponent,
-  CabecerasFilterComponent,
 ];

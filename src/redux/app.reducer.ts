@@ -12,8 +12,6 @@ import * as fromCuentaCorrienteProveedor from './cuenta-corriente-proveedor/cuen
 import * as fromCuentaCorrienteConsorcio from './cuenta-corriente-consorcio/cuenta-corriente-consorcio.reducer';
 import * as fromCuentaCorrienteUf from './cuenta-corriente-uf/cuenta-corriente-uf-reducer';
 import * as fromSueldos from './sueldos/sueldos.reducer';
-import * as fromCabeceras from './cabeceras/cabeceras.reducer';
-
 export interface AppState {
   menuState: fromMenu.MenuState;
   globalState: fromGlobal.GlobalState;
@@ -28,7 +26,6 @@ export interface AppState {
   cuentaCorrienteConsorcio: fromCuentaCorrienteConsorcio.CuentaCorrienteConsorcioState;
   cuentaCorrienteUf: fromCuentaCorrienteUf.CuentaCorrienteUfState;
   sueldosState: fromSueldos.SueldosState;
-  cabecerasState: fromCabeceras.CabecerasState;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
@@ -47,5 +44,4 @@ export const appReducers: ActionReducerMap<AppState> = {
     fromCuentaCorrienteConsorcio.CuentaCorrienteConsorcioReducer,
   cuentaCorrienteUf: fromCuentaCorrienteUf.CuentaCorrienteUfReducer,
   sueldosState: fromSueldos.SueldosReducer,
-  cabecerasState: fromCabeceras.cabecerasReducer,
 };

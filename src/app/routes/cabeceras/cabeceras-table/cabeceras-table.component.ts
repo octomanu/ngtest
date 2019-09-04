@@ -1,22 +1,23 @@
-import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AppState } from 'redux/app.reducer';
 import { Store } from '@ngrx/store';
 import * as selectors from 'redux/cabeceras/cabeceras.selectors';
 import { Observable, Subscription } from 'rxjs';
+
+import { NzDropdownService } from 'ng-zorro-antd';
 import {
   CabecerasPageRequest,
   CabecerasChangePage,
   ChangePageOrder,
-  CabecerasEditRequest,
-} from 'redux/cabeceras/cabeceras.actions';
-import { NzDropdownService } from 'ng-zorro-antd';
+} from 'redux/cabeceras/page/page.actions';
+import { CabecerasEditRequest } from 'redux/cabeceras/edit-form/edit-form.actions';
 
 @Component({
   selector: 'app-cabeceras-table',
   templateUrl: './cabeceras-table.component.html',
   styles: [],
 })
-export class CabecerasTableComponent implements OnInit, OnDestroy {
+export class CabecerasTableComponent implements OnInit {
   initSubscription: Subscription;
   pageData$: Observable<any>;
   paginatorParameters$: Observable<any>;
@@ -36,11 +37,7 @@ export class CabecerasTableComponent implements OnInit, OnDestroy {
     this.paginatorTotal$ = this.store.select(selectors.paginatorTotal);
     this.paginatorPage$ = this.store.select(selectors.paginatorPage);
     this.paginatorPageSize$ = this.store.select(selectors.paginatorPageSize);
-    this.initSubscription = this.store
-      .select(selectors.initialized)
-      .subscribe(init =>
-        init ? null : this.store.dispatch(new CabecerasPageRequest()),
-      );
+    this.store.dispatch(new CabecerasPageRequest());
   }
 
   pageChange(page: number) {
@@ -67,9 +64,5 @@ export class CabecerasTableComponent implements OnInit, OnDestroy {
     const field = sort.key;
     const order = sort.value ? sort.value.replace('end', '') : sort.value;
     this.changeOrder(field, order);
-  }
-
-  ngOnDestroy() {
-    this.initSubscription.unsubscribe();
   }
 }

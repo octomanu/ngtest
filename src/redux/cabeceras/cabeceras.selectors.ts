@@ -1,14 +1,14 @@
-import { AppState } from 'redux/app.reducer';
-import { createSelector } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { CabecerasState } from './cabeceras.reducer';
 
-export const selectCabecerasState = (state: AppState): CabecerasState =>
-  state.cabecerasState;
-
-export const initialized = createSelector(
-  selectCabecerasState,
-  state => state.initialized,
+export const selectCabecerasState = createFeatureSelector<CabecerasState>(
+  'cabeceras',
 );
+
+// export const initialized = createSelector(
+//   selectCabecerasState,
+//   state => state.initialized,
+// );
 
 export const pageFilters = createSelector(
   selectCabecerasState,
@@ -52,7 +52,7 @@ export const editId = createSelector(
 
 export const formLoading = createSelector(
   selectCabecerasState,
-  state => state.editForm.loading || state.createForm.loading,
+  state => state.editForm.loading,
 );
 
 export const editFormData = createSelector(

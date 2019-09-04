@@ -6,6 +6,7 @@ import { COMPONENTS } from './components.index';
 import { ROUTE_COMPONENTS } from './routes-components.index';
 import { NzResultModule } from 'ng-zorro-antd';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CabecerasModule } from './cabeceras/cabeceras.module';
 @NgModule({
   imports: [
     SharedModule,
@@ -13,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NgxDnDModule,
     NzResultModule,
     BrowserAnimationsModule,
+    CabecerasModule,
   ],
   declarations: [...COMPONENTS, ...ROUTE_COMPONENTS],
   entryComponents: COMPONENTS,

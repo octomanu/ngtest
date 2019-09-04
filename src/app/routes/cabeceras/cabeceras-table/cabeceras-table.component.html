@@ -9,7 +9,7 @@
 
   <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="pageData$ | async" [nzTotal]="paginatorTotal$ | async"
     [nzPageSize]="paginatorPageSize$ | async" [nzLoading]="paginatorLoading$ | async"
-    [nzPageIndex]="paginatorPage$ | async" (nzPageIndexChange)="pageChange()" [nzSize]="'middle'" [nzBordered]="'false'"
+    [nzPageIndex]="paginatorPage$ | async" (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'"
     [nzScroll]="{ x: '100%' }">
     <thead (nzSortChange)="sort($event)" nzSingleSort>
 

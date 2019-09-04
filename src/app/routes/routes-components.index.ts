@@ -11,7 +11,6 @@ import { ChequerasComponent } from './chequeras/chequeras.component';
 import { GastosComponent } from './gastos/gastos.component';
 import { GastosRecurrentesComponent } from './gastos-recurrentes/gastos-recurrentes.component';
 import { ProfileComponent } from './consorcios-profile/profile/profile.component';
-import { CabecerasComponent } from './cabeceras/cabeceras.component';
 import { ConsorciosProfileComponent } from './consorcios-profile/consorcios-profile.component';
 import { NotasComponent } from './notas/notas.component';
 import { CuentaCorrienteComponent } from './cuenta-corriente/cuenta-corriente.component';
@@ -44,7 +43,6 @@ export const ROUTE_COMPONENTS = [
   GastosComponent,
   GastosRecurrentesComponent,
   ProfileComponent,
-  CabecerasComponent,
   ConsorciosProfileComponent,
   NotasComponent,
   CuentaCorrienteComponent,

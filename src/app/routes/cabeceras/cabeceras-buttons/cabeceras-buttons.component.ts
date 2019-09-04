@@ -11,8 +11,7 @@ import { AppState } from 'redux/app.reducer';
 import { TranslateService } from '@ngx-translate/core';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
-import { OpenFilterForm } from 'redux/cabeceras/cabeceras.actions';
-
+import { OpenFilterForm } from 'redux/cabeceras/filter-form/filter-form.actions';
 @Component({
   selector: 'app-cabeceras-buttons',
   templateUrl: './cabeceras-buttons.component.html',

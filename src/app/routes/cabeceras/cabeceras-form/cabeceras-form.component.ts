@@ -3,7 +3,7 @@ import { CabecerasForm } from './cabeceras.form';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { formLoading } from 'redux/cabeceras/cabeceras.selectors';
-import { CabecerasUpdateRequest } from 'redux/cabeceras/cabeceras.actions';
+import { CabecerasUpdateRequest } from 'redux/cabeceras/edit-form/edit-form.actions';
 
 @Component({
   selector: 'app-cabeceras-form',
@@ -13,7 +13,7 @@ import { CabecerasUpdateRequest } from 'redux/cabeceras/cabeceras.actions';
 export class CabecerasFormComponent implements OnInit {
   loading: boolean;
 
-  constructor(private store: Store<AppState>, protected fb: CabecerasForm) {}
+  constructor(private store: Store<AppState>, public fb: CabecerasForm) {}
 
   ngOnInit() {
     this.store.select(formLoading).subscribe(loading => {

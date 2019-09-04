@@ -4,11 +4,9 @@ export enum EditFormActionsTypes {
   CabecerasEditRequest = '[Cabeceras] Edit Request',
   CabecerasEditRequestSuccess = '[Cabeceras] Edit Request Success',
   CabecerasEditRequestFail = '[Cabeceras] Edit Request Fail',
-
   CabecerasUpdateRequest = '[Cabeceras] Update Request',
   CabecerasUpdateRequestSuccess = '[Cabeceras] Edit Update Success',
   CabecerasUpdateRequestFail = '[Cabeceras] Edit Update Fail',
-
   CloseEditForm = '[Cabeceras] Close Edit Form',
 }
 

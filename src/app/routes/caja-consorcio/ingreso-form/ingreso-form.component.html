@@ -111,7 +111,7 @@
         <nz-form-control>
           <nz-input-group nzCompact>
             <nz-select formControlName="id_cheque" nzShowSearch nzAllowClear [nzServerSearch]="true" style="width: 87%"
-              (nzOnSearch)="searchChequesTerceros($event)" (ngModelChange)="chequeData = $event">
+              (nzOnSearch)="searchChequesTerceros($event)">
               <ng-container *ngFor="let cheque of cheques">
                 <nz-option *ngIf="!isLoading" [nzValue]="cheque" [nzLabel]="cheque.display"></nz-option>
               </ng-container>

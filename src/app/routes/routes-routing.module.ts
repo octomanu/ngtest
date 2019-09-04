@@ -22,7 +22,6 @@ import { ChequerasComponent } from './chequeras/chequeras.component';
 import { GastosComponent } from './gastos/gastos.component';
 import { ConsorciosProfileComponent } from './consorcios-profile/consorcios-profile.component';
 import { GastosRecurrentesComponent } from './gastos-recurrentes/gastos-recurrentes.component';
-import { CabecerasComponent } from './cabeceras/cabeceras.component';
 import { NotasComponent } from './notas/notas.component';
 import { CuentaCorrienteComponent } from './cuenta-corriente/cuenta-corriente.component';
 import { EstadoFinancieroComponent } from './estado-financiero/estado-financiero.component';
@@ -86,8 +85,7 @@ const routes: Routes = [
       { path: 'notas', component: NotasComponent, data: { title: 'Notas' } },
       {
         path: 'cabeceras',
-        component: CabecerasComponent,
-        data: { title: 'Cabeceras' },
+        loadChildren: './cabeceras/cabeceras.module#CabecerasModule',
       },
       {
         path: 'cuenta-corriente',
