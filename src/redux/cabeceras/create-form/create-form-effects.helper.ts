@@ -13,9 +13,7 @@ import { smallViewport } from 'redux/global/global.selectors';
 import { tap } from 'rxjs/operators';
 import { CabecerasFormComponent } from 'app/routes/cabeceras/cabeceras-form/cabeceras-form.component';
 import * as cabeceraAction from './create-form.actions';
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CreateFormEffectsHelper implements OnDestroy {
   protected smallViewport: boolean;
   protected viewportSubscription: Subscription;

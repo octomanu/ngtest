@@ -14,9 +14,7 @@ import { tap } from 'rxjs/operators';
 import { CabecerasFilterComponent } from 'app/routes/cabeceras/cabeceras-filter/cabeceras-filter.component';
 import { CloseFilterForm } from './filter-form.actions';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class FilterFormEffectsHelper implements OnDestroy {
   protected smallViewport: boolean;
   protected viewportSubscription: Subscription;

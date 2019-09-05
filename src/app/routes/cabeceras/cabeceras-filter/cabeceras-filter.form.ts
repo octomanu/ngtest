@@ -17,7 +17,6 @@ export class CabecerasFilterForm implements OnDestroy {
   }
 
   private initForm() {
-    console.log('hola');
     this.form = this.fb.group({
       cuit: [null],
       nombre: [null],

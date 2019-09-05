@@ -14,9 +14,7 @@ import { tap } from 'rxjs/operators';
 import { CabecerasFormComponent } from 'app/routes/cabeceras/cabeceras-form/cabeceras-form.component';
 import { CloseEditForm } from './edit-form.actions';
 import { editId } from './edit-form.selectors';
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class EditFormEffectsHelper implements OnDestroy {
   protected smallViewport: boolean;
   protected editId: number;

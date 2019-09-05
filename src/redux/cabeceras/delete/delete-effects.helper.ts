@@ -7,9 +7,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/operators';
 import { CabecerasPageRequest } from '../page/page.actions';
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DeleteEffectsHelper {
   protected smallViewport: boolean;
   protected editId: number;

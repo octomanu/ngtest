@@ -14,9 +14,7 @@ import {
   CabecerasPageRequestFail,
 } from './page/page.actions';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CabecerasEffectsHelper implements OnDestroy {
   protected smallViewport: boolean;
   protected viewportSubscription: Subscription;
