@@ -59,8 +59,6 @@ export function pageReducer(
           },
         },
       };
-    case CabecerasPageActionsTypes.ChangePageFilters:
-      return { ...state };
     case CabecerasPageActionsTypes.ChangePageOrder:
       return {
         ...state,
