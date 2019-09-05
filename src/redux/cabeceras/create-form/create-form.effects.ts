@@ -1,0 +1,43 @@
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { switchMap, tap, map, catchError, mergeMap } from 'rxjs/operators';
+import { CreateFormEffectsHelper } from './create-form-effects.helper';
+import { CreateFormActionTypes, SaveRequest } from './create-form.actions';
+import { of } from 'rxjs';
+import * as cabeceraAction from './create-form.actions';
+
+@Injectable()
+export class CreateFormEffects {
+  constructor(
+    protected actions$: Actions,
+    private effectsHelper: CreateFormEffectsHelper,
+  ) {}
+
+  open$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CreateFormActionTypes.OpenCreateForm),
+        tap(() => this.effectsHelper.openCreateForm()),
+      ),
+    { dispatch: false },
+  );
+
+  save$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CreateFormActionTypes.SaveRequest),
+      mergeMap((action: SaveRequest) =>
+        this.effectsHelper.saveData(action.payload.data).pipe(
+          map(
+            () =>
+              new cabeceraAction.SaveRequestSuccess({
+                data: action.payload.data,
+              }),
+          ),
+          catchError(error =>
+            of(new cabeceraAction.SaveRequestFail({ error })),
+          ),
+        ),
+      ),
+    ),
+  );
+}

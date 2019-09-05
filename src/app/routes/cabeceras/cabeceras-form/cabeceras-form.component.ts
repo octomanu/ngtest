@@ -1,28 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CabecerasForm } from './cabeceras.form';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { formLoading } from 'redux/cabeceras/cabeceras.selectors';
 import { CabecerasUpdateRequest } from 'redux/cabeceras/edit-form/edit-form.actions';
+import { SaveRequest } from 'redux/cabeceras/create-form/create-form.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cabeceras-form',
   templateUrl: './cabeceras-form.component.html',
   styles: [],
 })
-export class CabecerasFormComponent implements OnInit {
+export class CabecerasFormComponent implements OnInit, OnDestroy {
   loading: boolean;
-
+  subscription: Subscription;
   constructor(private store: Store<AppState>, public fb: CabecerasForm) {}
 
   ngOnInit() {
-    this.store.select(formLoading).subscribe(loading => {
+    this.subscription = this.store.select(formLoading).subscribe(loading => {
       this.loading = loading;
-      if (loading) {
-        this.fb.form.disable();
-      } else {
-        this.fb.form.enable();
-      }
+      if (loading) this.fb.form.disable();
+      else this.fb.form.enable();
     });
   }
 
@@ -31,11 +30,11 @@ export class CabecerasFormComponent implements OnInit {
     if (formData.id) {
       this.store.dispatch(new CabecerasUpdateRequest({ data: formData }));
     } else {
-      // this.cabecerasService.create(formData).subscribe(data => {
-      //   this.initForm();
-      //   this.msg.success(`Creado!`);
-      //   this.cdr.detectChanges();
-      // });
+      this.store.dispatch(new SaveRequest({ data: formData }));
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

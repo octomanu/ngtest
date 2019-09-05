@@ -3,25 +3,28 @@ import { Injectable } from '@angular/core';
 import { AppState } from 'redux/app.reducer';
 import { Store } from '@ngrx/store';
 import { editFormData } from 'redux/cabeceras/cabeceras.selectors';
+import { createFormData } from 'redux/cabeceras/create-form/create-form.selectors';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CabecerasForm {
-  private formGroup: FormGroup;
+  form: FormGroup;
   constructor(private store: Store<AppState>, private fb: FormBuilder) {
+
     this.store.select(editFormData).subscribe(data => {
-      if (data) this.formGroup.setValue(data);
+      if (data) this.form.setValue(data);
       else this.initForm();
+    });
+
+    this.store.select(createFormData).subscribe(data => {
+      this.initForm();
+      if (data) this.form.setValue(data);
     });
   }
 
-  get form() {
-    return this.formGroup;
-  }
-
   private initForm() {
-    this.formGroup = this.fb.group({
+    this.form = this.fb.group({
       id: [null],
       cuit: [null, Validators.required],
       nombre: [null, Validators.required],

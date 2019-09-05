@@ -8,6 +8,7 @@ import { CabecerasComponent } from './cabeceras.component';
 import { SharedModule } from '@shared';
 import { cabeceraReducers } from 'redux/cabeceras/cabeceras.reducer';
 import { EditFormEffects } from 'redux/cabeceras/edit-form/edit-form.effects';
+import { CreateFormEffects } from 'redux/cabeceras/create-form/create-form.effects';
 
 export const cabecerasRoutes: Routes = [
   {
@@ -21,7 +22,11 @@ export const cabecerasRoutes: Routes = [
   imports: [
     SharedModule,
     StoreModule.forFeature('cabeceras', cabeceraReducers),
-    EffectsModule.forFeature([CabecerasEffects, EditFormEffects]),
+    EffectsModule.forFeature([
+      CabecerasEffects,
+      EditFormEffects,
+      CreateFormEffects,
+    ]),
     RouterModule.forChild(cabecerasRoutes),
   ],
   declarations: [...COMPONENTS, CabecerasComponent],

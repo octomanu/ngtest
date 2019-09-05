@@ -5,11 +5,6 @@ export const selectCabecerasState = createFeatureSelector<CabecerasState>(
   'cabeceras',
 );
 
-// export const initialized = createSelector(
-//   selectCabecerasState,
-//   state => state.initialized,
-// );
-
 export const pageFilters = createSelector(
   selectCabecerasState,
   state => state.page.filters,
@@ -52,7 +47,7 @@ export const editId = createSelector(
 
 export const formLoading = createSelector(
   selectCabecerasState,
-  state => state.editForm.loading,
+  state => state.editForm.loading || state.createForm.loading,
 );
 
 export const editFormData = createSelector(

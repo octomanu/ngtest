@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
 import { OpenFilterForm } from 'redux/cabeceras/filter-form/filter-form.actions';
+import { OpenCreateForm } from 'redux/cabeceras/create-form/create-form.actions';
 @Component({
   selector: 'app-cabeceras-buttons',
   templateUrl: './cabeceras-buttons.component.html',
@@ -44,8 +45,7 @@ export class CabecerasButtonsComponent implements OnInit {
   }
 
   create() {
-    // aca deberia ser el create request.
-    // this.store.dispatch(new OpenEditForm());
+    this.store.dispatch(new OpenCreateForm());
   }
 
   clearFilter() {
