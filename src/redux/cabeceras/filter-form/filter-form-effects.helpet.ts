@@ -11,15 +11,14 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { smallViewport } from 'redux/global/global.selectors';
 import { tap } from 'rxjs/operators';
-import { CabecerasFormComponent } from 'app/routes/cabeceras/cabeceras-form/cabeceras-form.component';
-import { CloseEditForm } from './edit-form.actions';
-import { editId } from './edit-form.selectors';
+import { CabecerasFilterComponent } from 'app/routes/cabeceras/cabeceras-filter/cabeceras-filter.component';
+import { CloseFilterForm } from './filter-form.actions';
+
 @Injectable({
   providedIn: 'root',
 })
-export class EditFormEffectsHelper implements OnDestroy {
+export class FilterFormEffectsHelper implements OnDestroy {
   protected smallViewport: boolean;
-  protected editId: number;
   protected viewportSubscription: Subscription;
 
   constructor(
@@ -32,31 +31,25 @@ export class EditFormEffectsHelper implements OnDestroy {
     this.viewportSubscription = this.appStore
       .select(smallViewport)
       .subscribe(value => (this.smallViewport = value));
-
-    this.appStore.select(editId).subscribe(id => (this.editId = id));
   }
 
   get store() {
     return this.appStore;
   }
 
-  openEditForm() {
+  openFilterForm() {
     this.openDrawer(
       'global.servicios',
-      'right',
-      CabecerasFormComponent,
-      CloseEditForm,
+      'left',
+      CabecerasFilterComponent,
+      CloseFilterForm,
     );
   }
 
-  updateData(data) {
+  saveData(data) {
     return this.cabecerasService
-      .update(data.id, data)
+      .create(data)
       .pipe(tap(() => this.msg.success(`global.actualizado`)));
-  }
-
-  searchFormData() {
-    return this.cabecerasService.find(this.editId);
   }
 
   private openDrawer(

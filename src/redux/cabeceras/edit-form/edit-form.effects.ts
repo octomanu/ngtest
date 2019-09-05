@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  switchMap,
-  tap,
-  mergeMap,
-  map,
-  withLatestFrom,
-  catchError,
-} from 'rxjs/operators';
+import { tap, mergeMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { EditFormEffectsHelper } from './edit-form-effects.helper';
 import {
@@ -15,9 +8,10 @@ import {
   CabecerasEditRequestSuccess,
   CabecerasUpdateRequest,
   CabecerasEditRequestFail,
+  CabecerasUpdateRequestSuccess,
+  CabecerasUpdateRequestFail,
 } from './edit-form.actions';
-import { editFormData } from '../cabeceras.selectors';
-
+import { CabecerasPageRequest } from '../page/page.actions';
 @Injectable()
 export class EditFormEffects {
   constructor(
@@ -31,20 +25,26 @@ export class EditFormEffects {
       tap(() => {
         this.effectsHelper.openEditForm();
       }),
-      withLatestFrom(this.effectsHelper.store.select(editFormData)),
-      mergeMap(([action, data]) =>
-        data ? of(data) : this.effectsHelper.searchFormData(),
+      mergeMap(() =>
+        this.effectsHelper.searchFormData().pipe(
+          map(data => new CabecerasEditRequestSuccess({ data })),
+          catchError(error => of(new CabecerasEditRequestFail({ error }))),
+        ),
       ),
-      map(data => new CabecerasEditRequestSuccess({ data })),
-      catchError(error => of(new CabecerasEditRequestFail({ error }))),
     ),
   );
 
   updateRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EditFormActionsTypes.CabecerasUpdateRequest),
-      switchMap((action: CabecerasUpdateRequest) =>
-        this.effectsHelper.updateData(action.payload.data),
+      mergeMap((action: CabecerasUpdateRequest) =>
+        this.effectsHelper.updateData(action.payload.data).pipe(
+          tap(() =>
+            this.effectsHelper.store.dispatch(new CabecerasPageRequest()),
+          ),
+          map(() => new CabecerasUpdateRequestSuccess()),
+          catchError(error => of(new CabecerasUpdateRequestFail({ error }))),
+        ),
       ),
     ),
   );

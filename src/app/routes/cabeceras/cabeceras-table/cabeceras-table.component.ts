@@ -1,9 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AppState } from 'redux/app.reducer';
 import { Store } from '@ngrx/store';
-import * as selectors from 'redux/cabeceras/cabeceras.selectors';
+import * as selectors from 'redux/cabeceras/page/page.selectors';
 import { Observable, Subscription } from 'rxjs';
-
 import { NzDropdownService } from 'ng-zorro-antd';
 import {
   CabecerasPageRequest,
@@ -11,6 +10,7 @@ import {
   ChangePageOrder,
 } from 'redux/cabeceras/page/page.actions';
 import { CabecerasEditRequest } from 'redux/cabeceras/edit-form/edit-form.actions';
+import { DeleteRequest } from 'redux/cabeceras/delete/delete.actions';
 
 @Component({
   selector: 'app-cabeceras-table',
@@ -49,7 +49,7 @@ export class CabecerasTableComponent implements OnInit {
   }
 
   eliminar(id: number) {
-    // this.store.dispatch(new serviciosActions.DeleteServicioAction(id));
+    this.store.dispatch(new DeleteRequest({ id }));
   }
 
   changeOrder(field: string, order: string) {

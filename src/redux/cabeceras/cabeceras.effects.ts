@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, tap } from 'rxjs/operators';
 import { CabecerasEffectsHelper } from './cabeceras-effects.helper';
 import { CabecerasPageActionsTypes } from './page/page.actions';
-import { CabecerasFilterTypes } from './filter-form/filter-form.actions';
+import { FilterActionsTypes } from './filter-form/filter-form.actions';
 
 @Injectable()
 export class CabecerasEffects {
@@ -17,19 +17,9 @@ export class CabecerasEffects {
       ofType(
         CabecerasPageActionsTypes.CabecerasPageRequest,
         CabecerasPageActionsTypes.ChangePageOrder,
+        CabecerasPageActionsTypes.CabecerasChangePage,
       ),
       switchMap(() => this.effectsHelper.searchTableData()),
     );
   });
-
-  filterForm$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(CabecerasFilterTypes.OpenFilterForm),
-        tap(() => {
-          this.effectsHelper.openFilterForm();
-        }),
-      ),
-    { dispatch: false },
-  );
 }

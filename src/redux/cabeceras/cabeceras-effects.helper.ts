@@ -6,8 +6,7 @@ import { CabecerasService } from '@core/http/cabeceras/cabeceras.service';
 import { NzDrawerService, NzDrawerPlacement } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { smallViewport } from 'redux/global/global.selectors';
-import { map, catchError, tap, delay } from 'rxjs/operators';
-import { editId } from './cabeceras.selectors';
+import { map, catchError, tap } from 'rxjs/operators';
 import { CabecerasFilterComponent } from 'app/routes/cabeceras/cabeceras-filter/cabeceras-filter.component';
 import { CloseFilterForm } from './filter-form/filter-form.actions';
 import {
@@ -20,7 +19,6 @@ import {
 })
 export class CabecerasEffectsHelper implements OnDestroy {
   protected smallViewport: boolean;
-  protected editId: number;
   protected viewportSubscription: Subscription;
 
   constructor(
@@ -32,7 +30,6 @@ export class CabecerasEffectsHelper implements OnDestroy {
     this.viewportSubscription = this.appStore
       .select(smallViewport)
       .subscribe(value => (this.smallViewport = value));
-    this.appStore.select(editId).subscribe(id => (this.editId = id));
   }
 
   openFilterForm() {
@@ -46,7 +43,6 @@ export class CabecerasEffectsHelper implements OnDestroy {
 
   searchTableData() {
     return this.cabecerasService.paginate().pipe(
-      delay(300),
       map(
         (resp: any) =>
           new CabecerasPageRequestSuccess({

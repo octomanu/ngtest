@@ -1,31 +1,20 @@
 <nz-card [nzBordered]="false">
-  <ng-template #extraTpl>
-    <i nz-icon nzType="setting"></i>s
-  </ng-template>
-  <ng-template #headerTpl>
-    &nbsp;
-  </ng-template>
-
-
+  <app-cabeceras-tags></app-cabeceras-tags>
   <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="pageData$ | async" [nzTotal]="paginatorTotal$ | async"
     [nzPageSize]="paginatorPageSize$ | async" [nzLoading]="paginatorLoading$ | async"
-    [nzPageIndex]="paginatorPage$ | async" (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'"
-    [nzScroll]="{ x: '100%' }">
+    [nzPageIndex]="paginatorPage$ | async" (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'"
+    [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">
     <thead (nzSortChange)="sort($event)" nzSingleSort>
-
       <tr>
         <th nzCustomFilter nzShowSort nzSortKey="nombre">
           <span>{{ 'global.nombre' | translate }}</span>
         </th>
-
         <th nzCustomFilter nzShowSort nzSortKey="direccion">
           <span>{{ 'global.direccion' | translate }}</span>
         </th>
-
         <th nzCustomFilter nzShowSort nzSortKey="cuit">
           <span>{{ 'global.cuit' | translate }}</span>
         </th>
-
         <th nzCustomFilter nzShowSort nzSortKey="email">
           <span>{{ 'global.email' | translate }}</span>
         </th>
@@ -46,7 +35,6 @@
             <strong class="onlysmall">{{ 'lambe.consorcios.consorcio' | translate }}:&nbsp;</strong>
             {{data['direccion']}}
           </td>
-
           <td>
             <strong class="onlysmall">{{ 'lambe.cheques_nro' | translate }}:&nbsp;</strong>
             {{ data['cuit'] }}
@@ -59,21 +47,20 @@
       </ng-template>
     </tbody>
   </nz-table>
-
-  <!-- Menu Row -->
-  <ng-template #menuRow let-id="id">
-    <ul nz-menu nzInDropDown>
-      <li nz-menu-item (click)="editar(id)">
-        <a>{{ 'global.editar' | translate }}</a>
-      </li>
-      <li nz-menu-item>
-        <a nz-popconfirm (nzOnConfirm)="eliminar(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
-          [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
-        <ng-template #iconTpl>
-          <i nz-icon nzType="question-circle-o" style="color: red;"></i>
-        </ng-template>
-      </li>
-    </ul>
-  </ng-template>
-
 </nz-card>
+
+<!-- Menu Row -->
+<ng-template #menuRow let-id="id">
+  <ul nz-menu nzInDropDown>
+    <li nz-menu-item (click)="editar(id)">
+      <a>{{ 'global.editar' | translate }}</a>
+    </li>
+    <li nz-menu-item>
+      <a nz-popconfirm (nzOnConfirm)="eliminar(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
+        [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
+      <ng-template #iconTpl>
+        <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+      </ng-template>
+    </li>
+  </ul>
+</ng-template>

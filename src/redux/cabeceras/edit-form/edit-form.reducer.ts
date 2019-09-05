@@ -30,7 +30,6 @@ export function editFormReducer(
       return {
         ...state,
         loading: false,
-        data: action.payload.data,
       };
     case EditFormActionsTypes.CabecerasUpdateRequestFail:
       return {

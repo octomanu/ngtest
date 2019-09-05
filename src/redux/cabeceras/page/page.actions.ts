@@ -25,9 +25,6 @@ export class CabecerasPageRequestFail implements Action {
   constructor(public payload: { error: any }) {}
 }
 
-export class ChangePageFilters implements Action {
-  readonly type = CabecerasPageActionsTypes.ChangePageFilters;
-}
 export class ChangePageOrder implements Action {
   readonly type = CabecerasPageActionsTypes.ChangePageOrder;
   constructor(public payload: { field: string; order: string }) {}
@@ -38,5 +35,4 @@ export type CabecerasPageActions =
   | CabecerasPageRequest
   | CabecerasPageRequestSuccess
   | CabecerasPageRequestFail
-  | ChangePageFilters
   | ChangePageOrder;

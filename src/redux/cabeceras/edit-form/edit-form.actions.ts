@@ -28,7 +28,6 @@ export class CabecerasUpdateRequest implements Action {
 }
 export class CabecerasUpdateRequestSuccess implements Action {
   readonly type = EditFormActionsTypes.CabecerasUpdateRequestSuccess;
-  constructor(public payload: { data: any }) {}
 }
 export class CabecerasUpdateRequestFail implements Action {
   readonly type = EditFormActionsTypes.CabecerasUpdateRequestFail;

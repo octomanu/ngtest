@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-cabeceras-form',
   templateUrl: './cabeceras-form.component.html',
   styles: [],
+  providers: [CabecerasForm],
 })
 export class CabecerasFormComponent implements OnInit, OnDestroy {
   loading: boolean;

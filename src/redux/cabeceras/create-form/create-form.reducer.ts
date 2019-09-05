@@ -9,7 +9,7 @@ export interface CreateFormState {
   open: boolean;
 }
 
-export const EditForminitialState: CreateFormState = {
+export const CreateFormInitialState: CreateFormState = {
   data: null,
   loading: false,
   error: null,
@@ -17,7 +17,7 @@ export const EditForminitialState: CreateFormState = {
 };
 
 export function createFormReducer(
-  state = EditForminitialState,
+  state = CreateFormInitialState,
   action: CreateFormActions,
 ): CreateFormState {
   switch (action.type) {
