@@ -30,6 +30,11 @@ export class SueldosService extends CrudService implements ServicePathGetter {
       });
   }
 
+  generateReceipt(id: number) {
+    const URL = `${environment.OCTO_API}/${this.getPath()}/generar-recibo/${id}`;
+    return this.http.get(URL);
+  }
+
   calculateSalary(data) {
     return this.post('calcular-mensual', data);
   }

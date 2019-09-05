@@ -32,7 +32,8 @@
             {{ 'global.procentaje' | translate }}
           </nz-form-label>
           <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-            <input formControlName="porcentaje" nz-input />
+            <nz-input-number style="width: 100%" formControlName="porcentaje" [nzMin]="1" [nzMax]="100">
+            </nz-input-number>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -50,7 +51,8 @@
         <nz-form-item>
           <nz-form-label nzRequired>{{ 'global.horas' | translate }}</nz-form-label>
           <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-            <input formControlName="cantidad_horas" nz-input />
+            <nz-input-number style="width: 100%" formControlName="cantidad_horas" [nzMin]="1">
+            </nz-input-number>
           </nz-form-control>
         </nz-form-item>
       </div>

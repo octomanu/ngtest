@@ -25,7 +25,8 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'global.licencia_justificada' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-          <input formControlName="dias_licencia_justificada" nz-input />
+          <nz-input-number style="width: 100%" formControlName="dias_licencia_justificada" [nzMin]="0">
+          </nz-input-number>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -34,7 +35,8 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'global.licencia_injustificada' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-          <input formControlName="dias_licencia" nz-input />
+          <nz-input-number style="width: 100%" formControlName="dias_licencia" [nzMin]="0">
+          </nz-input-number>
         </nz-form-control>
       </nz-form-item>
     </div>

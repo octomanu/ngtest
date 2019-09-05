@@ -37,7 +37,8 @@
         <nz-form-item>
           <nz-form-label nzRequired>{{ 'global.valor' | translate }}</nz-form-label>
           <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-            <input formControlName="valor" nz-input />
+            <nz-input-number style="width: 100%" formControlName="valor" [nzMin]="0">
+            </nz-input-number>
           </nz-form-control>
         </nz-form-item>
       </div>

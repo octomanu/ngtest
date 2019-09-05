@@ -16,7 +16,8 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'global.dias' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-          <input formControlName="dias_vacaciones" nz-input />
+          <nz-input-number style="width: 100%" formControlName="dias_vacaciones" [nzMin]="1" [nzMax]="99">
+          </nz-input-number>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -25,7 +26,8 @@
       <nz-form-item>
         <nz-form-label nzRequired>{{ 'global.valor' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-          <input formControlName="dias_vacaciones_valor" nz-input />
+          <nz-input-number style="width: 100%" formControlName="dias_vacaciones_valor" [nzMin]="1">
+          </nz-input-number>
         </nz-form-control>
       </nz-form-item>
     </div>
