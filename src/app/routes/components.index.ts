@@ -102,6 +102,7 @@ import { BasicInformationTabComponent as BasicInformationTabComponentSac } from 
 import { ExtraHoursTabComponent as ExtraHoursTabComponentSac } from './sueldos/sac-form/extra-hours-tab/extra-hours-tab.component';
 import { PreviewTabComponent as PreviewTabComponentSac } from './sueldos/sac-form/preview-tab/preview-tab.component';
 import { SueldosTableComponent } from './sueldos/sueldos-table/sueldos-table.component';
+import { PreviewSalaryComponent } from './sueldos/preview-salary/preview-salary.component';
 
 export const COMPONENTS = [
   ProveedorFormComponent,
@@ -208,4 +209,5 @@ export const COMPONENTS = [
   ExtraHoursTabComponentSac,
   PreviewTabComponentSac,
   SueldosTableComponent,
+  PreviewSalaryComponent,
 ];

@@ -8,11 +8,17 @@ import { TableComponent } from 'app/classes/table-component.class';
 import { TooltipHelpComponent } from '@shared/components/tooltip-help/tooltip-help.component';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
-import { NzDropdownService, NzModalService } from 'ng-zorro-antd';
+import {
+  NzDropdownService,
+  NzModalService,
+  NzDrawerService,
+} from 'ng-zorro-antd';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
 import { SueldosState } from 'redux/sueldos/sueldos.reducer';
 import * as sueldosActions from 'redux/sueldos/sueldos.actions';
 import { SueldosService } from '@core/http/sueldos/sueldos.service';
+import { PreviewSalaryComponent } from '../preview-salary/preview-salary.component';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-sueldos-table',
   templateUrl: './sueldos-table.component.html',
@@ -31,6 +37,8 @@ export class SueldosTableComponent extends TableComponent implements OnInit {
     viewContainerRef: ViewContainerRef,
     protected sueldosService: SueldosService,
     protected modalService: NzModalService,
+    protected translateService: TranslateService,
+    protected drawerService: NzDrawerService,
   ) {
     super();
     this.tooltipBuilder.setViewContainerRef(viewContainerRef);
@@ -64,16 +72,17 @@ export class SueldosTableComponent extends TableComponent implements OnInit {
   }
 
   generateReceipt(id: number) {
-    console.log(id);
-    this.sueldosService.generateReceipt(id).subscribe((resp: any) => {
-      console.log(resp.data);
-      this.modalService.create({
-        nzTitle: 'Modal Title',
-        nzContent: resp.data,
-        nzClosable: false,
-        nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
+    this.translateService
+      .get('global.sueldo_preview')
+      .subscribe((res: string) => {
+        this.drawerService.create({
+          nzWidth: '100%',
+          nzTitle: '',
+          nzContent: PreviewSalaryComponent,
+          nzPlacement: 'right',
+          nzContentParams: { id },
+        });
       });
-    });
   }
 
   eliminar(id: number) {

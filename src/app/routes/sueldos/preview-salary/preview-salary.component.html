@@ -1,0 +1,10 @@
+<button [disabled]="downloading" (click)="download()" nz-button nzType="primary" nzShape="round">
+  <span *ngIf="!downloading"> <i nz-icon nzType="download"></i>Descargar</span>
+  <span *ngIf="downloading"> <i nz-icon [nzType]="'loading'"></i> Descargando</span>
+</button>
+<nz-divider></nz-divider>
+<div nz-row nzType="flex">
+<div #contentToConvert [innerHtml]="receiptContent"></div>
+
+
+</div>
