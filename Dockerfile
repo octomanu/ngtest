@@ -5,7 +5,7 @@ COPY ./nginx-default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /usr/share/nginx/html
 
-RUN apk update && apk add nodejs npm
+RUN apk update && apk add nodejs npm && apk add git
 RUN npm install 
 RUN npm run build
 
