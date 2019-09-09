@@ -33,8 +33,7 @@
               }
             ],
             "styles": [
-              "src/styles.less",
-              "src/styles/animate.css"
+              "src/styles.less"
             ],
             "scripts": [
               "node_modules/ajv/dist/ajv.bundle.js",
@@ -106,8 +105,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "styles": [
-              "src/styles.less",
-              "src/styles/animate.css"
+              "src/styles.less"
             ],
             "scripts": [
               "node_modules/ajv/dist/ajv.bundle.js",

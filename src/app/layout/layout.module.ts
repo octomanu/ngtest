@@ -46,10 +46,11 @@ const HEADERCOMPONENTS = [
 
 // passport
 import { LayoutPassportComponent } from './passport/passport.component';
+import { RouterModule } from '@angular/router';
 const PASSPORT = [LayoutPassportComponent];
 
 @NgModule({
-  imports: [SharedModule, NgxDnDModule],
+  imports: [SharedModule, NgxDnDModule, RouterModule],
   entryComponents: SETTINGDRAWER,
   declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT],
   exports: [...COMPONENTS, ...PASSPORT],

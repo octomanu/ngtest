@@ -1,7 +1,6 @@
 <nz-card [nzBordered]="false">
 
   <app-caja-consorcio-table-config></app-caja-consorcio-table-config>
-  <app-servicios-tags></app-servicios-tags>
   <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
     [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
     (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">

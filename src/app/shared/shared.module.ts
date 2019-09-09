@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 // delon
 import { AlainThemeModule } from '@delon/theme';
 import { DelonABCModule } from '@delon/abc';
 import { DelonACLModule } from '@delon/acl';
-import { DelonFormModule } from '@delon/form';
 // i18n
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -14,8 +12,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
 import { BooleanPipe } from './pipes/boolean.pipe';
-import { ModalHelpComponent } from './components/modal-help/modal-help.component';
 import { TooltipHelpComponent } from './components/tooltip-help/tooltip-help.component';
+import { ModalHelpComponent } from './components/modal-help/modal-help.component';
 
 const THIRDMODULES = [NgZorroAntdModule, CountdownModule];
 // #endregion
@@ -30,12 +28,10 @@ const PIPES = [BooleanPipe];
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
     ReactiveFormsModule,
     AlainThemeModule.forChild(),
     DelonABCModule,
     DelonACLModule.forRoot(),
-    DelonFormModule,
     TranslateModule,
     // third libs
     ...THIRDMODULES,
@@ -51,11 +47,9 @@ const PIPES = [BooleanPipe];
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
     AlainThemeModule,
     DelonABCModule,
     DelonACLModule,
-    DelonFormModule,
     // i18n
     TranslateModule,
     // third libs

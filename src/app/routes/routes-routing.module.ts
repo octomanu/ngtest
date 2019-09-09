@@ -15,29 +15,6 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 // single pages
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
-import { ProveedoresComponent } from './proveedores/proveedores.component';
-import { ConsorciosComponent } from './consorcios/consorcios.component';
-import { ChequesComponent } from './cheques/cheques.component';
-import { ChequerasComponent } from './chequeras/chequeras.component';
-import { GastosComponent } from './gastos/gastos.component';
-import { ConsorciosProfileComponent } from './consorcios-profile/consorcios-profile.component';
-import { GastosRecurrentesComponent } from './gastos-recurrentes/gastos-recurrentes.component';
-import { NotasComponent } from './notas/notas.component';
-import { CuentaCorrienteComponent } from './cuenta-corriente/cuenta-corriente.component';
-import { EstadoFinancieroComponent } from './estado-financiero/estado-financiero.component';
-import { PeriodosComponent } from './periodos/periodos.component';
-import { EmpleadosComponent } from './empleados/empleados.component';
-import { ContactosComponent } from './contactos/contactos.component';
-import { ServiciosComponent } from './servicios/servicios.component';
-import { BancosComponent } from './bancos/bancos.component';
-import { CuentasBancariasComponent } from './cuentas-bancarias/cuentas-bancarias.component';
-import { GastosDescripcionesComponent } from './gastos-descripciones/gastos-descripciones.component';
-import { CajaConsorcioComponent } from './caja-consorcio/caja-consorcio.component';
-import { OrdenesPagoComponent } from './ordenes-pago/ordenes-pago.component';
-import { CuentaCorrienteProveedorComponent } from './cuenta-corriente-proveedor/cuenta-corriente-proveedor.component';
-import { CuentaCorrienteConsorcioComponent } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio.component';
-import { CuentaCorrienteUfComponent } from './cuenta-corriente-uf/cuenta-corriente-uf.component';
-import { SueldosComponent } from './sueldos/sueldos.component';
 
 const routes: Routes = [
   {
@@ -53,118 +30,166 @@ const routes: Routes = [
       },
       {
         path: 'proveedores',
-        component: ProveedoresComponent,
-        data: { title: 'Proveedores' },
+        loadChildren: () =>
+          import('./proveedores/proveedores.module').then(
+            mod => mod.ProveedoresModule,
+          ),
       },
       {
         path: 'consorcios',
-        component: ConsorciosComponent,
-        data: { title: 'Consorcios' },
+        loadChildren: () =>
+          import('./consorcios/consorcios.module').then(
+            mod => mod.ConsorciosModule,
+          ),
       },
       {
         path: 'consorcios/perfil/:id',
-        component: ConsorciosProfileComponent,
-        data: { title: 'Perfil' },
+        loadChildren: () =>
+          import('./consorcios-profile/consorcios-profile.module').then(
+            mod => mod.ConsorciosProfileModule,
+          ),
       },
       {
         path: 'cheques',
-        component: ChequesComponent,
-        data: { title: 'Cheques' },
+        loadChildren: () =>
+          import('./cheques/cheques.module').then(mod => mod.ChequesModule),
       },
       {
         path: 'chequeras',
-        component: ChequerasComponent,
-        data: { title: 'Chequeras' },
+        loadChildren: () =>
+          import('./chequeras/chequeras.module').then(
+            mod => mod.ChequerasModule,
+          ),
       },
-      { path: 'gastos', component: GastosComponent, data: { title: 'Gastos' } },
+      {
+        path: 'gastos',
+        loadChildren: () =>
+          import('./gastos/gastos.module').then(mod => mod.GastosModule),
+      },
       {
         path: 'gastos-recurrentes',
-        component: GastosRecurrentesComponent,
-        data: { title: 'Gastos Recurrente' },
+        loadChildren: () =>
+          import('./gastos-recurrentes/gastos-recurrentes.module').then(
+            mod => mod.GastosRecurrentesModule,
+          ),
       },
-      { path: 'notas', component: NotasComponent, data: { title: 'Notas' } },
+      {
+        path: 'notas',
+        loadChildren: () =>
+          import('./notas/notas.module').then(mod => mod.NotasModule),
+      },
       {
         path: 'cabeceras',
-        loadChildren: './cabeceras/cabeceras.module#CabecerasModule',
+        loadChildren: () =>
+          import('./cabeceras/cabeceras.module').then(
+            mod => mod.CabecerasModule,
+          ),
       },
       {
         path: 'cuenta-corriente',
-        component: CuentaCorrienteComponent,
-        data: { title: 'Cuenta Corriente' },
+        loadChildren: () =>
+          import('./cuenta-corriente/cuenta-corriente.module').then(
+            mod => mod.CuentaCorrienteModule,
+          ),
       },
       {
         path: 'estado-financiero',
-        component: EstadoFinancieroComponent,
-        data: { title: 'Estado Financiero' },
+        loadChildren: () =>
+          import('./estado-financiero/estado-financiero.module').then(
+            mod => mod.EstadoFinancieroModule,
+          ),
       },
       {
         path: 'periodos',
-        component: PeriodosComponent,
-        data: { title: 'Periodos' },
+        loadChildren: () =>
+          import('./periodos/periodos.module').then(mod => mod.PeriodosModule),
       },
       {
         path: 'empleados',
-        component: EmpleadosComponent,
-        data: { title: 'Empleados' },
+        loadChildren: () =>
+          import('./empleados/empleados.module').then(
+            mod => mod.EmpleadosModule,
+          ),
       },
       {
         path: 'contactos',
-        component: ContactosComponent,
-        data: { title: 'Contactos' },
+        loadChildren: () =>
+          import('./contactos/contactos.module').then(
+            mod => mod.ContactosModule,
+          ),
       },
       {
         path: 'servicios',
-        component: ServiciosComponent,
-        data: { title: 'Servicios' },
+        loadChildren: () =>
+          import('./servicios/servicios.module').then(
+            mod => mod.ServiciosModule,
+          ),
       },
       {
         path: 'bancos',
-        component: BancosComponent,
-        data: { title: 'Bancos' },
+        loadChildren: () =>
+          import('./bancos/bancos.module').then(mod => mod.BancosModule),
       },
       {
         path: 'cuentas-bancarias',
-        component: CuentasBancariasComponent,
-        data: { title: 'Cuentas Bancarias' },
+        loadChildren: () =>
+          import('./cuentas-bancarias/cuentas-bancarias.module').then(
+            mod => mod.CuentasBancariasModule,
+          ),
       },
       {
         path: 'gastos-descripciones',
-        component: GastosDescripcionesComponent,
-        data: { title: 'Descripciones de Gastos' },
+        loadChildren: () =>
+          import('./gastos-descripciones/gastos-descripciones.module').then(
+            mod => mod.GastosDescripcionesModule,
+          ),
       },
       {
         path: 'caja-consorcio',
-        component: CajaConsorcioComponent,
-        data: { title: 'Caja Consorcio' },
+        loadChildren: () =>
+          import('./caja-consorcio/caja-consorcio.module').then(
+            mod => mod.CajaConsorcioModule,
+          ),
       },
       {
         path: 'ordenes-pago',
-        component: OrdenesPagoComponent,
-        data: { title: 'Ordenes de Pago' },
+        loadChildren: () =>
+          import('./ordenes-pago/ordenes-pago.module').then(
+            mod => mod.OrdenesPagoModule,
+          ),
       },
       {
         path: 'cuenta-corriente-proveedor',
-        component: CuentaCorrienteProveedorComponent,
-        data: { title: 'Cuenta Corriente Proveedor' },
+        loadChildren: () =>
+          import(
+            './cuenta-corriente-proveedor/cuenta-corriente-proveedor.module'
+          ).then(mod => mod.CuentaCorrienteProveedorModule),
       },
       {
         path: 'cuenta-corriente-consorcio',
-        component: CuentaCorrienteConsorcioComponent,
-        data: { title: 'Cuenta Corriente Consorcio' },
+        loadChildren: () =>
+          import(
+            './cuenta-corriente-consorcio/cuenta-corriente-consorcio.module'
+          ).then(mod => mod.CuentaCorrienteConsorcioModule),
       },
       {
         path: 'cuenta-corriente-uf',
-        component: CuentaCorrienteUfComponent,
-        data: { title: 'Cuenta Corriente Uf' },
+        loadChildren: () =>
+          import('./cuenta-corriente-uf/cuenta-corriente-uf.module').then(
+            mod => mod.CuentaCorrienteUfModule,
+          ),
       },
       {
         path: 'sueldos',
-        component: SueldosComponent,
-        data: { title: 'Sueldos' },
+        loadChildren: () =>
+          import('./sueldos/sueldos.module').then(mod => mod.SueldosModule),
       },
       {
         path: 'exception',
-        loadChildren: './exception/exception.module#ExceptionModule',
+        loadChildren: () =>
+          import('./exception/exception.module').then(
+            mod => mod.ExceptionModule,
+          ),
       },
       // 业务子模块
       // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }

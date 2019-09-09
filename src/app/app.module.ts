@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID, APP_INITIALIZER, Injector } from '@angular/core';
+import { NgModule, LOCALE_ID, APP_INITIALIZER } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -49,11 +49,6 @@ const I18NSERVICE_PROVIDES = [
 ];
 // #region
 
-// #region JSON Schema form (using @delon/form)
-import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
-const FORM_MODULES = [JsonSchemaModule];
-// #endregion
-
 // #region Http Interceptors
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SimpleInterceptor } from '@delon/auth';
@@ -88,7 +83,6 @@ const APPINIT_PROVIDES = [
 
 import { DelonModule } from './delon.module';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { RoutesModule } from './routes/routes.module';
 import { LayoutModule } from './layout/layout.module';
@@ -98,10 +92,12 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '@env/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { effectsArr } from 'redux';
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    RouterModule,
     BrowserAnimationsModule,
     HttpClientModule,
     DelonModule.forRoot(),
@@ -116,9 +112,7 @@ import { effectsArr } from 'redux';
       logOnly: environment.production,
     }),
     ...I18NSERVICE_MODULES,
-    ...FORM_MODULES,
     ...GLOBAL_THIRD_MODULES,
-    SharedModule,
   ],
   providers: [
     ...LANG_PROVIDES,

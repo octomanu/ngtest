@@ -8,8 +8,8 @@
       <i nz-icon nzType="plus" nzTheme="outline" class="pointer" (click)="openCrearMenu()"></i>
     </div>
     <div nz-col>
-      <i nz-popconfirm nzTitle="Quiere restablecer le menu por defecto?" (nzOnConfirm)="deleteMenu()" nzCancelText="No" nzOkText="Si" nz-icon
-        [nzIcon]="iconTpl" nzType="rollback" nzTheme="outline" class="pointer"></i>
+      <i nz-popconfirm nzTitle="Quiere restablecer le menu por defecto?" (nzOnConfirm)="deleteMenu()" nzCancelText="No"
+        nzOkText="Si" nz-icon [nzIcon]="iconTpl" nzType="rollback" nzTheme="outline" class="pointer"></i>
     </div>
     <div nz-col>
       <i nz-icon nzType="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}" nzTheme="outline" class="pointer"
@@ -78,3 +78,4 @@
     </nz-collapse>
   </ul>
 </div>
+<app-modal-help></app-modal-help>

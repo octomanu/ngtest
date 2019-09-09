@@ -17,7 +17,8 @@
     "lint-staged": "lint-staged",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "hmr": "ng serve -c=hmr",
-    "up-test-app": "ng serve --extraWebpackConfig webpack.partial.js"
+    "up-test-app": "ng serve --extraWebpackConfig webpack.partial.js",
+    "bundle-report": "npm run color-less && node --max_old_space_size=5120 ./node_modules/@angular/cli/bin/ng build --prod --stats-json && webpack-bundle-analyzer dist/octo-alain/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -33,12 +34,11 @@
     "@delon/abc": "^8.1.0",
     "@delon/acl": "^8.1.0",
     "@delon/auth": "^8.1.0",
-    "@delon/cache": "^8.1.0",
-    "@delon/chart": "^8.1.0",
-    "@delon/form": "^8.1.0",
-    "@delon/mock": "^8.1.0",
     "@delon/theme": "^8.1.0",
     "@delon/util": "^8.1.0",
+    "@delon/cache": "^8.1.0",
+    "@delon/chart": "^8.1.0",
+    "@delon/mock": "^8.1.0",
     "@ngrx/effects": "^8.1.0",
     "@ngrx/entity": "^8.3.0",
     "@ngrx/store": "^8.1.0",
@@ -59,14 +59,9 @@
     "ng-alain": "^8.3.0",
     "ng-zorro-antd": "^8.2.1",
     "ngx-build-plus": "^8.0.0",
-    "prettier": "^1.16.1",
-    "prettier-stylelint": "^0.4.2",
     "rxjs": "~6.5.2",
     "screenfull": "~4.0.0",
-    "stylelint": "^9.10.1",
-    "stylelint-config-standard": "^18.2.0",
     "tslib": "^1.9.0",
-    "tslint-config-prettier": "^1.18.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
@@ -89,10 +84,16 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "less-bundle-promise": "^1.0.7",
     "ng-alain-codelyzer": "^0.0.1",
+    "prettier": "^1.16.1",
+    "prettier-stylelint": "^0.4.2",
     "protractor": "~5.4.0",
+    "stylelint": "^9.10.1",
+    "stylelint-config-standard": "^18.2.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "~3.4.5",
+    "webpack-bundle-analyzer": "^3.4.1",
     "workbox-webpack-plugin": "^4.2.0"
   },
   "lint-staged": {
