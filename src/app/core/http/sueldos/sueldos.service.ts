@@ -9,6 +9,7 @@ import { PaginatorParamsInterface } from 'app/interfaces/local/paginator-params.
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { SueldosState } from 'redux/sueldos/sueldos.reducer';
+import { selectSueldos } from 'redux/sueldos/sueldos.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class SueldosService extends CrudService implements ServicePathGetter {
   constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
     this.subscription = this.store
-      .select('sueldosState')
+      .select(selectSueldos)
       .subscribe((state: SueldosState) => {
         this.filtros = state.filtros;
         this.parametros = state.paginator.parametros;
@@ -31,7 +32,9 @@ export class SueldosService extends CrudService implements ServicePathGetter {
   }
 
   generateReceipt(id: number) {
-    const URL = `${environment.OCTO_API}/${this.getPath()}/generar-recibo/${id}`;
+    const URL = `${
+      environment.OCTO_API
+    }/${this.getPath()}/generar-recibo/${id}`;
     return this.http.get(URL);
   }
 

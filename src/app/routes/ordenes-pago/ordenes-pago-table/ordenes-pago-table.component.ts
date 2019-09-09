@@ -14,6 +14,7 @@ import { NzDropdownService } from 'ng-zorro-antd';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
 import * as ordenesPagoActions from 'redux/ordenes-pago/ordenes-pago.actions';
 import { OrdenesPagoState } from 'redux/ordenes-pago/ordenes-pago.reducer';
+import { selectOrdenesPago } from 'redux/ordenes-pago/ordenes-pago.selectors';
 
 @Component({
   selector: 'app-ordenes-pago-table',
@@ -41,7 +42,7 @@ export class OrdenesPagoTableComponent extends TableComponent
 
   ngOnInit() {
     const sub = this.store
-      .select('ordenesPagoState')
+      .select(selectOrdenesPago)
       .subscribe((state: OrdenesPagoState) => {
         if (!state.initialized) {
           this.store.dispatch(new ordenesPagoActions.LoadOrdenesPagosAction());

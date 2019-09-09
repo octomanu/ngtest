@@ -1,9 +1,9 @@
-import { AppState } from 'redux/app.reducer';
-import { createSelector } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { CajaConsorcioState } from './caja-consorcio.reducer';
 
-export const selectCajaConsorcio = (state: AppState) =>
-  state.cajaConsorcioState;
+export const selectCajaConsorcio = createFeatureSelector<CajaConsorcioState>(
+  'cajaConsorcio',
+);
 
 export const selectPaginator = createSelector(
   selectCajaConsorcio,

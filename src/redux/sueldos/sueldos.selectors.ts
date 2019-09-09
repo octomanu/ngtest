@@ -1,8 +1,8 @@
 import { AppState } from 'redux/app.reducer';
-import { createSelector } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { SueldosState } from './sueldos.reducer';
 
-export const selectSueldos = (state: AppState) => state.sueldosState;
+export const selectSueldos = createFeatureSelector<SueldosState>('sueldos');
 
 export const selectFiltros = createSelector(
   selectSueldos,

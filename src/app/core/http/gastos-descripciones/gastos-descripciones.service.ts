@@ -21,7 +21,7 @@ export class GastosDescripcionesService extends CrudService
   constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
     this.subscription = this.store
-      .select('gastosDescripcionesState')
+      .select('gastosDescripciones')
       .subscribe((state: GastosDescripcionesState) => {
         this.filtros = state.filtros;
         this.parametros = state.paginator.parametros;

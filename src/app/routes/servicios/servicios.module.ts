@@ -3,6 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { COMPONENTS } from './components.index';
 import { SharedModule } from '@shared';
 import { ServiciosComponent } from './servicios.component';
+import { ServiciosEffects } from 'redux/servicios/servicios.effects';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { serviciosReducer } from 'redux/servicios/servicios.reducer';
+
+const Effects = [ServiciosEffects];
+
+const Helpers = [];
 
 export const routes: Routes = [
   {
@@ -13,7 +21,12 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forChild(routes)],
+  imports: [
+    SharedModule,
+    RouterModule.forChild(routes),
+    StoreModule.forFeature('servicios', serviciosReducer),
+    EffectsModule.forFeature(Effects),
+  ],
   declarations: [...COMPONENTS, ServiciosComponent],
   entryComponents: COMPONENTS,
 })

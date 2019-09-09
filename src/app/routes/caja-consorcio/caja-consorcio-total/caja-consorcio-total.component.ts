@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { CajaConsorcioState } from 'redux/caja-consorcio/caja-consorcio.reducer';
+import { selectCajaConsorcio } from 'redux/caja-consorcio/caja-consorcio.selectors';
 
 @Component({
   selector: 'app-caja-consorcio-total',
@@ -21,7 +22,7 @@ export class CajaConsorcioTotalComponent implements OnInit {
 
   ngOnInit() {
     this.store
-      .select('cajaConsorcioState')
+      .select(selectCajaConsorcio)
       .subscribe((state: CajaConsorcioState) => {
         this.calculateSaldos(state.saldos);
       });

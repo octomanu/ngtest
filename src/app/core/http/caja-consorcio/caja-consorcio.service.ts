@@ -8,6 +8,7 @@ import { AppState } from 'redux/app.reducer';
 import { CajaConsorcioState } from 'redux/caja-consorcio/caja-consorcio.reducer';
 import { environment } from '@env/environment';
 import { map, catchError } from 'rxjs/operators';
+import { selectCajaConsorcio } from 'redux/caja-consorcio/caja-consorcio.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class CajaConsorcioService extends CrudService implements OnDestroy {
   constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
     this.subscription = this.store
-      .select('cajaConsorcioState')
+      .select(selectCajaConsorcio)
       .subscribe((state: CajaConsorcioState) => {
         this.filtros = state.filtros;
         this.parametros = state.paginator.parametros;

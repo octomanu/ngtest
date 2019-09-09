@@ -12,6 +12,7 @@ import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helpe
 import { TooltipHelpComponent } from '@shared/components/tooltip-help/tooltip-help.component';
 import * as cbActions from 'redux/cuentas-bancarias/cuentas-bancarias.actions';
 import { CuentasBancariasState } from 'redux/cuentas-bancarias/cuentas-bancarias.reducer';
+import { selectCuentaBancaria } from 'redux/cuentas-bancarias/cuentas-bancarias.selectors';
 
 @Component({
   selector: 'app-cuentas-bancarias-table',
@@ -38,7 +39,7 @@ export class CuentasBancariasTableComponent extends TableComponent
 
   ngOnInit() {
     const sub = this.store
-      .select('cuentasBancariasState')
+      .select(selectCuentaBancaria)
       .subscribe((state: CuentasBancariasState) => {
         if (!state.initialized) {
           this.store.dispatch(new cbActions.LoadCuentasBancariasAction());

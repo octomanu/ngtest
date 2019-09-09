@@ -1,9 +1,9 @@
-import { AppState } from 'redux/app.reducer';
-import { createSelector } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { CuentaCorrienteProveedorState } from './cuenta-corriente-proveedor.reducer';
 
-export const selectCuentaCorrienteProveedor = (state: AppState) =>
-  state.cuentaCorrienteProveedor;
+export const selectCuentaCorrienteProveedor = createFeatureSelector<
+  CuentaCorrienteProveedorState
+>('cuentaCorrienteProveedor');
 
 export const selectFiltros = createSelector(
   selectCuentaCorrienteProveedor,

@@ -8,6 +8,7 @@ import { PaginatorParamsInterface } from 'app/interfaces/local/paginator-params.
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import * as fromChequeras from 'redux/chequeras/chequeras.reducer';
+import { selectServicios } from 'redux/servicios/servicios.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class ChequerasService extends CrudService implements OnDestroy {
   constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
     this.subscription = this.store
-      .select('serviciosState')
+      .select(selectServicios)
       .subscribe((state: fromChequeras.ChequerasState) => {
         this.filtros = state.filtros;
         this.parametros = state.paginator.parametros;

@@ -6,6 +6,7 @@ import * as gs from 'redux/global/global.selectors';
 import { ChangeFilterAction } from 'redux/servicios/servicios.actions';
 import { ServiciosState } from 'redux/servicios/servicios.reducer';
 import { Subscription } from 'rxjs';
+import { selectServicios } from 'redux/servicios/servicios.selectors';
 
 @Component({
   selector: 'app-servicios-filter',
@@ -29,7 +30,7 @@ export class ServiciosFilterComponent implements OnInit, OnDestroy {
     });
 
     this.stateSubscription = this.store
-      .select('serviciosState')
+      .select(selectServicios)
       .subscribe((state: ServiciosState) => {
         this.descripcion = state.filtros.descripcion;
       });

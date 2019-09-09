@@ -37,7 +37,7 @@ export class GastosDescripcionesTableComponent extends TableComponent
 
   ngOnInit() {
     const sub = this.store
-      .select('gastosDescripcionesState')
+      .select('gastosDescripciones')
       .subscribe((state: GastosDescripcionesState) => {
         if (!state.initialized) {
           this.store.dispatch(new gdActions.LoadGastosDescripcionesAction());

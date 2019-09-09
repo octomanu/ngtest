@@ -7,6 +7,7 @@ import { PaginatorParamsInterface } from 'app/interfaces/local/paginator-params.
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { CuentasBancariasState } from 'redux/cuentas-bancarias/cuentas-bancarias.reducer';
+import { selectCuentaBancaria } from 'redux/cuentas-bancarias/cuentas-bancarias.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class CuentasBancariasService extends CrudService implements OnDestroy {
   constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
     this.subscription = this.store
-      .select('cuentasBancariasState')
+      .select(selectCuentaBancaria)
       .subscribe((state: CuentasBancariasState) => {
         this.filtros = state.filtros;
         this.parametros = state.paginator.parametros;

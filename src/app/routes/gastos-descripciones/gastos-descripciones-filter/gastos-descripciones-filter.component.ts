@@ -29,7 +29,7 @@ export class GastosDescripcionesFilterComponent implements OnInit, OnDestroy {
     });
 
     const stateSubscription = this.store
-      .select('gastosDescripcionesState')
+      .select('gastosDescripciones')
       .subscribe((state: GastosDescripcionesState) => {
         this.titulo = state.filtros.titulo;
       });

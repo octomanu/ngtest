@@ -1,8 +1,9 @@
-import { AppState } from 'redux/app.reducer';
-import { createSelector } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { ServiciosState } from './servicios.reducer';
 
-export const selectServicios = (state: AppState) => state.serviciosState;
+export const selectServicios = createFeatureSelector<ServiciosState>(
+  'servicios',
+);
 
 export const selectFiltros = createSelector(
   selectServicios,

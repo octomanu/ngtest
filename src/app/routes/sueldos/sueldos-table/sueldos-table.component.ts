@@ -19,6 +19,7 @@ import * as sueldosActions from 'redux/sueldos/sueldos.actions';
 import { SueldosService } from '@core/http/sueldos/sueldos.service';
 import { PreviewSalaryComponent } from '../preview-salary/preview-salary.component';
 import { TranslateService } from '@ngx-translate/core';
+import { selectSueldos } from 'redux/sueldos/sueldos.selectors';
 @Component({
   selector: 'app-sueldos-table',
   templateUrl: './sueldos-table.component.html',
@@ -47,7 +48,7 @@ export class SueldosTableComponent extends TableComponent implements OnInit {
 
   ngOnInit() {
     const sub = this.store
-      .select('sueldosState')
+      .select(selectSueldos)
       .subscribe((state: SueldosState) => {
         if (!state.initialized) {
           this.store.dispatch(new sueldosActions.LoadSueldosAction());

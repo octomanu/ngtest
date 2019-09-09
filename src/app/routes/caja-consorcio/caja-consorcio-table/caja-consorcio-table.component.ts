@@ -12,6 +12,7 @@ import { NzDropdownService } from 'ng-zorro-antd';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
 import { CajaConsorcioState } from 'redux/caja-consorcio/caja-consorcio.reducer';
 import * as ccActions from 'redux/caja-consorcio/caja-consorcio.actions';
+import { selectCajaConsorcio } from 'redux/caja-consorcio/caja-consorcio.selectors';
 
 @Component({
   selector: 'app-caja-consorcio-table',
@@ -38,7 +39,7 @@ export class CajaConsorcioTableComponent extends TableComponent
 
   ngOnInit() {
     const sub = this.store
-      .select('cajaConsorcioState')
+      .select(selectCajaConsorcio)
       .subscribe((state: CajaConsorcioState) => {
         if (!state.initialized) {
           this.store.dispatch(new ccActions.LoadCajaConsorcioAction());

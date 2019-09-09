@@ -38,7 +38,7 @@ export class ChequerasTableComponent extends TableComponent
 
   ngOnInit() {
     const sub = this.store
-      .select('chequerasState')
+      .select('chequeras')
       .subscribe((state: ChequerasState) => {
         if (!state.initialized) {
           this.store.dispatch(new chequerasAction.LoadChequerasAction());

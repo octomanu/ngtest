@@ -1,8 +1,9 @@
-import { AppState } from 'redux/app.reducer';
-import { createSelector } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { OrdenesPagoState } from './ordenes-pago.reducer';
 
-export const selectOrdenesPago = (state: AppState) => state.ordenesPagoState;
+export const selectOrdenesPago = createFeatureSelector<OrdenesPagoState>(
+  'ordenesPago',
+);
 
 export const selectFiltros = createSelector(
   selectOrdenesPago,
