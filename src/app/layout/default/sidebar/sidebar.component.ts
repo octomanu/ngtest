@@ -4,6 +4,10 @@ import {
   ChangeDetectorRef,
   OnInit,
   OnDestroy,
+  ViewChild,
+  ViewContainerRef,
+  ComponentFactoryResolver,
+  ComponentRef,
 } from '@angular/core';
 import { SettingsService } from '@delon/theme';
 import { NzDrawerService } from 'ng-zorro-antd';
@@ -18,6 +22,8 @@ import { CrearMenuComponent } from '../crear-menu/crear-menu.component';
 import { MenuState } from 'redux/menu/menu.reducer';
 import { EditarMenuComponent } from '../editar-menu/editar-menu.component';
 import { DeleteMenuAction } from 'redux/menu/menu.actions';
+import { ModalHelpComponent } from '@shared/components/modal-help/modal-help.component';
+import { selectHelpUrl } from 'redux/global/global.selectors';
 
 @Component({
   selector: 'layout-sidebar',
@@ -25,6 +31,9 @@ import { DeleteMenuAction } from 'redux/menu/menu.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  @ViewChild('modal', { read: ViewContainerRef, static: false })
+  modalContainer: ViewContainerRef;
+  modalRef: ComponentRef<ModalHelpComponent>;
   help: boolean;
   keepHelp: boolean;
   icons = [];
@@ -51,6 +60,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     public menuHandler: MenuHandlerService,
     public translate: TranslateService,
     public drawerService: NzDrawerService,
+    private resolver: ComponentFactoryResolver,
   ) {}
 
   openCrearMenu() {
@@ -92,6 +102,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.keepHelp = state.keepHelp;
         this.cdr.detectChanges();
       });
+
+    this.store.select(selectHelpUrl).subscribe((url: string) => {
+      if (url) {
+        const factory = this.resolver.resolveComponentFactory(
+          ModalHelpComponent,
+        );
+        this.modalRef = this.modalContainer.createComponent(factory);
+        this.cdr.detectChanges();
+        this.modalRef.instance.show(url);
+      } else {
+        if (this.modalRef) {
+          this.modalRef.destroy();
+        }
+      }
+    });
 
     this.isCollapsed = this.settings.layout.collapsed;
 

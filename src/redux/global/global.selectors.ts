@@ -18,3 +18,8 @@ export const selectKeepHelp = createSelector(
   selectGlobal,
   (state: GlobalState) => state.keepHelp,
 );
+
+export const selectHelpUrl = createSelector(
+  selectGlobal,
+  (state: GlobalState) => state.modalAyuda.url,
+);

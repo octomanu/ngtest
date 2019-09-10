@@ -19,7 +19,7 @@ const THIRDMODULES = [NgZorroAntdModule, CountdownModule];
 // #endregion
 
 // #region your componets & directives
-const COMPONENTS = [ModalHelpComponent, TooltipHelpComponent];
+const COMPONENTS = [TooltipHelpComponent, ModalHelpComponent];
 const DIRECTIVES = [];
 const PIPES = [BooleanPipe];
 // #endregion
@@ -42,7 +42,7 @@ const PIPES = [BooleanPipe];
     ...DIRECTIVES,
     ...PIPES,
   ],
-  entryComponents: [TooltipHelpComponent],
+  entryComponents: [TooltipHelpComponent, ModalHelpComponent],
   exports: [
     CommonModule,
     FormsModule,
