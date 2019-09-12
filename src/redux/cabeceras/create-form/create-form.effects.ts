@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { tap, map, catchError, mergeMap } from 'rxjs/operators';
+import { tap, map, catchError, mergeMap, first } from 'rxjs/operators';
 import { CreateFormEffectsHelper } from './create-form-effects.helper';
 import { CreateFormActionTypes, SaveRequest } from './create-form.actions';
 import { of } from 'rxjs';
@@ -18,7 +18,12 @@ export class CreateFormEffects {
     () =>
       this.actions$.pipe(
         ofType(CreateFormActionTypes.OpenCreateForm),
-        tap(() => this.effectsHelper.openCreateForm()),
+        tap(() =>
+          this.effectsHelper
+            .openCreateForm()
+            .pipe(first())
+            .subscribe(),
+        ),
       ),
     { dispatch: false },
   );
@@ -28,9 +33,6 @@ export class CreateFormEffects {
       ofType(CreateFormActionTypes.SaveRequest),
       mergeMap((action: SaveRequest) =>
         this.effectsHelper.saveData(action.payload.data).pipe(
-          tap(() =>
-            this.effectsHelper.store.dispatch(new CabecerasPageRequest()),
-          ),
           map(
             () =>
               new cabeceraAction.SaveRequestSuccess({
@@ -42,6 +44,7 @@ export class CreateFormEffects {
           ),
         ),
       ),
+      mergeMap(responseAction => [responseAction, new CabecerasPageRequest()]),
     ),
   );
 }

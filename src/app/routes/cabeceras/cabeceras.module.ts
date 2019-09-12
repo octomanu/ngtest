@@ -11,11 +11,12 @@ import { EditFormEffects } from 'redux/cabeceras/edit-form/edit-form.effects';
 import { CreateFormEffects } from 'redux/cabeceras/create-form/create-form.effects';
 import { DeleteEffects } from 'redux/cabeceras/delete/delete.effects';
 import { FilterFormEffects } from 'redux/cabeceras/filter-form/filter-form.effects';
-import { CabecerasEffectsHelper } from 'redux/cabeceras/cabeceras-effects.helper';
-import { FilterFormEffectsHelper } from 'redux/cabeceras/filter-form/filter-form-effects.helpet';
 import { EditFormEffectsHelper } from 'redux/cabeceras/edit-form/edit-form-effects.helper';
 import { DeleteEffectsHelper } from 'redux/cabeceras/delete/delete-effects.helper';
 import { CreateFormEffectsHelper } from 'redux/cabeceras/create-form/create-form-effects.helper';
+import { CabecerasFormComponent } from './cabeceras-form/cabeceras-form.component';
+import { CabecerasFilterComponent } from './cabeceras-filter/cabeceras-filter.component';
+import { DrawerService } from '@shared/utils/drawer.service';
 
 const Effects = [
   CabecerasEffects,
@@ -26,8 +27,6 @@ const Effects = [
 ];
 
 const Helpers = [
-  CabecerasEffectsHelper,
-  FilterFormEffectsHelper,
   EditFormEffectsHelper,
   DeleteEffectsHelper,
   CreateFormEffectsHelper,
@@ -50,6 +49,7 @@ export const cabecerasRoutes: Routes = [
   ],
   declarations: [...COMPONENTS, CabecerasComponent],
   entryComponents: COMPONENTS,
-  providers: [...Helpers],
+  exports: [CabecerasFormComponent, CabecerasFilterComponent],
+  providers: [...Helpers, DrawerService],
 })
 export class CabecerasModule {}

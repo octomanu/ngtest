@@ -1,49 +1,27 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { CabecerasService } from '@core/http/cabeceras/cabeceras.service';
-import {
-  NzDrawerService,
-  NzMessageService,
-  NzDrawerPlacement,
-} from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
-import { smallViewport } from 'redux/global/global.selectors';
+import { NzMessageService } from 'ng-zorro-antd';
 import { tap } from 'rxjs/operators';
 import { CabecerasFormComponent } from 'app/routes/cabeceras/cabeceras-form/cabeceras-form.component';
-import { CloseEditForm } from './edit-form.actions';
 import { editId } from './edit-form.selectors';
+import { DrawerService } from '@shared/utils/drawer.service';
 @Injectable()
-export class EditFormEffectsHelper implements OnDestroy {
-  protected smallViewport: boolean;
+export class EditFormEffectsHelper {
   protected editId: number;
-  protected viewportSubscription: Subscription;
-
   constructor(
     private appStore: Store<AppState>,
     protected cabecerasService: CabecerasService,
-    protected drawerService: NzDrawerService,
-    protected translateService: TranslateService,
     protected msg: NzMessageService,
-  ) {
-    this.viewportSubscription = this.appStore
-      .select(smallViewport)
-      .subscribe(value => (this.smallViewport = value));
-
-    this.appStore.select(editId).subscribe(id => (this.editId = id));
-  }
-
-  get store() {
-    return this.appStore;
-  }
+    protected drawerService: DrawerService,
+  ) {}
 
   openEditForm() {
-    this.openDrawer(
+    return this.drawerService.create(
       'global.servicios',
       'right',
       CabecerasFormComponent,
-      CloseEditForm,
     );
   }
 
@@ -54,29 +32,6 @@ export class EditFormEffectsHelper implements OnDestroy {
   }
 
   searchFormData() {
-    return this.cabecerasService.find(this.editId);
-  }
-
-  private openDrawer(
-    title: string,
-    placement: NzDrawerPlacement,
-    nzContent: any,
-    actionClass: any,
-  ) {
-    this.translateService.get(title).subscribe((res: string) => {
-      this.drawerService
-        .create({
-          nzTitle: res,
-          nzWidth: this.smallViewport ? '100%' : '75%',
-          nzContent,
-          nzPlacement: placement,
-        })
-        .afterClose.pipe(tap(() => this.appStore.dispatch(new actionClass())))
-        .subscribe();
-    });
-  }
-
-  ngOnDestroy() {
-    this.viewportSubscription.unsubscribe();
+    return this.cabecerasService.findObs(this.appStore.select(editId));
   }
 }

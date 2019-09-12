@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap } from 'rxjs/operators';
-import { CabecerasEffectsHelper } from './cabeceras-effects.helper';
-import { CabecerasPageActionsTypes } from './page/page.actions';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import {
+  CabecerasPageActionsTypes,
+  CabecerasPageRequestSuccess,
+  CabecerasPageRequestFail,
+} from './page/page.actions';
+import { CabecerasService } from '@core/http/cabeceras/cabeceras.service';
+import { of } from 'rxjs';
 
 @Injectable()
 export class CabecerasEffects {
   constructor(
     protected actions$: Actions,
-    private effectsHelper: CabecerasEffectsHelper,
+    protected cabecerasService: CabecerasService,
   ) {}
 
   loadTableData$ = createEffect(() => {
@@ -18,7 +23,20 @@ export class CabecerasEffects {
         CabecerasPageActionsTypes.ChangePageOrder,
         CabecerasPageActionsTypes.CabecerasChangePage,
       ),
-      switchMap(() => this.effectsHelper.searchTableData()),
+      switchMap(() => this.searchTableData()),
     );
   });
+
+  private searchTableData() {
+    return this.cabecerasService.paginate().pipe(
+      map(
+        (resp: any) =>
+          new CabecerasPageRequestSuccess({
+            data: resp.data,
+            recordsFiltered: resp.recordsFiltered,
+          }),
+      ),
+      catchError(error => of(new CabecerasPageRequestFail(error))),
+    );
+  }
 }

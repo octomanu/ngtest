@@ -14,12 +14,17 @@ import { CountdownModule } from 'ngx-countdown';
 import { BooleanPipe } from './pipes/boolean.pipe';
 import { TooltipHelpComponent } from './components/tooltip-help/tooltip-help.component';
 import { ModalHelpComponent } from './components/modal-help/modal-help.component';
+import { TableTagsComponent } from './components/table-tags/table-tags.component';
 
 const THIRDMODULES = [NgZorroAntdModule, CountdownModule];
 // #endregion
 
 // #region your componets & directives
-const COMPONENTS = [TooltipHelpComponent, ModalHelpComponent];
+const COMPONENTS = [
+  TooltipHelpComponent,
+  ModalHelpComponent,
+  TableTagsComponent,
+];
 const DIRECTIVES = [];
 const PIPES = [BooleanPipe];
 // #endregion

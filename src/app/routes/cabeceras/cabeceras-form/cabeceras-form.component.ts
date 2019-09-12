@@ -3,9 +3,13 @@ import { CabecerasForm } from './cabeceras.form';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { formLoading } from 'redux/cabeceras/cabeceras.selectors';
-import { CabecerasUpdateRequest } from 'redux/cabeceras/edit-form/edit-form.actions';
+import {
+  CabecerasUpdateRequest,
+  CloseEditForm,
+} from 'redux/cabeceras/edit-form/edit-form.actions';
 import { SaveRequest } from 'redux/cabeceras/create-form/create-form.actions';
-import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cabeceras-form',
@@ -14,16 +18,17 @@ import { Subscription } from 'rxjs';
   providers: [CabecerasForm],
 })
 export class CabecerasFormComponent implements OnInit, OnDestroy {
-  loading: boolean;
-  subscription: Subscription;
+  loading$: Observable<boolean>;
   constructor(private store: Store<AppState>, public fb: CabecerasForm) {}
 
   ngOnInit() {
-    this.subscription = this.store.select(formLoading).subscribe(loading => {
-      this.loading = loading;
-      if (loading) this.fb.form.disable();
-      else this.fb.form.enable();
-    });
+    this.loading$ = this.store.select(formLoading).pipe(
+      tap(loading => {
+        console.log(loading);
+        if (loading) this.fb.form.disable();
+        else this.fb.form.enable();
+      }),
+    );
   }
 
   submit() {
@@ -36,6 +41,6 @@ export class CabecerasFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.store.dispatch(new CloseEditForm());
   }
 }

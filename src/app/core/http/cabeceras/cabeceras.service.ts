@@ -1,49 +1,55 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CrudService } from '../crud-service.class';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { paginatorRequestParams } from 'redux/cabeceras/cabeceras.selectors';
+import { map, mergeMap, first, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CabecerasService extends CrudService implements OnDestroy {
-  filtersSubscription: Subscription;
-  paramsSubscription: Subscription;
-  requestParams: any;
-
-  constructor(http: HttpClient, public store: Store<AppState>) {
+export class CabecerasService extends CrudService {
+  constructor(http: HttpClient, private store: Store<AppState>) {
     super(http);
-    this.subscribe();
-  }
-
-  protected subscribe() {
-    this.filtersSubscription = this.store
-      .select(paginatorRequestParams)
-      .subscribe(requestParams => (this.requestParams = requestParams));
-  }
-
-  ngOnDestroy() {
-    this.filtersSubscription.unsubscribe();
-    this.paramsSubscription.unsubscribe();
   }
 
   getPath() {
     return 'cabeceras';
   }
 
+  findObs(id$: Observable<number>) {
+    return of(null).pipe(
+      mergeMap(() => id$.pipe(first())),
+      map(id => `${environment.OCTO_API}/${this.getPath()}/mostrar/${id}`),
+      mergeMap(url =>
+        this.http.get(url).pipe(
+          map((resp: any) => {
+            if (resp.data) {
+              return resp.data;
+            }
+            return resp;
+          }),
+        ),
+      ),
+    );
+  }
   paginate(): Observable<{}> {
-    let params = new HttpParams();
-
     const url = `${environment.OCTO_API}/${this.getPath()}`;
-    for (const key in this.requestParams) {
-      if (this.requestParams[key]) {
-        params = params.append(key, this.requestParams[key]);
-      }
-    }
-    return this.http.get(url, { params });
+    return this.store.select(paginatorRequestParams).pipe(
+      first(),
+      map(requestParams => {
+        let params = new HttpParams();
+        for (const key in requestParams) {
+          if (requestParams[key]) {
+            params = params.append(key, requestParams[key]);
+          }
+        }
+        return params;
+      }),
+      switchMap(params => this.http.get(url, { params })),
+    );
   }
 }

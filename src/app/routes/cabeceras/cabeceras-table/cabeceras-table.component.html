@@ -1,5 +1,6 @@
 <nz-card [nzBordered]="false">
-  <app-cabeceras-tags></app-cabeceras-tags>
+  <app-table-tags (removeTag)="removeTag($event)" [filters]="filters$" [translations]="translations">
+  </app-table-tags>
   <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="pageData$ | async" [nzTotal]="paginatorTotal$ | async"
     [nzPageSize]="paginatorPageSize$ | async" [nzLoading]="paginatorLoading$ | async"
     [nzPageIndex]="paginatorPage$ | async" (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'"

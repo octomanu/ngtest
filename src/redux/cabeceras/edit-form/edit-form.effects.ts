@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { tap, mergeMap, map, catchError } from 'rxjs/operators';
+import { tap, mergeMap, map, catchError, first } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { EditFormEffectsHelper } from './edit-form-effects.helper';
 import {
@@ -23,7 +23,10 @@ export class EditFormEffects {
     this.actions$.pipe(
       ofType(EditFormActionsTypes.CabecerasEditRequest),
       tap(() => {
-        this.effectsHelper.openEditForm();
+        this.effectsHelper
+          .openEditForm()
+          .pipe(first())
+          .subscribe();
       }),
       mergeMap(() =>
         this.effectsHelper.searchFormData().pipe(
@@ -39,13 +42,11 @@ export class EditFormEffects {
       ofType(EditFormActionsTypes.CabecerasUpdateRequest),
       mergeMap((action: CabecerasUpdateRequest) =>
         this.effectsHelper.updateData(action.payload.data).pipe(
-          tap(() =>
-            this.effectsHelper.store.dispatch(new CabecerasPageRequest()),
-          ),
           map(() => new CabecerasUpdateRequestSuccess()),
           catchError(error => of(new CabecerasUpdateRequestFail({ error }))),
         ),
       ),
+      mergeMap(responseAction => [responseAction, new CabecerasPageRequest()]),
     ),
   );
 }

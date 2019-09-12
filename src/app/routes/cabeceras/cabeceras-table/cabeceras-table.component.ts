@@ -11,6 +11,9 @@ import {
 } from 'redux/cabeceras/page/page.actions';
 import { CabecerasEditRequest } from 'redux/cabeceras/edit-form/edit-form.actions';
 import { DeleteRequest } from 'redux/cabeceras/delete/delete.actions';
+import { FilterRequest } from 'redux/cabeceras/filter-form/filter-form.actions';
+import { filters } from 'redux/cabeceras/filter-form/filter-form.selectors';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cabeceras-table',
@@ -25,6 +28,15 @@ export class CabecerasTableComponent implements OnInit {
   paginatorTotal$: Observable<any>;
   paginatorPage$: Observable<any>;
   paginatorPageSize$: Observable<any>;
+  filters$: Observable<any>;
+
+  private filters: any;
+  translations = {
+    cuit: 'global.cuit',
+    nombre: 'global.nombre',
+    direccion: 'global.direccion',
+    email: 'global.email',
+  };
 
   constructor(
     private store: Store<AppState>,
@@ -38,6 +50,9 @@ export class CabecerasTableComponent implements OnInit {
     this.paginatorPage$ = this.store.select(selectors.paginatorPage);
     this.paginatorPageSize$ = this.store.select(selectors.paginatorPageSize);
     this.store.dispatch(new CabecerasPageRequest());
+    this.filters$ = this.store
+      .select(filters)
+      .pipe(tap(pageFilters => (this.filters = pageFilters)));
   }
 
   pageChange(page: number) {
@@ -64,5 +79,10 @@ export class CabecerasTableComponent implements OnInit {
     const field = sort.key;
     const order = sort.value ? sort.value.replace('end', '') : sort.value;
     this.changeOrder(field, order);
+  }
+
+  removeTag(tag: string) {
+    this.filters[tag] = null;
+    this.store.dispatch(new FilterRequest({ data: this.filters }));
   }
 }
