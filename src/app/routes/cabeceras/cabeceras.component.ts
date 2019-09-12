@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
-import { NzDrawerService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
 import { selectHelp, selectKeepHelp } from 'redux/global/global.selectors';
 @Component({
   selector: 'app-cabeceras',
@@ -14,11 +12,7 @@ export class CabecerasComponent implements OnInit {
   help: Observable<boolean>;
   keepHelp: Observable<boolean>;
 
-  constructor(
-    protected store: Store<AppState>,
-    public drawerService: NzDrawerService,
-    public translate: TranslateService,
-  ) {}
+  constructor(protected store: Store<AppState>) {}
 
   ngOnInit() {
     this.help = this.store.select(selectHelp);
