@@ -24,7 +24,6 @@ export class CabecerasFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loading$ = this.store.select(formLoading).pipe(
       tap(loading => {
-        console.log(loading);
         if (loading) this.fb.form.disable();
         else this.fb.form.enable();
       }),
