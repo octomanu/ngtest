@@ -1,12 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CabecerasComponent } from './cabeceras.component';
 import { NgZorroAntdModule, NZ_ICONS } from 'ng-zorro-antd';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { PageHeaderComponent } from '@delon/abc';
 import { CabecerasTableComponent } from './cabeceras-table/cabeceras-table.component';
-import { KeysPipe } from '@delon/theme';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CabecerasService } from '@core/http/cabeceras/cabeceras.service';
 import { of } from 'rxjs';
@@ -17,6 +14,12 @@ import {
   PlusOutline,
   ProfileOutline,
 } from '@ant-design/icons-angular/icons';
+import { CabecerasButtonsComponent } from './cabeceras-buttons/cabeceras-buttons.component';
+import { SharedModule } from '@shared';
+import { Store } from '@ngrx/store';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { appReducers } from 'redux/app.reducer';
+let store: MockStore<{ loggedIn: boolean }>;
 
 export class FakeCabecerasService {
   paginate() {
@@ -33,15 +36,16 @@ describe('CabecerasComponent', () => {
       declarations: [
         CabecerasComponent,
         CabecerasTableComponent,
-        KeysPipe,
-        PageHeaderComponent,
+        CabecerasButtonsComponent,
       ],
       providers: [
+        provideMockStore({ initialState: appReducers }),
         { provide: NZ_ICONS, useValue: icons },
         { provide: CabecerasService, useClass: FakeCabecerasService },
       ],
       imports: [
         NgZorroAntdModule,
+        SharedModule,
         HttpClientModule,
         RouterTestingModule.withRoutes([]),
         TranslateModule.forRoot({
@@ -53,11 +57,12 @@ describe('CabecerasComponent', () => {
         }),
       ],
     }).compileComponents();
+    store = TestBed.get<Store<any>>(Store);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CabecerasComponent);
-    component = fixture.componentInstance;
+    component = fixture.debugElement.componentInstance;
     fixture.detectChanges();
   });
 

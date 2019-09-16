@@ -34,7 +34,7 @@ describe('ProveedoresService', () => {
       foo: true,
     };
 
-    service.searchProveedor('foo').subscribe((res: any) => {
+    service.searchByDisplay('foo').subscribe((res: any) => {
       expect(res.foo).toBeTruthy();
     });
 
@@ -51,7 +51,7 @@ describe('ProveedoresService', () => {
     const fakeError = new ErrorEvent('fake_error');
 
     service
-      .searchProveedor('foo')
+      .searchByDisplay('foo')
       .subscribe(res => res, error => expect(error.error).toBe(fakeError));
 
     const req = httpMock.expectOne(

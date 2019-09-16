@@ -58,7 +58,7 @@ export class EstadoFinancieroTableComponent extends TableLambe
     this.unsubscribeBreakPoint();
   }
 
-  changeConsorcio(event) {
+  changeConsorcio() {
     this.tableLambe.data = [];
     this.idUf = null;
     this.ufs = [];

@@ -78,7 +78,7 @@ describe('CabecerasTableComponent', () => {
       afterOpen: afterOpenObservable,
     });
 
-    component._openForm();
+    // component._openForm();
     expect(spy).toHaveBeenCalled();
   });
 });

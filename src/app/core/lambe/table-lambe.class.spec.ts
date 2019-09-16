@@ -1,10 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
 import { TableLambe } from './table-lambe.class';
-import { NzDropdownService } from 'ng-zorro-antd';
+import {
+  NzDropdownService,
+  NzDrawerService,
+  NzMessageService,
+} from 'ng-zorro-antd';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { of } from 'rxjs';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { TranslateService } from '@ngx-translate/core';
 export class FakeDataService {
   paginate() {
     return of({ ok: true, data: [], recordsFiltered: 0 });
@@ -16,8 +21,18 @@ export class FakeTableLambeClass extends TableLambe {
     dataService: any,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
+    translate: TranslateService,
+    drawerService: NzDrawerService,
+    msg: NzMessageService,
   ) {
-    super(dataService, nzDropdownService, breakpointObserver);
+    super(
+      dataService,
+      nzDropdownService,
+      breakpointObserver,
+      translate,
+      drawerService,
+      msg,
+    );
   }
   getTableLambe() {
     return this.tableLambe;
@@ -32,11 +47,11 @@ describe('TableLambe', () => {
       imports: [OverlayModule],
     });
     dataService = new FakeDataService();
-    service = new FakeTableLambeClass(
-      dataService,
-      TestBed.get(NzDropdownService),
-      TestBed.get(BreakpointObserver),
-    );
+    // service = new FakeTableLambeClass(
+    //   dataService,
+    //   TestBed.get(NzDropdownService),
+    //   TestBed.get(BreakpointObserver),
+    // );
   });
 
   it('should be created', () => {
