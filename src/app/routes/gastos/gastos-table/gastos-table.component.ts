@@ -8,22 +8,26 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { GastosService } from '@core/http/gastos/gastos.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { GastosFormComponent } from '../gastos-form/gastos-form.component';
 import { GastosTableFilterComponent } from '../gastos-table-filter/gastos-table-filter.component';
-import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import { GastosForm } from './gastos.form';
 import { FormGroup } from '@angular/forms';
-import * as moment from 'moment';
-import { PaymentFormComponent } from '../payment-form/payment-form.component';
+import { Store } from '@ngrx/store';
+import { AppState } from 'redux/app.reducer';
+import { haveDues, loading } from 'redux/gastos/gastos.selectors';
+import { GastosDueSaveRequest } from 'redux/gastos/gastos.actions';
 @Component({
   selector: 'app-gastos-table',
   templateUrl: './gastos-table.component.html',
   styles: [],
+  providers: [GastosForm],
 })
 export class GastosTableComponent extends TableLambe
   implements OnInit, OnDestroy {
+  haveDues$: Observable<boolean>;
+  savingDues$: Observable<boolean>;
   filtroForm = {
     id_proveedor: null,
     id_consorcio: null,
@@ -55,6 +59,7 @@ export class GastosTableComponent extends TableLambe
     gastosService: GastosService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
+    private store: Store<AppState>,
     protected proveedorService: ProveedoresService,
     protected consorciosService: ConsorciosService,
     protected fb: GastosForm,
@@ -78,60 +83,21 @@ export class GastosTableComponent extends TableLambe
   }
 
   ngOnInit(): void {
-    this.form = this.fb.getForm();
+    // this.form = this.fb.getForm();
     this.searchData();
     this.searchConsorciosList('');
     this.searchProveedorList('');
     this.subscribeBreakPoint();
+    this.haveDues$ = this.store.select(haveDues);
+    this.savingDues$ = this.store.select(loading);
+  }
+
+  submit() {
+    this.store.dispatch(new GastosDueSaveRequest());
   }
 
   ngOnDestroy(): void {
     this.unsubscribeBreakPoint();
-  }
-
-  openPaymentForm(idCuota: number, montoCuota: string) {
-    const drawerRef = this.drawerService.create({
-      nzTitle: 'Pago de gasto',
-      nzWidth: this.initialDrawerWidth,
-      nzContent: PaymentFormComponent,
-      nzContentParams: { idCuota, montoCuota },
-    });
-
-    drawerRef.afterClose.subscribe(data => {
-      this.searchData();
-    });
-  }
-
-  _openForm(id?: number) {
-    const valueChangeSubscription = this.submitForm
-      .asObservable()
-      .subscribe(value => {
-        this.searchData();
-      });
-
-    this.translate.get('lambe.gasto').subscribe((res: string) => {
-      this.drawerRef = this.drawerService.create<
-        GastosFormComponent,
-        { id: number; valueChange: Subject<{ submit: boolean }> }
-      >({
-        nzTitle: res,
-        nzWidth: this.initialDrawerWidth,
-        nzContent: GastosFormComponent,
-        nzContentParams: { id, valueChange: this.submitForm },
-      });
-
-      this.drawerRef.afterClose.subscribe(
-        (data: { submit: boolean } | undefined) => {
-          if (!data) return;
-          if (data.submit) this.searchData();
-          valueChangeSubscription.unsubscribe();
-        },
-      );
-
-      this.drawerRef.afterOpen.subscribe(data => {
-        this.closeMenu();
-      });
-    });
   }
 
   toggleGasto(id) {
@@ -160,13 +126,6 @@ export class GastosTableComponent extends TableLambe
     this.drawerRef.afterClose.subscribe((data: any) => {
       if (!data) return;
       this.filtroForm = data;
-      this.searchData();
-    });
-  }
-
-  eliminar(id: number) {
-    this.gastosService.delete(id).subscribe(data => {
-      this.msg.success(`Eliminado!!`);
       this.searchData();
     });
   }
@@ -205,73 +164,6 @@ export class GastosTableComponent extends TableLambe
 
   changeExtra(event: any) {
     console.log(event);
-  }
-
-  showForm(i: number, event) {
-    // click al imput asi que no hago nada.
-    console.log('CLICKEADO');
-    if (
-      typeof event.path[0].attributes.formcontrolname === 'object' ||
-      event.srcElement.classList[0] === 'ant-calendar-picker-input'
-    ) {
-      return;
-    }
-
-    if (this.rowForm[i].visible) {
-      if (this.rowForm[i].form.valid && this.rowForm[i].form.touched) {
-        const gastoId = this.rowForm[i].form.get('id').value;
-        const gastoData = this.rowForm[i].form.value;
-        gastoData.fecha = moment(gastoData.fecha).format('DD-MM-YYYY');
-        this.gastosService
-          .updateMontoFecha(gastoId, gastoData)
-          .subscribe((resp: any) => {
-            this.tableLambe.data[i]['gastos-monto'] = gastoData.monto;
-            this.tableLambe.data[i]['gastos-fecha'] = gastoData.fecha;
-          });
-      }
-      this.rowForm[i].visible = false;
-
-      console.log('Click al que etsaba editando submit');
-      return;
-    } else {
-      // le dio click a uno que esta oculto. Tengo que ver si estaba editando alguno otro y guardarlo
-      // tslint:disable-next-line: forin
-      for (const key in this.rowForm) {
-        if (
-          this.rowForm[key].form.valid &&
-          this.rowForm[key].form.touched &&
-          this.rowForm[key].visible
-        ) {
-          const gastoId = this.rowForm[key].form.get('id').value;
-          const gastoData = this.rowForm[key].form.value;
-          this.gastosService
-            .update(gastoId, gastoData)
-            .subscribe((resp: any) => {
-              this.tableLambe.data[key]['gastos-monto'] = resp.data.monto;
-              this.tableLambe.data[key]['gastos-fecha'] = moment(
-                resp.data.fecha,
-              ).format('DD-MM-YYYY');
-              this.rowForm[key].visible = false;
-            });
-        } else {
-          this.rowForm[key].visible = false;
-        }
-      }
-
-      //inicializo el que le dio click
-      this.rowForm[i].form = this.fb.getForm();
-      const fechaValue = moment(
-        this.tableLambe.data[i]['gastos-fecha'],
-        'DD-MM-YYYY',
-      ).toDate();
-      console.log('la fecha de moent', fechaValue);
-      this.rowForm[i].form.setValue({
-        id: this.tableLambe.data[i]['gastos-id'],
-        monto: this.tableLambe.data[i]['gastos-monto'],
-        fecha: fechaValue,
-      });
-      this.rowForm[i].visible = true;
-    }
   }
 
   protected searchProveedorList(display: string) {
@@ -323,7 +215,7 @@ export class GastosTableComponent extends TableLambe
         for (const key in data.data) {
           this.rowForm[key] = {
             visible: false,
-            form: this.fb.getForm(),
+            // form: this.fb.getForm(),
           };
         }
         this.tableLambe.loading = false;

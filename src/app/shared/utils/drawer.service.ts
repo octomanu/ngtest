@@ -21,6 +21,7 @@ export class DrawerService {
     title: string,
     placement: NzDrawerPlacement,
     nzContent: any,
+    nzContentParams?: {},
   ): Observable<NzDrawerRef> {
     return this.translateService.get(title).pipe(
       withLatestFrom(this.store.select(smallViewportSelect)),
@@ -30,6 +31,7 @@ export class DrawerService {
           nzWidth: smallViewport ? '100%' : '75%',
           nzContent,
           nzPlacement: placement,
+          nzContentParams,
         });
       }),
     );

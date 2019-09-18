@@ -13,7 +13,7 @@ import { CabecerasEditRequest } from 'redux/cabeceras/edit-form/edit-form.action
 import { DeleteRequest } from 'redux/cabeceras/delete/delete.actions';
 import { FilterRequest } from 'redux/cabeceras/filter-form/filter-form.actions';
 import { filters } from 'redux/cabeceras/filter-form/filter-form.selectors';
-import { tap } from 'rxjs/operators';
+import { tap, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cabeceras-table',
@@ -44,7 +44,7 @@ export class CabecerasTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.pageData$ = this.store.select(selectors.pageData);
+    this.pageData$ = this.store.select(selectors.pageData).pipe(share());
     this.paginatorLoading$ = this.store.select(selectors.paginatorLoading);
     this.paginatorTotal$ = this.store.select(selectors.paginatorTotal);
     this.paginatorPage$ = this.store.select(selectors.paginatorPage);

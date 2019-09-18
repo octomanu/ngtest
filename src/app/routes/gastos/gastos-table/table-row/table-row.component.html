@@ -1,0 +1,68 @@
+<ng-container [formGroup]="form" (contextmenu)="contextMenu($event, menuRow)">
+  <td>
+    <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
+    {{ rowCuota['proveedores-razon_social'] }}
+  </td>
+  <td>
+    <strong class="onlysmall">{{ 'lambe.consorcios.consorcio' | translate }}:&nbsp;</strong>
+    {{rowCuota['consorcios-razon_social']}}
+  </td>
+
+  <td>
+    <strong class="onlysmall">{{ 'lambe.servicio' | translate }}:&nbsp;</strong>
+    {{ rowCuota['servicios-descripcion'] }}
+  </td>
+  <td>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="monto" (blur)="submit()">
+      <nz-form-explain *ngIf="form.get('monto').dirty && form.get('monto').errors">
+        <ng-container *ngIf="form.get('monto').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </td>
+  <td>
+    <nz-form-control nzHasFeedback>
+      <nz-date-picker formControlName="fecha_pago" nzFormat="dd-MM-yyyy" style="width:100%;" [nzStyle]="{width: '100%'}"
+        (blur)="submit()">
+      </nz-date-picker>
+    </nz-form-control>
+  </td>
+  <td>
+    <nz-form-control nzHasFeedback>
+      <input nz-input formControlName="numero_factura" (blur)="submit()">
+      <nz-form-explain *ngIf="form.get('numero_factura').dirty && form.get('numero_factura').errors">
+        <ng-container *ngIf="form.get('numero_factura').hasError('required')">
+          {{ 'global.campo_requerido' | translate }}
+        </ng-container>
+      </nz-form-explain>
+    </nz-form-control>
+  </td>
+
+
+  <td *ngIf="extraData">Rubro</td>
+  <td *ngIf="extraData"><i nz-icon [nzType]="(rowCuota['gastos-prevision']) ? 'check' : 'close'" nzTheme="outline"></i>
+  </td>
+  <td *ngIf="extraData"><i nz-icon [nzType]="(rowCuota['gastos-prorrateable']) ? 'check' : 'close'"
+      nzTheme="outline"></i>
+  </td>
+</ng-container>
+
+<ng-template #menuRow>
+  <ul nz-menu nzInDropDown>
+    <li nz-menu-item (click)="openForm()">
+      <a>{{ 'global.editar' | translate }}</a>
+    </li>
+    <li nz-menu-item (click)="openPaymentForm()">
+      <a>{{ 'global.pagar' | translate }}</a>
+    </li>
+    <li nz-menu-item>
+      <a nz-popconfirm (nzOnConfirm)="delete()" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
+        [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
+      <ng-template #iconTpl>
+        <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+      </ng-template>
+    </li>
+  </ul>
+</ng-template>

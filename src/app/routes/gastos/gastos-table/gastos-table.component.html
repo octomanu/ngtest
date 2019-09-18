@@ -1,4 +1,9 @@
 <div class="table-operations" nzType="flex" nz-row nzJustify="end">
+  <button nz-col nz-button [nzType]="'primary'" *ngIf="haveDues$ | async" [disabled]="savingDues$ | async"
+    (click)="submit()">
+    {{'global.guardar_cambios' | translate}}
+    <i nz-icon *ngIf="savingDues$ | async" [nzType]="'loading'"></i>
+  </button>
   <button nz-col nz-button>
     {{'global.clonar' | translate}}
   </button>
@@ -154,12 +159,17 @@
         </th>
 
         <th nzCustomFilter nzShowSort nzSortKey="estado">
-          <span>{{'global.pago' | translate}}/{{ 'global.monto' | translate }}</span>
+          <span>{{ 'global.monto' | translate }}</span>
           <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
         </th>
 
         <th nzCustomFilter nzShowSort nzSortKey="numero">
           <span>{{ 'global.fecha' | translate }}</span>
+          <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
+        </th>
+
+        <th nzCustomFilter nzShowSort nzSortKey="numero">
+          <span>{{ 'global.factura' | translate }}</span>
           <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
         </th>
 
@@ -185,64 +195,8 @@
       </tr>
     </thead>
     <tbody>
-      <ng-template ngFor let-data [ngForOf]="tableLambe.data" let-i="index">
-
-
-
-
-        <tr (contextmenu)="contextMenu($event, menuRowContainer)" [formGroup]="rowForm[i].form">
-          <ng-template #menuRowContainer>
-            <ng-container
-              *ngTemplateOutlet="menuRow; context: { id: data['gastos-id'], idCuota: data['gastos_cuotas-id'], montoCuota:  data['gastos_cuotas-monto']}">
-            </ng-container>
-          </ng-template>
-
-          <td *ngIf="table.id_proveedor.show" (click)="toggleGasto(data['gastos-id'])">
-            <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
-            {{ data['proveedores-razon_social'] }}
-          </td>
-          <td *ngIf="table.id_consorcio.show">
-            <strong class="onlysmall">{{ 'lambe.consorcios.consorcio' | translate }}:&nbsp;</strong>
-            {{data['consorcios-razon_social']}}
-          </td>
-
-          <td *ngIf="table.gasto.show">
-            <strong class="onlysmall">{{ 'lambe.servicio' | translate }}:&nbsp;</strong>
-            {{ data['servicios-descripcion'] }}
-          </td>
-          <td (click)="showForm(i, $event)">
-            <strong class="onlysmall">{{ 'lambe.chequera_nro' | translate }}:&nbsp;</strong>
-            <span *ngIf="!rowForm[i].visible">$
-              {{ data['gastos-monto_pagado'] }} / {{ data['gastos_cuotas-monto'] }}</span>
-            <span *ngIf="!rowForm[i].visible && data['gastos_cuotas-numero_cuota'] !== 1">
-              ({{ data['gastos_cuotas-numero_cuota'] }})</span>
-            <nz-form-control nzHasFeedback *ngIf="rowForm[i].visible">
-              <input nz-input formControlName="monto">
-              <nz-form-explain *ngIf="rowForm[i].form.get('monto').dirty && rowForm[i].form.get('monto').errors">
-                <ng-container *ngIf="rowForm[i].form.get('monto').hasError('required')">
-                  {{ 'global.campo_requerido' | translate }}
-                </ng-container>
-              </nz-form-explain>
-            </nz-form-control>
-          </td>
-          <td (click)="showForm(i, $event)">
-            <strong class="onlysmall">
-              {{ 'lambe.cheques.monto' | translate }}:&nbsp;</strong>
-            <span *ngIf="!rowForm[i].visible">{{ data['gastos-fecha'] }}</span>
-
-            <nz-form-control nzHasFeedback *ngIf="rowForm[i].visible">
-              <nz-date-picker formControlName="fecha" nzFormat="dd-MM-yyyy"></nz-date-picker>
-
-            </nz-form-control>
-          </td>
-
-          <td *ngIf="extraData">Rubro</td>
-          <!-- <td *ngIf="extraData">Periodicidad</td> -->
-          <td *ngIf="extraData"><i nz-icon [nzType]="(data['gastos-prevision']) ? 'check' : 'close'"
-              nzTheme="outline"></i></td>
-          <td *ngIf="extraData"><i nz-icon [nzType]="(data['gastos-prorrateable']) ? 'check' : 'close'"
-              nzTheme="outline"></i></td>
-        </tr>
+      <ng-template ngFor let-data [ngForOf]="tableLambe.data">
+        <tr gastos-row class="ng-binding" [rowCuota]="data" [extraData]="extraData"></tr>
       </ng-template>
     </tbody>
   </nz-table>
@@ -255,25 +209,6 @@
       </li>
       <li nz-menu-item (click)="clearFilter()">
         <a>{{ 'global.limpiar_filtros' | translate }}</a>
-      </li>
-    </ul>
-  </ng-template>
-
-  <!-- Menu Row -->
-  <ng-template #menuRow let-id="id" let-idCuota="idCuota" let-montoCuota="montoCuota">
-    <ul nz-menu nzInDropDown>
-      <li nz-menu-item (click)="_openForm(id)">
-        <a>{{ 'global.editar' | translate }}</a>
-      </li>
-      <li nz-menu-item (click)="openPaymentForm(idCuota, montoCuota)">
-        <a>{{ 'global.pagar' | translate }}</a>
-      </li>
-      <li nz-menu-item>
-        <a nz-popconfirm (nzOnConfirm)="eliminar(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
-          [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
-        <ng-template #iconTpl>
-          <i nz-icon nzType="question-circle-o" style="color: red;"></i>
-        </ng-template>
       </li>
     </ul>
   </ng-template>
