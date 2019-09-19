@@ -5,22 +5,34 @@ import { GastosForm } from './gastos.form';
 import { NzMessageService, NzDrawerRef, NzDrawerService } from 'ng-zorro-antd';
 import { GastosService } from '@core/http/gastos/gastos.service';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
-import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unidades-funcionales.service';
 import { PorcentajesConsorciosService } from '@core/http/porcentajes_consorcios/porcentajes-consorcios.service';
 import { ProveedorFormComponent } from 'app/routes/proveedores/proveedor-form/proveedor-form.component';
-import { ServiciosService } from '@core/http/servicios/servicios.service';
-import { CategoriasService } from '@core/http/categorias/categorias.service';
 import { GastosDescripcionesFormComponent } from 'app/routes/gastos-descripciones/gastos-descripciones-form/gastos-descripciones-form.component';
 import { GastosDescripcionesService } from '@core/http/gastos-descripciones/gastos-descripciones.service';
+import { SaveRequest } from 'redux/gastos/create-form/create-form.actions';
+import { Store } from '@ngrx/store';
+import { AppState } from 'redux/app.reducer';
+import { ConsorciosFinderService } from 'app/routes/services/type-ahead/consorcios-finder/consorcios-finder.service';
+import { ProveedorFinderService } from 'app/routes/services/type-ahead/proveedor-finder/proveedor-finder.service';
+import { ServiciosFinderService } from 'app/routes/services/type-ahead/servicios-finder/servicios-finder.service';
+import { DescripcionesFinderService } from 'app/routes/services/type-ahead/descripciones-finder/descripciones-finder.service';
+import { CategoriasFinderService } from 'app/routes/services/type-ahead/categorias-finder/categorias-finder.service';
 
 @Component({
   selector: 'app-gastos-form',
   templateUrl: './gastos-form.component.html',
   styles: [],
+  providers: [
+    ConsorciosFinderService,
+    ProveedorFinderService,
+    ServiciosFinderService,
+    DescripcionesFinderService,
+    CategoriasFinderService,
+  ],
 })
 export class GastosFormComponent implements OnInit {
   descripcionsfilter = false;
@@ -54,18 +66,20 @@ export class GastosFormComponent implements OnInit {
     protected msg: NzMessageService,
     protected cdr: ChangeDetectorRef,
     protected gastosService: GastosService,
-    protected proveedorService: ProveedoresService,
-    protected consorciosService: ConsorciosService,
     protected ufsService: UnidadesFuncionalesService,
     protected porcentajesService: PorcentajesConsorciosService,
     protected drawerRef: NzDrawerRef<{ submit: boolean }>,
     protected chequerasService: ProveedoresService,
     protected drawerService: NzDrawerService,
     protected fbBulder: FormBuilder,
-    protected serviciosService: ServiciosService,
-    protected categoriasService: CategoriasService,
     protected gastosDescripcionesService: GastosDescripcionesService,
     private translate: TranslateService,
+    private store: Store<AppState>,
+    public consorciosFinder: ConsorciosFinderService,
+    public proveedorFinder: ProveedorFinderService,
+    public serviciosFinder: ServiciosFinderService,
+    public descripcionesFinder: DescripcionesFinderService,
+    public categoriasFinder: CategoriasFinderService,
   ) {
     this.drawerRef.afterOpen.subscribe(data => {
       this.initialized = true;
@@ -181,13 +195,6 @@ export class GastosFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchCategoriasList('');
-    if (!this.id) {
-      this.searchProveedorList('');
-      this.searchConsorciosList('');
-      this.searchServiciosList('');
-      this.searchDescripcionesList('');
-    }
     this.open();
   }
 
@@ -199,10 +206,9 @@ export class GastosFormComponent implements OnInit {
     if (this.id) {
       this.initForm(true);
       this.gastosService.find(this.id).subscribe((data: any) => {
-        console.log(data);
-        this.searchProveedorList(data['proveedor-razon_social']);
-        this.searchConsorciosList(data['consorcio-display']);
-        this.searchServiciosList('', data['id_servicio']);
+        this.proveedorFinder.search(data['proveedor-razon_social']);
+        this.consorciosFinder.searchConsorcios(data['consorcio-display']);
+        this.serviciosFinder.search('', data['id_servicio']);
         this.ufsService.setConsorcio(data.id_consorcio);
         this.porcentajesService.setConsorcio(data.id_consorcio);
         this.cuotasAmount = data.cuotas.length;
@@ -280,29 +286,20 @@ export class GastosFormComponent implements OnInit {
       });
     } else {
       const gasto = this.fb.resolveGasto(this.form, this.multiPorcentajes);
-      console.warn('GASTO', gasto);
-
-      // return;
-      this.gastosService.create(gasto).subscribe(data => {
-        // this.drawerRef.close({ submit: true });
-
-        const proveedorValue: string = this.form.get('id_proveedor').value;
-        const consorcioValue: string = this.form.get('consorcios').value;
-        const gastoValue: string = this.form.get('descripcion').value;
-        this.initForm();
-        if (this.keep.proveedor) {
-          this.form.get('id_proveedor').setValue(proveedorValue);
-        }
-        if (this.keep.consorcio) {
-          this.form.get('consorcios').setValue(consorcioValue);
-        }
-        if (this.keep.gasto) {
-          this.form.get('descripcion').setValue(gastoValue);
-        }
-        this.valueChange.next({ submit: true });
-        this.msg.success(`Creado!`);
-        this.cdr.detectChanges();
-      });
+      this.store.dispatch(new SaveRequest({ data: gasto }));
+      const proveedorValue: string = this.form.get('id_proveedor').value;
+      const consorcioValue: string = this.form.get('consorcios').value;
+      const gastoValue: string = this.form.get('descripcion').value;
+      this.initForm();
+      if (this.keep.proveedor) {
+        this.form.get('id_proveedor').setValue(proveedorValue);
+      }
+      if (this.keep.consorcio) {
+        this.form.get('consorcios').setValue(consorcioValue);
+      }
+      if (this.keep.gasto) {
+        this.form.get('descripcion').setValue(gastoValue);
+      }
     }
   }
 
@@ -386,28 +383,6 @@ export class GastosFormComponent implements OnInit {
     }
   }
 
-  searchDescripciones(display: string) {
-    if (this.timeout) {
-      window.clearTimeout(this.timeout);
-    }
-    this.timeout = window.setTimeout(() => {
-      this.timeout = null;
-      this.isLoading = true;
-      this.searchDescripcionesList(display);
-    }, 400);
-  }
-
-  searchProveedores(display: string) {
-    if (this.timeout) {
-      window.clearTimeout(this.timeout);
-    }
-    this.timeout = window.setTimeout(() => {
-      this.timeout = null;
-      this.isLoading = true;
-      this.searchProveedorList(display);
-    }, 400);
-  }
-
   searchUfs(display: string) {
     if (this.timeout) {
       window.clearTimeout(this.timeout);
@@ -416,28 +391,6 @@ export class GastosFormComponent implements OnInit {
       this.timeout = null;
       this.isLoading = true;
       this.searchUfsList(display);
-    }, 400);
-  }
-
-  searchConsorcios(display: string) {
-    if (this.timeout) {
-      window.clearTimeout(this.timeout);
-    }
-    this.timeout = window.setTimeout(() => {
-      this.timeout = null;
-      this.isLoading = true;
-      this.searchConsorciosList(display);
-    }, 400);
-  }
-
-  searchServicios(display: string) {
-    if (this.timeout) {
-      window.clearTimeout(this.timeout);
-    }
-    this.timeout = window.setTimeout(() => {
-      this.timeout = null;
-      this.isLoading = true;
-      this.searchServiciosList(display);
     }, 400);
   }
 
@@ -450,51 +403,6 @@ export class GastosFormComponent implements OnInit {
       this.isLoading = true;
       this.searchPorcentajesList(display);
     }, 400);
-  }
-
-  protected searchDescripcionesList(display: string) {
-    this.gastosDescripcionesService
-      .searchByDisplay(display)
-      .subscribe((data: { id: number; display: string }[]) => {
-        this.isLoading = false;
-        this.descripciones = data;
-      });
-  }
-
-  protected searchProveedorList(display: string) {
-    this.proveedorService
-      .searchByDisplay(display)
-      .subscribe((data: { id: number; display: string }[]) => {
-        this.isLoading = false;
-        this.proveedores = data;
-      });
-  }
-
-  protected searchConsorciosList(display: string) {
-    this.consorciosService
-      .searchByDisplay(display)
-      .subscribe((data: { id: number; display: string }[]) => {
-        this.isLoading = false;
-        this.consorcios = data;
-      });
-  }
-
-  protected searchServiciosList(display: string, id?: string) {
-    this.serviciosService
-      .searchByDisplay(display, id)
-      .subscribe((data: { id: number; display: string }[]) => {
-        this.isLoading = false;
-        this.servicios = data;
-      });
-  }
-
-  protected searchCategoriasList(display: string) {
-    this.categoriasService
-      .searchByDisplay(display)
-      .subscribe((data: { id: number; display: string }[]) => {
-        this.isLoading = false;
-        this.categorias = data;
-      });
   }
 
   protected searchUfsList(display: string) {
@@ -571,7 +479,7 @@ export class GastosFormComponent implements OnInit {
 
     this.drawerRef.afterClose.subscribe(
       (data: { submit: boolean } | undefined) => {
-        this.searchProveedorList('');
+        this.proveedorFinder.search('');
       },
     );
   }

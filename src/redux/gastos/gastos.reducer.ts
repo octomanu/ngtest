@@ -1,38 +1,22 @@
-import * as fromGastos from './gastos.actions';
-import { DueRow } from 'app/models/due-row';
+import * as fromPage from './page/page.reducer';
+import * as fromDue from './dues/dues.reducer';
+import * as fromFilter from './filter-form/filter-form.reducer';
+import * as fromCreateForm from './create-form/create-form.reducer';
+import * as fromDelete from './delete/delete.reducer';
+import { ActionReducerMap } from '@ngrx/store';
 
 export interface GastosState {
-  loading: boolean;
-  error: any;
-  duesToUpdate: {
-    [key: number]: DueRow;
-  };
+  page: fromPage.GastosPageState;
+  dues: fromDue.DuesState;
+  filterForm: fromFilter.FilterFormState;
+  createForm: fromCreateForm.CreateFormState;
+  delete: fromDelete.DeleteState;
 }
 
-export const initState: GastosState = {
-  loading: false,
-  error: null,
-  duesToUpdate: {},
+export const gastosReducers: ActionReducerMap<GastosState> = {
+  page: fromPage.pageReducer,
+  dues: fromDue.DuesReducer,
+  filterForm: fromFilter.filterFormReducer,
+  createForm: fromCreateForm.createFormReducer,
+  delete: fromDelete.deleteReducer,
 };
-
-export function GastosReducer(
-  state: GastosState = initState,
-  action: fromGastos.actions,
-) {
-  switch (action.type) {
-    case fromGastos.GastosActionsTypes.GastosAddDue:
-      const duesToUpdate = { ...state.duesToUpdate };
-      duesToUpdate[action.payload.due.id] = action.payload.due;
-      return { ...state, duesToUpdate };
-    case fromGastos.GastosActionsTypes.GastosDueSaveRequest:
-      return { ...state, loading: true };
-    case fromGastos.GastosActionsTypes.GastosDueSaveRequestSuccess:
-      return { ...state, loading: false };
-    case fromGastos.GastosActionsTypes.GastosDueSaveRequestError:
-      return { ...state, loading: false, error: action.payload.error };
-    case fromGastos.GastosActionsTypes.GastosRemoveDue:
-      return { ...state };
-    default:
-      return state;
-  }
-}

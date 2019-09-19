@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AppState } from 'redux/app.reducer';
 import { Store } from '@ngrx/store';
 import * as selectors from 'redux/cabeceras/page/page.selectors';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { NzDropdownService } from 'ng-zorro-antd';
 import {
   CabecerasPageRequest,
@@ -21,7 +21,6 @@ import { tap, share } from 'rxjs/operators';
   styles: [],
 })
 export class CabecerasTableComponent implements OnInit {
-  initSubscription: Subscription;
   pageData$: Observable<any>;
   paginatorParameters$: Observable<any>;
   paginatorLoading$: Observable<any>;

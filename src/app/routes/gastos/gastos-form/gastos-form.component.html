@@ -1,85 +1,147 @@
 <ng-template #proveedor_check>
-  <label nzFor="id_proveedor" nz-checkbox
-    [(ngModel)]="keep.proveedor">{{ 'lambe.proveedores.proveedor' | translate }}</label>
+  <label nzFor="id_proveedor" nz-checkbox [(ngModel)]="keep.proveedor">{{
+    'lambe.proveedores.proveedor' | translate
+  }}</label>
 </ng-template>
 
 <ng-template #consorcio_check>
-  <label nzFor="id_consorcio" nz-checkbox
-    [(ngModel)]="keep.consorcio">{{ 'lambe.consorcios.consorcio' | translate }}</label>
+  <label nzFor="id_consorcio" nz-checkbox [(ngModel)]="keep.consorcio">{{
+    'lambe.consorcios.consorcio' | translate
+  }}</label>
 </ng-template>
 
 <ng-template #descripcion_title>
-  <nz-form-label nzFor="descripcion">{{ 'global.descripcion' | translate }}
+  <nz-form-label nzFor="descripcion"
+    >{{ 'global.descripcion' | translate }}
   </nz-form-label>
-  <button type="button" nz-col nz-button nzType="primary" nzSize="small" (click)="crearPlantilla()">
+  <button
+    type="button"
+    nz-col
+    nz-button
+    nzType="primary"
+    nzSize="small"
+    (click)="crearPlantilla()"
+  >
     <i nz-icon nzTheme="outline" nzType="plus"></i>
   </button>
-  <button type="button" nz-col nz-button nzType="primary" nzSize="small"
-    (click)="descripcionsfilter = !descripcionsfilter">
+  <button
+    type="button"
+    nz-col
+    nz-button
+    nzType="primary"
+    nzSize="small"
+    (click)="descripcionsfilter = !descripcionsfilter"
+  >
     <i nz-icon nzTheme="outline" nzType="search"></i>
   </button>
 
   <nz-form-item *ngIf="descripcionsfilter" class="animated faster fadeIn">
-    <nz-select nzAllowClear nzShowSearch [nzServerSearch]="true" [(ngModel)]="plantilla"
-      (nzOnSearch)="searchDescripciones($event)" (ngModelChange)="cargarPlantilla($event)">
-      <ng-container *ngFor="let descripcion of descripciones">
-        <nz-option *ngIf="!isLoading" [nzValue]="descripcion.id" [nzLabel]="descripcion.display"></nz-option>
+    <nz-select
+      nzAllowClear
+      nzShowSearch
+      [nzServerSearch]="true"
+      [(ngModel)]="plantilla"
+      (nzOnSearch)="descripcionesFinder.search($event)"
+      (ngModelChange)="cargarPlantilla($event)"
+    >
+      <ng-container *ngFor="let descripcion of (descripcionesFinder.options | async )">
+        <nz-option
+          *ngIf="!(descripcionesFinder.isLoading | async )"
+          [nzValue]="descripcion.id"
+          [nzLabel]="descripcion.display"
+        ></nz-option>
       </ng-container>
-      <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-        <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+      <nz-option *ngIf="(descripcionesFinder.isLoading | async )" nzDisabled nzCustomContent>
+        <i nz-icon type="loading" class="loading-icon"></i>
+        {{ 'global.cargando' | translate }}
       </nz-option>
     </nz-select>
   </nz-form-item>
-
-
 </ng-template>
 
 <ng-template #multiPorcentajesCheck>
+  <label
+    nz-checkbox
+    [(ngModel)]="multiPorcentajes"
+    [nzDisabled]="
+      form.get('unidades_funcionales').value?.length > 0 ||
+      form.get('consorcios').value.length == 0 ||
+      form.get('id').value
+    "
+    (ngModelChange)="changeMultiplePorcentual()"
+    >{{ 'Multiples porcentuales' | translate }}</label
+  >
 
-  <label nz-checkbox [(ngModel)]="multiPorcentajes"
-    [nzDisabled]="form.get('unidades_funcionales').value?.length > 0 || form.get('consorcios').value.length == 0 || form.get('id').value"
-    (ngModelChange)="changeMultiplePorcentual()">{{ 'Multiples porcentuales' | translate }}</label>
-
-  <button *ngIf="multiPorcentajes" nzShape="circle" nz-button (click)="openPorcentualesDrawer()" type="button"
-    class="ant-btn ant-btn-primary" [disabled]="false">
+  <button
+    *ngIf="multiPorcentajes"
+    nzShape="circle"
+    nz-button
+    (click)="openPorcentualesDrawer()"
+    type="button"
+    class="ant-btn ant-btn-primary"
+    [disabled]="false"
+  >
     <i nz-icon type="profile"></i>
   </button>
-
 </ng-template>
 
 <ng-template #gasto_check>
-  <label nzFor="descripcion" nz-checkbox [(ngModel)]="keep.gasto">{{ 'global.servicio' | translate }}</label>
+  <label nzFor="descripcion" nz-checkbox [(ngModel)]="keep.gasto">{{
+    'global.servicio' | translate
+  }}</label>
 </ng-template>
 
-<form nz-form [formGroup]="form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
-
+<form
+  nz-form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  [nzLayout]="'horizontal'"
+>
   <div nz-row nzType="flex" nzJustify="space-between">
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
       <nz-form-item>
-
         <ng-container [ngTemplateOutlet]="proveedor_check"></ng-container>
         <nz-form-control>
-
           <nz-input-group nzCompact>
-
-
-            <nz-select zPlaceHolder=" lambe.proveedores.proveedor | translate " formControlName="id_proveedor"
-              id="id_proveedor" nzAllowClear nzShowSearch [nzServerSearch]="true" style="width:85%;"
-              (nzOnSearch)="searchProveedores($event)" (ngModelChange)="searchDataForm()">
-              <ng-container *ngFor="let proveedor of proveedores">
-                <nz-option *ngIf="!isLoading" [nzValue]="proveedor.id" [nzLabel]="proveedor.display"></nz-option>
+            <nz-select
+              zPlaceHolder=" lambe.proveedores.proveedor | translate "
+              formControlName="id_proveedor"
+              id="id_proveedor"
+              nzAllowClear
+              nzShowSearch
+              [nzServerSearch]="true"
+              style="width:85%;"
+              (nzOnSearch)="proveedorFinder.search($event)"
+              (ngModelChange)="searchDataForm()"
+            >
+              <ng-container
+                *ngFor="let proveedor of proveedorFinder.options | async"
+              >
+                <nz-option
+                  *ngIf="!(proveedorFinder.isLoading | async)"
+                  [nzValue]="proveedor.id"
+                  [nzLabel]="proveedor.display"
+                ></nz-option>
               </ng-container>
-              <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-                <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+              <nz-option
+                *ngIf="proveedorFinder.isLoading | async"
+                nzDisabled
+                nzCustomContent
+              >
+                <i nz-icon type="loading" class="loading-icon"></i>
+                {{ 'global.cargando' | translate }}
               </nz-option>
             </nz-select>
 
-
-            <button nz-button (click)="openProveedoresForm()" type="button" class="ant-btn ant-btn-primary"
-              style="width:15%;">
+            <button
+              nz-button
+              (click)="openProveedoresForm()"
+              type="button"
+              class="ant-btn ant-btn-primary"
+              style="width:15%;"
+            >
               <i nz-icon nzType="plus"></i>
             </button>
-
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -87,18 +149,35 @@
 
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
       <nz-form-item>
-
         <ng-container [ngTemplateOutlet]="consorcio_check"></ng-container>
 
         <nz-form-control nzHasFeedback>
-          <nz-select zPlaceHolder=" lambe.gastos.consorcio | translate " formControlName="consorcios" nzAllowClear
-            nzShowSearch [nzServerSearch]="true" (nzOnSearch)="searchConsorcios($event)" nzMode="multiple"
-            (ngModelChange)="changeConsorcio()">
-            <ng-container *ngFor="let consorcio of consorcios">
-              <nz-option *ngIf="!isLoading" [nzValue]="consorcio.id" [nzLabel]="consorcio.display"></nz-option>
+          <nz-select
+            zPlaceHolder=" lambe.gastos.consorcio | translate "
+            formControlName="consorcios"
+            nzAllowClear
+            nzShowSearch
+            [nzServerSearch]="true"
+            (nzOnSearch)="consorciosFinder.searchConsorcios($event)"
+            nzMode="multiple"
+            (ngModelChange)="changeConsorcio()"
+          >
+            <ng-container
+              *ngFor="let consorcio of consorciosFinder.consorcios | async"
+            >
+              <nz-option
+                *ngIf="!(consorciosFinder.isLoading | async)"
+                [nzValue]="consorcio.id"
+                [nzLabel]="consorcio.display"
+              ></nz-option>
             </ng-container>
-            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            <nz-option
+              *ngIf="consorciosFinder.isLoading | async"
+              nzDisabled
+              nzCustomContent
+            >
+              <i nz-icon type="loading" class="loading-icon"></i>
+              {{ 'global.cargando' | translate }}
             </nz-option>
           </nz-select>
         </nz-form-control>
@@ -110,17 +189,33 @@
         <ng-container [ngTemplateOutlet]="gasto_check"></ng-container>
 
         <nz-form-control nzHasFeedback>
-          <nz-select formControlName="id_servicio" nzAllowClear nzShowSearch [nzServerSearch]="true"
-            (nzOnSearch)="searchServicios($event)" (ngModelChange)="changeConsorcio()">
-            <ng-container *ngFor="let servicio of servicios">
-              <nz-option *ngIf="!isLoading" [nzValue]="servicio.id" [nzLabel]="servicio.display"></nz-option>
+          <nz-select
+            formControlName="id_servicio"
+            nzAllowClear
+            nzShowSearch
+            [nzServerSearch]="true"
+            (nzOnSearch)="serviciosFinder.search($event)"
+            (ngModelChange)="changeConsorcio()"
+          >
+            <ng-container
+              *ngFor="let servicio of serviciosFinder.options | async"
+            >
+              <nz-option
+                *ngIf="!(serviciosFinder.isLoading | async)"
+                [nzValue]="servicio.id"
+                [nzLabel]="servicio.display"
+              ></nz-option>
             </ng-container>
-            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            <nz-option
+              *ngIf="serviciosFinder.isLoading | async"
+              nzDisabled
+              nzCustomContent
+            >
+              <i nz-icon type="loading" class="loading-icon"></i>
+              {{ 'global.cargando' | translate }}
             </nz-option>
           </nz-select>
         </nz-form-control>
-
       </nz-form-item>
     </div>
   </div>
@@ -128,13 +223,21 @@
   <div nz-row nzType="flex" nzJustify="space-between">
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
       <nz-form-item>
-        <nz-form-label nzRequired nzFor="monto">{{ 'global.monto' | translate }}
+        <nz-form-label nzRequired nzFor="monto"
+          >{{ 'global.monto' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <nz-input-group nzAddOnBefore="$">
-            <input nz-input formControlName="monto" id="monto" (change)="initCuotas()">
+            <input
+              nz-input
+              formControlName="monto"
+              id="monto"
+              (change)="initCuotas()"
+            />
           </nz-input-group>
-          <nz-form-explain *ngIf="form.get('monto').dirty && form.get('monto').errors">
+          <nz-form-explain
+            *ngIf="form.get('monto').dirty && form.get('monto').errors"
+          >
             <ng-container *ngIf="form.get('monto').hasError('required')">
               {{ 'global.campo_requerido' | translate }}
             </ng-container>
@@ -146,16 +249,23 @@
       </nz-form-item>
     </div>
 
-
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
       <nz-form-item>
-        <nz-form-label nzRequired nzFor="fecha">{{ 'lambe.gastos.fecha' | translate }}
+        <nz-form-label nzRequired nzFor="fecha"
+          >{{ 'lambe.gastos.fecha' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
-          <nz-date-picker style="width:100%;" [nzStyle]="{width: '100%'}" (ngModelChange)="initCuotas()"
-            formControlName="fecha" nzFormat="dd-MM-yyyy">
+          <nz-date-picker
+            style="width:100%;"
+            [nzStyle]="{ width: '100%' }"
+            (ngModelChange)="initCuotas()"
+            formControlName="fecha"
+            nzFormat="dd-MM-yyyy"
+          >
           </nz-date-picker>
-          <nz-form-explain *ngIf="form.get('fecha').dirty && form.get('fecha').errors">
+          <nz-form-explain
+            *ngIf="form.get('fecha').dirty && form.get('fecha').errors"
+          >
             <ng-container *ngIf="form.get('fecha').hasError('required')">
               {{ 'global.campo_requerido' | translate }}
             </ng-container>
@@ -165,25 +275,38 @@
     </div>
 
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
-      <ng-container *ngTemplateOutlet="cuotas_amount_outlet">
-      </ng-container>
+      <ng-container *ngTemplateOutlet="cuotas_amount_outlet"> </ng-container>
     </div>
   </div>
 
   <div nz-row nzType="flex" nzJustify="space-between">
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
       <nz-form-item>
-        <nz-form-label nzFor="id_concepto_gastos">{{ 'Porcentuales' | translate }}
+        <nz-form-label nzFor="id_concepto_gastos"
+          >{{ 'Porcentuales' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
-          <nz-select [nzDisabled]="multiPorcentajes || form.get('unidades_funcionales').value?.length > 0" nzAllowClear
-            nzShowSearch [nzServerSearch]="true" (nzOnSearch)="searchPorcentajes($event)"
-            formControlName="id_concepto_gastos">
+          <nz-select
+            [nzDisabled]="
+              multiPorcentajes ||
+              form.get('unidades_funcionales').value?.length > 0
+            "
+            nzAllowClear
+            nzShowSearch
+            [nzServerSearch]="true"
+            (nzOnSearch)="searchPorcentajes($event)"
+            formControlName="id_concepto_gastos"
+          >
             <ng-container *ngFor="let porcentaje of porcentajes">
-              <nz-option *ngIf="!isLoading" [nzValue]="porcentaje.id" [nzLabel]="porcentaje.display"></nz-option>
+              <nz-option
+                *ngIf="!isLoading"
+                [nzValue]="porcentaje.id"
+                [nzLabel]="porcentaje.display"
+              ></nz-option>
             </ng-container>
             <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+              <i nz-icon type="loading" class="loading-icon"></i>
+              {{ 'global.cargando' | translate }}
             </nz-option>
           </nz-select>
         </nz-form-control>
@@ -192,35 +315,54 @@
 
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
       <nz-form-item>
-        <nz-form-label nzFor="unidades_funcionales">{{ 'Unidades funcionales' | translate }}
+        <nz-form-label nzFor="unidades_funcionales"
+          >{{ 'Unidades funcionales' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
-          <nz-select [nzDisabled]="multiPorcentajes || form.get('id_concepto_gastos').value"
-            formControlName="unidades_funcionales" nzAllowClear nzShowSearch nzMode="multiple" [nzServerSearch]="true"
-            (nzOnSearch)="searchUfs($event)">
+          <nz-select
+            [nzDisabled]="
+              multiPorcentajes || form.get('id_concepto_gastos').value
+            "
+            formControlName="unidades_funcionales"
+            nzAllowClear
+            nzShowSearch
+            nzMode="multiple"
+            [nzServerSearch]="true"
+            (nzOnSearch)="searchUfs($event)"
+          >
             <ng-container *ngFor="let uf of ufs">
-              <nz-option *ngIf="!isLoading" [nzValue]="uf.id" [nzLabel]="uf.display"></nz-option>
+              <nz-option
+                *ngIf="!isLoading"
+                [nzValue]="uf.id"
+                [nzLabel]="uf.display"
+              ></nz-option>
             </ng-container>
             <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+              <i nz-icon type="loading" class="loading-icon"></i>
+              {{ 'global.cargando' | translate }}
             </nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
     </div>
 
-
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
       <nz-form-item>
-        <nz-form-label nzFor="id_categoria">{{ 'global.categoria' | translate }}
+        <nz-form-label nzFor="id_categoria"
+          >{{ 'global.categoria' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
           <nz-select formControlName="id_categoria" nzAllowClear>
-            <ng-container *ngFor="let categoria of categorias">
-              <nz-option *ngIf="!isLoading" [nzValue]="categoria.id" [nzLabel]="categoria.display"></nz-option>
+            <ng-container *ngFor="let categoria of (categoriasFinder.options | async)">
+              <nz-option
+                *ngIf="!(categoriasFinder.isLoading | async)"
+                [nzValue]="categoria.id"
+                [nzLabel]="categoria.display"
+              ></nz-option>
             </ng-container>
-            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-              <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
+            <nz-option *ngIf="(categoriasFinder.isLoading | async)" nzDisabled nzCustomContent>
+              <i nz-icon type="loading" class="loading-icon"></i>
+              {{ 'global.cargando' | translate }}
             </nz-option>
           </nz-select>
         </nz-form-control>
@@ -229,7 +371,6 @@
   </div>
 
   <div nz-row nzType="flex" nzJustify="space-between">
-
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 24 }">
       <nz-form-item>
         <ng-container [ngTemplateOutlet]="descripcion_title"></ng-container>
@@ -240,7 +381,6 @@
     </div>
   </div>
 
-
   <div nz-row nzType="flex" nzJustify="space-between">
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
       <nz-form-item>
@@ -249,39 +389,57 @@
     </div>
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
       <nz-form-item>
-        <label nz-checkbox formControlName="prevision">{{ 'lambe.gastos.prevision' | translate }}</label>
+        <label nz-checkbox formControlName="prevision">{{
+          'lambe.gastos.prevision' | translate
+        }}</label>
       </nz-form-item>
     </div>
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
       <nz-form-item>
-        <label nz-checkbox formControlName="prorrateable">{{ 'lambe.gastos.prorrateable' | translate }}</label>
+        <label nz-checkbox formControlName="prorrateable">{{
+          'lambe.gastos.prorrateable' | translate
+        }}</label>
       </nz-form-item>
     </div>
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }" *ngIf="!id">
       <nz-form-item>
-        <label nz-checkbox formControlName="incluir_periodo_actual">{{ 'global.periodo_actual' | translate }}</label>
+        <label nz-checkbox formControlName="incluir_periodo_actual">{{
+          'global.periodo_actual' | translate
+        }}</label>
       </nz-form-item>
     </div>
   </div>
 
-
   <!-- CUOTAS -->
-  <nz-drawer [nzClosable]="true" [nzVisible]="cuotasVisible" nzPlacement="right" nzTitle="Cuotas" [nzWidth]="'50%'"
-    (nzOnClose)="closeCuotasDrawer()">
-
-    <div formArrayName="cuotas" *ngFor="let item of form.get('cuotas')['controls']; let i = index;">
+  <nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="cuotasVisible"
+    nzPlacement="right"
+    nzTitle="Cuotas"
+    [nzWidth]="'50%'"
+    (nzOnClose)="closeCuotasDrawer()"
+  >
+    <div
+      formArrayName="cuotas"
+      *ngFor="let item of form.get('cuotas')['controls']; let i = index"
+    >
       <!-- <nz-divider [nzText]="'Cuota ' + (i+1)" style="margin: 0px 0;"></nz-divider> -->
       <div nz-row nzType="flex" nzJustify="space-between" [formGroupName]="i">
-
         <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
           <nz-form-item>
-            <nz-form-label nzRequired>{{ 'Cuota ' + (i+1) }}
-            </nz-form-label>
+            <nz-form-label nzRequired>{{ 'Cuota ' + (i + 1) }} </nz-form-label>
             <nz-form-control nzHasFeedback>
               <nz-input-group nzAddOnBefore="$">
-                <input formControlName="monto" nz-input id="monto" (change)="modifyCuotas(i)">
+                <input
+                  formControlName="monto"
+                  nz-input
+                  id="monto"
+                  (change)="modifyCuotas(i)"
+                />
               </nz-input-group>
-              <nz-form-explain *ngIf="item.get('monto').dirty && item.get('monto').errors">
+              <nz-form-explain
+                *ngIf="item.get('monto').dirty && item.get('monto').errors"
+              >
                 <ng-container *ngIf="item.get('monto').hasError('required')">
                   {{ 'global.campo_requerido' | translate }}
                 </ng-container>
@@ -295,13 +453,23 @@
 
         <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
           <nz-form-item>
-            <nz-form-label nzRequired>{{ 'global.fecha' | translate }}
+            <nz-form-label nzRequired
+              >{{ 'global.fecha' | translate }}
             </nz-form-label>
             <nz-form-control nzHasFeedback>
-              <nz-date-picker formControlName="fecha_pago" nzFormat="dd-MM-yyyy"></nz-date-picker>
+              <nz-date-picker
+                formControlName="fecha_pago"
+                nzFormat="dd-MM-yyyy"
+              ></nz-date-picker>
 
-              <nz-form-explain *ngIf="item.get('fecha_pago').dirty && item.get('fecha_pago').errors">
-                <ng-container *ngIf="item.get('fecha_pago').hasError('required')">
+              <nz-form-explain
+                *ngIf="
+                  item.get('fecha_pago').dirty && item.get('fecha_pago').errors
+                "
+              >
+                <ng-container
+                  *ngIf="item.get('fecha_pago').hasError('required')"
+                >
                   {{ 'global.campo_requerido' | translate }}
                 </ng-container>
               </nz-form-explain>
@@ -311,10 +479,9 @@
 
         <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
           <nz-form-item>
-            <nz-form-label>{{ 'global.factura' | translate }}
-            </nz-form-label>
+            <nz-form-label>{{ 'global.factura' | translate }} </nz-form-label>
             <nz-form-control>
-              <input formControlName="numero_factura" nz-input>
+              <input formControlName="numero_factura" nz-input />
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -324,25 +491,38 @@
   <!-- END CUOTAS -->
 
   <!-- PORCENTUALES -->
-  <nz-drawer [nzClosable]="true" [nzVisible]="porcentualesVisible" nzPlacement="right" nzTitle="Cuotas"
-    [nzWidth]="'50%'" (nzOnClose)="closePorcentualesDrawer()">
-    <div formArrayName="porcentuales" *ngFor="let item of form.get('porcentuales')['controls']; let i = index;">
-
+  <nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="porcentualesVisible"
+    nzPlacement="right"
+    nzTitle="Cuotas"
+    [nzWidth]="'50%'"
+    (nzOnClose)="closePorcentualesDrawer()"
+  >
+    <div
+      formArrayName="porcentuales"
+      *ngFor="let item of form.get('porcentuales')['controls']; let i = index"
+    >
       <div nz-row nzType="flex" nzJustify="space-between" [formGroupName]="i">
-
         <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
           <nz-form-item>
-            <nz-form-label nzRequired>{{ porcentajes[i]?.display }}
+            <nz-form-label nzRequired
+              >{{ porcentajes[i]?.display }}
             </nz-form-label>
             <nz-form-control nzHasFeedback>
               <nz-input-group nzCompact>
                 <nz-select formControlName="tipo" style="width:20%;">
                   <nz-option [nzLabel]="'$'" [nzValue]="'numerico'"></nz-option>
-                  <nz-option [nzLabel]="'%'" [nzValue]="'porcentual'"></nz-option>
+                  <nz-option
+                    [nzLabel]="'%'"
+                    [nzValue]="'porcentual'"
+                  ></nz-option>
                 </nz-select>
-                <input formControlName="monto" nz-input style="width:80%;">
+                <input formControlName="monto" nz-input style="width:80%;" />
               </nz-input-group>
-              <nz-form-explain *ngIf="item.get('monto').dirty && item.get('monto').errors">
+              <nz-form-explain
+                *ngIf="item.get('monto').dirty && item.get('monto').errors"
+              >
                 <ng-container *ngIf="item.get('monto').hasError('required')">
                   {{ 'global.campo_requerido' | translate }}
                 </ng-container>
@@ -352,20 +532,22 @@
               </nz-form-explain>
             </nz-form-control>
           </nz-form-item>
-          <input formControlName="id_porcentaje_consorcio" nz-input>
+          <input formControlName="id_porcentaje_consorcio" nz-input />
         </div>
       </div>
     </div>
   </nz-drawer>
   <!-- END PORCENTUALES -->
-
 </form>
 
-
 <div class="footer">
-
   <div nz-row nzType="flex" nzJustify="space-between">
-    <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+    <button
+      nz-button
+      [disabled]="!form.valid"
+      (click)="submit()"
+      class="ant-btn ant-btn-primary"
+    >
       <span>{{ 'global.guardar' | translate }}</span>
     </button>
   </div>
@@ -375,34 +557,53 @@
   <div nz-row nzType="flex" nzJustify="space-between">
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
       <nz-form-item>
-        <nz-form-label>{{ 'global.factura' | translate }}
-        </nz-form-label>
+        <nz-form-label>{{ 'global.factura' | translate }} </nz-form-label>
         <nz-form-control>
-
-          <input nz-input [(ngModel)]="factura" (ngModelChange)="changeFactura()" />
-
+          <input
+            nz-input
+            [(ngModel)]="factura"
+            (ngModelChange)="changeFactura()"
+          />
         </nz-form-control>
       </nz-form-item>
     </div>
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
       <nz-form-item>
-        <nz-form-label>{{ 'global.cuotas' | translate }}
-        </nz-form-label>
+        <nz-form-label>{{ 'global.cuotas' | translate }} </nz-form-label>
         <nz-form-control>
           <nz-input-group nzCompact>
-            <nz-input-number [nzDisabled]="form.get('monto').errors || !form.get('monto').value || form.get('id').value"
-              [(ngModel)]="cuotasAmount" style="width:100%;" (ngModelChange)="initCuotas($event)" [nzMin]="1"
-              [nzMax]="24" [nzStep]="1" style="width:75%;">
+            <nz-input-number
+              [nzDisabled]="
+                form.get('monto').errors ||
+                !form.get('monto').value ||
+                form.get('id').value
+              "
+              [(ngModel)]="cuotasAmount"
+              style="width:100%;"
+              (ngModelChange)="initCuotas($event)"
+              [nzMin]="1"
+              [nzMax]="24"
+              [nzStep]="1"
+              style="width:75%;"
+            >
             </nz-input-number>
-            <button nz-button (click)="openCuotasDrawer()" type="button" class="ant-btn ant-btn-primary"
-              [disabled]="form.get('monto').errors || !form.get('monto').value || cuotasAmount <= 1" style="width:25%;">
+            <button
+              nz-button
+              (click)="openCuotasDrawer()"
+              type="button"
+              class="ant-btn ant-btn-primary"
+              [disabled]="
+                form.get('monto').errors ||
+                !form.get('monto').value ||
+                cuotasAmount <= 1
+              "
+              style="width:25%;"
+            >
               <i nz-icon type="profile"></i>
             </button>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
     </div>
-
   </div>
-
 </ng-template>

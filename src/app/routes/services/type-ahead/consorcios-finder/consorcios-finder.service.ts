@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { TypeAheadOption } from 'app/interfaces/local/type-ahead-option.interface';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
+import { share } from 'rxjs/operators';
 
 @Injectable()
 export class ConsorciosFinderService {
   timeout = null;
-  private isLoading$ = new BehaviorSubject<boolean>(false);
+  private isLoading$ = new BehaviorSubject<boolean>(true);
   private consorcios$ = new BehaviorSubject<TypeAheadOption[]>([]);
-  public isLoading = this.isLoading$.asObservable();
+  public isLoading = this.isLoading$.asObservable().pipe(share());
   public consorcios = this.consorcios$.asObservable();
 
   constructor(public consorciosService: ConsorciosService) {

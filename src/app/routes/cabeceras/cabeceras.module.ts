@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { CabecerasEffects } from 'redux/cabeceras/cabeceras.effects';
 import { COMPONENTS } from './components.index';
 import { Routes, RouterModule } from '@angular/router';
 import { CabecerasComponent } from './cabeceras.component';
@@ -17,9 +16,10 @@ import { CreateFormEffectsHelper } from 'redux/cabeceras/create-form/create-form
 import { CabecerasFormComponent } from './cabeceras-form/cabeceras-form.component';
 import { CabecerasFilterComponent } from './cabeceras-filter/cabeceras-filter.component';
 import { DrawerService } from '@shared/utils/drawer.service';
+import { PageEffects } from 'redux/cabeceras/page/page.efects';
 
 const Effects = [
-  CabecerasEffects,
+  PageEffects,
   EditFormEffects,
   CreateFormEffects,
   DeleteEffects,

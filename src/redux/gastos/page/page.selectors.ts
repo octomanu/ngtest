@@ -1,47 +1,43 @@
-import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { CabecerasState } from '../cabeceras.reducer';
-
-export const selectCabecerasState = createFeatureSelector<CabecerasState>(
-  'cabeceras',
-);
+import { createSelector } from '@ngrx/store';
+import { selectGastosState } from '../gastos.selectors';
 
 export const pageFilters = createSelector(
-  selectCabecerasState,
+  selectGastosState,
   state => state.page.filters,
 );
 
 export const pageData = createSelector(
-  selectCabecerasState,
+  selectGastosState,
   state => state.page.paginator.data,
 );
 
 export const paginatorParams = createSelector(
-  selectCabecerasState,
+  selectGastosState,
   state => state.page.paginator.parametros,
 );
 
 export const paginatorTotal = createSelector(
-  selectCabecerasState,
+  selectGastosState,
   state => state.page.paginator.recordsFiltered,
 );
 
 export const paginatorLoading = createSelector(
-  selectCabecerasState,
+  selectGastosState,
   state => state.page.loading,
 );
 
 export const paginatorPage = createSelector(
-  selectCabecerasState,
+  selectGastosState,
   state => state.page.paginator.parametros.page,
 );
 
 export const paginatorPageSize = createSelector(
-  selectCabecerasState,
+  selectGastosState,
   state => state.page.paginator.parametros.page_size,
 );
 
 export const paginatorRequestParams = createSelector(
-  selectCabecerasState,
+  selectGastosState,
   state => {
     return { ...state.page.paginator.parametros, ...state.filterForm.data };
   },

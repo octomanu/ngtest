@@ -1,14 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { TableLambe } from '@core/lambe/table-lambe.class';
-import {
-  NzMessageService,
-  NzDrawerService,
-  NzDropdownService,
-} from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
 import { GastosService } from '@core/http/gastos/gastos.service';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { GastosTableFilterComponent } from '../gastos-table-filter/gastos-table-filter.component';
 import { Observable } from 'rxjs';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
@@ -16,18 +7,35 @@ import { GastosForm } from './gastos.form';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
-import { haveDues, loading } from 'redux/gastos/gastos.selectors';
-import { GastosDueSaveRequest } from 'redux/gastos/gastos.actions';
+import { haveDues, loading } from 'redux/gastos/dues/dues.selectors';
+import { DueSaveRequest } from 'redux/gastos/dues/dues.actions';
+import {
+  GastosPageRequest,
+  ChangePageOrder,
+  GastosChangePage,
+} from 'redux/gastos/page/page.actions';
+import * as selectors from 'redux/gastos/page/page.selectors';
+import { share, tap } from 'rxjs/operators';
+import { filters } from 'redux/gastos/filter-form/filter-form.selectors';
+import { FilterRequest } from 'redux/gastos/filter-form/filter-form.actions';
 @Component({
   selector: 'app-gastos-table',
   templateUrl: './gastos-table.component.html',
   styles: [],
   providers: [GastosForm],
 })
-export class GastosTableComponent extends TableLambe
-  implements OnInit, OnDestroy {
+export class GastosTableComponent implements OnInit {
   haveDues$: Observable<boolean>;
   savingDues$: Observable<boolean>;
+
+  pageData$: Observable<any>;
+  paginatorParameters$: Observable<any>;
+  paginatorLoading$: Observable<any>;
+  paginatorTotal$: Observable<any>;
+  paginatorPage$: Observable<any>;
+  paginatorPageSize$: Observable<any>;
+  filters$: Observable<any>;
+
   filtroForm = {
     id_proveedor: null,
     id_consorcio: null,
@@ -44,6 +52,7 @@ export class GastosTableComponent extends TableLambe
     id_proveedor: { show: true },
     id_consorcio: { show: true },
   };
+  drawerTitle: 'global.gastos';
   form: FormGroup;
   protected timeout = null;
   isLoading = false;
@@ -52,82 +61,63 @@ export class GastosTableComponent extends TableLambe
   consorcios: { id: number; display: string }[];
   masterFilter = { proveedor: '', consorcio: '', gasto: '' };
   selectedGastos = [];
+
+  private filters: any;
+  translations = {
+    id_proveedor: 'lambe.proveedores.proveedor',
+    id_consorcio: 'lambe.consorcios.consorcio',
+    numero: 'global.direccion',
+    cuit: 'global.cuit',
+    estado: 'global.estado',
+  };
+
   constructor(
-    msg: NzMessageService,
-    translate: TranslateService,
-    drawerService: NzDrawerService,
     gastosService: GastosService,
-    nzDropdownService: NzDropdownService,
-    breakpointObserver: BreakpointObserver,
     private store: Store<AppState>,
     protected proveedorService: ProveedoresService,
     protected consorciosService: ConsorciosService,
     protected fb: GastosForm,
   ) {
-    super(
-      gastosService,
-      nzDropdownService,
-      breakpointObserver,
-      translate,
-      drawerService,
-      msg,
-    );
     this.gastosService = gastosService;
-    this.tags = {
-      id_proveedor: { title: 'lambe.proveedores.proveedor', used: false },
-      id_consorcio: { title: 'lambe.consorcios.consorcio', used: false },
-      numero: { title: 'global.direccion', used: false },
-      cuit: { title: 'global.cuit', used: false },
-      estado: { title: 'global.estado', used: false },
-    };
   }
 
   ngOnInit(): void {
-    // this.form = this.fb.getForm();
-    this.searchData();
+    this.pageData$ = this.store.select(selectors.pageData).pipe(share());
+    this.paginatorLoading$ = this.store.select(selectors.paginatorLoading);
+    this.paginatorTotal$ = this.store.select(selectors.paginatorTotal);
+    this.paginatorPage$ = this.store.select(selectors.paginatorPage);
+    this.paginatorPageSize$ = this.store.select(selectors.paginatorPageSize);
+    this.store.dispatch(new GastosPageRequest());
+    this.filters$ = this.store
+      .select(filters)
+      .pipe(tap(pageFilters => (this.filters = pageFilters)));
     this.searchConsorciosList('');
     this.searchProveedorList('');
-    this.subscribeBreakPoint();
     this.haveDues$ = this.store.select(haveDues);
     this.savingDues$ = this.store.select(loading);
   }
 
+  removeTag(tag: string) {
+    this.filters[tag] = null;
+    this.store.dispatch(new FilterRequest({ data: this.filters }));
+  }
+
+  pageChange(page: number) {
+    this.store.dispatch(new GastosChangePage({ page }));
+  }
+
   submit() {
-    this.store.dispatch(new GastosDueSaveRequest());
+    this.store.dispatch(new DueSaveRequest());
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribeBreakPoint();
+  changeOrder(field: string, order: string) {
+    this.store.dispatch(new ChangePageOrder({ field, order }));
   }
 
-  toggleGasto(id) {
-    console.log(this.selectedGastos.indexOf(id));
-    if (this.selectedGastos.indexOf(id) === -1) {
-      this.selectedGastos.push(id);
-    } else {
-      this.selectedGastos = this.selectedGastos.filter(gasto => gasto !== id);
-    }
-    console.log(this.selectedGastos);
-  }
-
-  _openFilter() {
-    this.drawerRef = this.drawerService.create<
-      GastosTableFilterComponent
-      // { formInput: ChequesFormFields }
-    >({
-      nzTitle: 'lambe.proveedores.titulo',
-      nzWidth: this.initialDrawerWidth,
-      nzContent: GastosTableFilterComponent,
-      nzContentParams: {
-        formInput: this.filtroForm,
-      },
-    });
-
-    this.drawerRef.afterClose.subscribe((data: any) => {
-      if (!data) return;
-      this.filtroForm = data;
-      this.searchData();
-    });
+  sort(sort: { key: string; value: string }): void {
+    const field = sort.key;
+    const order = sort.value ? sort.value.replace('end', '') : sort.value;
+    this.changeOrder(field, order);
   }
 
   changeMasterFilter(filter: string, value: any) {
@@ -137,7 +127,7 @@ export class GastosTableComponent extends TableLambe
     } else {
       this.table[filter].show = true;
     }
-    this.searchData();
+    // DISTPACH CHANGE FIKLTER ACTION
   }
 
   searchProveedores(display: string) {
@@ -162,10 +152,6 @@ export class GastosTableComponent extends TableLambe
     }, 400);
   }
 
-  changeExtra(event: any) {
-    console.log(event);
-  }
-
   protected searchProveedorList(display: string) {
     this.proveedorService
       .searchByDisplay(display)
@@ -181,44 +167,6 @@ export class GastosTableComponent extends TableLambe
       .subscribe((data: { id: number; display: string }[]) => {
         this.isLoading = false;
         this.consorcios = data;
-      });
-  }
-
-  // OVERRIDE
-  /**
-   * Busca los datos al inico y despues de aplicar filtros y orden
-   */
-  searchData(reset: boolean = false): void {
-    if (reset) {
-      this.paginatorParams.page = 1;
-    }
-
-    this.tableLambe.loading = true;
-    this.dataService
-      .paginate(this.paginatorParams, this.filtroForm)
-      .subscribe((data: any) => {
-        this.tableLambe.total = data.recordsFiltered;
-        this.tableLambe.data = data.data;
-        console.log(data.data);
-        for (const filtro in this.filtroForm) {
-          if (
-            this.filtroForm[filtro] !== null &&
-            this.filtroForm[filtro] !== ''
-          ) {
-            this.tags[filtro].used = true;
-          } else {
-            this.tags[filtro].used = false;
-          }
-        }
-
-        // tslint:disable-next-line: forin
-        for (const key in data.data) {
-          this.rowForm[key] = {
-            visible: false,
-            // form: this.fb.getForm(),
-          };
-        }
-        this.tableLambe.loading = false;
       });
   }
 }

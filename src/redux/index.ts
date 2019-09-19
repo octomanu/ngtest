@@ -8,7 +8,6 @@ import { OrdenesPagoEffects } from './ordenes-pago/ordenes-pago.effects';
 import { CuentaCorrienteProveedorEffects } from './cuenta-corriente-proveedor/cuenta-corriente-proveedor.effects';
 import { CuentaCorrienteConsorcioEffects } from './cuenta-corriente-consorcio/cuenta-corriente-consorcio.effects';
 import { CuentaCorrienteUfEffects } from './cuenta-corriente-uf/cuenta-corriente-uf-effects';
-import { GastosEffects } from './gastos/gastos.effects';
 
 export const effectsArr: any[] = [
   ServiciosEffects,
@@ -21,5 +20,4 @@ export const effectsArr: any[] = [
   CuentaCorrienteProveedorEffects,
   CuentaCorrienteConsorcioEffects,
   CuentaCorrienteUfEffects,
-  GastosEffects,
 ];

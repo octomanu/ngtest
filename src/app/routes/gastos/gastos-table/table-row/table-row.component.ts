@@ -10,7 +10,6 @@ import { FormGroup } from '@angular/forms';
 import { GastosForm } from '../gastos.form';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
-import { GastosAddDue } from 'redux/gastos/gastos.actions';
 import { NzDropdownService, NzMessageService } from 'ng-zorro-antd';
 import { PaymentFormComponent } from '../../payment-form/payment-form.component';
 import { GastosService } from '@core/http/gastos/gastos.service';
@@ -18,6 +17,8 @@ import { DrawerService } from '@shared/utils/drawer.service';
 import { GastosFormComponent } from '../../gastos-form/gastos-form.component';
 import { Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { AddDue } from 'redux/gastos/dues/dues.actions';
+import { DeleteRequest } from 'redux/gastos/delete/delete.actions';
 @Component({
   selector: '[gastos-row]',
   templateUrl: './table-row.component.html',
@@ -71,7 +72,7 @@ export class TableRowComponent implements OnInit {
   submit() {
     if (this.form.invalid) return;
     const formValue = this.fb.resolve();
-    this.store.dispatch(new GastosAddDue({ due: formValue }));
+    this.store.dispatch(new AddDue({ due: formValue }));
   }
 
   openForm() {
@@ -85,8 +86,6 @@ export class TableRowComponent implements OnInit {
       .subscribe();
   }
   delete() {
-    this.gastosService
-      .delete(this.rowCuota['gastos-id'])
-      .subscribe(() => this.msg.success(`Eliminado!!`));
+    this.store.dispatch(new DeleteRequest({ id: this.rowCuota['gastos-id'] }));
   }
 }
