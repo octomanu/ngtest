@@ -1,176 +1,21 @@
 <nz-card [nzBordered]="false">
-  <ng-template #extraTpl>
-    <i nz-icon nzType="setting"></i>
-  </ng-template>
-  <ng-template #headerTpl>
-    &nbsp;
-  </ng-template>
-  <nz-collapse [nzBordered]="false">
-    <nz-collapse-panel
-      #p
-      [nzHeader]="headerTpl"
-      [nzActive]="false"
-      [nzExtra]="extraTpl"
-      [ngStyle]="{
-        background: '#f7f7f7',
-        'border-radius': '4px',
-        'margin-bottom': '24px',
-        border: '0px'
-      }"
-    >
-      <form>
-        <div nz-row nzType="flex" nzJustify="space-between">
-          <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
-            <nz-form-item>
-              <nz-form-label nzFor="monto"
-                >{{ 'lambe.proveedores.proveedor' | translate }}
-              </nz-form-label>
-              <nz-form-control>
-                <nz-select
-                  zPlaceHolder=" lambe.proveedores.proveedor | translate "
-                  [(ngModel)]="masterFilter.proveedor"
-                  id="id_proveedor"
-                  nzAllowClear
-                  nzShowSearch
-                  [nzServerSearch]="true"
-                  name="id_proveedor"
-                  (nzOnSearch)="searchProveedores($event)"
-                  (ngModelChange)="changeMasterFilter('id_proveedor', $event)"
-                >
-                  <ng-container *ngFor="let proveedor of proveedores">
-                    <nz-option
-                      *ngIf="!isLoading"
-                      [nzValue]="proveedor.id"
-                      [nzLabel]="proveedor.display"
-                    ></nz-option>
-                  </ng-container>
-                  <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-                    <i nz-icon type="loading" class="loading-icon"></i>
-                    {{ 'global.cargando' | translate }}
-                  </nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
-            <nz-form-item>
-              <nz-form-label nzFor="monto"
-                >{{ 'lambe.consorcios.consorcio' | translate }}
-              </nz-form-label>
-              <nz-form-control>
-                <nz-select
-                  zPlaceHolder=" lambe.gastos.consorcio | translate "
-                  [(ngModel)]="masterFilter.consorcio"
-                  id="id_consorcio"
-                  nzAllowClear
-                  nzShowSearch
-                  [nzServerSearch]="true"
-                  name="id_consorcio"
-                  (nzOnSearch)="searchConsorcios($event)"
-                  (ngModelChange)="changeMasterFilter('id_consorcio', $event)"
-                >
-                  <ng-container *ngFor="let consorcio of consorcios">
-                    <nz-option
-                      *ngIf="!isLoading"
-                      [nzValue]="consorcio.id"
-                      [nzLabel]="consorcio.display"
-                    ></nz-option>
-                  </ng-container>
-                  <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-                    <i nz-icon type="loading" class="loading-icon"></i>
-                    {{ 'global.cargando' | translate }}
-                  </nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
-            <nz-form-item>
-              <nz-form-label nzFor="monto"
-                >{{ 'lambe.gasto' | translate }}
-              </nz-form-label>
-              <nz-form-control>
-                <nz-select
-                  zPlaceHolder=" lambe.proveedores.proveedor | translate "
-                  [(ngModel)]="masterFilter.gasto"
-                  id="gasto"
-                  nzAllowClear
-                  nzShowSearch
-                  [nzServerSearch]="true"
-                  name="gasto"
-                  (nzOnSearch)="searchProveedores($event)"
-                  (ngModelChange)="changeMasterFilter('gasto', $event)"
-                >
-                  <ng-container *ngFor="let proveedor of proveedores">
-                    <nz-option
-                      *ngIf="!isLoading"
-                      [nzValue]="proveedor.id"
-                      [nzLabel]="proveedor.display"
-                    ></nz-option>
-                  </ng-container>
-                  <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-                    <i nz-icon type="loading" class="loading-icon"></i>
-                    {{ 'global.cargando' | translate }}
-                  </nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-          <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
-            <nz-form-item>
-              <nz-form-label nzFor="monto"
-                >{{ 'lambe.extra' | translate }}
-              </nz-form-label>
-              <nz-form-control>
-                <nz-switch
-                  [nzCheckedChildren]="checkedTemplate"
-                  [nzUnCheckedChildren]="unCheckedTemplate"
-                  [(ngModel)]="extraData"
-                  name="xtraData"
-                >
-                </nz-switch>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-        </div>
-      </form>
-      <ng-template #checkedTemplate><i nz-icon type="check"></i></ng-template>
-      <ng-template #unCheckedTemplate><i nz-icon type="close"></i></ng-template>
-    </nz-collapse-panel>
-  </nz-collapse>
-
-  <app-table-tags
-    (removeTag)="removeTag($event)"
-    [filters]="filters$"
-    [translations]="translations"
-  >
+  <app-table-config></app-table-config>
+  <app-table-tags (removeTag)="removeTag($event)" [filters]="filters$" [translations]="translations">
   </app-table-tags>
-  <nz-table
-    #ajaxTable
-    [nzFrontPagination]="false"
-    [nzData]="pageData$ | async"
-    [nzLoading]="paginatorLoading$ | async"
-    [nzTotal]="paginatorTotal$ | async"
-    [nzPageIndex]="paginatorPage$ | async"
-    [nzPageSize]="paginatorPageSize$ | async"
-    (nzPageIndexChange)="pageChange($event)"
-    [nzSize]="'middle'"
-    [nzBordered]="'false'"
-    [nzScroll]="{ x: '100%' }"
-  >
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="pageData$ | async" [nzLoading]="paginatorLoading$ | async"
+    [nzTotal]="paginatorTotal$ | async" [nzPageIndex]="paginatorPage$ | async" [nzPageSize]="paginatorPageSize$ | async"
+    (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">
     <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
-        <th nzShowSort nzSortKey="proveedor" *ngIf="table.id_proveedor.show">
+        <th nzShowSort nzSortKey="id_proveedor" *ngIf="proveedorVisible$ | async">
           <span>{{ 'lambe.proveedores.proveedor' | translate }}</span>
         </th>
 
-        <th nzShowSort nzSortKey="consorcio" *ngIf="table.id_consorcio.show">
+        <th nzShowSort nzSortKey="id_consorcio" *ngIf="consorcioVisible$ | async">
           <span>{{ 'lambe.consorcios.consorcio' | translate }}</span>
         </th>
 
-        <th nzShowSort nzSortKey="servicio" *ngIf="table.gasto.show">
+        <th nzShowSort nzSortKey="id_servicio" *ngIf="servicioVisible$ | async">
           <span>{{ 'global.servicio' | translate }}</span>
         </th>
 
@@ -203,5 +48,6 @@
       <ng-template ngFor let-data [ngForOf]="pageData$ | async">
         <tr gastos-row [rowCuota]="data" [extraData]="extraData"></tr>
       </ng-template>
-    </tbody> </nz-table
-></nz-card>
+    </tbody>
+  </nz-table>
+</nz-card>

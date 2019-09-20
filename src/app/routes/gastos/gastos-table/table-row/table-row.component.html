@@ -1,14 +1,13 @@
 <ng-container [formGroup]="form" (contextmenu)="contextMenu($event, menuRow)">
-  <td>
+  <td *ngIf="proveedorVisible$ | async">
     <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
     {{ rowCuota['proveedores-razon_social'] }}
   </td>
-  <td>
+  <td *ngIf="consorcioVisible$  | async">
     <strong class="onlysmall">{{ 'lambe.consorcios.consorcio' | translate }}:&nbsp;</strong>
     {{rowCuota['consorcios-razon_social']}}
   </td>
-
-  <td>
+  <td *ngIf="servicioVisible$  | async">
     <strong class="onlysmall">{{ 'lambe.servicio' | translate }}:&nbsp;</strong>
     {{ rowCuota['servicios-descripcion'] }}
   </td>
@@ -39,8 +38,6 @@
       </nz-form-explain>
     </nz-form-control>
   </td>
-
-
   <td *ngIf="extraData">Rubro</td>
   <td *ngIf="extraData"><i nz-icon [nzType]="(rowCuota['gastos-prevision']) ? 'check' : 'close'" nzTheme="outline"></i>
   </td>

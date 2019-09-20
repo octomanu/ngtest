@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CrudService } from '../crud-service.class';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, catchError, first, switchMap } from 'rxjs/operators';
+import { map, catchError, first, switchMap, mergeMap } from 'rxjs/operators';
 import { throwError, Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { AppState } from 'redux/app.reducer';
@@ -43,6 +43,23 @@ export class GastosService extends CrudService {
     return this.http.put(URL, data).pipe(
       map(resp => resp),
       catchError(err => throwError(err)),
+    );
+  }
+
+  findObs(id$: Observable<number>) {
+    return id$.pipe(
+      first(),
+      map(id => `${environment.OCTO_API}/${this.getPath()}/mostrar/${id}`),
+      mergeMap(url =>
+        this.http.get(url).pipe(
+          map((resp: any) => {
+            if (resp.data) {
+              return resp.data;
+            }
+            return resp;
+          }),
+        ),
+      ),
     );
   }
 

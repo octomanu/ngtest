@@ -10,15 +10,14 @@ import { FormGroup } from '@angular/forms';
 import { GastosForm } from '../gastos.form';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
-import { NzDropdownService, NzMessageService } from 'ng-zorro-antd';
-import { PaymentFormComponent } from '../../payment-form/payment-form.component';
-import { GastosService } from '@core/http/gastos/gastos.service';
+import { NzDropdownService } from 'ng-zorro-antd';
 import { DrawerService } from '@shared/utils/drawer.service';
-import { GastosFormComponent } from '../../gastos-form/gastos-form.component';
-import { Subject } from 'rxjs';
-import { first } from 'rxjs/operators';
 import { AddDue } from 'redux/gastos/dues/dues.actions';
 import { DeleteRequest } from 'redux/gastos/delete/delete.actions';
+import { PaymentRequest } from 'redux/gastos/payment-form/payment-form.actions';
+import * as selectors from 'redux/gastos/page/page.selectors';
+import { GastosEditRequest } from 'redux/gastos/edit-form/edit-form.actions';
+import { Observable } from 'rxjs';
 @Component({
   selector: '[gastos-row]',
   templateUrl: './table-row.component.html',
@@ -29,14 +28,14 @@ export class TableRowComponent implements OnInit {
   @Input() rowCuota: any;
   @Input() extraData: boolean;
   @ViewChild('menuRow', { static: false }) menu: TemplateRef<void>;
-
+  consorcioVisible$: Observable<boolean>;
+  proveedorVisible$: Observable<boolean>;
+  servicioVisible$: Observable<boolean>;
   protected form: FormGroup;
   constructor(
     private fb: GastosForm,
     private store: Store<AppState>,
     private nzDropdownService: NzDropdownService,
-    private gastosService: GastosService,
-    private msg: NzMessageService,
     protected drawerService: DrawerService,
   ) {}
 
@@ -48,25 +47,18 @@ export class TableRowComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.form;
     this.setFormData();
+    this.consorcioVisible$ = this.store.select(selectors.consorcioVisible);
+    this.proveedorVisible$ = this.store.select(selectors.proveedorVisible);
+    this.servicioVisible$ = this.store.select(selectors.servicioVisible);
   }
 
   openPaymentForm() {
-    this.drawerService
-      .create('global.pago_gasto', 'right', PaymentFormComponent, {
-        idCuota: this.rowCuota['gastos_cuotas-id'],
-        montoCuota: this.rowCuota['gastos_cuotas-monto'],
-      })
-      .pipe(first())
-      .subscribe();
-  }
-
-  setFormData() {
-    this.form.setValue({
-      id: this.rowCuota['gastos_cuotas-id'],
-      monto: this.rowCuota['gastos_cuotas-monto'],
-      fecha_pago: this.rowCuota['gastos_cuotas-fecha_pago'],
-      numero_factura: this.rowCuota['facturas_proveedor-numero_factura'],
-    });
+    this.store.dispatch(
+      new PaymentRequest({
+        id: this.rowCuota['gastos_cuotas-id'],
+        amount: this.rowCuota['gastos_cuotas-monto'],
+      }),
+    );
   }
 
   submit() {
@@ -76,16 +68,21 @@ export class TableRowComponent implements OnInit {
   }
 
   openForm() {
-    const submitForm = new Subject<{ submit: boolean }>();
-    this.drawerService
-      .create('lambe.gasto', 'right', GastosFormComponent, {
-        id: this.rowCuota['gastos-id'],
-        valueChange: submitForm,
-      })
-      .pipe(first())
-      .subscribe();
+    this.store.dispatch(
+      new GastosEditRequest({ id: this.rowCuota['gastos-id'] }),
+    );
   }
+
   delete() {
     this.store.dispatch(new DeleteRequest({ id: this.rowCuota['gastos-id'] }));
+  }
+
+  setFormData() {
+    this.form.setValue({
+      id: this.rowCuota['gastos_cuotas-id'],
+      monto: this.rowCuota['gastos_cuotas-monto'],
+      fecha_pago: this.rowCuota['gastos_cuotas-fecha_pago'],
+      numero_factura: this.rowCuota['facturas_proveedor-numero_factura'],
+    });
   }
 }

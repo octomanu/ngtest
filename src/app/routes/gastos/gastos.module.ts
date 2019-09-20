@@ -16,15 +16,27 @@ import { DeleteEffectsHelper } from 'redux/gastos/delete/delete-effects.helper';
 import { DeleteEffects } from 'redux/gastos/delete/delete.effects';
 import { GastosButtonsComponent } from './gastos-buttons/gastos-buttons.component';
 import { GastosTagsComponent } from './gastos-tags/gastos-tags.component';
+import { PaymentFormEffects } from 'redux/gastos/payment-form/payment-form.effects';
+import { PaymentFormEffectsHelper } from 'redux/gastos/payment-form/payment-form-effects.helper';
+import { TableConfigComponent } from './gastos-table/table-config/table-config.component';
+import { EditFormEffects } from 'redux/gastos/edit-form/edit-form.effects';
+import { EditFormEffectsHelper } from 'redux/gastos/edit-form/edit-form-effects.helper';
 
 const Effects = [
   PageEffects,
   FilterFormEffects,
   CreateFormEffects,
+  PaymentFormEffects,
   DeleteEffects,
+  EditFormEffects,
 ];
 
-const Helpers = [CreateFormEffectsHelper, DeleteEffectsHelper];
+const Helpers = [
+  PaymentFormEffectsHelper,
+  CreateFormEffectsHelper,
+  DeleteEffectsHelper,
+  EditFormEffectsHelper,
+];
 
 export const routes: Routes = [
   {
@@ -41,7 +53,14 @@ export const routes: Routes = [
     StoreModule.forFeature('gastos', gastosReducers),
     EffectsModule.forFeature(Effects),
   ],
-  declarations: [...COMPONENTS, GastosComponent, TableRowComponent, GastosButtonsComponent, GastosTagsComponent],
+  declarations: [
+    ...COMPONENTS,
+    GastosComponent,
+    TableRowComponent,
+    GastosButtonsComponent,
+    GastosTagsComponent,
+    TableConfigComponent,
+  ],
   providers: [...Helpers, DrawerService],
   entryComponents: COMPONENTS,
 })

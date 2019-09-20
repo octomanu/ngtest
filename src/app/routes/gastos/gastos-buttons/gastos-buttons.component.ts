@@ -15,6 +15,8 @@ import {
   FilterRequest,
 } from 'redux/gastos/filter-form/filter-form.actions';
 import { OpenCreateForm } from 'redux/gastos/create-form/create-form.actions';
+import { haveDues, loading } from 'redux/gastos/dues/dues.selectors';
+import { DueSaveRequest } from 'redux/gastos/dues/dues.actions';
 
 @Component({
   selector: 'app-gastos-buttons',
@@ -22,6 +24,8 @@ import { OpenCreateForm } from 'redux/gastos/create-form/create-form.actions';
   styles: [],
 })
 export class GastosButtonsComponent implements OnInit {
+  haveDues$: Observable<boolean>;
+  savingDues$: Observable<boolean>;
   help$: Observable<boolean>;
   keepHelp$: Observable<boolean>;
   tooltips: {
@@ -39,6 +43,8 @@ export class GastosButtonsComponent implements OnInit {
   ngOnInit() {
     this.help$ = this.store.select(selectHelp);
     this.keepHelp$ = this.store.select(selectKeepHelp);
+    this.haveDues$ = this.store.select(haveDues);
+    this.savingDues$ = this.store.select(loading);
     this.tooltipBuilder.setViewContainerRef(this.viewContainerRef);
     this.tooltips = this.tooltipBuilder.getButtonsTooltips();
   }
@@ -53,5 +59,9 @@ export class GastosButtonsComponent implements OnInit {
 
   clearFilter() {
     this.store.dispatch(new FilterRequest({ data: null }));
+  }
+
+  submitDue() {
+    this.store.dispatch(new DueSaveRequest());
   }
 }
