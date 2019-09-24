@@ -1,13 +1,13 @@
 <ng-container [formGroup]="form" (contextmenu)="contextMenu($event, menuRow)">
-  <td *ngIf="proveedorVisible$ | async">
+  <td *ngIf="row.proveedorVisible | async">
     <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
     {{ rowCuota['proveedores-razon_social'] }}
   </td>
-  <td *ngIf="consorcioVisible$  | async">
+  <td *ngIf="row.consorcioVisible  | async">
     <strong class="onlysmall">{{ 'lambe.consorcios.consorcio' | translate }}:&nbsp;</strong>
     {{rowCuota['consorcios-razon_social']}}
   </td>
-  <td *ngIf="servicioVisible$  | async">
+  <td *ngIf="row.servicioVisible  | async">
     <strong class="onlysmall">{{ 'lambe.servicio' | translate }}:&nbsp;</strong>
     {{ rowCuota['servicios-descripcion'] }}
   </td>

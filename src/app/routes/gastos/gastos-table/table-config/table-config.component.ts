@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
-import { AppState } from 'redux/app.reducer';
-import { Store } from '@ngrx/store';
-import {
-  ChangeProveedorVisibility,
-  ChangeConsorcioVisibility,
-  ChangeServicioVisibility,
-} from 'redux/gastos/page/page.actions';
 import { ConsorciosFinderService } from 'app/routes/services/type-ahead/consorcios-finder/consorcios-finder.service';
 import { ProveedorFinderService } from 'app/routes/services/type-ahead/proveedor-finder/proveedor-finder.service';
 import { ServiciosFinderService } from 'app/routes/services/type-ahead/servicios-finder/servicios-finder.service';
+import { TableConfigFacade } from '../../facade/table-config.facade';
 
 @Component({
   selector: 'app-table-config',
@@ -23,28 +17,23 @@ import { ServiciosFinderService } from 'app/routes/services/type-ahead/servicios
 export class TableConfigComponent {
   extraData = false;
   constructor(
-    private store: Store<AppState>,
+    public tableConfig: TableConfigFacade,
     public consorciosFinder: ConsorciosFinderService,
     public proveedorFinder: ProveedorFinderService,
     public serviciosFinder: ServiciosFinderService,
   ) {}
 
   changeMasterFilter(filter: string, value: any) {
+    const visible = value ? false : true;
     switch (filter) {
       case 'proveedor':
-        this.store.dispatch(
-          new ChangeProveedorVisibility({ visible: value ? false : true }),
-        );
+        this.tableConfig.proveedorVisibility(visible);
         break;
       case 'consorcio':
-        this.store.dispatch(
-          new ChangeConsorcioVisibility({ visible: value ? false : true }),
-        );
+        this.tableConfig.consorcioVisibility(visible);
         break;
       case 'servicio':
-        this.store.dispatch(
-          new ChangeServicioVisibility({ visible: value ? false : true }),
-        );
+        this.tableConfig.servicioVisibility(visible);
         break;
     }
   }

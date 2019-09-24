@@ -1,21 +1,22 @@
 <nz-card [nzBordered]="false">
   <app-table-config></app-table-config>
-  <app-table-tags (removeTag)="removeTag($event)" [filters]="filters$" [translations]="translations">
+  <app-table-tags (removeTag)="removeTag($event)" [filters]="table.filters" [translations]="translations">
   </app-table-tags>
-  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="pageData$ | async" [nzLoading]="paginatorLoading$ | async"
-    [nzTotal]="paginatorTotal$ | async" [nzPageIndex]="paginatorPage$ | async" [nzPageSize]="paginatorPageSize$ | async"
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="table.pageData | async"
+    [nzLoading]="table.paginatorLoading | async" [nzTotal]="table.paginatorTotal | async"
+    [nzPageIndex]="table.paginatorPage | async" [nzPageSize]="table.paginatorPageSize | async"
     (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">
     <thead (nzSortChange)="sort($event)" nzSingleSort>
       <tr>
-        <th nzShowSort nzSortKey="id_proveedor" *ngIf="proveedorVisible$ | async">
+        <th nzShowSort nzSortKey="id_proveedor" *ngIf="table.proveedorVisible | async">
           <span>{{ 'lambe.proveedores.proveedor' | translate }}</span>
         </th>
 
-        <th nzShowSort nzSortKey="id_consorcio" *ngIf="consorcioVisible$ | async">
+        <th nzShowSort nzSortKey="id_consorcio" *ngIf="table.consorcioVisible | async">
           <span>{{ 'lambe.consorcios.consorcio' | translate }}</span>
         </th>
 
-        <th nzShowSort nzSortKey="id_servicio" *ngIf="servicioVisible$ | async">
+        <th nzShowSort nzSortKey="id_servicio" *ngIf="table.servicioVisible | async">
           <span>{{ 'global.servicio' | translate }}</span>
         </th>
 
@@ -45,7 +46,7 @@
       </tr>
     </thead>
     <tbody>
-      <ng-template ngFor let-data [ngForOf]="pageData$ | async">
+      <ng-template ngFor let-data [ngForOf]="table.pageData | async">
         <tr gastos-row [rowCuota]="data" [extraData]="extraData"></tr>
       </ng-template>
     </tbody>

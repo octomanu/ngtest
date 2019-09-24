@@ -1,346 +1,94 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { Input, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { GastosForm } from './gastos.form';
-import { NzMessageService, NzDrawerRef, NzDrawerService } from 'ng-zorro-antd';
+import { Component, OnInit } from '@angular/core';
+import { Input, ChangeDetectorRef } from '@angular/core';
+import { FormArray } from '@angular/forms';
+import { NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
 import { GastosService } from '@core/http/gastos/gastos.service';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unidades-funcionales.service';
-import { PorcentajesConsorciosService } from '@core/http/porcentajes_consorcios/porcentajes-consorcios.service';
-import { ProveedorFormComponent } from 'app/routes/proveedores/proveedor-form/proveedor-form.component';
-import { GastosDescripcionesFormComponent } from 'app/routes/gastos-descripciones/gastos-descripciones-form/gastos-descripciones-form.component';
-import { GastosDescripcionesService } from '@core/http/gastos-descripciones/gastos-descripciones.service';
-import { SaveRequest } from 'redux/gastos/create-form/create-form.actions';
-import { Store } from '@ngrx/store';
-import { AppState } from 'redux/app.reducer';
-import { ConsorciosFinderService } from 'app/routes/services/type-ahead/consorcios-finder/consorcios-finder.service';
-import { ProveedorFinderService } from 'app/routes/services/type-ahead/proveedor-finder/proveedor-finder.service';
-import { ServiciosFinderService } from 'app/routes/services/type-ahead/servicios-finder/servicios-finder.service';
-import { DescripcionesFinderService } from 'app/routes/services/type-ahead/descripciones-finder/descripciones-finder.service';
 import { CategoriasFinderService } from 'app/routes/services/type-ahead/categorias-finder/categorias-finder.service';
+import { GastosFormFacade } from '../facade/gastos-form.facade';
 
 @Component({
   selector: 'app-gastos-form',
-  templateUrl: './gastos-form.component.html',
+  template: `
+    <app-principal
+      [form]="gastosForm.form"
+      (updateConsorcio)="updateConsorcio($event)"
+      (openPorcentuales)="openPorcentualesDrawer()"
+      (openCuotas)="openCuotasDrawer()"
+      (openProveedor)="openProveedoresForm()"
+      (multiPorcentual)="changeMultiplePorcentual($event)"
+      (changeCuotas)="initCuotas($event)"
+    ></app-principal>
+  `,
   styles: [],
-  providers: [
-    ConsorciosFinderService,
-    ProveedorFinderService,
-    ServiciosFinderService,
-    DescripcionesFinderService,
-    CategoriasFinderService,
-  ],
 })
 export class GastosFormComponent implements OnInit {
-  descripcionsfilter = false;
-  plantilla: number;
   factura: string = null;
-  // cuotas
-  cuotasVisible = false;
-  porcentualesVisible = false;
-  // cuotas
-  form: FormGroup;
-  @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
   @Input() protected valueChange: Subject<{ submit: boolean }>;
-  protected cuotasAmount = 1;
-  multiPorcentajes = false;
   protected cuotas = [];
   protected current = 0;
   isLoading = true;
-  proveedores: { id: number; display: string }[];
-  descripciones: { id: number; display: string }[];
-  consorcios: { id: number; display: string }[];
-  servicios: { id: number; display: string }[];
-  ufs: { id: number; display: string }[];
-  porcentajes: { id: number; display: string }[] = [];
-  categorias: { id: number; display: string }[] = [];
   protected timeout = null;
   protected keep = { proveedor: false, consorcio: false, gasto: false };
   protected initialized = false;
   constructor(
-    protected fb: GastosForm,
     protected msg: NzMessageService,
     protected cdr: ChangeDetectorRef,
     protected gastosService: GastosService,
-    protected ufsService: UnidadesFuncionalesService,
-    protected porcentajesService: PorcentajesConsorciosService,
     protected drawerRef: NzDrawerRef<{ submit: boolean }>,
     protected chequerasService: ProveedoresService,
-    protected drawerService: NzDrawerService,
-    protected fbBulder: FormBuilder,
-    protected gastosDescripcionesService: GastosDescripcionesService,
-    private translate: TranslateService,
-    private store: Store<AppState>,
-    public consorciosFinder: ConsorciosFinderService,
-    public proveedorFinder: ProveedorFinderService,
-    public serviciosFinder: ServiciosFinderService,
-    public descripcionesFinder: DescripcionesFinderService,
     public categoriasFinder: CategoriasFinderService,
+    public gastosForm: GastosFormFacade,
   ) {
     this.drawerRef.afterOpen.subscribe(data => {
       this.initialized = true;
     });
   }
 
-  openCuotasDrawer() {
-    this.cuotasVisible = true;
-  }
-  closeCuotasDrawer() {
-    this.cuotasVisible = false;
-  }
-
-  openPorcentualesDrawer() {
-    this.porcentualesVisible = true;
-  }
-  closePorcentualesDrawer() {
-    this.porcentualesVisible = false;
-  }
-
-  initCuotas() {
-    if (!this.initialized && this.id) {
-      return;
-    }
-
-    if (!this.cuotasAmount) {
-      this.cuotasAmount = 1;
-    }
-    this.form.setControl('cuotas', this.fb.initCuotasChild(this.cuotasAmount));
-    const cuotas = this.form.get('cuotas') as FormArray;
-
-    const gastoAmount = this.form.get('monto').value;
-    let total = null;
-    const fecha = this.form.get('fecha').value;
-    let remainder = 0;
-    this.cuotas = [];
-
-    if (gastoAmount) {
-      total = parseFloat(gastoAmount) / this.cuotasAmount;
-      total = +total.toFixed(2);
-      remainder = gastoAmount - total * this.cuotasAmount;
-      remainder = +remainder.toFixed(2);
-    }
-    const fechaValue = fecha ? moment(fecha, 'DD-MM-YYYY') : moment();
-
-    // tslint:disable-next-line: forin
-    for (const i in cuotas.controls) {
-      const index = parseInt(i, 10);
-      if (index > 0) {
-        fechaValue.add(1, 'M');
-      }
-      cuotas.controls[index].setValue({
-        monto: i === '0' ? (total + remainder).toFixed(2) : total.toFixed(2),
-        fecha_pago: fechaValue.toDate(),
-        id: null,
-        numero_cuota: null,
-        numero_factura: index === 0 ? this.factura : null,
-        id_periodo: null,
-      });
-    }
-
-    for (let i = 0; i < this.cuotasAmount; i++) {
-      if (i > 0) {
-        fechaValue.add(1, 'M');
-      }
-
-      this.cuotas.push({
-        monto: i === 0 ? (total + remainder).toFixed(2) : total.toFixed(2),
-        fecha: fechaValue.toDate(),
-      });
-    }
-
-    if (this.cuotasAmount > 1) {
-      this.openCuotasDrawer();
-    }
-  }
-
-  modifyCuotas(index: number) {
-    if (!this.initialized && this.id) {
-      return;
-    }
-    const cuotas = this.form.get('cuotas') as FormArray;
-    const gastoAmount = this.form.get('monto').value;
-
-    const totalCuotas = cuotas.length;
-    let previousAmount = 0;
-    const leftCuotas = totalCuotas - (index + 1);
-    if (leftCuotas === 0) {
-      return;
-    }
-    for (let i = 0; i <= index; i++) {
-      previousAmount += parseFloat(cuotas.controls[i].value.monto);
-    }
-
-    const nextAmount = gastoAmount - previousAmount;
-    let nextValue = nextAmount / leftCuotas;
-    nextValue = +nextValue.toFixed(2);
-    let remainder = nextAmount - nextValue * leftCuotas;
-    remainder = +remainder.toFixed(2);
-    let j = index + 1;
-    for (j; j < totalCuotas; j++) {
-      const value = { ...cuotas.controls[j].value, monto: nextValue };
-      cuotas.controls[j].setValue(value);
-      this.cuotas[j].monto = nextValue;
-    }
-
-    const lastValue = {
-      ...cuotas.controls[j - 1].value,
-      monto: nextValue + remainder,
-    };
-    cuotas.controls[j - 1].setValue(lastValue);
-    this.cdr.detectChanges();
-  }
-
   ngOnInit() {
-    this.open();
-  }
-
-  initForm(edit?: boolean) {
-    this.form = this.fb.getForm(edit);
-  }
-  open() {
-    this.formVisible.emit(true);
-    if (this.id) {
-      this.initForm(true);
-      this.gastosService.find(this.id).subscribe((data: any) => {
-        this.proveedorFinder.search(data['proveedor-razon_social']);
-        this.consorciosFinder.searchConsorcios(data['consorcio-display']);
-        this.serviciosFinder.search('', data['id_servicio']);
-        this.ufsService.setConsorcio(data.id_consorcio);
-        this.porcentajesService.setConsorcio(data.id_consorcio);
-        this.cuotasAmount = data.cuotas.length;
-        this.multiPorcentajes = data.porcentuales.length > 1 ? true : false;
-
-        this.searchUfsList('');
-        this.form.setControl(
-          'porcentuales',
-          this.fb.initPorcentualesChild(data.porcentuales.length),
-        );
-        delete data['proveedor-razon_social'];
-        delete data['consorcio-display'];
-
-        this.form.setControl(
-          'cuotas',
-          this.fb.initCuotasChild(data.cuotas.length),
-        );
-        data.consorcios = [data.id_consorcio];
-        data.unidades_funcionales = [];
-        data.id_concepto_gastos = null;
-        delete data.id_consorcio;
-        data.fecha = data.fecha
-          ? moment(data.fecha, 'DD-MM-YYYY').toDate()
-          : data.fecha;
-
-        for (const cuota of data.cuotas) {
-          cuota.fecha_pago = cuota.fecha_pago
-            ? moment(cuota.fecha_pago, 'DD-MM-YY').toDate()
-            : cuota.fecha_pago;
-        }
-
-        this.factura = data.cuotas[0].numero_factura;
-        this.form.setValue(data);
-        this.porcentajesService
-          .searchByDisplay('')
-          .subscribe((data: { id: number; display: string }[]) => {
-            this.isLoading = false;
-            this.porcentajes = data;
-          });
-        // const cuotas = this.form.get('cuotas') as FormArray;
-
-        // // tslint:disable-next-line: forin
-        // for (const i in cuotas.controls) {
-        //   const index = parseInt(i, 10);
-        //   cuotas.controls[index].setValue({
-        //     monto: data.data.cuotas[index].monto,
-        //     fecha_pago: data.data.cuotas[index].fecha_pago,
-        //     id: data.data.cuotas[index].id,
-        //   });
-        // }
-      });
-    } else {
-      this.initForm();
-      this.initCuotas();
-    }
+    this.gastosForm.restartForm();
+    //inicia la carga del formulario.
+    this.gastosForm.jeje.subscribe();
   }
 
   submit() {
-    const proveedor = Object.assign({}, this.form.value);
+    const proveedor = Object.assign({}, this.gastosForm.form.value);
     if (proveedor.id) {
-      // REFACTORIZAR:
-      console.log(proveedor);
       proveedor.fecha = moment(proveedor.fecha).format('DD-MM-YYYY');
       for (const cuota of proveedor.cuotas) {
         cuota.fecha_pago = moment(proveedor.fecha_pago).format('DD-MM-YYYY');
       }
-      console.log(proveedor);
-      // REFACTOR
-
       this.gastosService.update(proveedor.id, proveedor).subscribe(data => {
-        // this.drawerRef.close({ submit: true });
         this.msg.success(`Actualizado!`);
         this.cdr.detectChanges();
-        // this.drawerRef.close();
       });
     } else {
-      const gasto = this.fb.resolveGasto(this.form, this.multiPorcentajes);
-      this.store.dispatch(new SaveRequest({ data: gasto }));
-      const proveedorValue: string = this.form.get('id_proveedor').value;
-      const consorcioValue: string = this.form.get('consorcios').value;
-      const gastoValue: string = this.form.get('descripcion').value;
-      this.initForm();
-      if (this.keep.proveedor) {
-        this.form.get('id_proveedor').setValue(proveedorValue);
-      }
-      if (this.keep.consorcio) {
-        this.form.get('consorcios').setValue(consorcioValue);
-      }
-      if (this.keep.gasto) {
-        this.form.get('descripcion').setValue(gastoValue);
-      }
+      this.gastosForm.create();
     }
   }
 
-  changeConsorcio() {
+  updateConsorcio(selectedIds: number[]) {
     if (!this.initialized) {
       return;
     }
     this.searchDataForm();
-
-    const consorcios = this.form.get('consorcios').value;
-    let idConsorcio = null;
-
-    if (consorcios.length === 1) {
-      idConsorcio = consorcios[0];
-    }
-
-    this.ufsService.setConsorcio(idConsorcio);
-    this.porcentajesService.setConsorcio(idConsorcio);
-    if (idConsorcio) {
-      this.searchUfsList('');
-      this.searchPorcentajesList('');
-    } else {
-      this.ufs = [];
-      this.porcentajes = [];
-      this.form.setControl('porcentuales', this.fb.initPorcentualesChild(0));
-      this.multiPorcentajes = false;
+    if (selectedIds.length === 1) {
+      this.gastosForm.addPercentajesRow(0);
     }
   }
 
   searchDataForm(timeout = false) {
-    const idProveedor: string = this.form.get('id_proveedor').value;
-    const idConsorcio: string = this.form.get('consorcios').value;
-    const gasto: string = this.form.get('descripcion').value;
+    const idProveedor: string = this.gastosForm.form.get('id_proveedor').value;
+    const idConsorcio: string = this.gastosForm.form.get('consorcios').value;
+    const gasto: string = this.gastosForm.form.get('descripcion').value;
 
-    if (idProveedor == null || idConsorcio.length !== 1 || gasto == null) {
+    if (idProveedor == null || idConsorcio.length !== 1 || gasto == null)
       return;
-    }
 
-    if (this.timeout) {
-      window.clearTimeout(this.timeout);
-    }
+    if (this.timeout) window.clearTimeout(this.timeout);
 
     if (timeout) {
       this.timeout = window.setTimeout(() => {
@@ -355,12 +103,18 @@ export class GastosFormComponent implements OnInit {
             if (!data) {
               return;
             }
-            this.form.get('id_categoria').setValue(data.id_categoria);
-            this.form.get('monto').setValue(data.monto);
-            this.form.get('periodicidad').setValue(data.periodicidad);
-            this.form.get('prevision').setValue(data.prevision);
-            this.form.get('prorrateable').setValue(data.prorrateable);
-            this.form.get('fecha').setValue(data.fecha);
+            this.gastosForm.form
+              .get('id_categoria')
+              .setValue(data.id_categoria);
+            this.gastosForm.form.get('monto').setValue(data.monto);
+            this.gastosForm.form
+              .get('periodicidad')
+              .setValue(data.periodicidad);
+            this.gastosForm.form.get('prevision').setValue(data.prevision);
+            this.gastosForm.form
+              .get('prorrateable')
+              .setValue(data.prorrateable);
+            this.gastosForm.form.get('fecha').setValue(data.fecha);
           });
       }, 400);
     } else {
@@ -374,143 +128,55 @@ export class GastosFormComponent implements OnInit {
           if (!data) {
             return;
           }
-          this.form.get('id_rubro').setValue(data.id_rubro);
-          this.form.get('monto').setValue(data.monto);
-          this.form.get('prevision').setValue(data.prevision);
-          this.form.get('prorrateable').setValue(data.prorrateable);
-          this.form.get('fecha').setValue(data.fecha);
+          this.gastosForm.form.get('id_rubro').setValue(data.id_rubro);
+          this.gastosForm.form.get('monto').setValue(data.monto);
+          this.gastosForm.form.get('prevision').setValue(data.prevision);
+          this.gastosForm.form.get('prorrateable').setValue(data.prorrateable);
+          this.gastosForm.form.get('fecha').setValue(data.fecha);
         });
     }
   }
 
-  searchUfs(display: string) {
-    if (this.timeout) {
-      window.clearTimeout(this.timeout);
-    }
-    this.timeout = window.setTimeout(() => {
-      this.timeout = null;
-      this.isLoading = true;
-      this.searchUfsList(display);
-    }, 400);
-  }
-
-  searchPorcentajes(display: string) {
-    if (this.timeout) {
-      window.clearTimeout(this.timeout);
-    }
-    this.timeout = window.setTimeout(() => {
-      this.timeout = null;
-      this.isLoading = true;
-      this.searchPorcentajesList(display);
-    }, 400);
-  }
-
-  protected searchUfsList(display: string) {
-    this.ufsService
-      .searchByDisplay(display)
-      .subscribe((data: { id: number; display: string }[]) => {
-        this.isLoading = false;
-        this.ufs = data;
-      });
-  }
-
-  protected searchPorcentajesList(display: string) {
-    this.porcentajesService
-      .searchByDisplay(display)
-      .subscribe((data: { id: number; display: string }[]) => {
-        this.isLoading = false;
-        this.porcentajes = data;
-        if (this.multiPorcentajes) {
-          this.form.setControl(
-            'porcentuales',
-            this.fb.initPorcentualesChild(data.length),
-          );
-        }
-      });
-  }
-
-  changeMultiplePorcentual() {
-    if (!this.initialized) {
-      return;
-    }
-    if (this.multiPorcentajes) {
-      this.form.get('id_concepto_gastos').setValue(null);
-      this.form.get('unidades_funcionales').setValue(null);
-      this.form.setControl(
-        'porcentuales',
-        this.fb.initPorcentualesChild(this.porcentajes.length),
-      );
-
-      const porcentuales = this.form.get('porcentuales') as FormArray;
-
-      // tslint:disable-next-line: forin
-      for (const i in porcentuales.controls) {
-        const index = parseInt(i, 10);
-        porcentuales.controls[index].setValue({
-          monto: null,
-          tipo: 'numerico',
-          id: null,
-          id_porcentaje_consorcio: this.porcentajes[index].id,
-        });
-      }
-
+  changeMultiplePorcentual(data: {
+    multiple: boolean;
+    porcentuales: { id: number; display: string }[];
+  }) {
+    if (!this.initialized) return;
+    console.log('multiple', data);
+    if (data.multiple) {
+      this.gastosForm.form.get('id_concepto_gastos').setValue(null);
+      this.gastosForm.form.get('unidades_funcionales').setValue(null);
+      this.gastosForm.addPercentajesRow(data.porcentuales.length);
       this.openPorcentualesDrawer();
     } else {
-      this.form.setControl('porcentuales', this.fb.initPorcentualesChild());
+      this.gastosForm.addPercentajesRow(0);
     }
   }
 
   openProveedoresForm() {
-    this.translate
-      .get('lambe.proveedores.proveedor')
-      .subscribe((res: string) => {
-        this.drawerRef = this.drawerService.create<
-          ProveedorFormComponent,
-          { id: number }
-        >({
-          nzTitle: res,
-          nzWidth: '50%',
-          nzContent: ProveedorFormComponent,
-          nzContentParams: {
-            id: null,
-          },
-        });
-      });
-
-    this.drawerRef.afterClose.subscribe(
-      (data: { submit: boolean } | undefined) => {
-        this.proveedorFinder.search('');
-      },
-    );
+    this.gastosForm.interactions.openProveedoresForm();
   }
 
   crearPlantilla() {
-    this.translate
-      .get('global.gastos_descripciones')
-      .subscribe((res: string) => {
-        this.drawerService.create({
-          nzTitle: res,
-          nzWidth: '50%',
-          nzContent: GastosDescripcionesFormComponent,
-          nzPlacement: 'right',
-          nzContentParams: { minWidth: '50%' },
-        });
-      });
+    this.gastosForm.interactions.openGastosDescripcionesForm();
   }
 
   cargarPlantilla(id: number) {
-    if (!id) {
-      this.form.get('descripcion').setValue('');
-      return;
-    }
-    this.gastosDescripcionesService.find(id).subscribe((data: any) => {
-      this.form.get('descripcion').setValue(data.descripcion);
-    });
+    this.gastosForm.loadDescription(id);
   }
 
-  changeFactura() {
-    const cuotas = this.form.get('cuotas') as FormArray;
-    const value: any = cuotas.controls[0].value;
-    value.numero_factura = this.factura;
+  openCuotasDrawer() {
+    this.gastosForm.interactions.openCuotasForm();
+  }
+
+  openPorcentualesDrawer() {
+    this.gastosForm.interactions.openPorcentualesForm();
+  }
+
+  initCuotas(cuotasAmount: number) {
+    if (!this.initialized && this.id) return;
+    this.gastosForm.addCuotasRow(cuotasAmount);
+    this.gastosForm.recalculateCuotas(cuotasAmount);
+    if (cuotasAmount > 1) this.openCuotasDrawer();
   }
 }

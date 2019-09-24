@@ -21,6 +21,20 @@ import { PaymentFormEffectsHelper } from 'redux/gastos/payment-form/payment-form
 import { TableConfigComponent } from './gastos-table/table-config/table-config.component';
 import { EditFormEffects } from 'redux/gastos/edit-form/edit-form.effects';
 import { EditFormEffectsHelper } from 'redux/gastos/edit-form/edit-form-effects.helper';
+import { ProveedorFormModule } from '../proveedores/proveedor-form/proveedor-form.module';
+import { GastosTableFacade } from './facade/gastos-table.facade';
+import { TableRowFacade } from './facade/table-row.facade';
+import { ButtonsFacade } from './facade/buttons.facade ';
+import { TableConfigFacade } from './facade/table-config.facade';
+import { GastosFormFacade } from './facade/gastos-form.facade';
+import { FormInteractions } from './facade/gastos.form/form-interactions.facade';
+import { CategoriasFinderService } from '../services/type-ahead/categorias-finder/categorias-finder.service';
+import { DescripcionesFinderService } from '../services/type-ahead/descripciones-finder/descripciones-finder.service';
+import { ServiciosFinderService } from '../services/type-ahead/servicios-finder/servicios-finder.service';
+import { ProveedorFinderService } from '../services/type-ahead/proveedor-finder/proveedor-finder.service';
+import { ConsorciosFinderService } from '../services/type-ahead/consorcios-finder/consorcios-finder.service';
+import { GastosForm } from './forms/gastos.form';
+import { PrincipalComponent } from './gastos-form/principal/principal.component';
 
 const Effects = [
   PageEffects,
@@ -38,6 +52,25 @@ const Helpers = [
   EditFormEffectsHelper,
 ];
 
+const Facades = [
+  GastosTableFacade,
+  TableRowFacade,
+  ButtonsFacade,
+  TableConfigFacade,
+  GastosFormFacade,
+  FormInteractions,
+];
+
+const Finders = [
+  ConsorciosFinderService,
+  ProveedorFinderService,
+  ServiciosFinderService,
+  DescripcionesFinderService,
+  CategoriasFinderService,
+];
+
+const Services = [DrawerService, GastosForm];
+
 export const routes: Routes = [
   {
     path: '',
@@ -52,6 +85,7 @@ export const routes: Routes = [
     RouterModule.forChild(routes),
     StoreModule.forFeature('gastos', gastosReducers),
     EffectsModule.forFeature(Effects),
+    ProveedorFormModule,
   ],
   declarations: [
     ...COMPONENTS,
@@ -60,8 +94,9 @@ export const routes: Routes = [
     GastosButtonsComponent,
     GastosTagsComponent,
     TableConfigComponent,
+    PrincipalComponent,
   ],
-  providers: [...Helpers, DrawerService],
-  entryComponents: COMPONENTS,
+  providers: [...Helpers, ...Services, ...Facades, ...Finders],
+  entryComponents: [...COMPONENTS],
 })
 export class GastosModule {}

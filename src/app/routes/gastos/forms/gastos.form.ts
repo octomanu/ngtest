@@ -1,14 +1,41 @@
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
+import { Store } from '@ngrx/store';
+import { AppState } from 'redux/app.reducer';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class GastosForm {
-  constructor(private fb: FormBuilder) {}
-  getForm(edit?: boolean): FormGroup {
-    const form = this.fb.group({
+  private formGroup: FormGroup;
+
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {
+    this.initForm();
+    this.initCuotasChild();
+    this.initPorcentualesChild();
+  }
+
+  get form() {
+    return this.formGroup;
+  }
+
+  get multiPorcentajes() {
+    return this.porcentuales.length > 1;
+  }
+
+  get cuotasAmount() {
+    return this.cuotas.length;
+  }
+
+  get porcentuales() {
+    return this.form.get('porcentuales') as FormArray;
+  }
+
+  get cuotas() {
+    return this.form.get('cuotas') as FormArray;
+  }
+
+  initForm(edit?: boolean) {
+    this.formGroup = this.fb.group({
       id: [null, []],
       id_proveedor: [null, []],
       id_categoria: [null, [Validators.required]],
@@ -29,14 +56,10 @@ export class GastosForm {
       fecha: [null, [Validators.required]],
       prevision: [false, [Validators.required]],
       prorrateable: [true, [Validators.required]],
-      cuotas: this.initCuotasChild(),
-      porcentuales: this.initPorcentualesChild(),
     });
     if (edit) {
-      form.removeControl('incluir_periodo_actual');
+      this.formGroup.removeControl('incluir_periodo_actual');
     }
-    console.log(edit, form);
-    return form;
   }
 
   initPorcentualesChild(amount = 0) {
@@ -56,8 +79,7 @@ export class GastosForm {
       });
       array.push(child);
     }
-
-    return this.fb.array(array);
+    this.formGroup.setControl('porcentuales', this.fb.array(array));
   }
 
   initCuotasChild(amount = 1) {
@@ -80,12 +102,14 @@ export class GastosForm {
         }),
       );
     }
-
-    return this.fb.array(array);
+    this.formGroup.setControl('cuotas', this.fb.array(array));
   }
 
-  resolveGasto(form: FormGroup, multiple: boolean) {
+  resolveGasto(form: FormGroup) {
     let gasto = null;
+
+    const porcentualesArray = this.formGroup.get('porcentuales') as FormArray;
+    const multiple = porcentualesArray.length > 1;
     if (multiple) {
       gasto = this.resolveMultiple(form, multiple);
     } else {
@@ -111,7 +135,6 @@ export class GastosForm {
   protected resolveSingle(form: FormGroup, multiple: boolean) {
     const gasto = { ...form.value };
     gasto.porcentuales = [];
-    console.log(gasto.id_concepto_gastos);
     if (gasto.id_concepto_gastos) {
       gasto.porcentuales = [
         {

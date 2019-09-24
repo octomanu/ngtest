@@ -2,10 +2,8 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 @Injectable()
-export class GastosForm {
-  public preview: any;
+export class GastosRowForm {
   public form: FormGroup;
-  public salarayData;
 
   constructor(protected fb: FormBuilder) {
     this.initForm();

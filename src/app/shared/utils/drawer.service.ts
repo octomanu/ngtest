@@ -7,7 +7,9 @@ import { smallViewport as smallViewportSelect } from 'redux/global/global.select
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DrawerService {
   smallViewport: boolean;
 
@@ -22,13 +24,14 @@ export class DrawerService {
     placement: NzDrawerPlacement,
     nzContent: any,
     nzContentParams?: {},
+    width?: string,
   ): Observable<NzDrawerRef> {
     return this.translateService.get(title).pipe(
       withLatestFrom(this.store.select(smallViewportSelect)),
       map(([res, smallViewport]) => {
         return this.drawerService.create({
           nzTitle: res,
-          nzWidth: smallViewport ? '100%' : '75%',
+          nzWidth: smallViewport ? '100%' : width ? width : '75%',
           nzContent,
           nzPlacement: placement,
           nzContentParams,

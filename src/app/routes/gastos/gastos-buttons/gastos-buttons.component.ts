@@ -4,19 +4,9 @@ import {
   ViewContainerRef,
   TemplateRef,
 } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState } from 'redux/app.reducer';
 import { TooltipHelperService } from 'app/routes/servicios/helpers/tooltip-helper.service';
-import { selectHelp, selectKeepHelp } from 'redux/global/global.selectors';
 import { TooltipHelpComponent } from '@shared/components/tooltip-help/tooltip-help.component';
-import {
-  OpenFilterForm,
-  FilterRequest,
-} from 'redux/gastos/filter-form/filter-form.actions';
-import { OpenCreateForm } from 'redux/gastos/create-form/create-form.actions';
-import { haveDues, loading } from 'redux/gastos/dues/dues.selectors';
-import { DueSaveRequest } from 'redux/gastos/dues/dues.actions';
+import { ButtonsFacade } from '../facade/buttons.facade ';
 
 @Component({
   selector: 'app-gastos-buttons',
@@ -24,10 +14,6 @@ import { DueSaveRequest } from 'redux/gastos/dues/dues.actions';
   styles: [],
 })
 export class GastosButtonsComponent implements OnInit {
-  haveDues$: Observable<boolean>;
-  savingDues$: Observable<boolean>;
-  help$: Observable<boolean>;
-  keepHelp$: Observable<boolean>;
   tooltips: {
     btnCrear: TemplateRef<TooltipHelpComponent>;
     btnFiltros: TemplateRef<TooltipHelpComponent>;
@@ -35,33 +21,29 @@ export class GastosButtonsComponent implements OnInit {
   };
 
   constructor(
-    private store: Store<AppState>,
     public tooltipBuilder: TooltipHelperService,
     private viewContainerRef: ViewContainerRef,
+    public buttons: ButtonsFacade,
   ) {}
 
   ngOnInit() {
-    this.help$ = this.store.select(selectHelp);
-    this.keepHelp$ = this.store.select(selectKeepHelp);
-    this.haveDues$ = this.store.select(haveDues);
-    this.savingDues$ = this.store.select(loading);
     this.tooltipBuilder.setViewContainerRef(this.viewContainerRef);
     this.tooltips = this.tooltipBuilder.getButtonsTooltips();
   }
 
   openFilter() {
-    this.store.dispatch(new OpenFilterForm());
+    this.buttons.openFilter();
   }
 
   create() {
-    this.store.dispatch(new OpenCreateForm());
+    this.buttons.create();
   }
 
   clearFilter() {
-    this.store.dispatch(new FilterRequest({ data: null }));
+    this.buttons.clearFilter();
   }
 
   submitDue() {
-    this.store.dispatch(new DueSaveRequest());
+    this.buttons.saveDues();
   }
 }
