@@ -8,11 +8,7 @@ import { AppState } from 'redux/app.reducer';
 export class GastosForm {
   private formGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private store: Store<AppState>) {
-    this.initForm();
-    this.initCuotasChild();
-    this.initPorcentualesChild();
-  }
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {}
 
   get form() {
     return this.formGroup;
@@ -34,7 +30,7 @@ export class GastosForm {
     return this.form.get('cuotas') as FormArray;
   }
 
-  initForm(edit?: boolean) {
+  initForm() {
     this.formGroup = this.fb.group({
       id: [null, []],
       id_proveedor: [null, []],
@@ -57,9 +53,6 @@ export class GastosForm {
       prevision: [false, [Validators.required]],
       prorrateable: [true, [Validators.required]],
     });
-    if (edit) {
-      this.formGroup.removeControl('incluir_periodo_actual');
-    }
   }
 
   initPorcentualesChild(amount = 0) {

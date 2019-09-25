@@ -5,7 +5,10 @@ import { FormArray } from '@angular/forms';
 import * as moment from 'moment';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
-import { SaveRequest } from 'redux/gastos/create-form/create-form.actions';
+import {
+  SaveRequest,
+  CloseCreateForm,
+} from 'redux/gastos/create-form/create-form.actions';
 import { GastosDescripcionesService } from '@core/http/gastos-descripciones/gastos-descripciones.service';
 import { editFormData } from 'redux/gastos/edit-form/edit-form.selectors';
 import { ServiciosFinderService } from 'app/routes/services/type-ahead/servicios-finder/servicios-finder.service';
@@ -13,45 +16,49 @@ import { ProveedorFinderService } from 'app/routes/services/type-ahead/proveedor
 import { ConsorciosFinderService } from 'app/routes/services/type-ahead/consorcios-finder/consorcios-finder.service';
 import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unidades-funcionales.service';
 import { PorcentajesConsorciosService } from '@core/http/porcentajes_consorcios/porcentajes-consorcios.service';
-import { map, withLatestFrom, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
+import {
+  CloseEditForm,
+  GastosUpdateRequest,
+} from 'redux/gastos/edit-form/edit-form.actions';
 @Injectable()
 export class GastosFormFacade {
-  get form() {
-    return this.formBuilder.form;
-  }
-
-  jeje: Observable<any>;
-
   constructor(
+    readonly interactions: FormInteractions,
     private store: Store<AppState>,
     private formBuilder: GastosForm,
     private gastosDescripcionesService: GastosDescripcionesService,
     public consorciosSelect: ConsorciosFinderService,
     public proveedorSelect: ProveedorFinderService,
     public serviciosSelect: ServiciosFinderService,
-    readonly interactions: FormInteractions,
     public ufsService: UnidadesFuncionalesService,
     public porcentajesService: PorcentajesConsorciosService,
   ) {}
 
+  get form() {
+    return this.formBuilder.form;
+  }
+
   loadFormData() {
-    this.store
-      .select(editFormData)
-      .pipe(
-        take(1),
-        map(data => {
-          if (!data) return;
-          const value = this.formatGasto(data);
-          this.searchSelectData(data);
-          this.addPercentajesRow(data.porcentuales.length);
-          this.addCuotasRow(data.cuotas.length);
-          this.form.removeControl('incluir_periodo_actual');
-          this.form.setValue(value);
-          return value;
-        }),
-      )
-      .subscribe();
+    return this.store.select(editFormData).pipe(
+      filter(data => data),
+      map(data => {
+        const value = this.formatGasto(data);
+        this.searchSelectData(data);
+        this.addPercentajesRow(value.porcentuales.length);
+        this.addCuotasRow(value.cuotas.length);
+        this.form.setValue(value);
+        return { ...value };
+      }),
+    );
+  }
+
+  closeForm() {
+    if (this.form.value.id) {
+      this.store.dispatch(new CloseEditForm());
+    } else {
+      this.store.dispatch(new CloseCreateForm());
+    }
   }
 
   restartForm() {
@@ -78,14 +85,10 @@ export class GastosFormFacade {
     this.formBuilder.initPorcentualesChild(amount);
   }
 
-  resolveGasto() {
-    return this.formBuilder.resolveGasto(this.form);
-  }
-
   create(keepProveedor = false, keepConsorcio = false, keepServicio = false) {
-    const gasto = this.resolveGasto();
+    const gasto = this.formBuilder.resolveGasto(this.form);
     this.store.dispatch(new SaveRequest({ data: gasto }));
-    this.formBuilder.initForm();
+    this.restartForm();
 
     if (keepProveedor) {
       const proveedorValue: string = this.form.get('id_proveedor').value;
@@ -103,7 +106,14 @@ export class GastosFormFacade {
     }
   }
 
-  // HELPERSSSS
+  update() {
+    const gasto = { ...this.form.value };
+    gasto.fecha = moment(gasto.fecha).format('DD-MM-YYYY');
+    for (const cuota of gasto.cuotas) {
+      cuota.fecha_pago = moment(gasto.fecha_pago).format('DD-MM-YYYY');
+    }
+    this.store.dispatch(new GastosUpdateRequest({ data: gasto }));
+  }
 
   recalculateCuotas(cuotasAmount: number) {
     const amount = this.form.get('monto').value;
@@ -141,11 +151,6 @@ export class GastosFormFacade {
   }
 
   private formatGasto(data: any) {
-    delete data['proveedor-razon_social'];
-    delete data['consorcio-display'];
-    delete data['proveedor-razon_social'];
-    delete data['consorcio-display'];
-    delete data.id_consorcio;
     data.consorcios = [data.id_consorcio];
     data.unidades_funcionales = [];
     data.id_concepto_gastos = null;
@@ -156,6 +161,12 @@ export class GastosFormFacade {
         ? moment(cuota.fecha_pago, 'DD-MM-YY').toDate()
         : cuota.fecha_pago;
     }
+
+    delete data['proveedor-razon_social'];
+    delete data['consorcio-display'];
+    delete data['proveedor-razon_social'];
+    delete data['consorcio-display'];
+    delete data.id_consorcio;
     return data;
   }
 

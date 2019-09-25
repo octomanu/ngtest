@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { DrawerService } from '@shared/utils/drawer.service';
-import { ProveedorFinderService } from 'app/routes/services/type-ahead/proveedor-finder/proveedor-finder.service';
 import { CuotasComponent } from '../../gastos-form/cuotas/cuotas.component';
 import { PorcentualesComponent } from '../../gastos-form/porcentuales/porcentuales.component';
 import { ProveedorFormComponent } from 'app/routes/proveedores/proveedor-form/proveedor-form.component';
@@ -9,10 +8,7 @@ import { first } from 'rxjs/operators';
 
 @Injectable()
 export class FormInteractions {
-  constructor(
-    private drawerService: DrawerService,
-    public proveedorFinder: ProveedorFinderService,
-  ) {}
+  constructor(private drawerService: DrawerService) {}
 
   openCuotasForm() {
     this.drawerService
@@ -38,9 +34,7 @@ export class FormInteractions {
         '50%',
       )
       .pipe(first())
-      .subscribe(drawerRef =>
-        drawerRef.afterClose.subscribe(() => this.proveedorFinder.search('')),
-      );
+      .subscribe();
   }
 
   openGastosDescripcionesForm() {

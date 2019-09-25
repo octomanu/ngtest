@@ -55,7 +55,7 @@
   }}</label>
 </ng-template>
 
-<form nz-form [formGroup]="form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
+<form nz-form [formGroup]="form" (ngSubmit)="onSubmit()" [nzLayout]="'horizontal'">
   <div nz-row nzType="flex" nzJustify="space-between">
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
       <nz-form-item>
@@ -181,7 +181,8 @@
             " nzAllowClear nzShowSearch [nzServerSearch]="true" (nzOnSearch)="porcentajesSelect.search($event)"
             formControlName="id_concepto_gastos">
             <ng-container *ngFor="let porcentaje of porcentajesSelect.options | async ">
-              <nz-option *ngIf="!(porcentajesSelect.isLoading | async )" [nzValue]="porcentaje.id" [nzLabel]="porcentaje.display"></nz-option>
+              <nz-option *ngIf="!(porcentajesSelect.isLoading | async )" [nzValue]="porcentaje.id"
+                [nzLabel]="porcentaje.display"></nz-option>
             </ng-container>
             <nz-option *ngIf="porcentajesSelect.isLoading | async " nzDisabled nzCustomContent>
               <i nz-icon type="loading" class="loading-icon"></i>
@@ -276,7 +277,7 @@
 
 <div class="footer">
   <div nz-row nzType="flex" nzJustify="space-between">
-    <button nz-button [disabled]="!form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+    <button nz-button [disabled]="!form.valid" (click)="onSubmit()" class="ant-btn ant-btn-primary">
       <span>{{ 'global.guardar' | translate }}</span>
     </button>
   </div>
@@ -301,7 +302,7 @@
                 form.get('monto').errors ||
                 !form.get('monto').value ||
                 form.get('id').value
-              " [(ngModel)]="cuotasAmount" style="width:100%;" (ngModelChange)="onChangeCuotas()" [nzMin]="1"
+              " [ngModel]="cuotasAmount | async" style="width:100%;" (ngModelChange)="onChangeCuotas()" [nzMin]="1"
               [nzMax]="24" [nzStep]="1" style="width:75%;">
             </nz-input-number>
             <button nz-button (click)="openCuotasDrawer()" type="button" class="ant-btn ant-btn-primary" [disabled]="

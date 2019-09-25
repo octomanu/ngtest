@@ -66,14 +66,14 @@ export class GastosService extends CrudService {
   findPrevious(params: {
     id_proveedor: string;
     id_consorcio: string;
-    gasto: string;
+    id_servicio: string;
   }) {
     let httpParams = new HttpParams();
 
     httpParams = httpParams
       .append('id_proveedor', params.id_proveedor)
       .append('id_consorcio', params.id_consorcio)
-      .append('gasto', params.gasto);
+      .append('gasto', params.id_servicio);
     const URL = `${environment.OCTO_API}/${this.getPath()}/buscarAnterior`;
     return this.http.get(`${URL}`, { params }).pipe(
       map((resp: any) => {
