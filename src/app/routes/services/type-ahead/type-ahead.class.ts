@@ -12,6 +12,10 @@ export class TypeAhead {
 
   constructor(protected dataService: TypeAheadService) {}
 
+  get value() {
+    return this.optionsSubject$.value;
+  }
+
   search(display: string, delay = true) {
     if (this.timeout) {
       window.clearTimeout(this.timeout);

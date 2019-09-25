@@ -13,7 +13,7 @@ import { ProveedorFinderService } from 'app/routes/services/type-ahead/proveedor
 import { ConsorciosFinderService } from 'app/routes/services/type-ahead/consorcios-finder/consorcios-finder.service';
 import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unidades-funcionales.service';
 import { PorcentajesConsorciosService } from '@core/http/porcentajes_consorcios/porcentajes-consorcios.service';
-import { map } from 'rxjs/operators';
+import { map, withLatestFrom, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 @Injectable()
 export class GastosFormFacade {
@@ -33,19 +33,25 @@ export class GastosFormFacade {
     readonly interactions: FormInteractions,
     public ufsService: UnidadesFuncionalesService,
     public porcentajesService: PorcentajesConsorciosService,
-  ) {
-    this.jeje = this.store.select(editFormData).pipe(
-      map(data => {
-        if (!data) return;
-        const value = this.formatGasto(data);
-        this.searchSelectData(data);
-        this.addPercentajesRow(data.porcentuales.length);
-        this.addCuotasRow(data.cuotas.length);
-        this.form.removeControl('incluir_periodo_actual');
-        this.form.setValue(value);
-        return value;
-      }),
-    );
+  ) {}
+
+  loadFormData() {
+    this.store
+      .select(editFormData)
+      .pipe(
+        take(1),
+        map(data => {
+          if (!data) return;
+          const value = this.formatGasto(data);
+          this.searchSelectData(data);
+          this.addPercentajesRow(data.porcentuales.length);
+          this.addCuotasRow(data.cuotas.length);
+          this.form.removeControl('incluir_periodo_actual');
+          this.form.setValue(value);
+          return value;
+        }),
+      )
+      .subscribe();
   }
 
   restartForm() {
@@ -55,7 +61,7 @@ export class GastosFormFacade {
   }
 
   loadDescription(id: number) {
-    if (!id) {
+    if (id) {
       this.gastosDescripcionesService.find(id).subscribe((data: any) => {
         this.form.get('descripcion').setValue(data.descripcion);
       });
@@ -135,7 +141,6 @@ export class GastosFormFacade {
   }
 
   private formatGasto(data: any) {
-    if (!data) return;
     delete data['proveedor-razon_social'];
     delete data['consorcio-display'];
     delete data['proveedor-razon_social'];

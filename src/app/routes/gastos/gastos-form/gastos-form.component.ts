@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Input, ChangeDetectorRef } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { Input } from '@angular/core';
 import { NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
 import { GastosService } from '@core/http/gastos/gastos.service';
-import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
-import { CategoriasFinderService } from 'app/routes/services/type-ahead/categorias-finder/categorias-finder.service';
 import { GastosFormFacade } from '../facade/gastos-form.facade';
 
 @Component({
@@ -20,6 +17,8 @@ import { GastosFormFacade } from '../facade/gastos-form.facade';
       (openProveedor)="openProveedoresForm()"
       (multiPorcentual)="changeMultiplePorcentual($event)"
       (changeCuotas)="initCuotas($event)"
+      (changePlantilla)="cargarPlantilla($event)"
+      (openPlantilla)="openPlantillaForm()"
     ></app-principal>
   `,
   styles: [],
@@ -29,18 +28,13 @@ export class GastosFormComponent implements OnInit {
   @Input() id: number | undefined;
   @Input() protected valueChange: Subject<{ submit: boolean }>;
   protected cuotas = [];
-  protected current = 0;
-  isLoading = true;
   protected timeout = null;
   protected keep = { proveedor: false, consorcio: false, gasto: false };
   protected initialized = false;
   constructor(
     protected msg: NzMessageService,
-    protected cdr: ChangeDetectorRef,
     protected gastosService: GastosService,
     protected drawerRef: NzDrawerRef<{ submit: boolean }>,
-    protected chequerasService: ProveedoresService,
-    public categoriasFinder: CategoriasFinderService,
     public gastosForm: GastosFormFacade,
   ) {
     this.drawerRef.afterOpen.subscribe(data => {
@@ -50,8 +44,7 @@ export class GastosFormComponent implements OnInit {
 
   ngOnInit() {
     this.gastosForm.restartForm();
-    //inicia la carga del formulario.
-    this.gastosForm.jeje.subscribe();
+    this.gastosForm.loadFormData();
   }
 
   submit() {
@@ -63,7 +56,6 @@ export class GastosFormComponent implements OnInit {
       }
       this.gastosService.update(proveedor.id, proveedor).subscribe(data => {
         this.msg.success(`Actualizado!`);
-        this.cdr.detectChanges();
       });
     } else {
       this.gastosForm.create();
@@ -142,7 +134,6 @@ export class GastosFormComponent implements OnInit {
     porcentuales: { id: number; display: string }[];
   }) {
     if (!this.initialized) return;
-    console.log('multiple', data);
     if (data.multiple) {
       this.gastosForm.form.get('id_concepto_gastos').setValue(null);
       this.gastosForm.form.get('unidades_funcionales').setValue(null);
@@ -153,16 +144,16 @@ export class GastosFormComponent implements OnInit {
     }
   }
 
+  cargarPlantilla(id: number) {
+    this.gastosForm.loadDescription(id);
+  }
+
   openProveedoresForm() {
     this.gastosForm.interactions.openProveedoresForm();
   }
 
-  crearPlantilla() {
+  openPlantillaForm() {
     this.gastosForm.interactions.openGastosDescripcionesForm();
-  }
-
-  cargarPlantilla(id: number) {
-    this.gastosForm.loadDescription(id);
   }
 
   openCuotasDrawer() {

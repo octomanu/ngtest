@@ -178,12 +178,12 @@
           <nz-select [nzDisabled]="
               multiPorcentajes ||
               form.get('unidades_funcionales').value?.length > 0
-            " nzAllowClear nzShowSearch [nzServerSearch]="true" (nzOnSearch)="searchPorcentajes($event)"
+            " nzAllowClear nzShowSearch [nzServerSearch]="true" (nzOnSearch)="porcentajesSelect.search($event)"
             formControlName="id_concepto_gastos">
-            <ng-container *ngFor="let porcentaje of porcentajes">
-              <nz-option *ngIf="!isLoading" [nzValue]="porcentaje.id" [nzLabel]="porcentaje.display"></nz-option>
+            <ng-container *ngFor="let porcentaje of porcentajesSelect.options | async ">
+              <nz-option *ngIf="!(porcentajesSelect.isLoading | async )" [nzValue]="porcentaje.id" [nzLabel]="porcentaje.display"></nz-option>
             </ng-container>
-            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+            <nz-option *ngIf="porcentajesSelect.isLoading | async " nzDisabled nzCustomContent>
               <i nz-icon type="loading" class="loading-icon"></i>
               {{ 'global.cargando' | translate }}
             </nz-option>
