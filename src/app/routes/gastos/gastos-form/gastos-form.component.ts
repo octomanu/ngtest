@@ -21,7 +21,6 @@ import { GastosFormFacade } from '../facade/gastos-form.facade';
       (changeCuotas)="initCuotas($event)"
       (changePlantilla)="cargarPlantilla($event)"
       (openPlantilla)="openPlantillaForm()"
-      (init)="initForm()"
       (submit)="submit()"
     ></app-principal>
   `,
@@ -77,7 +76,7 @@ export class GastosFormComponent implements OnInit, OnDestroy {
 
   updateConsorcio(selectedIds: number[]) {
     if (!this.gastosForm.form.value.id) {
-      this.searchDataForm();
+      //this.searchDataForm();
     }
     if (selectedIds.length === 1) {
       this.gastosForm.addPercentajesRow(0);
@@ -85,11 +84,11 @@ export class GastosFormComponent implements OnInit, OnDestroy {
   }
 
   initCuotas(cuotasAmount: number) {
-    console.log('PUTO INIT CUOTAS');
-    this.gastosForm.addCuotasRow(cuotasAmount);
+
     this.gastosForm.recalculateCuotas(cuotasAmount);
     if (cuotasAmount > 1) this.openCuotasDrawer();
   }
+
   changeMultiplePorcentual(data: {
     multiple: boolean;
     porcentuales: { id: number; display: string }[];
@@ -105,7 +104,7 @@ export class GastosFormComponent implements OnInit, OnDestroy {
   searchDataForm(timeout = false) {
     const idProveedor: string = this.gastosForm.form.get('id_proveedor').value;
     const idConsorcio: string = this.gastosForm.form.get('consorcios').value;
-    const idServicio: string = this.gastosForm.form.get('descripcion').value;
+    const idServicio: string = this.gastosForm.form.get('id_servicio').value;
 
     if (idProveedor == null || idConsorcio.length !== 1 || idServicio == null)
       return;

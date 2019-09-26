@@ -16,11 +16,13 @@ import { ProveedorFinderService } from 'app/routes/services/type-ahead/proveedor
 import { ConsorciosFinderService } from 'app/routes/services/type-ahead/consorcios-finder/consorcios-finder.service';
 import { UnidadesFuncionalesService } from '@core/http/unidades-funcionales/unidades-funcionales.service';
 import { PorcentajesConsorciosService } from '@core/http/porcentajes_consorcios/porcentajes-consorcios.service';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, mergeMap } from 'rxjs/operators';
 import {
   CloseEditForm,
   GastosUpdateRequest,
 } from 'redux/gastos/edit-form/edit-form.actions';
+import { openForm } from 'redux/gastos/gastos.selectors';
+import { iif, empty, of } from 'rxjs';
 @Injectable()
 export class GastosFormFacade {
   constructor(
@@ -40,7 +42,7 @@ export class GastosFormFacade {
   }
 
   loadFormData() {
-    return this.store.select(editFormData).pipe(
+    const editInitializer = this.store.select(editFormData).pipe(
       filter(data => data),
       map(data => {
         const value = this.formatGasto(data);
@@ -51,6 +53,14 @@ export class GastosFormFacade {
         return { ...value };
       }),
     );
+
+    return this.store
+      .select(openForm)
+      .pipe(
+        mergeMap(openForm =>
+          iif(() => openForm === 'edit', editInitializer, of(null)),
+        ),
+      );
   }
 
   closeForm() {
@@ -116,6 +126,8 @@ export class GastosFormFacade {
   }
 
   recalculateCuotas(cuotasAmount: number) {
+    const oldCuotasValue = [...this.form.get('cuotas').value];
+    this.addCuotasRow(cuotasAmount);
     const amount = this.form.get('monto').value;
     const cuotas = this.form.get('cuotas') as FormArray;
     const fecha = this.form.get('fecha').value;
@@ -125,7 +137,9 @@ export class GastosFormFacade {
     // tslint:disable-next-line: forin
     for (const i in cuotas.controls) {
       const index = parseInt(i, 10);
-      const numeroFactura = cuotas.controls[index].value['numero_factura'];
+      const numeroFactura = oldCuotasValue[index]
+        ? oldCuotasValue[index]['numero_factura']
+        : null;
       const monto =
         index === 0 ? (value + remainder).toFixed(2) : value.toFixed(2);
       if (index > 0) initialDate.add(1, 'M');

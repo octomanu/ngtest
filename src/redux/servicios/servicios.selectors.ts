@@ -44,3 +44,11 @@ export const selectPaginatorPageSize = createSelector(
   selectPaginatorParams,
   paginatorParams => paginatorParams.page_size,
 );
+
+export const paginatorRequestParams = createSelector(
+  selectPaginatorParams,
+  selectFiltros,
+  (params, filters) => {
+    return { ...params, ...filters };
+  },
+);

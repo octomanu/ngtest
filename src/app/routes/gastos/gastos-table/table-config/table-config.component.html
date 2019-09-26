@@ -1,33 +1,49 @@
-<ng-template #extraTpl>
-  <i nz-icon nzType="setting"></i>
-</ng-template>
-<ng-template #headerTpl>
-  &nbsp;
-</ng-template>
-
 <nz-collapse [nzBordered]="false">
-  <nz-collapse-panel #p [nzHeader]="headerTpl" [nzActive]="false" [nzExtra]="extraTpl" [ngStyle]="{
-        background: '#f7f7f7',
-        'border-radius': '4px',
-        'margin-bottom': '24px',
-        border: '0px'
-      }">
+  <nz-collapse-panel
+    #p
+    [nzHeader]="headerTpl"
+    [nzActive]="false"
+    [nzExtra]="extraTpl"
+    [ngStyle]="{
+      background: '#f7f7f7',
+      'border-radius': '4px',
+      'margin-bottom': '24px',
+      border: '0px'
+    }"
+  >
     <form>
       <div nz-row nzType="flex" nzJustify="space-between">
         <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
           <nz-form-item>
-            <nz-form-label nzFor="monto">{{ 'lambe.proveedores.proveedor' | translate }}
+            <nz-form-label nzFor="monto"
+              >{{ 'lambe.proveedores.proveedor' | translate }}
             </nz-form-label>
             <nz-form-control>
-              <nz-select zPlaceHolder=" lambe.proveedores.proveedor | translate " [ngModel]="''" nzAllowClear
-                nzShowSearch [nzServerSearch]="true" name="proveedor" (nzOnSearch)="proveedorFinder.search($event)"
-                (ngModelChange)="changeMasterFilter('proveedor', $event)">
-                <ng-container *ngFor="let proveedor of (proveedorFinder.options | async)">
-                  <nz-option *ngIf="!(proveedorFinder.isLoading | async)" [nzValue]="proveedor.id"
-                    [nzLabel]="proveedor.display"></nz-option>
+              <nz-select
+                zPlaceHolder=" lambe.proveedores.proveedor | translate "
+                [ngModel]="''"
+                nzAllowClear
+                nzShowSearch
+                [nzServerSearch]="true"
+                name="proveedor"
+                (nzOnSearch)="proveedorFinder.search($event)"
+                (ngModelChange)="changeMasterFilter('proveedor', $event)"
+              >
+                <ng-container
+                  *ngFor="let proveedor of proveedorFinder.options | async"
+                >
+                  <nz-option
+                    *ngIf="!(proveedorFinder.isLoading | async)"
+                    [nzValue]="proveedor.id"
+                    [nzLabel]="proveedor.display"
+                  ></nz-option>
                 </ng-container>
-                <nz-option *ngIf="proveedorFinder.isLoading | async" nzDisabled nzCustomContent>
-                  <i nz-icon type="loading" class="loading-icon"></i>
+                <nz-option
+                  *ngIf="proveedorFinder.isLoading | async"
+                  nzDisabled
+                  nzCustomContent
+                >
+                  <i nz-icon nzType="loading" nzTheme="outline"></i>
                   {{ 'global.cargando' | translate }}
                 </nz-option>
               </nz-select>
@@ -37,18 +53,35 @@
 
         <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
           <nz-form-item>
-            <nz-form-label nzFor="monto">{{ 'lambe.consorcios.consorcio' | translate }}
+            <nz-form-label nzFor="monto"
+              >{{ 'lambe.consorcios.consorcio' | translate }}
             </nz-form-label>
             <nz-form-control>
-              <nz-select zPlaceHolder=" lambe.gastos.consorcio | translate " [ngModel]="''" nzAllowClear nzShowSearch
-                [nzServerSearch]="true" name="consorcio" (nzOnSearch)="consorciosFinder.searchConsorcios($event)"
-                (ngModelChange)="changeMasterFilter('consorcio', $event)">
-                <ng-container *ngFor="let consorcio of (consorciosFinder.consorcios | async)">
-                  <nz-option *ngIf="!(consorciosFinder.isLoading | async)" [nzValue]="consorcio.id"
-                    [nzLabel]="consorcio.display"></nz-option>
+              <nz-select
+                zPlaceHolder=" lambe.gastos.consorcio | translate "
+                [ngModel]="''"
+                nzAllowClear
+                nzShowSearch
+                [nzServerSearch]="true"
+                name="consorcio"
+                (nzOnSearch)="consorciosFinder.searchConsorcios($event)"
+                (ngModelChange)="changeMasterFilter('consorcio', $event)"
+              >
+                <ng-container
+                  *ngFor="let consorcio of consorciosFinder.consorcios | async"
+                >
+                  <nz-option
+                    *ngIf="!(consorciosFinder.isLoading | async)"
+                    [nzValue]="consorcio.id"
+                    [nzLabel]="consorcio.display"
+                  ></nz-option>
                 </ng-container>
-                <nz-option *ngIf="consorciosFinder.isLoading | async" nzDisabled nzCustomContent>
-                  <i nz-icon type="loading" class="loading-icon"></i>
+                <nz-option
+                  *ngIf="consorciosFinder.isLoading | async"
+                  nzDisabled
+                  nzCustomContent
+                >
+                  <i nz-icon nzType="loading" nzTheme="outline"></i>
                   {{ 'global.cargando' | translate }}
                 </nz-option>
               </nz-select>
@@ -58,17 +91,34 @@
 
         <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
           <nz-form-item>
-            <nz-form-label nzFor="monto">{{ 'lambe.servicio' | translate }}
+            <nz-form-label nzFor="monto"
+              >{{ 'lambe.servicio' | translate }}
             </nz-form-label>
             <nz-form-control>
-              <nz-select [ngModel]="''" nzAllowClear nzShowSearch [nzServerSearch]="true" name="servicio"
-                (nzOnSearch)="serviciosFinder.search($event)" (ngModelChange)="changeMasterFilter('servicio', $event)">
-                <ng-container *ngFor="let proveedor of (serviciosFinder.options | async)">
-                  <nz-option *ngIf="!(serviciosFinder.isLoading | async)" [nzValue]="proveedor.id"
-                    [nzLabel]="proveedor.display"></nz-option>
+              <nz-select
+                [ngModel]="''"
+                nzAllowClear
+                nzShowSearch
+                [nzServerSearch]="true"
+                name="servicio"
+                (nzOnSearch)="serviciosFinder.search($event)"
+                (ngModelChange)="changeMasterFilter('servicio', $event)"
+              >
+                <ng-container
+                  *ngFor="let proveedor of serviciosFinder.options | async"
+                >
+                  <nz-option
+                    *ngIf="!(serviciosFinder.isLoading | async)"
+                    [nzValue]="proveedor.id"
+                    [nzLabel]="proveedor.display"
+                  ></nz-option>
                 </ng-container>
-                <nz-option *ngIf="serviciosFinder.isLoading | async" nzDisabled nzCustomContent>
-                  <i nz-icon type="loading" class="loading-icon"></i>
+                <nz-option
+                  *ngIf="serviciosFinder.isLoading | async"
+                  nzDisabled
+                  nzCustomContent
+                >
+                  <i nz-icon nzType="loading" nzTheme="outline"></i>
                   {{ 'global.cargando' | translate }}
                 </nz-option>
               </nz-select>
@@ -77,18 +127,34 @@
         </div>
         <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
           <nz-form-item>
-            <nz-form-label nzFor="monto">{{ 'lambe.extra' | translate }}
+            <nz-form-label nzFor="monto"
+              >{{ 'lambe.extra' | translate }}
             </nz-form-label>
             <nz-form-control>
-              <nz-switch [nzCheckedChildren]="checkedTemplate" [nzUnCheckedChildren]="unCheckedTemplate"
-                [(ngModel)]="extraData" name="xtraData">
+              <nz-switch
+                [nzCheckedChildren]="checkedTemplate"
+                [nzUnCheckedChildren]="unCheckedTemplate"
+                [(ngModel)]="extraData"
+                name="xtraData"
+              >
               </nz-switch>
             </nz-form-control>
           </nz-form-item>
         </div>
       </div>
     </form>
-    <ng-template #checkedTemplate><i nz-icon type="check"></i></ng-template>
-    <ng-template #unCheckedTemplate><i nz-icon type="close"></i></ng-template>
   </nz-collapse-panel>
 </nz-collapse>
+
+<ng-template #extraTpl>
+  <i nz-icon nzType="setting"></i>
+</ng-template>
+<ng-template #headerTpl>
+  &nbsp;
+</ng-template>
+<ng-template #checkedTemplate>
+  <i nz-icon nzType="check" nzTheme="outline"></i>
+</ng-template>
+<ng-template #unCheckedTemplate>
+  <i nz-icon nzType="close" nzTheme="outline"></i>
+</ng-template>

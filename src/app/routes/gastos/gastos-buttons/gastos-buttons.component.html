@@ -1,10 +1,10 @@
 <div class="table-operations" nzType="flex" nz-row nzJustify="space-between">
   <div nz-col nzType="flex" nz-row nzJustify="start">
-    <button nz-col nz-button nz-dropdown (click)="openFilter()" nz-tooltip [nzVisible]="buttons.keepHelp | async"
+    <button nz-col nz-button (click)="openFilter()" nz-tooltip [nzVisible]="buttons.keepHelp | async"
       nzPlacement="left" [nzTitle]="(buttons.showHelp | async) ? tooltips.btnFiltros : null">
       <i nz-icon nzTheme="outline" nzType="search"></i>
     </button>
-    <button nz-col nz-button nz-dropdown (click)="clearFilter()" nz-tooltip [nzVisible]="buttons.keepHelp | async"
+    <button nz-col nz-button (click)="clearFilter()" nz-tooltip [nzVisible]="buttons.keepHelp | async"
       nzPlacement="right" [nzTitle]="
       (buttons.showHelp | async) ? tooltips.btnNoFltros : null
       ">
@@ -19,7 +19,7 @@
     </button>
 
 
-    <button nz-col nz-button nz-dropdown (click)="create()" nz-tooltip [nzVisible]="buttons.keepHelp | async"
+    <button nz-col nz-button (click)="create()" nz-tooltip [nzVisible]="buttons.keepHelp | async"
       nzPlacement="left" [nzTitle]="
       (buttons.showHelp | async) ? tooltips.btnCrear : null
       ">

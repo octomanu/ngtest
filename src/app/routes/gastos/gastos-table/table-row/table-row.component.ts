@@ -2,13 +2,13 @@ import {
   Component,
   OnInit,
   Input,
-  TemplateRef,
   HostListener,
   ViewChild,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { GastosRowForm } from '../../forms/gastos-row.form';
 import { TableRowFacade } from '../../facade/table-row.facade';
+import { NzDropdownMenuComponent } from 'ng-zorro-antd';
 @Component({
   selector: '[gastos-row]',
   templateUrl: './table-row.component.html',
@@ -18,7 +18,7 @@ import { TableRowFacade } from '../../facade/table-row.facade';
 export class TableRowComponent implements OnInit {
   @Input() rowCuota: any;
   @Input() extraData: boolean;
-  @ViewChild('menuRow', { static: false }) menu: TemplateRef<void>;
+  @ViewChild('menuRow', { static: false }) menu: NzDropdownMenuComponent;
   protected form: FormGroup;
   constructor(private fb: GastosRowForm, public row: TableRowFacade) {}
 

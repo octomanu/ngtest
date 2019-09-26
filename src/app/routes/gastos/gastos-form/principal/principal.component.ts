@@ -14,7 +14,7 @@ import { CategoriasFinderService } from 'app/routes/services/type-ahead/categori
 import { UfFinderService } from 'app/routes/services/type-ahead/uf-finder/uf-finder.service';
 import { PorcentajesFinderService } from 'app/routes/services/type-ahead/porcentajes-finder/porcentajes-finder.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, first } from 'rxjs/operators';
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
@@ -40,7 +40,7 @@ export class PrincipalComponent implements OnInit {
   descripcionsfilter = false;
   plantilla: number;
   factura: string = null;
-  cuotasAmount: Observable<number>;
+  cuotasAmount: number;
   multiPorcentajes = false;
 
   protected keep = { proveedor: false, consorcio: false, gasto: false };
@@ -55,15 +55,17 @@ export class PrincipalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cuotasAmount = this.initializer.pipe(
-      map(data => {
-        return data.cuotas.length;
-      }),
-    );
+    this.initializer
+      .pipe(
+        first(),
+        map(data => (data ? data.cuotas.length : 1)),
+      )
+      .subscribe(cuotas => (this.cuotasAmount = cuotas));
   }
 
   onSubmit() {
     this.factura = null;
+    this.cuotasAmount = 1;
     this.submit.emit();
   }
 
@@ -77,9 +79,9 @@ export class PrincipalComponent implements OnInit {
     this.changePlantilla.emit(id);
   }
 
-  onChangeCuotas(cuotasAmount: number) {
-    if (!cuotasAmount) return;
-    this.changeCuotas.emit(cuotasAmount);
+  onChangeCuotas() {
+    if (!this.cuotasAmount) return;
+    this.changeCuotas.emit(this.cuotasAmount);
   }
 
   openProveedoresForm() {
@@ -106,6 +108,11 @@ export class PrincipalComponent implements OnInit {
     });
   }
 
+  changeMonto(value: string) {
+    if (!value) this.cuotasAmount = 1;
+    this.onChangeCuotas();
+  }
+
   changeConsorcio() {
     this.multiPorcentajes = false;
     const ids = [...this.form.get('consorcios').value];
@@ -118,7 +125,6 @@ export class PrincipalComponent implements OnInit {
     const cuotas = this.form.get('cuotas') as FormArray;
     const value: any = cuotas.controls[0].value;
     value.numero_factura = this.factura;
-    console.log(value, this.factura);
     cuotas.controls[0].setValue(value);
   }
 }

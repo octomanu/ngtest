@@ -17,6 +17,7 @@ export class TypeAhead {
   }
 
   search(display: string, delay = true) {
+    if (typeof display === 'undefined') return;
     if (this.timeout) {
       window.clearTimeout(this.timeout);
       this.timeout = null;

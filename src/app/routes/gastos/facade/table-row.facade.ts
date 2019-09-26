@@ -5,7 +5,11 @@ import * as selectors from 'redux/gastos/page/page.selectors';
 import { DeleteRequest } from 'redux/gastos/delete/delete.actions';
 import { GastosEditRequest } from 'redux/gastos/edit-form/edit-form.actions';
 import { PaymentRequest } from 'redux/gastos/payment-form/payment-form.actions';
-import { NzDropdownService } from 'ng-zorro-antd';
+import {
+  NzDropdownService,
+  NzDropdownMenuComponent,
+  NzContextMenuService,
+} from 'ng-zorro-antd';
 import { AddDue } from 'redux/gastos/dues/dues.actions';
 import { Observable } from 'rxjs';
 
@@ -16,15 +20,15 @@ export class TableRowFacade {
   servicioVisible: Observable<any>;
   constructor(
     private store: Store<AppState>,
-    private nzDropdownService: NzDropdownService,
+    private nzContextMenuService: NzContextMenuService,
   ) {
     this.consorcioVisible = this.store.select(selectors.consorcioVisible);
     this.proveedorVisible = this.store.select(selectors.proveedorVisible);
     this.servicioVisible = this.store.select(selectors.servicioVisible);
   }
 
-  openMenu(event: MouseEvent, menu: TemplateRef<void>) {
-    this.nzDropdownService.create(event, menu);
+  openMenu(event: MouseEvent, template: NzDropdownMenuComponent) {
+    this.nzContextMenuService.create(event, template);
   }
 
   addDue(due: any) {
