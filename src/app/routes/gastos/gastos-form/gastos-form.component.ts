@@ -1,6 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { GastosService } from '@core/http/gastos/gastos.service';
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { GastosFormFacade } from '../facade/gastos-form.facade';
 @Component({
   selector: 'app-gastos-form',
@@ -21,6 +26,7 @@ import { GastosFormFacade } from '../facade/gastos-form.facade';
     ></app-principal>
   `,
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GastosFormComponent implements OnInit, OnDestroy {
   protected timeout = null;
