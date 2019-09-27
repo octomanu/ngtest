@@ -35,6 +35,7 @@ import { ProveedorFinderService } from '../services/type-ahead/proveedor-finder/
 import { ConsorciosFinderService } from '../services/type-ahead/consorcios-finder/consorcios-finder.service';
 import { GastosForm } from './forms/gastos.form';
 import { PrincipalComponent } from './gastos-form/principal/principal.component';
+import { GastosDescripcionesFormModule } from '../gastos-descripciones/gastos-descripciones-form/gastos-descripciones-form.module';
 
 const Effects = [
   PageEffects,
@@ -82,6 +83,7 @@ export const routes: Routes = [
 @NgModule({
   imports: [
     SharedModule,
+    GastosDescripcionesFormModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature('gastos', gastosReducers),
     EffectsModule.forFeature(Effects),

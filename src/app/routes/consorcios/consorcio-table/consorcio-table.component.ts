@@ -11,6 +11,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConsorcioFormComponent } from '../consorcio-form/consorcio-form.component';
 import { ConsorcioTableFilterComponent } from '../consorcio-table-filter/consorcio-table-filter.component';
 import { ConsorciosFormFields } from './interfaces/consorcios-form-fields.interface';
+import { AppState } from 'redux/app.reducer';
+import { Store } from '@ngrx/store';
+import { PreviewRequest } from 'redux/consorcios/preview/preview.actions';
 
 @Component({
   selector: 'app-consorcio-table',
@@ -39,6 +42,7 @@ export class ConsorcioTableComponent extends TableLambe
     consorciosService: ConsorciosService,
     nzDropdownService: NzDropdownService,
     breakpointObserver: BreakpointObserver,
+    private store: Store<AppState>,
   ) {
     super(
       consorciosService,
@@ -74,6 +78,10 @@ export class ConsorcioTableComponent extends TableLambe
       this.filtroForm = data;
       this.searchData();
     });
+  }
+
+  preview(idConsorcio: string) {
+    this.store.dispatch(new PreviewRequest({ idConsorcio }));
   }
 
   getNzColor(status: string) {

@@ -2,8 +2,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Injectable, OnDestroy } from '@angular/core';
 import { AppState } from 'redux/app.reducer';
 import { Store } from '@ngrx/store';
-import { filters } from 'redux/cabeceras/filter-form/filter-form.selectors';
 import { Subscription } from 'rxjs';
+import { filters } from 'redux/gastos/filter-form/filter-form.selectors';
 @Injectable()
 export class GastosTableFilterForm implements OnDestroy {
   form: FormGroup;

@@ -7,6 +7,7 @@ import { GastosDescripcionesEffects } from 'redux/gastos-descripciones/gastos-de
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GastosDescripcionesReducer } from 'redux/gastos-descripciones/gastos-descripciones.reducer';
+import { GastosDescripcionesFormModule } from './gastos-descripciones-form/gastos-descripciones-form.module';
 
 const Effects = [GastosDescripcionesEffects];
 
@@ -23,6 +24,7 @@ export const routes: Routes = [
 @NgModule({
   imports: [
     SharedModule,
+    GastosDescripcionesFormModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature('gastosDescripciones', GastosDescripcionesReducer),
     EffectsModule.forFeature(Effects),
