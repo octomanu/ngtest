@@ -11,7 +11,6 @@ import { CallbackComponent } from './callback/callback.component';
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 import { UserRegisterComponent } from './passport/register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-
 @NgModule({
   imports: [
     SharedModule,

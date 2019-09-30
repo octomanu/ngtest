@@ -1,0 +1,54 @@
+<nz-card [nzBordered]="false">
+  <app-table-tags (removeTag)="removeTag($event)" [filters]="filters$" [translations]="translations">
+  </app-table-tags>
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="pageData$ | async" [nzTotal]="paginatorTotal$ | async"
+    [nzPageSize]="paginatorPageSize$ | async" [nzLoading]="paginatorLoading$ | async"
+    [nzPageIndex]="paginatorPage$ | async" (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'"
+    [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <tr>
+        <th nzCustomFilter nzShowSort nzSortKey="nombre">
+          <span>{{ 'global.nombre' | translate }}</span>
+        </th>
+        <th nzCustomFilter nzShowSort nzSortKey="direccion">
+          <span>{{ 'global.posicion' | translate }}</span>
+        </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="pageData$ | async" let-i="index">
+        <tr (contextmenu)="contextMenu($event, menuRowContainer)">
+          <ng-template #menuRowContainer>
+            <ng-container *ngTemplateOutlet="menuRow; context: { id: data['id'] }"></ng-container>
+          </ng-template>
+
+          <td>
+            <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
+            {{ data['nombre'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'lambe.consorcios.consorcio' | translate }}:&nbsp;</strong>
+            {{data['posicion']}}
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<!-- Menu Row -->
+<ng-template #menuRow let-id="id">
+  <ul nz-menu nzInDropDown>
+    <li nz-menu-item (click)="editar(id)">
+      <a>{{ 'global.editar' | translate }}</a>
+    </li>
+    <li nz-menu-item>
+      <a nz-popconfirm (nzOnConfirm)="eliminar(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
+        [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
+      <ng-template #iconTpl>
+        <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+      </ng-template>
+    </li>
+  </ul>
+</ng-template>

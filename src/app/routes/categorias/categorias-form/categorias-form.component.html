@@ -1,0 +1,75 @@
+<form nz-form [formGroup]="fb.form" (ngSubmit)="submit()" [nzLayout]="'horizontal'">
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="nombre">{{ 'global.nombre' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <input nz-input formControlName="nombre">
+          <nz-form-explain *ngIf="fb.form.get('nombre').dirty && fb.form.get('nombre').errors">
+            <ng-container *ngIf="fb.form.get('nombre').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="posicion">{{ 'global.posicion' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <input nz-input formControlName="posicion">
+          <nz-form-explain *ngIf="fb.form.get('posicion').dirty && fb.form.get('posicion').errors">
+            <ng-container *ngIf="fb.form.get('posicion').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="numero">{{ 'global.numero' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <input nz-input formControlName="numero">
+          <nz-form-explain *ngIf="fb.form.get('numero').dirty && fb.form.get('numero').errors">
+            <ng-container *ngIf="fb.form.get('numero').hasError('required')">
+              {{ 'global.campo_requerido' | translate }}
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
+      <nz-form-item>
+        <label nz-checkbox formControlName="hidden">{{
+          'global.hidden' | translate
+        }}</label>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
+      <nz-form-item>
+        <label nz-checkbox formControlName="sueldos">{{
+          'global.sueldos' | translate
+        }}</label>
+      </nz-form-item>
+    </div>
+  </div>
+</form>
+
+<div class="footer">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <button nz-button [disabled]="!fb.form.valid" (click)="submit()" class="ant-btn ant-btn-primary">
+      <span>{{ 'global.guardar' | translate }}</span>
+      <i nz-icon *ngIf="loading$ | async" [nzType]="'loading'"></i>
+    </button>
+  </div>
+</div>

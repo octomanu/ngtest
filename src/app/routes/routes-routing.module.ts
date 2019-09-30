@@ -86,6 +86,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'categorias',
+        loadChildren: () =>
+          import('./categorias/categorias.module').then(
+            mod => mod.CategoriasModule,
+          ),
+      },
+      {
         path: 'cuenta-corriente',
         loadChildren: () =>
           import('./cuenta-corriente/cuenta-corriente.module').then(

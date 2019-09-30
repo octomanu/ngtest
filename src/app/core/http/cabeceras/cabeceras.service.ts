@@ -36,6 +36,7 @@ export class CabecerasService extends CrudService {
       ),
     );
   }
+
   paginate(): Observable<{}> {
     const url = `${environment.OCTO_API}/${this.getPath()}`;
     return this.store.select(paginatorRequestParams).pipe(

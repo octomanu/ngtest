@@ -93,6 +93,20 @@ import { environment } from '@env/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { effectsArr } from 'redux';
 import { RouterModule } from '@angular/router';
+
+const STORE_MODULE = [
+  StoreModule.forRoot(appReducers),
+  EffectsModule.forRoot(effectsArr),
+];
+if (!environment.production) {
+  STORE_MODULE.push(
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
+  );
+}
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -105,12 +119,7 @@ import { RouterModule } from '@angular/router';
     CoreModule,
     LayoutModule,
     RoutesModule,
-    StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot(effectsArr),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
+    ...STORE_MODULE,
     ...I18NSERVICE_MODULES,
     ...GLOBAL_THIRD_MODULES,
   ],
