@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { COMPONENTS } from './components.index';
 import { SharedModule } from '@shared';
 import { ProveedoresComponent } from './proveedores.component';
+import { ProveedorFormModule } from './proveedor-form/proveedor-form.module';
 
 export const routes: Routes = [
   {
@@ -13,7 +14,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forChild(routes)],
+  imports: [SharedModule, RouterModule.forChild(routes), ProveedorFormModule],
   declarations: [...COMPONENTS, ProveedoresComponent],
   entryComponents: COMPONENTS,
 })

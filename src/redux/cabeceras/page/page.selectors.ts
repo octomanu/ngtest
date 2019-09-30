@@ -39,3 +39,10 @@ export const paginatorPageSize = createSelector(
   selectCabecerasState,
   state => state.page.paginator.parametros.page_size,
 );
+
+export const paginatorRequestParams = createSelector(
+  selectCabecerasState,
+  state => {
+    return { ...state.page.paginator.parametros, ...state.filterForm.data };
+  },
+);

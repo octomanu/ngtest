@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { PaymentForm } from './payment.form';
 import { NzMessageService, NzDrawerRef, NzDrawerService } from 'ng-zorro-antd';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { GlobalState } from 'redux/global/globa.reducer';
 import { FormGroup } from '@angular/forms';
 import { GastosCuotasService } from '@core/http/gastos-cuotas/gastos-cuotas.service';
@@ -11,14 +11,15 @@ import * as moment from 'moment';
 import { ChequesTercerosService } from '@core/http/cheques-terceros.service';
 import { ChequesTercerosFormComponent } from 'app/routes/cheques/cheques-terceros-form/cheques-terceros-form.component';
 import { ChequesService } from '@core/http/cheques/cheques.service';
+import { amount } from 'redux/gastos/payment-form/payment-form.selectors';
+import { PaymentSaveRequest } from 'redux/gastos/payment-form/payment-form.actions';
 @Component({
   selector: 'app-payment-form',
   templateUrl: './payment-form.component.html',
   styles: [],
 })
 export class PaymentFormComponent implements OnInit, OnDestroy {
-  @Input() idCuota;
-  @Input() montoCuota;
+  amount: Observable<string>;
   acumulado = 0;
   form: FormGroup;
   isLoading = false;
@@ -39,6 +40,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.amount = this.store.select(amount);
     this.initForm();
     this.searchChequesTercerosList('');
     this.searchChequesList('');
@@ -61,11 +63,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   submit() {
     const pago = this.buildPayment(this.form.value);
-    console.log(pago);
-    this.gastosCuotasService.pagarCuota(this.idCuota, pago).subscribe(resp => {
-      this.msg.success('Pago cargado correctamente');
-      this.drawerRef.close();
-    });
+    this.store.dispatch(new PaymentSaveRequest({ data: pago }));
   }
 
   buildPayment(formValue) {

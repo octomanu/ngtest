@@ -1,0 +1,33 @@
+<div nz-form [nzLayout]="'horizontal'" [formGroup]="fb.form">
+  <div formArrayName="porcentuales" *ngFor="let item of fb.porcentuales['controls']; let i = index;">
+
+    <div nz-row nzType="flex" nzJustify="space-between" [formGroupName]="i">
+
+      <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+        <nz-form-item>
+          <nz-form-label nzRequired>{{ porcentajes[i]?.display }}
+          </nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group nzCompact>
+              <nz-select formControlName="tipo" style="width:20%;">
+                <nz-option [nzLabel]="'$'" [nzValue]="'numerico'"></nz-option>
+                <nz-option [nzLabel]="'%'" [nzValue]="'porcentual'"></nz-option>
+              </nz-select>
+              <input formControlName="monto" nz-input style="width:80%;" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <input formControlName="id_porcentaje_consorcio" nz-input />
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<ng-template #userErrorTpl let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    {{ 'global.campo_requerido' | translate }}
+  </ng-container>
+</ng-template>

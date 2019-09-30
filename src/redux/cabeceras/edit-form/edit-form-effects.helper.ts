@@ -9,7 +9,6 @@ import { editId } from './edit-form.selectors';
 import { DrawerService } from '@shared/utils/drawer.service';
 @Injectable()
 export class EditFormEffectsHelper {
-  protected editId: number;
   constructor(
     private appStore: Store<AppState>,
     protected cabecerasService: CabecerasService,

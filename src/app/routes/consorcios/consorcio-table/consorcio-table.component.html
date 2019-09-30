@@ -114,6 +114,9 @@
     <li nz-menu-item (click)="_openForm(id)">
       <a>{{ 'global.editar' | translate }}</a>
     </li>
+    <li nz-menu-item (click)="preview(id)">
+      <a>{{ 'global.previsualizar' | translate }}</a>
+    </li>
     <li nz-menu-item>
       <a [routerLink]="['/consorcios', 'perfil', id]">{{ 'global.perfil' | translate }}</a>
     </li>

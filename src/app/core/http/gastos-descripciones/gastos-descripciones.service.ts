@@ -5,9 +5,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { CrudService } from '../crud-service.class';
-import { GastosDescripcionesState } from 'redux/gastos-descripciones/gastos-descripciones.reducer';
 import { environment } from '@env/environment';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, first, switchMap } from 'rxjs/operators';
+import { paginatorRequestParams } from 'redux/gastos-descripciones/gastos-descripciones.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -20,28 +20,23 @@ export class GastosDescripcionesService extends CrudService
 
   constructor(http: HttpClient, public store: Store<AppState>) {
     super(http);
-    this.subscription = this.store
-      .select('gastosDescripciones')
-      .subscribe((state: GastosDescripcionesState) => {
-        this.filtros = state.filtros;
-        this.parametros = state.paginator.parametros;
-      });
   }
 
   paginate(): Observable<{}> {
-    let params = new HttpParams();
     const url = `${environment.OCTO_API}/${this.getPath()}`;
-    for (const key in this.filtros) {
-      if (this.filtros[key]) {
-        params = params.append(key, this.filtros[key]);
-      }
-    }
-
-    // tslint:disable-next-line: forin
-    for (const key in this.parametros) {
-      params = params.append(key, this.parametros[key]);
-    }
-    return this.http.get(url, { params });
+    return this.store.select(paginatorRequestParams).pipe(
+      first(),
+      map(pagiantorParams => {
+        let params = new HttpParams();
+        for (const key in pagiantorParams) {
+          if (pagiantorParams[key]) {
+            params = params.append(key, pagiantorParams[key]);
+          }
+        }
+        return params;
+      }),
+      switchMap(params => this.http.get(url, { params })),
+    );
   }
 
   searchByDisplay(display: string) {

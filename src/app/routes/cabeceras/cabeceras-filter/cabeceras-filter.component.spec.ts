@@ -22,7 +22,7 @@ export class FakeNzDrawerRef {
   close() {}
 }
 
-fdescribe('CabecerasFilterComponent', () => {
+describe('CabecerasFilterComponent', () => {
   let component: CabecerasFilterComponent;
   let fixture: ComponentFixture<CabecerasFilterComponent>;
   let store: MockStore<CabecerasState>;

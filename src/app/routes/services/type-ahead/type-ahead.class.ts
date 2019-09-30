@@ -1,17 +1,23 @@
 import { BehaviorSubject } from 'rxjs';
 import { TypeAheadOption } from 'app/interfaces/local/type-ahead-option.interface';
 import { TypeAheadService } from 'app/interfaces/local/type-ahead-service.interface';
+import { share } from 'rxjs/operators';
 
 export class TypeAhead {
   protected timeout = null;
-  protected isLoading$ = new BehaviorSubject<boolean>(false);
+  protected isLoading$ = new BehaviorSubject<boolean>(true);
   protected optionsSubject$ = new BehaviorSubject<TypeAheadOption[]>([]);
-  public isLoading = this.isLoading$.asObservable();
+  public isLoading = this.isLoading$.asObservable().pipe(share());
   public options = this.optionsSubject$.asObservable();
 
   constructor(protected dataService: TypeAheadService) {}
 
+  get value() {
+    return this.optionsSubject$.value;
+  }
+
   search(display: string, delay = true) {
+    if (typeof display === 'undefined') return;
     if (this.timeout) {
       window.clearTimeout(this.timeout);
       this.timeout = null;

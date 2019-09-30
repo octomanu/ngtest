@@ -60,7 +60,7 @@ export class ServiciosEffects {
   }
 
   searchData() {
-    return this.serviciosService.paginateRedux().pipe(
+    return this.serviciosService.paginate().pipe(
       map(
         (resp: any) =>
           new serviciosActions.LoadServiciosSuccessAction(

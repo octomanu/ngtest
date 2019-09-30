@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-gastos',
   templateUrl: './gastos.component.html',
-  styles: []
+  styles: [],
 })
-export class GastosComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class GastosComponent {
+  constructor() {}
 }

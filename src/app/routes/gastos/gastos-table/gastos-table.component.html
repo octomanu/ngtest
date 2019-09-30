@@ -1,340 +1,54 @@
-<div class="table-operations" nzType="flex" nz-row nzJustify="end">
-  <button nz-col nz-button>
-    {{'global.clonar' | translate}}
-  </button>
-  <button nz-col nz-button (click)="_openForm()">
-    {{'global.crear' | translate}}
-  </button>
-</div>
-
 <nz-card [nzBordered]="false">
-  <ng-template #extraTpl>
-    <i nz-icon nzType="setting"></i>
-  </ng-template>
-  <ng-template #headerTpl>
-    &nbsp;
-  </ng-template>
-
-  <div class="table-operations">
-    <span *ngFor="let tag of (tags | keys); let i = index">
-      <nz-tag *ngIf="tags[tag.key].used" nzMode="closeable" (nzOnClose)="onRemoveTag(tag.key)">
-        {{ tags[tag.key].title | translate }}</nz-tag>
-    </span>
-  </div>
-  <nz-collapse [nzBordered]="false">
-    <nz-collapse-panel #p [nzHeader]="headerTpl" [nzActive]="false" [nzExtra]="extraTpl" [ngStyle]="{
-              background: '#f7f7f7',
-              'border-radius': '4px',
-              'margin-bottom': '24px',
-              border: '0px'
-            }">
-      <form>
-
-        <div nz-row nzType="flex" nzJustify="space-between">
-          <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
-            <nz-form-item>
-              <nz-form-label nzFor="monto">{{ 'lambe.proveedores.proveedor' | translate }}
-              </nz-form-label>
-              <nz-form-control>
-                <nz-select zPlaceHolder=" lambe.proveedores.proveedor | translate " [(ngModel)]="masterFilter.proveedor"
-                  id="id_proveedor" nzAllowClear nzShowSearch [nzServerSearch]="true" name="id_proveedor"
-                  (nzOnSearch)="searchProveedores($event)" (ngModelChange)="changeMasterFilter('id_proveedor', $event)">
-                  <ng-container *ngFor="let proveedor of proveedores">
-                    <nz-option *ngIf="!isLoading" [nzValue]="proveedor.id" [nzLabel]="proveedor.display"></nz-option>
-                  </ng-container>
-                  <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-                    <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
-                  </nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-
-          <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
-            <nz-form-item>
-              <nz-form-label nzFor="monto">{{ 'lambe.consorcios.consorcio' | translate }}
-              </nz-form-label>
-              <nz-form-control>
-                <nz-select zPlaceHolder=" lambe.gastos.consorcio | translate " [(ngModel)]="masterFilter.consorcio"
-                  id="id_consorcio" nzAllowClear nzShowSearch [nzServerSearch]="true" name="id_consorcio"
-                  (nzOnSearch)="searchConsorcios($event)" (ngModelChange)="changeMasterFilter('id_consorcio', $event)">
-                  <ng-container *ngFor="let consorcio of consorcios">
-                    <nz-option *ngIf="!isLoading" [nzValue]="consorcio.id" [nzLabel]="consorcio.display"></nz-option>
-                  </ng-container>
-                  <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-                    <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
-                  </nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-
-          <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
-            <nz-form-item>
-              <nz-form-label nzFor="monto">{{ 'lambe.gasto' | translate }}
-              </nz-form-label>
-              <nz-form-control>
-                <nz-select zPlaceHolder=" lambe.proveedores.proveedor | translate " [(ngModel)]="masterFilter.gasto"
-                  id="gasto" nzAllowClear nzShowSearch [nzServerSearch]="true" name="gasto"
-                  (nzOnSearch)="searchProveedores($event)" (ngModelChange)="changeMasterFilter('gasto', $event)">
-                  <ng-container *ngFor="let proveedor of proveedores">
-                    <nz-option *ngIf="!isLoading" [nzValue]="proveedor.id" [nzLabel]="proveedor.display"></nz-option>
-                  </ng-container>
-                  <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-                    <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
-                  </nz-option>
-                </nz-select>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-          <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 5 }">
-            <nz-form-item>
-              <nz-form-label nzFor="monto">{{ 'lambe.extra' | translate }}
-              </nz-form-label>
-              <nz-form-control>
-
-                <nz-switch [nzCheckedChildren]="checkedTemplate" [nzUnCheckedChildren]="unCheckedTemplate"
-                  [(ngModel)]="extraData" (ngModelChange)="changeExtra($event)" name="xtraData">
-                </nz-switch>
-
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-        </div>
-      </form>
-      <ng-template #checkedTemplate><i nz-icon type="check"></i></ng-template>
-      <ng-template #unCheckedTemplate><i nz-icon type="close"></i></ng-template>
-
-    </nz-collapse-panel>
-  </nz-collapse>
-
-  <div class="table-operations onlysmall">
-    <nz-dropdown [nzTrigger]="'click'">
-      <button nz-button nz-dropdown nzShape="circle">
-        <i nz-icon nzTheme="outline" nzType="bars"></i>
-      </button>
-      <ul nz-menu>
-        <li nz-menu-item (click)="_openForm()">
-          <span>{{ 'global.crear' | translate }}</span>
-        </li>
-        <li nz-menu-item (click)="clearFilter()">
-          <span>{{ 'global.limpiar_filtros' | translate }}</span>
-        </li>
-      </ul>
-    </nz-dropdown>
-
-    <!-- Muestra filtros de busqueda -->
-    <button nz-button nz-dropdown nzShape="circle" (click)="_openFilter()">
-      <i nz-icon nzTheme="outline" nzType="search"></i>
-    </button>
-  </div>
-
-  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="tableLambe.data" [nzLoading]="tableLambe.loading"
-    [nzTotal]="tableLambe.total" [(nzPageIndex)]="paginatorParams.page" [(nzPageSize)]="paginatorParams.page_size"
-    (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)" [nzSize]="'middle'" [nzBordered]="'false'"
-    [nzScroll]="{ x: '100%' }">
+  <app-table-config></app-table-config>
+  <!-- <app-table-tags (removeTag)="removeTag($event)" [filters]="table.filters" [translations]="translations">
+  </app-table-tags> -->
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="table.pageData | async"
+    [nzLoading]="table.paginatorLoading | async" [nzTotal]="table.paginatorTotal | async"
+    [nzPageIndex]="table.paginatorPage | async" [nzPageSize]="table.paginatorPageSize | async"
+    (nzPageIndexChange)="pageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'" [nzScroll]="{ x: '100%' }">
     <thead (nzSortChange)="sort($event)" nzSingleSort>
-
-      <tr (contextmenu)="contextMenu($event, menuTable)">
-        <th nzCustomFilter nzShowSort nzSortKey="estado" *ngIf="table.id_proveedor.show">
+      <tr>
+        <th nzShowSort nzSortKey="id_proveedor" *ngIf="table.proveedorVisible | async">
           <span>{{ 'lambe.proveedores.proveedor' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
         </th>
 
-        <th nzCustomFilter nzShowSort nzSortKey="calle" *ngIf="table.id_consorcio.show">
+        <th nzShowSort nzSortKey="id_consorcio" *ngIf="table.consorcioVisible | async">
           <span>{{ 'lambe.consorcios.consorcio' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
         </th>
 
-        <th nzCustomFilter nzShowSort nzSortKey="calle" *ngIf="table.gasto.show">
+        <th nzShowSort nzSortKey="id_servicio" *ngIf="table.servicioVisible | async">
           <span>{{ 'global.servicio' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_calle"></ng-container>
         </th>
 
-        <th nzCustomFilter nzShowSort nzSortKey="estado">
-          <span>{{'global.pago' | translate}}/{{ 'global.monto' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_estado"></ng-container>
+        <th nzShowSort nzSortKey="estado">
+          <span>{{ 'global.monto' | translate }}</span>
         </th>
 
-        <th nzCustomFilter nzShowSort nzSortKey="numero">
+        <th nzShowSort nzSortKey="numero">
           <span>{{ 'global.fecha' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
         </th>
 
-        <th nzCustomFilter nzShowSort nzSortKey="numero" *ngIf="extraData">
+        <th nzShowSort nzSortKey="numero">
+          <span>{{ 'global.factura' | translate }}</span>
+        </th>
+
+        <th nzShowSort nzSortKey="numero" *ngIf="extraData">
           <span>{{ 'global.rubro' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
         </th>
 
-        <!-- <th nzCustomFilter nzShowSort nzSortKey="numero" *ngIf="extraData">
-          <span>{{ 'global.periodicidad' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
-        </th> -->
-
-        <th nzCustomFilter nzShowSort nzSortKey="numero" *ngIf="extraData">
+        <th nzShowSort nzSortKey="numero" *ngIf="extraData">
           <span>{{ 'global.prevision' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
         </th>
 
-        <th nzCustomFilter nzShowSort nzSortKey="numero" *ngIf="extraData">
+        <th nzShowSort nzSortKey="numero" *ngIf="extraData">
           <span>{{ 'global.prorrateable' | translate }}</span>
-          <ng-container *ngTemplateOutlet="filtro_numero"></ng-container>
         </th>
       </tr>
     </thead>
     <tbody>
-      <ng-template ngFor let-data [ngForOf]="tableLambe.data" let-i="index">
-
-
-
-
-        <tr (contextmenu)="contextMenu($event, menuRowContainer)" [formGroup]="rowForm[i].form">
-          <ng-template #menuRowContainer>
-            <ng-container
-              *ngTemplateOutlet="menuRow; context: { id: data['gastos-id'], idCuota: data['gastos_cuotas-id'], montoCuota:  data['gastos_cuotas-monto']}">
-            </ng-container>
-          </ng-template>
-
-          <td *ngIf="table.id_proveedor.show" (click)="toggleGasto(data['gastos-id'])">
-            <strong class="onlysmall">{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong>
-            {{ data['proveedores-razon_social'] }}
-          </td>
-          <td *ngIf="table.id_consorcio.show">
-            <strong class="onlysmall">{{ 'lambe.consorcios.consorcio' | translate }}:&nbsp;</strong>
-            {{data['consorcios-razon_social']}}
-          </td>
-
-          <td *ngIf="table.gasto.show">
-            <strong class="onlysmall">{{ 'lambe.servicio' | translate }}:&nbsp;</strong>
-            {{ data['servicios-descripcion'] }}
-          </td>
-          <td (click)="showForm(i, $event)">
-            <strong class="onlysmall">{{ 'lambe.chequera_nro' | translate }}:&nbsp;</strong>
-            <span *ngIf="!rowForm[i].visible">$
-              {{ data['gastos-monto_pagado'] }} / {{ data['gastos_cuotas-monto'] }}</span>
-            <span *ngIf="!rowForm[i].visible && data['gastos_cuotas-numero_cuota'] !== 1">
-              ({{ data['gastos_cuotas-numero_cuota'] }})</span>
-            <nz-form-control nzHasFeedback *ngIf="rowForm[i].visible">
-              <input nz-input formControlName="monto">
-              <nz-form-explain *ngIf="rowForm[i].form.get('monto').dirty && rowForm[i].form.get('monto').errors">
-                <ng-container *ngIf="rowForm[i].form.get('monto').hasError('required')">
-                  {{ 'global.campo_requerido' | translate }}
-                </ng-container>
-              </nz-form-explain>
-            </nz-form-control>
-          </td>
-          <td (click)="showForm(i, $event)">
-            <strong class="onlysmall">
-              {{ 'lambe.cheques.monto' | translate }}:&nbsp;</strong>
-            <span *ngIf="!rowForm[i].visible">{{ data['gastos-fecha'] }}</span>
-
-            <nz-form-control nzHasFeedback *ngIf="rowForm[i].visible">
-              <nz-date-picker formControlName="fecha" nzFormat="dd-MM-yyyy"></nz-date-picker>
-
-            </nz-form-control>
-          </td>
-
-          <td *ngIf="extraData">Rubro</td>
-          <!-- <td *ngIf="extraData">Periodicidad</td> -->
-          <td *ngIf="extraData"><i nz-icon [nzType]="(data['gastos-prevision']) ? 'check' : 'close'"
-              nzTheme="outline"></i></td>
-          <td *ngIf="extraData"><i nz-icon [nzType]="(data['gastos-prorrateable']) ? 'check' : 'close'"
-              nzTheme="outline"></i></td>
-        </tr>
+      <ng-template ngFor let-data [ngForOf]="table.pageData | async">
+        <tr gastos-row [rowCuota]="data" [extraData]="extraData"></tr>
       </ng-template>
     </tbody>
   </nz-table>
-
-  <!-- Menu Table -->
-  <ng-template #menuTable>
-    <ul nz-menu nzInDropDown>
-      <li nz-menu-item (click)="_openForm()">
-        <a>{{ 'global.crear' | translate }}</a>
-      </li>
-      <li nz-menu-item (click)="clearFilter()">
-        <a>{{ 'global.limpiar_filtros' | translate }}</a>
-      </li>
-    </ul>
-  </ng-template>
-
-  <!-- Menu Row -->
-  <ng-template #menuRow let-id="id" let-idCuota="idCuota" let-montoCuota="montoCuota">
-    <ul nz-menu nzInDropDown>
-      <li nz-menu-item (click)="_openForm(id)">
-        <a>{{ 'global.editar' | translate }}</a>
-      </li>
-      <li nz-menu-item (click)="openPaymentForm(idCuota, montoCuota)">
-        <a>{{ 'global.pagar' | translate }}</a>
-      </li>
-      <li nz-menu-item>
-        <a nz-popconfirm (nzOnConfirm)="eliminar(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
-          [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
-        <ng-template #iconTpl>
-          <i nz-icon nzType="question-circle-o" style="color: red;"></i>
-        </ng-template>
-      </li>
-    </ul>
-  </ng-template>
-
-  <ng-template #filtro_estado>
-    <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
-      <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-        nz-dropdown></i>
-      <div class="search-box">
-        <nz-select class="full-width" nzShowSearch nzAllowClear [(ngModel)]="filtroForm.estado"
-          nzPlaceHolder="{{ 'global.buscar' | translate }}" (ngModelChange)="search()">
-          <nz-option *ngFor="let status of consorcioStatus" nzCustomContent nzLabel="{{ status | translate }}"
-            [nzValue]="status">
-            {{ status | translate }}
-          </nz-option>
-        </nz-select>
-      </div>
-    </nz-dropdown>
-  </ng-template>
-
-  <ng-template #filtro_razon_social>
-    <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
-      <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-        nz-dropdown></i>
-      <div class="search-box">
-        <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.razon_social"
-          placeholder="{{ 'global.buscar' | translate }}" />
-      </div>
-    </nz-dropdown>
-  </ng-template>
-
-  <ng-template #filtro_calle>
-    <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
-      <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-        nz-dropdown></i>
-      <div class="search-box">
-        <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.calle"
-          placeholder="{{ 'global.buscar' | translate }}" />
-      </div>
-    </nz-dropdown>
-  </ng-template>
-
-  <ng-template #filtro_numero>
-    <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
-      <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-        nz-dropdown></i>
-      <div class="search-box">
-        <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.numero"
-          placeholder="{{ 'global.buscar' | translate }}" />
-      </div>
-    </nz-dropdown>
-  </ng-template>
-
-  <ng-template #filtro_cuit>
-    <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
-      <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-        nz-dropdown></i>
-      <div class="search-box">
-        <input (keyup)="search()" type="text" nz-input [(ngModel)]="filtroForm.cuit"
-          placeholder="{{ 'global.buscar' | translate }}" />
-      </div>
-    </nz-dropdown>
-  </ng-template>
 </nz-card>

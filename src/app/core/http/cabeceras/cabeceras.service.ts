@@ -5,8 +5,8 @@ import { HttpParams, HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
-import { paginatorRequestParams } from 'redux/cabeceras/cabeceras.selectors';
 import { map, mergeMap, first, switchMap } from 'rxjs/operators';
+import { paginatorRequestParams } from 'redux/cabeceras/page/page.selectors';
 
 @Injectable({
   providedIn: 'root',

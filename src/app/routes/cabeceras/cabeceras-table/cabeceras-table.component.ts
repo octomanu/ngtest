@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AppState } from 'redux/app.reducer';
 import { Store } from '@ngrx/store';
 import * as selectors from 'redux/cabeceras/page/page.selectors';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { NzDropdownService } from 'ng-zorro-antd';
 import {
   CabecerasPageRequest,
@@ -13,7 +13,7 @@ import { CabecerasEditRequest } from 'redux/cabeceras/edit-form/edit-form.action
 import { DeleteRequest } from 'redux/cabeceras/delete/delete.actions';
 import { FilterRequest } from 'redux/cabeceras/filter-form/filter-form.actions';
 import { filters } from 'redux/cabeceras/filter-form/filter-form.selectors';
-import { tap } from 'rxjs/operators';
+import { tap, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cabeceras-table',
@@ -21,7 +21,6 @@ import { tap } from 'rxjs/operators';
   styles: [],
 })
 export class CabecerasTableComponent implements OnInit {
-  initSubscription: Subscription;
   pageData$: Observable<any>;
   paginatorParameters$: Observable<any>;
   paginatorLoading$: Observable<any>;
@@ -44,7 +43,7 @@ export class CabecerasTableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.pageData$ = this.store.select(selectors.pageData);
+    this.pageData$ = this.store.select(selectors.pageData).pipe(share());
     this.paginatorLoading$ = this.store.select(selectors.paginatorLoading);
     this.paginatorTotal$ = this.store.select(selectors.paginatorTotal);
     this.paginatorPage$ = this.store.select(selectors.paginatorPage);

@@ -11,9 +11,7 @@ import {
   selectPaginatorParams,
 } from 'redux/ordenes-pago/ordenes-pago.selectors';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class OrdenesPagoService extends CrudService implements OnDestroy {
   subscription: Subscription[] = [];
   filtros: any;

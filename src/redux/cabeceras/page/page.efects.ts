@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { map, catchError, mergeMap } from 'rxjs/operators';
 import {
   CabecerasPageActionsTypes,
   CabecerasPageRequestSuccess,
   CabecerasPageRequestFail,
-} from './page/page.actions';
+} from './page.actions';
 import { CabecerasService } from '@core/http/cabeceras/cabeceras.service';
 import { of } from 'rxjs';
 
 @Injectable()
-export class CabecerasEffects {
+export class PageEffects {
   constructor(
     protected actions$: Actions,
     protected cabecerasService: CabecerasService,
@@ -23,7 +23,7 @@ export class CabecerasEffects {
         CabecerasPageActionsTypes.ChangePageOrder,
         CabecerasPageActionsTypes.CabecerasChangePage,
       ),
-      switchMap(() => this.searchTableData()),
+      mergeMap(() => this.searchTableData()),
     );
   });
 
