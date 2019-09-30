@@ -1,7 +1,7 @@
 <nz-card [nzBordered]="false">
   <app-table-config></app-table-config>
-  <app-table-tags (removeTag)="removeTag($event)" [filters]="table.filters" [translations]="translations">
-  </app-table-tags>
+  <!-- <app-table-tags (removeTag)="removeTag($event)" [filters]="table.filters" [translations]="translations">
+  </app-table-tags> -->
   <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="table.pageData | async"
     [nzLoading]="table.paginatorLoading | async" [nzTotal]="table.paginatorTotal | async"
     [nzPageIndex]="table.paginatorPage | async" [nzPageSize]="table.paginatorPageSize | async"

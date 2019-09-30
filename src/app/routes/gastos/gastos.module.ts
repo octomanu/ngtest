@@ -36,6 +36,7 @@ import { ConsorciosFinderService } from '../services/type-ahead/consorcios-finde
 import { GastosForm } from './forms/gastos.form';
 import { PrincipalComponent } from './gastos-form/principal/principal.component';
 import { GastosDescripcionesFormModule } from '../gastos-descripciones/gastos-descripciones-form/gastos-descripciones-form.module';
+import { DuesEffects } from 'redux/gastos/dues/dues.effects';
 
 const Effects = [
   PageEffects,
@@ -44,6 +45,7 @@ const Effects = [
   PaymentFormEffects,
   DeleteEffects,
   EditFormEffects,
+  DuesEffects,
 ];
 
 const Helpers = [

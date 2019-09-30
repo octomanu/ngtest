@@ -47,23 +47,3 @@ export const paginatorRequestParams = createSelector(
     return { ...state.page.paginator.parametros, ...state.filterForm.data };
   },
 );
-
-export const showColumns = createSelector(
-  selectGastosState,
-  state => state.page.showColumns,
-);
-
-export const consorcioVisible = createSelector(
-  showColumns,
-  columns => columns.consorcio,
-);
-
-export const proveedorVisible = createSelector(
-  showColumns,
-  columns => columns.proveedor,
-);
-
-export const servicioVisible = createSelector(
-  showColumns,
-  columns => columns.servicio,
-);

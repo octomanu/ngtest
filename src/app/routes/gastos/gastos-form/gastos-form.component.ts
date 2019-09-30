@@ -34,7 +34,7 @@ export class GastosFormComponent implements OnInit, OnDestroy {
 
   constructor(
     protected gastosService: GastosService,
-    protected gastosForm: GastosFormFacade,
+    public gastosForm: GastosFormFacade,
   ) {}
 
   ngOnInit() {
@@ -84,7 +84,6 @@ export class GastosFormComponent implements OnInit, OnDestroy {
   }
 
   initCuotas(cuotasAmount: number) {
-
     this.gastosForm.recalculateCuotas(cuotasAmount);
     if (cuotasAmount > 1) this.openCuotasDrawer();
   }

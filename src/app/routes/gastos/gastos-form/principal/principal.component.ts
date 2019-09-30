@@ -54,6 +54,10 @@ export class PrincipalComponent implements OnInit {
     public ufFinder: UfFinderService,
   ) {}
 
+  get id() {
+    return this.form.get('id').value;
+  }
+
   ngOnInit(): void {
     this.initializer
       .pipe(

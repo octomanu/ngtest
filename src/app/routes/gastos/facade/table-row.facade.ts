@@ -1,17 +1,17 @@
-import { Injectable, TemplateRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
-import * as selectors from 'redux/gastos/page/page.selectors';
 import { DeleteRequest } from 'redux/gastos/delete/delete.actions';
 import { GastosEditRequest } from 'redux/gastos/edit-form/edit-form.actions';
 import { PaymentRequest } from 'redux/gastos/payment-form/payment-form.actions';
-import {
-  NzDropdownService,
-  NzDropdownMenuComponent,
-  NzContextMenuService,
-} from 'ng-zorro-antd';
+import { NzDropdownMenuComponent, NzContextMenuService } from 'ng-zorro-antd';
 import { AddDue } from 'redux/gastos/dues/dues.actions';
 import { Observable } from 'rxjs';
+import {
+  consorcioVisible,
+  proveedorVisible,
+  servicioVisible,
+} from 'redux/gastos/filter-form/filter-form.selectors';
 
 @Injectable()
 export class TableRowFacade {
@@ -22,9 +22,9 @@ export class TableRowFacade {
     private store: Store<AppState>,
     private nzContextMenuService: NzContextMenuService,
   ) {
-    this.consorcioVisible = this.store.select(selectors.consorcioVisible);
-    this.proveedorVisible = this.store.select(selectors.proveedorVisible);
-    this.servicioVisible = this.store.select(selectors.servicioVisible);
+    this.consorcioVisible = this.store.select(consorcioVisible);
+    this.proveedorVisible = this.store.select(proveedorVisible);
+    this.servicioVisible = this.store.select(servicioVisible);
   }
 
   openMenu(event: MouseEvent, template: NzDropdownMenuComponent) {

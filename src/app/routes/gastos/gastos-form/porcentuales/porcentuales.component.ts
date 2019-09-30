@@ -10,7 +10,7 @@ import { GastosForm } from '../../forms/gastos.form';
 export class PorcentualesComponent implements OnInit {
   porcentajes: { id: number; display: string }[] = [];
   constructor(
-    protected fb: GastosForm,
+    public fb: GastosForm,
     protected porcentajesService: PorcentajesConsorciosService,
   ) {}
 

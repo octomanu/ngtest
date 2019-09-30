@@ -7,9 +7,6 @@ export enum GastosPageActionsTypes {
   GastosPageRequestFail = '[Gastos] Page Request Fail',
   ChangePageFilters = '[Gastos] Change Page Filters',
   ChangePageOrder = '[Gastos] Change Page Order',
-  ChangeConsorcioVisibility = '[Gastos] Change Consorcio Visibility',
-  ChangeProveedorVisibility = '[Gastos] Change Proveedor Visibility',
-  ChangeServicioVisibility = '[Gastos] Change Servicio Visibility',
 }
 
 export class GastosChangePage implements Action {
@@ -32,26 +29,8 @@ export class ChangePageOrder implements Action {
   constructor(public payload: { field: string; order: string }) {}
 }
 
-export class ChangeConsorcioVisibility implements Action {
-  readonly type = GastosPageActionsTypes.ChangeConsorcioVisibility;
-  constructor(public payload: { visible: boolean }) {}
-}
-
-export class ChangeProveedorVisibility implements Action {
-  readonly type = GastosPageActionsTypes.ChangeProveedorVisibility;
-  constructor(public payload: { visible: boolean }) {}
-}
-
-export class ChangeServicioVisibility implements Action {
-  readonly type = GastosPageActionsTypes.ChangeServicioVisibility;
-  constructor(public payload: { visible: boolean }) {}
-}
-
 export type GastosPageActions =
   | GastosChangePage
-  | ChangeConsorcioVisibility
-  | ChangeProveedorVisibility
-  | ChangeServicioVisibility
   | GastosPageRequest
   | GastosPageRequestSuccess
   | GastosPageRequestFail

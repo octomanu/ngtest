@@ -12,3 +12,8 @@ export const loading = createSelector(
   selectGastos,
   (state: GastosState) => state.dues.loading,
 );
+
+export const dues = createSelector(
+  selectGastos,
+  (state: GastosState) => state.dues.duesToUpdate,
+);

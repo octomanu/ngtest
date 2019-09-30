@@ -3,7 +3,6 @@ import { GastosPageActions, GastosPageActionsTypes } from './page.actions';
 import { DueRow } from 'app/models/due-row';
 
 export interface GastosPageState {
-  showColumns: { proveedor: boolean; consorcio: boolean; servicio: boolean };
   paginator: LambePaginator;
   loading: boolean;
   filters: { descripcion: string; fecha: string; monto: string };
@@ -14,7 +13,6 @@ export interface GastosPageState {
 }
 
 export const initialState: GastosPageState = {
-  showColumns: { proveedor: true, consorcio: true, servicio: true },
   paginator: new LambePaginator(),
   loading: false,
   filters: { descripcion: null, fecha: null, monto: null },
@@ -74,30 +72,6 @@ export function pageReducer(
             sort_field: action.payload.field,
             sort_order: action.payload.order,
           },
-        },
-      };
-    case GastosPageActionsTypes.ChangeConsorcioVisibility:
-      return {
-        ...state,
-        showColumns: {
-          ...state.showColumns,
-          consorcio: action.payload.visible,
-        },
-      };
-    case GastosPageActionsTypes.ChangeProveedorVisibility:
-      return {
-        ...state,
-        showColumns: {
-          ...state.showColumns,
-          proveedor: action.payload.visible,
-        },
-      };
-    case GastosPageActionsTypes.ChangeServicioVisibility:
-      return {
-        ...state,
-        showColumns: {
-          ...state.showColumns,
-          servicio: action.payload.visible,
         },
       };
     default: {

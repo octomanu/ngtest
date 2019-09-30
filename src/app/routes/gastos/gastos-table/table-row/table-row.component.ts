@@ -19,7 +19,7 @@ export class TableRowComponent implements OnInit {
   @Input() rowCuota: any;
   @Input() extraData: boolean;
   @ViewChild('menuRow', { static: false }) menu: NzDropdownMenuComponent;
-  protected form: FormGroup;
+  form: FormGroup;
   constructor(private fb: GastosRowForm, public row: TableRowFacade) {}
 
   @HostListener('contextmenu', ['$event'])

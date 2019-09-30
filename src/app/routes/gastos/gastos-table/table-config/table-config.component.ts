@@ -24,16 +24,15 @@ export class TableConfigComponent {
   ) {}
 
   changeMasterFilter(filter: string, value: any) {
-    const visible = value ? false : true;
     switch (filter) {
       case 'proveedor':
-        this.tableConfig.proveedorVisibility(visible);
+        this.tableConfig.proveedorVisibility(value);
         break;
       case 'consorcio':
-        this.tableConfig.consorcioVisibility(visible);
+        this.tableConfig.consorcioVisibility(value);
         break;
       case 'servicio':
-        this.tableConfig.servicioVisibility(visible);
+        this.tableConfig.servicioVisibility(value);
         break;
     }
   }

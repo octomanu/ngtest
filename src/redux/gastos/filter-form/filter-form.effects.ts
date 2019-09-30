@@ -32,7 +32,7 @@ export class FilterFormEffects {
   filterIt$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FilterActionsTypes.FilterRequest),
-      mergeMap(() => of(new GastosPageRequest())),
+      mergeMap(() => [new GastosPageRequest()]),
     ),
   );
 }

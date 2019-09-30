@@ -6,7 +6,7 @@ import { GastosForm } from '../../forms/gastos.form';
   styles: [],
 })
 export class CuotasComponent {
-  constructor(protected fb: GastosForm) {}
+  constructor(public fb: GastosForm) {}
 
   modifyCuotas(index: number) {
     const {

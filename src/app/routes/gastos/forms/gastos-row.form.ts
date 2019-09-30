@@ -26,6 +26,7 @@ export class GastosRowForm {
 
   resolve() {
     const formValue = { ...this.form.value };
+    delete formValue.numero_factura;
     formValue.fecha_pago = moment(formValue.fecha_pago).format('DD-MM-YYYY');
     return formValue;
   }

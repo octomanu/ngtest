@@ -26,7 +26,7 @@ export function DuesReducer(
     case fromDues.DueActionsTypes.DueSaveRequest:
       return { ...state, loading: true };
     case fromDues.DueActionsTypes.DueSaveRequestSuccess:
-      return { ...state, loading: false };
+      return { ...state, loading: false, duesToUpdate: {} };
     case fromDues.DueActionsTypes.DueSaveRequestError:
       return { ...state, loading: false, error: action.payload.error };
     case fromDues.DueActionsTypes.RemoveDue:

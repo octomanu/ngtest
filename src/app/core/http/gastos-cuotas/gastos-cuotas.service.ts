@@ -36,6 +36,11 @@ export class GastosCuotasService {
     );
   }
 
+  massiveEdit(data) {
+    const url = `${environment.OCTO_API}/gastos-cuotas/tableUpdate`;
+    return this.http.post(url, { dues: data });
+  }
+
   paginate(
     paginatorParams: PaginatorParamsInterface,
     filtros: {},

@@ -4,7 +4,12 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import * as selectors from 'redux/gastos/page/page.selectors';
 import { share, tap } from 'rxjs/operators';
-import { filters } from 'redux/gastos/filter-form/filter-form.selectors';
+import {
+  filters,
+  consorcioVisible,
+  proveedorVisible,
+  servicioVisible,
+} from 'redux/gastos/filter-form/filter-form.selectors';
 import {
   GastosPageRequest,
   ChangePageOrder,
@@ -30,9 +35,9 @@ export class GastosTableFacade {
     this.paginatorTotal = this.store.select(selectors.paginatorTotal);
     this.paginatorPage = this.store.select(selectors.paginatorPage);
     this.paginatorPageSize = this.store.select(selectors.paginatorPageSize);
-    this.consorcioVisible = this.store.select(selectors.consorcioVisible);
-    this.proveedorVisible = this.store.select(selectors.proveedorVisible);
-    this.servicioVisible = this.store.select(selectors.servicioVisible);
+    this.consorcioVisible = this.store.select(consorcioVisible);
+    this.proveedorVisible = this.store.select(proveedorVisible);
+    this.servicioVisible = this.store.select(servicioVisible);
     this.pageData = this.store.select(selectors.pageData).pipe(share());
     this.filters = this.store
       .select(filters)

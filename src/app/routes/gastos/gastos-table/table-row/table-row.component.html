@@ -1,4 +1,4 @@
-<ng-container [formGroup]="form" (contextmenu)="contextMenu($event, menuRow)">
+<ng-container [formGroup]="form" (contextmenu)="contextMenu($event)">
   <td *ngIf="row.proveedorVisible | async">
     <strong class="onlysmall"
       >{{ 'lambe.cheques.fecha_deposito' | translate }}:&nbsp;</strong
@@ -41,7 +41,7 @@
   </td>
   <td>
     <nz-form-control nzHasFeedback>
-      <input nz-input formControlName="numero_factura" (blur)="submit()" />
+      <input nz-input formControlName="numero_factura" (blur)="submit()"  [disabled]="true"/>
       <nz-form-explain
         *ngIf="
           form.get('numero_factura').dirty && form.get('numero_factura').errors
