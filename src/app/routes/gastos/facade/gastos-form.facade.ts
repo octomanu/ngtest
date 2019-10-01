@@ -22,7 +22,7 @@ import {
   GastosUpdateRequest,
 } from 'redux/gastos/edit-form/edit-form.actions';
 import { openForm } from 'redux/gastos/gastos.selectors';
-import { iif, empty, of } from 'rxjs';
+import { iif, of } from 'rxjs';
 @Injectable()
 export class GastosFormFacade {
   constructor(
@@ -57,8 +57,8 @@ export class GastosFormFacade {
     return this.store
       .select(openForm)
       .pipe(
-        mergeMap(openForm =>
-          iif(() => openForm === 'edit', editInitializer, of(null)),
+        mergeMap(openFormResp =>
+          iif(() => openFormResp === 'edit', editInitializer, of(null)),
         ),
       );
   }

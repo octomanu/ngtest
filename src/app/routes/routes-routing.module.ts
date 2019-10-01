@@ -93,6 +93,11 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'juicios',
+        loadChildren: () =>
+          import('./juicios/juicios.module').then(mod => mod.JuiciosModule),
+      },
+      {
         path: 'cuenta-corriente',
         loadChildren: () =>
           import('./cuenta-corriente/cuenta-corriente.module').then(

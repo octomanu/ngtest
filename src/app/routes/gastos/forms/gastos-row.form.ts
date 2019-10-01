@@ -20,7 +20,7 @@ export class GastosRowForm {
         ],
       ],
       fecha_pago: [null, [Validators.required]],
-      numero_factura: [null, []],
+      numero_factura: [{ value: null, disabled: true }, []],
     });
   }
 

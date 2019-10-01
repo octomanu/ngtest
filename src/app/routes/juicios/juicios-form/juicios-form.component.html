@@ -1,0 +1,112 @@
+<form nz-form [formGroup]="form.form" (ngSubmit)="form.submit()" [nzLayout]="'horizontal'">
+
+  <div nz-row nzType="flex" nzJustify="space-between">
+
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="id_consorcio">{{ 'global.consorcio' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-select formControlName="id_consorcio" nzAllowClear nzShowSearch [nzServerSearch]="true"
+            (nzOnSearch)="form.searchConsorcios($event)">
+            <ng-container *ngFor="let consorcio of form.consorcios | async">
+              <nz-option *ngIf="!(form.loading | async)" [nzValue]="consorcio.id" [nzLabel]="consorcio.display">
+              </nz-option>
+            </ng-container>
+            <nz-option *ngIf="form.loading | async" nzDisabled nzCustomContent>
+              <i nz-icon nzType="loading" nzTheme="outline"></i>
+              {{ 'global.cargando' | translate }}
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzFor="activo">{{ 'global.activo' | translate }}
+        </nz-form-label>
+        <nz-form-control nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <label nz-checkbox formControlName="activo"></label>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="caratula">{{ 'global.caratula' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="caratula">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="numero_expediente">{{ 'global.numero_expediente' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="numero_expediente">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="juzgado">{{ 'global.juzgado' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="juzgado">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="objeto">{{ 'global.objeto' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="objeto">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="estado">{{ 'global.estado' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="estado">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="monto_reclamado">{{ 'global.monto_reclamado' | translate }}
+        </nz-form-label>
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="monto_reclamado">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</form>
+
+<div class="footer">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <button nz-button [disabled]="!form.valid" (click)="form.submit()" class="ant-btn ant-btn-primary">
+      <span>{{ 'global.guardar' | translate }}</span>
+      <i nz-icon *ngIf="form.submiting | async" [nzType]="'loading'"></i>
+    </button>
+  </div>
+</div>
+
+<ng-template #userErrorTpl let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    {{ 'global.campo_requerido' | translate }}
+  </ng-container>
+</ng-template>

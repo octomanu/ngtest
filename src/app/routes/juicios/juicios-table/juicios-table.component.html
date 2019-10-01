@@ -1,0 +1,70 @@
+<nz-card [nzBordered]="false">
+  <app-table-tags (removeTag)="onRemoveTag($event)" [filters]="table.filters$" [translations]="translations">
+  </app-table-tags>
+  <nz-table #ajaxTable [nzFrontPagination]="false" [nzData]="table.pageData$ | async"
+    [nzTotal]="table.paginatorTotal$ | async" [nzPageSize]="table.paginatorPageSize$ | async"
+    [nzLoading]="table.paginatorLoading$ | async" [nzPageIndex]="table.paginatorPage$ | async"
+    (nzPageIndexChange)="onPageChange($event)" [nzSize]="'middle'" [nzBordered]="'false'"
+    [nzScroll]="{ x: '100%' }">
+    <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <tr>
+        <th nzShowSort nzSortKey="nombre">
+          <span>{{ 'global.consorcio' | translate }}</span>
+        </th>
+        <th nzShowSort nzSortKey="direccion">
+          <span>{{ 'global.caratula' | translate }}</span>
+        </th>
+
+        <th nzShowSort nzSortKey="direccion">
+          <span>{{ 'global.numero_expediente' | translate }}</span>
+        </th>
+
+        <th nzShowSort nzSortKey="direccion">
+          <span>{{ 'global.juzgado' | translate }}</span>
+        </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="table.pageData$ | async" let-i="index">
+        <tr (contextmenu)="onContextMenu($event, menuRowContainer)">
+          <ng-template #menuRowContainer>
+            <ng-container *ngTemplateOutlet="menuRow; context: { id: data['juicios-id'] }"></ng-container>
+          </ng-template>
+          <td>
+            <strong class="onlysmall">{{ 'global.consorcio' | translate }}:&nbsp;</strong>
+            {{ data['consorcios-razon_social'] }}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.caratula' | translate }}:&nbsp;</strong>
+            {{data['juicios-caratula']}}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.numero_expediente' | translate }}:&nbsp;</strong>
+            {{data['juicios-numero_expediente']}}
+          </td>
+          <td>
+            <strong class="onlysmall">{{ 'global.juzgado' | translate }}:&nbsp;</strong>
+            {{data['juicios-juzgado']}}
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<!-- Menu Row -->
+<ng-template #menuRow let-id="id">
+  <ul nz-menu nzInDropDown>
+    <li nz-menu-item (click)="onEdit(id)">
+      <a>{{ 'global.editar' | translate }}</a>
+    </li>
+    <li nz-menu-item>
+      <a nz-popconfirm (nzOnConfirm)="onDelete(id)" nzTitle="Esta Seguro?" nzCancelText="No" nzOkText="Si"
+        [nzIcon]="iconTpl">{{ 'global.eliminar' | translate }}</a>
+      <ng-template #iconTpl>
+        <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+      </ng-template>
+    </li>
+  </ul>
+</ng-template>
