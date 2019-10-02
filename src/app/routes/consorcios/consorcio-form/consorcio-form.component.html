@@ -128,7 +128,8 @@
           <nz-form-label nzRequired nzFor="cantidad_ufs">{{ 'lambe.consorcios.cantidad_ufs' | translate }}
           </nz-form-label>
           <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="cantidad_ufs" id="cantidad_ufs">
+            <nz-input-number formControlName="cantidad_ufs" [nzMin]="0" [nzMax]="9999" [nzStep]="1" style="width: 100%">
+            </nz-input-number>
             <nz-form-explain *ngIf="form.get('cantidad_ufs').dirty && form.get('cantidad_ufs').errors">
               <ng-container *ngIf="form.get('cantidad_ufs').hasError('required')">
                 {{ 'global.campo_requerido' | translate }}
@@ -232,7 +233,9 @@
             {{ 'lambe.consorcios.numero_verificacion_siro' | translate }}
           </nz-form-label>
           <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="numero_verificacion_siro" id="numero_verificacion_siro">
+            <nz-input-number formControlName="numero_verificacion_siro" [nzMin]="0" [nzMax]="9" [nzStep]="1"
+              style="width: 100%">
+            </nz-input-number>
             <nz-form-explain
               *ngIf="form.get('numero_verificacion_siro').dirty && form.get('numero_verificacion_siro').errors">
               <ng-container *ngIf="form.get('numero_verificacion_siro').hasError('required')">
