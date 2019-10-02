@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { JuiciosFilterForm } from 'app/routes/juicios/juicios-filter/juicios-filter.form';
@@ -14,6 +14,7 @@ import { ConsorciosFinderService } from 'app/routes/services/type-ahead/consorci
   templateUrl: './juicios-filter.component.html',
   styles: [],
   providers: [JuiciosFilterForm, ConsorciosFinderService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JuiciosFilterComponent implements OnDestroy {
   constructor(
