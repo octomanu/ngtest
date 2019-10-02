@@ -13,6 +13,15 @@
 
     <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
       <nz-form-item>
+        <nz-form-label>{{ 'global.activo' | translate }}</nz-form-label>
+        <nz-form-control [nzErrorTip]="requiredErrorTpl">
+          <label nz-checkbox formControlName="activo"></label>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
+      <nz-form-item>
         <nz-form-label nzRequired>{{ 'global.apellido' | translate }}</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
           <input nz-input formControlName="apellido" />
@@ -95,15 +104,6 @@
               <i nz-icon type="loading" class="loading-icon"></i> {{"global.cargando" | translate}}
             </nz-option>
           </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-
-    <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 11 }">
-      <nz-form-item>
-        <nz-form-label nzRequired>{{ 'global.activo' | translate }}</nz-form-label>
-        <nz-form-control nzHasFeedback [nzErrorTip]="requiredErrorTpl">
-          <input nz-input formControlName="activo" />
         </nz-form-control>
       </nz-form-item>
     </div>

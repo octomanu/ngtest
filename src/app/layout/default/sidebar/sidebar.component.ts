@@ -12,7 +12,7 @@ import {
 import { SettingsService } from '@delon/theme';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { MenuHandlerService } from 'app/utils/menu-handler/menu-handler.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'redux/app.reducer';
 import { GlobalState } from 'redux/global/globa.reducer';
@@ -21,9 +21,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { CrearMenuComponent } from '../crear-menu/crear-menu.component';
 import { MenuState } from 'redux/menu/menu.reducer';
 import { EditarMenuComponent } from '../editar-menu/editar-menu.component';
-import { DeleteMenuAction } from 'redux/menu/menu.actions';
+import { DeleteMenuAction, MenuRequest } from 'redux/menu/menu.actions';
 import { ModalHelpComponent } from '@shared/components/modal-help/modal-help.component';
 import { selectHelpUrl } from 'redux/global/global.selectors';
+import { map, share } from 'rxjs/operators';
 
 @Component({
   selector: 'layout-sidebar',
@@ -39,7 +40,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   icons = [];
   subscriptions: Subscription[] = [];
   isCollapsed: boolean;
-  orderableList = [];
+  orderableList: Observable<any[]>;
+  menu: any[];
 
   panel = {
     active: false,
@@ -88,12 +90,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const menuSub = this.store
+    this.store.dispatch(new MenuRequest());
+    this.store
       .select('menuState')
-      .subscribe((state: MenuState) => {
-        this.orderableList = state.menu;
-        this.cdr.detectChanges();
-      });
+      .pipe(
+        map((state: MenuState) => {
+          this.cdr.detectChanges();
+          this.menu = state.menu;
+          return this.menu;
+        }),
+        share(),
+      )
+      .subscribe();
 
     const clogalSub = this.store
       .select('globalState')
@@ -131,7 +139,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.icons = data['icons'];
     });
 
-    this.subscriptions.push(menuSub, clogalSub, settingsSub);
+    this.subscriptions.push(clogalSub, settingsSub);
   }
 
   toggleCollapsed(): void {
@@ -140,6 +148,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   deleteMenu() {
     this.store.dispatch(new DeleteMenuAction());
+  }
+
+  onDrop(event: any) {
+    console.log(this.menu, event);
   }
 
   ngOnDestroy(): void {

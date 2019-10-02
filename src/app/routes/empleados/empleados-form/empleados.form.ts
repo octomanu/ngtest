@@ -10,12 +10,12 @@ export class EmpleadosForm implements CreateUpdateForm {
   getForm(): FormGroup {
     return this.fb.group({
       id: [null],
-      nombre: [null, Validators.required],
-      apellido: [null, Validators.required],
-      dni: [null, Validators.required],
-      cuil: [null, Validators.required],
+      nombre: [null, [Validators.required, Validators.maxLength(255)]],
+      apellido: [null, [Validators.required, Validators.maxLength(255)]],
+      dni: [null, [Validators.required, Validators.maxLength(255)]],
+      cuil: [null, [Validators.required, Validators.maxLength(255)]],
       fecha_nacimiento: [null, Validators.required],
-      numero_legajo: [null, Validators.required],
+      numero_legajo: [null, [Validators.required, Validators.maxLength(255)]],
       id_estado_empleado: [1, Validators.required],
       id_consorcio: [null, Validators.required],
       id_funcion_profesional: [null, Validators.required],

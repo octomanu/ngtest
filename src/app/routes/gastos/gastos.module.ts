@@ -37,6 +37,7 @@ import { GastosForm } from './forms/gastos.form';
 import { PrincipalComponent } from './gastos-form/principal/principal.component';
 import { GastosDescripcionesFormModule } from '../gastos-descripciones/gastos-descripciones-form/gastos-descripciones-form.module';
 import { DuesEffects } from 'redux/gastos/dues/dues.effects';
+import { ChequesTercerosFormModule } from '../cheques/cheques-terceros-form/cheques-terceros-form.module';
 
 const Effects = [
   PageEffects,
@@ -86,6 +87,7 @@ export const routes: Routes = [
   imports: [
     SharedModule,
     GastosDescripcionesFormModule,
+    ChequesTercerosFormModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature('gastos', gastosReducers),
     EffectsModule.forFeature(Effects),

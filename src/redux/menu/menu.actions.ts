@@ -1,8 +1,13 @@
 import { Action } from '@ngrx/store';
 
+export const REQUEST_MENU = '[Menu] Menu Request';
 export const UPDATE_MENU = '[Menu] Update Menu';
 export const LOAD_MENU = '[Menu] Load Menu';
 export const DELETE_MENU = '[Menu] Delete Menu';
+
+export class MenuRequest implements Action {
+  readonly type = REQUEST_MENU;
+}
 
 export class UpdateMenuAction implements Action {
   readonly type = UPDATE_MENU;

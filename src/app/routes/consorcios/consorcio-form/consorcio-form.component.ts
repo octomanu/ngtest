@@ -10,6 +10,7 @@ import { ConsorcioForm } from './consorcio.form';
 import { NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
 import { ConsorciosService } from '@core/http/consorcios/consorcios.service';
 import { FormGroup } from '@angular/forms';
+import { ProvinciasFinderService } from 'app/routes/services/type-ahead/provincias-finder/provincias-finder.service';
 
 @Component({
   selector: 'app-consorcio-form',
@@ -29,6 +30,7 @@ export class ConsorcioFormComponent implements OnInit {
     protected cdr: ChangeDetectorRef,
     protected consorciosService: ConsorciosService,
     protected drawerRef: NzDrawerRef<{ submit: boolean }>,
+    public provincias: ProvinciasFinderService,
   ) {}
 
   ngOnInit() {

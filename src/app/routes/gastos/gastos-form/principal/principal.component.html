@@ -218,7 +218,8 @@
         <nz-form-label nzFor="id_categoria">{{ 'global.categoria' | translate }}
         </nz-form-label>
         <nz-form-control nzHasFeedback>
-          <nz-select formControlName="id_categoria" nzAllowClear>
+          <nz-select formControlName="id_categoria" nzAllowClear nzShowSearch [nzServerSearch]="true"
+            (nzOnSearch)="categoriasSelect.search($event)">
             <ng-container *ngFor="let categoria of categoriasSelect.options | async">
               <nz-option *ngIf="!(categoriasSelect.isLoading | async)" [nzValue]="categoria.id"
                 [nzLabel]="categoria.display"></nz-option>

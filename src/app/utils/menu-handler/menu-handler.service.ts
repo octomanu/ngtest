@@ -3,6 +3,9 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 import { MenuService } from '@core/http/menu/menu.service';
 import { Subject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppState } from 'redux/app.reducer';
+import { LoadMenuAction } from 'redux/menu/menu.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +17,7 @@ export class MenuHandlerService {
   constructor(
     protected localStorage: LocalStorageService,
     protected menuService: MenuService,
+    protected store: Store<AppState>,
   ) {}
 
   public getMenu(): Observable<any> {
@@ -29,12 +33,15 @@ export class MenuHandlerService {
     if (this.menu) {
       return this.menu;
     }
-    return this.localStorage.getItem({ name: 'menu' });
+    const menu = this.localStorage.getItem({ name: 'menu' });
+    this.store.dispatch(new LoadMenuAction(menu));
+    return menu;
   }
 
   refreshMenu() {
     this.menuService.getMenu().subscribe((menu: any) => {
       this.menu = menu.menu;
+      this.store.dispatch(new LoadMenuAction(menu.menu));
       this.localStorage.setItem({ name: 'menu', value: menu.menu });
       this.subject.next(menu.menu);
     });
@@ -44,6 +51,7 @@ export class MenuHandlerService {
     return this.menuService.delete().pipe(
       map((menu: any) => {
         this.menu = menu.menu;
+        this.store.dispatch(new LoadMenuAction(menu.menu));
         this.localStorage.setItem({ name: 'menu', value: menu.menu });
         this.subject.next(menu.menu);
         return menu.menu;
@@ -54,6 +62,7 @@ export class MenuHandlerService {
   // Actualzia el emnu aca y en el backend
   updateMenu(menu: any[]) {
     this.menu = menu;
+    this.store.dispatch(new LoadMenuAction(menu));
     this.localStorage.setItem({ name: 'menu', value: menu });
     return this.menuService.update(menu);
   }

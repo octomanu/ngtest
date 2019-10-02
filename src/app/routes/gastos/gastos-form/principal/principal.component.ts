@@ -19,7 +19,11 @@ import { map, first } from 'rxjs/operators';
   selector: 'app-principal',
   templateUrl: './principal.component.html',
   styles: [],
-  providers: [UfFinderService, PorcentajesFinderService],
+  providers: [
+    UfFinderService,
+    PorcentajesFinderService,
+    CategoriasFinderService,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrincipalComponent implements OnInit {

@@ -31,7 +31,7 @@
 
       <ul ngxDroppable [ngStyle]="{'min-height': '30px'}" nz-tooltip [nzVisible]="keepHelp"
         nzTitle="{{help || keepHelp ? ('global.menu_help_edit' | translate) : ''}}">
-        <ng-container *ngFor="let item of orderableList; let i = index">
+        <ng-container *ngFor="let item of menu; let i = index">
           <li nz-menu-item *ngIf="item.fav" ngxDraggable [model]="item" nz-tooltip
             [nzTitle]="isCollapsed ? (item.title | translate) : ''" (contextmenu)="openEditarMenu(item, i)">
 
@@ -52,9 +52,9 @@
 
     <nz-collapse [nzBordered]="false" class="menu-collapse">
       <nz-collapse-panel #p [nzHeader]="collapseTittle" [nzActive]="panel.active" [ngStyle]="panel.customStyle">
-        <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed" ngxDroppable
+        <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed" ngxDroppable (drop)="onDrop($event)"
           [ngStyle]="{'min-height': '30px'}">
-          <ng-container *ngFor="let item of orderableList; let i = index">
+          <ng-container *ngFor="let item of menu; let i = index">
             <li nz-menu-item *ngIf="!item.fav" ngxDraggable [model]="item" (contextmenu)="openEditarMenu(item, i)">
 
               <a *ngIf="!item.custom" [routerLink]="item.route">

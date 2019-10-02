@@ -57,15 +57,21 @@
     <div nz-row nzType="flex" nzJustify="space-between">
       <div nz-col [nzXs]="{ span: 24 }" [nzMd]="{ span: 7 }">
         <nz-form-item>
-          <nz-form-label nzRequired nzFor="id_provincia">{{ 'lambe.consorcios.id_provincia' | translate }}
+          <nz-form-label nzRequired nzFor="id_provincia">{{ 'lambe.proveedores.provincia' | translate }}
           </nz-form-label>
           <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="id_provincia" id="id_provincia">
-            <nz-form-explain *ngIf="form.get('id_provincia').dirty && form.get('id_provincia').errors">
-              <ng-container *ngIf="form.get('id_provincia').hasError('required')">
-                {{ 'global.campo_requerido' | translate }}
+            <nz-select formControlName="id_provincia" nzAllowClear nzShowSearch [nzServerSearch]="true"
+              (nzOnSearch)="provincias.search($event)">
+              <ng-container *ngFor="let provincia of provincias.options | async">
+                <nz-option *ngIf="!(provincias.isLoading | async)" [nzValue]="provincia.id"
+                  [nzLabel]="provincia.display">
+                </nz-option>
               </ng-container>
-            </nz-form-explain>
+              <nz-option *ngIf="provincias.isLoading | async" nzDisabled nzCustomContent>
+                <i nz-icon nzType="loading" nzTheme="outline"></i>
+                {{ 'global.cargando' | translate }}
+              </nz-option>
+            </nz-select>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -173,7 +179,8 @@
           <nz-form-label nzRequired nzFor="cantidad_pisos">{{ 'lambe.consorcios.cantidad_pisos' | translate }}
           </nz-form-label>
           <nz-form-control nzHasFeedback>
-            <input nz-input formControlName="cantidad_pisos" id="cantidad_pisos">
+            <nz-input-number formControlName="cantidad_pisos" [nzMin]="0" [nzMax]="9999" [nzStep]="1"
+              style="width: 100%"></nz-input-number>
             <nz-form-explain *ngIf="form.get('cantidad_pisos').dirty && form.get('cantidad_pisos').errors">
               <ng-container *ngIf="form.get('cantidad_pisos').hasError('required')">
                 {{ 'global.campo_requerido' | translate }}
@@ -188,7 +195,8 @@
           <nz-form-label nzRequired nzFor="dia_comienzo">{{ 'lambe.consorcios.dia_comienzo' | translate }}
           </nz-form-label>
           <nz-form-control nzHasFeedback>
-            <nz-date-picker formControlName="dia_comienzo"></nz-date-picker>
+            <nz-date-picker formControlName="dia_comienzo" style="width: 100%" [nzStyle]="{ width: '100%' }">
+            </nz-date-picker>
             <nz-form-explain *ngIf="form.get('dia_comienzo').dirty && form.get('dia_comienzo').errors">
               <ng-container *ngIf="form.get('dia_comienzo').hasError('required')">
                 {{ 'global.campo_requerido' | translate }}

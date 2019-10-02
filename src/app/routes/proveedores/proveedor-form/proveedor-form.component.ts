@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
 import { ProveedoresService } from '@core/http/proveedores/proveedores.service';
 import { ProveedorForm } from './proveedor.form';
+import { ProvinciasFinderService } from 'app/routes/services/type-ahead/provincias-finder/provincias-finder.service';
 
 @Component({
   selector: 'app-proveedor-form',
@@ -12,6 +13,16 @@ import { ProveedorForm } from './proveedor.form';
 })
 export class ProveedorFormComponent implements OnInit {
   form: FormGroup;
+  readonly situacionesFiscales = [
+    {
+      key: 'responsable_no_inscripto',
+      value: 'global.responsable_no_inscripto',
+    },
+    { key: 'responsable_inscripto', value: 'global.responsable_no_inscripto' },
+    { key: 'monotributista', value: 'global.responsable_no_inscripto' },
+    { key: 'exento', value: 'global.exento' },
+  ];
+
   @Output() formVisible: EventEmitter<boolean> = new EventEmitter();
   @Input() id: number | undefined;
 
@@ -21,6 +32,7 @@ export class ProveedorFormComponent implements OnInit {
     protected cdr: ChangeDetectorRef,
     protected proveedorService: ProveedoresService,
     protected drawerRef: NzDrawerRef<{ submit: boolean }>,
+    public provincias: ProvinciasFinderService,
   ) {}
 
   ngOnInit() {

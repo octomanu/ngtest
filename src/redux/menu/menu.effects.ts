@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  ofType,
-  createEffect,
-  ROOT_EFFECTS_INIT,
-} from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { MenuHandlerService } from 'app/utils/menu-handler/menu-handler.service';
 import { switchMap, map } from 'rxjs/operators';
 import * as fromMenu from 'redux/menu/menu.actions';
-import { of } from 'rxjs';
 
 @Injectable()
 export class MenuEffects {
@@ -19,7 +13,7 @@ export class MenuEffects {
 
   cargarMenu$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ROOT_EFFECTS_INIT),
+      ofType(fromMenu.REQUEST_MENU),
       switchMap(() =>
         this.menuHandler.getMenu().pipe(
           map((menu: any[]) => {
